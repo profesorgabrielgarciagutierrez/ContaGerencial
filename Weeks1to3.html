@@ -1,0 +1,765 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);background:#fff;color:var(--color-text-primary)}
+:root{--ug-blue:#0C447C;--ug-mid:#185FA5;--ug-light:#E6F1FB;--ug-teal:#0F6E56;--ug-teal-light:#E1F5EE;--ug-turq:#1D9E75;--ug-cyan:#B5D4F4;--ug-gold:#BA7517;--ug-gold-light:#FAEEDA}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.wrap{max-width:820px;margin:0 auto;padding:1rem}
+.hero{background:var(--ug-blue);color:#fff;padding:1.5rem 1.5rem 1rem;border-radius:var(--border-radius-lg);margin-bottom:1.5rem}
+.hero-tag{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#B5D4F4;margin-bottom:.3rem}
+.hero h1{font-size:22px;font-weight:500;margin-bottom:.3rem}
+.hero p{font-size:14px;color:#B5D4F4;line-height:1.5}
+.nav-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.5rem}
+.nav-btn{background:#fff;border:0.5px solid var(--ug-cyan);color:var(--ug-blue);padding:7px 14px;border-radius:var(--border-radius-md);font-size:13px;cursor:pointer;transition:all .15s}
+.nav-btn:hover{background:var(--ug-light)}
+.nav-btn.active{background:var(--ug-blue);color:#fff;border-color:var(--ug-blue)}
+.section{display:none}
+.section.visible{display:block}
+.card{background:#fff;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem;margin-bottom:1rem}
+.card-blue{background:var(--ug-light);border-left:4px solid var(--ug-mid);border-radius:0 var(--border-radius-md) var(--border-radius-md) 0;padding:1rem 1.25rem;margin-bottom:1rem}
+.card-teal{background:var(--ug-teal-light);border-left:4px solid var(--ug-teal);border-radius:0 var(--border-radius-md) var(--border-radius-md) 0;padding:1rem 1.25rem;margin-bottom:1rem}
+.card-gold{background:var(--ug-gold-light);border-left:4px solid var(--ug-gold);border-radius:0 var(--border-radius-md) var(--border-radius-md) 0;padding:1rem 1.25rem;margin-bottom:1rem}
+.card-warn{background:#FAEEDA;border:0.5px solid var(--ug-gold);border-radius:var(--border-radius-md);padding:1rem 1.25rem;margin-bottom:1rem}
+.tag{display:inline-block;font-size:11px;font-weight:500;padding:3px 10px;border-radius:var(--border-radius-md);margin-bottom:.5rem}
+.tag-blue{background:var(--ug-light);color:var(--ug-blue)}
+.tag-teal{background:var(--ug-teal-light);color:var(--ug-teal)}
+.tag-gold{background:var(--ug-gold-light);color:var(--ug-gold)}
+.tag-red{background:#FCEBEB;color:#A32D2D}
+h2{font-size:18px;font-weight:500;color:var(--ug-blue);margin-bottom:.75rem}
+h3{font-size:16px;font-weight:500;color:var(--ug-mid);margin-bottom:.5rem;margin-top:1rem}
+h4{font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:.4rem}
+p{font-size:14px;line-height:1.7;color:var(--color-text-primary);margin-bottom:.6rem}
+.lead{font-size:15px;line-height:1.7;color:var(--color-text-secondary);margin-bottom:1rem}
+ul,ol{padding-left:1.2rem;margin-bottom:.6rem}
+li{font-size:14px;line-height:1.7;color:var(--color-text-primary);margin-bottom:.2rem}
+.formula{background:var(--ug-light);border:0.5px solid var(--ug-cyan);border-radius:var(--border-radius-md);padding:.75rem 1rem;text-align:center;font-size:15px;font-weight:500;color:var(--ug-blue);margin:1rem 0}
+.example-box{background:#F8FAFD;border:0.5px solid var(--ug-cyan);border-radius:var(--border-radius-md);padding:1rem 1.25rem;margin:1rem 0}
+.example-box h4{color:var(--ug-blue);margin-bottom:.5rem}
+table{width:100%;border-collapse:collapse;font-size:13px;margin:1rem 0}
+th{background:var(--ug-blue);color:#fff;padding:8px 10px;text-align:left;font-weight:500}
+td{padding:7px 10px;border-bottom:0.5px solid var(--color-border-tertiary);vertical-align:top}
+tr:nth-child(even) td{background:var(--ug-light)}
+.highlight-row td{background:#E1F5EE;font-weight:500;color:var(--ug-teal)}
+.red-row td{background:#FCEBEB;color:#A32D2D;font-weight:500}
+.quiz-block{margin-bottom:1.5rem}
+.quiz-q{font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:.75rem;line-height:1.6}
+.quiz-opts{display:flex;flex-direction:column;gap:6px}
+.opt-btn{background:#fff;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:10px 14px;font-size:13px;text-align:left;cursor:pointer;transition:all .15s;color:var(--color-text-primary);line-height:1.5}
+.opt-btn:hover:not(:disabled){background:var(--ug-light);border-color:var(--ug-mid)}
+.opt-btn.correct{background:#E1F5EE;border-color:var(--ug-teal);color:var(--ug-teal)}
+.opt-btn.wrong{background:#FCEBEB;border-color:#E24B4A;color:#A32D2D}
+.opt-btn.revealed{background:var(--ug-light);border-color:var(--ug-mid);color:var(--ug-blue)}
+.opt-btn:disabled{cursor:default}
+.feedback{margin-top:.5rem;padding:.75rem 1rem;border-radius:var(--border-radius-md);font-size:13px;line-height:1.6;display:none}
+.feedback.show{display:block}
+.feedback.ok{background:#E1F5EE;border:0.5px solid var(--ug-teal);color:var(--ug-teal)}
+.feedback.bad{background:#FCEBEB;border:0.5px solid #E24B4A;color:#A32D2D}
+.feedback.info{background:var(--ug-light);border:0.5px solid var(--ug-mid);color:var(--ug-blue)}
+.calc-row{display:flex;align-items:center;gap:8px;margin-bottom:.5rem;flex-wrap:wrap}
+.calc-label{font-size:13px;color:var(--color-text-secondary);min-width:220px}
+.calc-val{font-size:14px;font-weight:500;color:var(--ug-blue);min-width:80px}
+.result-big{font-size:22px;font-weight:500;color:var(--ug-teal);margin:.5rem 0}
+.divider{height:0.5px;background:var(--color-border-tertiary);margin:1.25rem 0}
+.badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:var(--border-radius-md);font-weight:500}
+.badge-blue{background:var(--ug-light);color:var(--ug-blue)}
+.badge-teal{background:var(--ug-teal-light);color:var(--ug-teal)}
+.badge-red{background:#FCEBEB;color:#A32D2D}
+.progress-bar{height:6px;background:var(--color-border-tertiary);border-radius:3px;margin-bottom:1.5rem;overflow:hidden}
+.progress-fill{height:100%;background:var(--ug-turq);border-radius:3px;transition:width .4s}
+.step-row{display:flex;gap:1rem;align-items:flex-start;margin-bottom:.75rem}
+.step-num{min-width:28px;height:28px;border-radius:50%;background:var(--ug-blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;flex-shrink:0;margin-top:2px}
+.step-body{flex:1}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0}
+@media(max-width:560px){.two-col{grid-template-columns:1fr}}
+.icon-label{display:flex;align-items:center;gap:8px;margin-bottom:.3rem}
+.icon-circle{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px}
+.ic-blue{background:var(--ug-light)}
+.ic-teal{background:var(--ug-teal-light)}
+.ic-gold{background:var(--ug-gold-light)}
+.slider-wrap{margin:1rem 0}
+.slider-wrap label{font-size:13px;color:var(--color-text-secondary)}
+.slider-wrap input[type=range]{width:100%;margin:.4rem 0}
+.slider-val{font-size:15px;font-weight:500;color:var(--ug-blue)}
+.cost-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:1rem 0}
+.cost-card{background:var(--ug-light);border-radius:var(--border-radius-md);padding:.75rem;border:0.5px solid var(--ug-cyan)}
+.cost-card .label{font-size:11px;color:var(--ug-mid);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.3rem}
+.cost-card .amount{font-size:18px;font-weight:500;color:var(--ug-blue)}
+.total-card{background:var(--ug-teal-light);border-radius:var(--border-radius-md);padding:.75rem;border:0.5px solid var(--ug-teal)}
+.total-card .label{font-size:11px;color:var(--ug-teal);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.3rem}
+.total-card .amount{font-size:22px;font-weight:500;color:var(--ug-teal)}
+.next-btn{background:var(--ug-blue);color:#fff;border:none;border-radius:var(--border-radius-md);padding:10px 20px;font-size:14px;cursor:pointer;margin-top:1rem}
+.next-btn:hover{background:var(--ug-mid)}
+.sub-nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:0.5px solid var(--color-border-tertiary)}
+.sub-btn{background:#fff;border:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary);padding:5px 12px;border-radius:var(--border-radius-md);font-size:12px;cursor:pointer}
+.sub-btn:hover{background:var(--ug-light)}
+.sub-btn.active{background:var(--ug-light);color:var(--ug-blue);border-color:var(--ug-cyan)}
+.subsec{display:none}
+.subsec.visible{display:block}
+.alert{border-radius:var(--border-radius-md);padding:.75rem 1rem;margin:1rem 0;font-size:13px;line-height:1.6}
+.alert-red{background:#FCEBEB;border:0.5px solid #E24B4A;color:#791F1F}
+.alert-teal{background:var(--ug-teal-light);border:0.5px solid var(--ug-teal);color:var(--ug-teal)}
+.alert-blue{background:var(--ug-light);border:0.5px solid var(--ug-mid);color:var(--ug-blue)}
+.alert-gold{background:var(--ug-gold-light);border:0.5px solid var(--ug-gold);color:#633806}
+</style>
+
+<h2 class="sr-only">Contabilidad Gerencial — Material interactivo semanas 1 a 3, Universidad de Guayaquil</h2>
+
+<div class="wrap">
+<div class="hero">
+  <div class="hero-tag">Universidad de Guayaquil · Facultad de Ciencias Administrativas</div>
+  <h1>Contabilidad Gerencial — Semanas 1 a 3</h1>
+  <p>Material interactivo · Contaduría Pública · 5to semestre · Abril 2026</p>
+</div>
+
+<div class="nav-row">
+  <button class="nav-btn active" onclick="showSection('s1')">Semana 1-2: Fundamentos</button>
+  <button class="nav-btn" onclick="showSection('s2')">Semana 3: Costos reales</button>
+  <button class="nav-btn" onclick="showSection('s3')">Costos ocultos de tu empresa</button>
+  <button class="nav-btn" onclick="showSection('s4')">Calculadora de costos</button>
+  <button class="nav-btn" onclick="showSection('s5')">Evaluación global</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════ SEMANA 1-2 -->
+<div id="s1" class="section visible">
+  <div class="sub-nav">
+    <button class="sub-btn active" onclick="showSub('s1','a')">¿Qué es la CG?</button>
+    <button class="sub-btn" onclick="showSub('s1','b')">Tipos de costos</button>
+    <button class="sub-btn" onclick="showSub('s1','c')">El Estado de Resultados y sus límites</button>
+    <button class="sub-btn" onclick="showSub('s1','d')">Ética profesional</button>
+    <button class="sub-btn" onclick="showSub('s1','e')">Preguntas semana 1-2</button>
+  </div>
+
+  <div id="s1a" class="subsec visible">
+    <h2>¿Qué es la Contabilidad Gerencial?</h2>
+    <p class="lead">Imagina que tienes una empresa de seguridad. Al final del mes, tu contador te entrega un papel que dice "Utilidad: $4.200". ¿Eso te dice cuál contrato gana dinero y cuál lo pierde? ¿Sabes si debes aceptar el nuevo cliente que te llama? No. Para eso existe la <strong>Contabilidad Gerencial</strong>.</p>
+    <div class="two-col">
+      <div class="card-blue">
+        <div class="tag tag-blue">Contabilidad Financiera</div>
+        <h4>Mira hacia atrás</h4>
+        <p>Produce el Estado de Resultados para el SRI, bancos y socios. Dice <em>qué pasó</em>. Sigue normas NIIF. No puede adaptarse a tus necesidades específicas.</p>
+      </div>
+      <div class="card-teal">
+        <div class="tag tag-teal">Contabilidad Gerencial</div>
+        <h4>Mira hacia adelante</h4>
+        <p>Produce información <em>para ti</em>, el gerente. Dice <em>qué hacer</em>. No tiene formato obligatorio. Se adapta a cada decisión que necesitas tomar.</p>
+      </div>
+    </div>
+    <div class="card-blue">
+      <h4>Las 5 preguntas que la Contabilidad Financiera NO puede responder</h4>
+      <ol style="margin-top:.5rem">
+        <li><strong>¿Cuánto cuesta realmente cada contrato?</strong> → Semana 3</li>
+        <li><strong>¿A partir de cuántos contratos empiezo a ganar?</strong> → Semana 4 (punto de equilibrio)</li>
+        <li><strong>¿Cuánto dinero necesito el próximo mes?</strong> → Semana 5 (presupuesto)</li>
+        <li><strong>¿Vale la pena este contrato nuevo?</strong> → Semana 6</li>
+        <li><strong>¿El negocio está mejorando o empeorando más allá de la utilidad?</strong> → Semana 7</li>
+      </ol>
+    </div>
+    <div class="alert alert-teal">La Contabilidad Gerencial no compite con la Contabilidad Financiera — la complementa. El Estado de Resultados dice qué pasó. El análisis gerencial dice qué hacer.</div>
+  </div>
+
+  <div id="s1b" class="subsec">
+    <h2>Clasificación de costos</h2>
+    <p class="lead">Antes de analizar si un contrato es rentable, necesitas saber <em>cómo se comportan los costos</em>. No todos funcionan igual.</p>
+    <div class="example-box">
+      <h4>Analogía simple: el taxi vs. el conductor propio</h4>
+      <p>Si tomas un taxi, pagas por cada viaje (costo variable). Si contratas un chofer fijo, pagas aunque no salgas (costo fijo). Tu empresa tiene los dos tipos — y confundirlos cambia por completo el análisis.</p>
+    </div>
+    <table>
+      <tr><th>Tipo</th><th>Qué hace</th><th>Ejemplo en seguridad privada</th></tr>
+      <tr><td><strong>Fijo</strong></td><td>No cambia aunque tengas más o menos contratos</td><td>Arriendo de oficina, sueldo del gerente, seguro empresarial</td></tr>
+      <tr><td><strong>Variable</strong></td><td>Sube o baja según el volumen de trabajo</td><td>Sueldos de guardias, uniformes por nuevo guardia, combustible de supervisión</td></tr>
+      <tr><td><strong>Semivariable</strong></td><td>Tiene una parte fija y una parte que varía</td><td>Servicio de internet (base fija + exceso de datos), luz de oficina</td></tr>
+    </table>
+    <div class="alert alert-blue"><strong>Regla clave:</strong> Si cancelas un contrato, los costos <em>fijos</em> no desaparecen — se redistribuyen entre los contratos restantes. Por eso, eliminar un contrato que "parece" deficitario a veces empeora la situación.</div>
+    <div class="divider"></div>
+    <h3>Directos vs. Indirectos</h3>
+    <p>Hay otra forma de clasificar los costos que es igual de importante:</p>
+    <div class="two-col">
+      <div class="card-blue">
+        <h4>Costos directos</h4>
+        <p>Se pueden asignar claramente a un contrato específico. Si cancelas ese contrato, ese costo desaparece.</p>
+        <p style="margin-top:.5rem;font-size:13px;color:var(--ug-mid)">Ej: los sueldos de los 8 guardias del Contrato Universidad Norte.</p>
+      </div>
+      <div class="card-gold">
+        <h4>Costos indirectos</h4>
+        <p>Son de "toda la empresa" y deben distribuirse entre los contratos usando un <strong>inductor de costo</strong>.</p>
+        <p style="margin-top:.5rem;font-size:13px;color:var(--ug-gold)">Ej: el sueldo del gerente, el arriendo, el seguro.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="s1c" class="subsec">
+    <h2>El Estado de Resultados y sus límites</h2>
+    <p class="lead">El Estado de Resultados es útil, pero tiene un problema serio: te dice si la empresa ganó o perdió, pero no te dice <em>por qué</em> ni <em>qué hacer al respecto</em>.</p>
+    <div class="example-box">
+      <h4>Ejemplo real de Seguridad Integral (un trimestre)</h4>
+      <table>
+        <tr><th>Concepto</th><th>Valor</th></tr>
+        <tr><td>Ingresos totales</td><td>$87.400</td></tr>
+        <tr><td>Costos directos de servicio</td><td>($52.800)</td></tr>
+        <tr><td>Utilidad bruta</td><td>$34.600</td></tr>
+        <tr><td>Gastos administrativos</td><td>($21.300)</td></tr>
+        <tr><td>Gastos financieros</td><td>($1.200)</td></tr>
+        <tr class="highlight-row"><td>Utilidad neta</td><td>$12.100</td></tr>
+      </table>
+    </div>
+    <h3>Lo que este estado NO te dice</h3>
+    <ul>
+      <li>¿Cuál de los tres servicios (guardias, monitoreo, escolta) genera más margen real?</li>
+      <li>¿El 40% de los ingresos que todavía no se ha cobrado afectará el flujo del próximo mes?</li>
+      <li>¿Está incluida la depreciación del equipo de monitoreo de $45.000?</li>
+      <li>¿Qué pasa si el cliente que representa el 35% de ingresos no renueva?</li>
+    </ul>
+    <div class="alert alert-red">Un estado de resultados positivo no garantiza que todos los contratos sean rentables. Podría haber contratos perdiendo dinero que se compensan con otros que ganan mucho.</div>
+  </div>
+
+  <div id="s1d" class="subsec">
+    <h2>Ética profesional — Código CECE</h2>
+    <p class="lead">El Código de Ética del Contador Ecuatoriano (CECE) no es burocracia: es la garantía de que la información que usas para tomar decisiones no está distorsionada por intereses personales.</p>
+    <div class="two-col">
+      <div class="card-blue"><div class="tag tag-blue">Competencia</div><p>Mantener el conocimiento actualizado. No presentar análisis sobre temas que no dominas sin indicar sus limitaciones.</p></div>
+      <div class="card-teal"><div class="tag tag-teal">Objetividad</div><p>Presentar la realidad aunque incomode. Si el análisis dice que un contrato pierde dinero, hay que decirlo aunque contradiga la intuición del socio.</p></div>
+      <div class="card-blue"><div class="tag tag-blue">Integridad</div><p>No falsificar ni omitir información. No manipular los números para que el resultado "cuadre" con lo que se quiere mostrar.</p></div>
+      <div class="card-teal"><div class="tag tag-teal">Confidencialidad</div><p>La información financiera de la empresa es reservada. No puede compartirse con terceros sin autorización.</p></div>
+    </div>
+    <div class="alert alert-gold">
+      <strong>Conexión con tu realidad:</strong> En empresas de seguridad privada, el principio más difícil suele ser la <strong>Objetividad</strong>. Existe presión para presentar análisis que justifiquen decisiones ya tomadas. Un contador gerencial que dice "este contrato no es rentable" puede enfrentar resistencia. La objetividad requiere presentar esas conclusiones con respaldo técnico, aunque incomoden.
+    </div>
+  </div>
+
+  <div id="s1e" class="subsec">
+    <h2>Preguntas de autoevaluación — Semanas 1 y 2</h2>
+    <div id="q1a"></div><div id="q1b"></div><div id="q1c"></div><div id="q1d"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ SEMANA 3 -->
+<div id="s2" class="section">
+  <div class="sub-nav">
+    <button class="sub-btn active" onclick="showSub('s2','a')">Costo real del guardia</button>
+    <button class="sub-btn" onclick="showSub('s2','b')">Costos indirectos e inductores</button>
+    <button class="sub-btn" onclick="showSub('s2','c')">Margen de contribución</button>
+    <button class="sub-btn" onclick="showSub('s2','d')">Estado de costos por contrato</button>
+    <button class="sub-btn" onclick="showSub('s2','e')">Preguntas semana 3</button>
+  </div>
+
+  <div id="s2a" class="subsec visible">
+    <h2>¿Cuánto cuesta realmente un guardia?</h2>
+    <p class="lead">El error más frecuente en empresas de seguridad: usar el sueldo nominal como costo. Un guardia que "gana $520" <em>no cuesta $520</em>. La ley obliga a pagar mucho más.</p>
+    <div class="alert alert-red">Si usas el sueldo nominal en tu análisis de rentabilidad, <strong>estás subestimando el costo hasta en un 40%</strong>. Un contrato que "parece" rentable puede estar generando pérdidas reales.</div>
+    <div class="example-box">
+      <h4>Desglose del costo real — guardia con sueldo $520, 18 meses de antigüedad</h4>
+      <table>
+        <tr><th>Componente</th><th>Cálculo</th><th>Valor mensual</th></tr>
+        <tr><td>Sueldo básico</td><td>—</td><td>$520,00</td></tr>
+        <tr><td>Aporte patronal IESS (12,15%)</td><td>$520 × 12,15%</td><td>$63,18</td></tr>
+        <tr><td>Décimo tercero (mensualizado)</td><td>$520 ÷ 12</td><td>$43,33</td></tr>
+        <tr><td>Décimo cuarto (mensualizado)</td><td>$460 ÷ 12</td><td>$38,33</td></tr>
+        <tr><td>Fondos de reserva (8,33%)</td><td>$520 × 8,33%</td><td>$43,32</td></tr>
+        <tr><td>Vacaciones (proporcional)</td><td>$520 ÷ 24</td><td>$21,67</td></tr>
+        <tr class="highlight-row"><td><strong>COSTO REAL TOTAL</strong></td><td>40,4% más que el sueldo</td><td><strong>$729,83</strong></td></tr>
+      </table>
+    </div>
+    <div class="alert alert-blue">
+      <strong>Dato clave para tu empresa:</strong> Los guardias de seguridad privada en Ecuador están registrados bajo el <strong>Código 58 del IESS</strong> (intermediación laboral, contrato de obra cierta). Esto significa que los <strong>fondos de reserva se acumulan desde el primer día</strong>, no desde el segundo año como en el contrato general. Ese componente siempre debe estar en tu cálculo de costo desde el inicio del contrato.
+    </div>
+  </div>
+
+  <div id="s2b" class="subsec">
+    <h2>Costos indirectos e inductores de costo</h2>
+    <p class="lead">Algunos costos no pertenecen a un solo contrato — son de "toda la empresa": el arriendo, el gerente, la contadora, el vehículo de supervisión. Estos deben distribuirse entre todos los contratos de forma justa.</p>
+    <h3>Los tres métodos de distribución</h3>
+    <table>
+      <tr><th>Método</th><th>Cómo funciona</th><th>¿Es correcto usarlo?</th></tr>
+      <tr><td><strong>1. Partes iguales</strong></td><td>Divide el total entre el número de contratos</td><td><span class="badge badge-red">No recomendado</span> — un contrato con 20 guardias y uno con 3 no consumen lo mismo</td></tr>
+      <tr><td><strong>2. Proporción de ingresos</strong></td><td>Asigna según el % que representa cada contrato en los ingresos totales</td><td><span class="badge badge-blue">Aceptable</span> cuando no hay mejor información disponible</td></tr>
+      <tr><td><strong>3. Inductor de costo</strong></td><td>Usa la variable que explica el consumo real: guardias, incidentes, horas de supervisión</td><td><span class="badge badge-teal">Recomendado</span> — el más preciso y el que usaremos</td></tr>
+    </table>
+    <div class="example-box">
+      <h4>Ejemplo: $8.400 de costos indirectos distribuidos por número de guardias</h4>
+      <table>
+        <tr><th>Contrato</th><th>Guardias</th><th>% del total</th><th>Costos indirectos asignados</th></tr>
+        <tr><td>Universidad Norte</td><td>8</td><td>50%</td><td>$4.200</td></tr>
+        <tr><td>Centro Comercial El Sol</td><td>5</td><td>31,3%</td><td>$2.625</td></tr>
+        <tr><td>Edificio Corporativo</td><td>3</td><td>18,8%</td><td>$1.575</td></tr>
+        <tr class="highlight-row"><td>Total</td><td>16</td><td>100%</td><td>$8.400</td></tr>
+      </table>
+    </div>
+    <div class="alert alert-gold">Si cambias el inductor de "guardias" a "número de incidentes", la distribución cambia radicalmente. El Centro Comercial con 6 incidentes pasaría de recibir $2.625 a recibir $5.600 de costos indirectos. El inductor correcto no es el más conveniente — es el que mejor refleja la realidad.</div>
+  </div>
+
+  <div id="s2c" class="subsec">
+    <h2>Margen de contribución</h2>
+    <p class="lead">El <strong>margen bruto</strong> (ingresos − costos directos) es útil para comparar contratos. Pero para decidir si <em>aceptar o rechazar un contrato nuevo</em>, necesitas el <strong>margen de contribución</strong>.</p>
+    <div class="formula">Margen de Contribución = Ingresos del contrato − Costos variables del contrato</div>
+    <div class="card-blue">
+      <h4>¿Por qué es diferente al margen bruto?</h4>
+      <p>El margen de contribución responde una pregunta muy específica: <strong>¿cuánto aporta este contrato a cubrir los costos fijos de la empresa?</strong></p>
+      <p>Los costos fijos ya existen aunque no tengas ese contrato. Lo que importa es si el contrato genera más ingresos que los costos variables adicionales que provoca. Si la respuesta es sí — aunque sea por $1 — el contrato mejora la situación.</p>
+    </div>
+    <div class="example-box">
+      <h4>Ejemplo: ¿Aceptar el contrato del parqueadero?</h4>
+      <p>Un cliente ofrece $2.800 mensuales por vigilancia con 2 guardias.</p>
+      <table>
+        <tr><th>Costos variables del nuevo contrato</th><th>Valor</th></tr>
+        <tr><td>Costo real 2 guardias (2 × $729,83)</td><td>$1.459,66</td></tr>
+        <tr><td>Uniformes nuevos (amortización)</td><td>$90,00</td></tr>
+        <tr><td>Supervisión adicional</td><td>$180,00</td></tr>
+        <tr><td>Equipos asignados</td><td>$60,00</td></tr>
+        <tr class="highlight-row"><td><strong>Margen de Contribución</strong></td><td><strong>$2.800 − $1.789,66 = $1.010,34</strong></td></tr>
+      </table>
+      <div class="alert-teal alert" style="margin-top:.75rem">El contrato aporta $1.010,34 a cubrir los costos fijos. Conviene aceptarlo — siempre que haya guardias disponibles sin generar costos adicionales de personal.</div>
+    </div>
+  </div>
+
+  <div id="s2d" class="subsec">
+    <h2>Estado de costos por contrato</h2>
+    <p class="lead">Este es el reporte central de la Contabilidad Gerencial para tu empresa. No existe en la Contabilidad Financiera. Lo construyes tú, en Excel, y te dice mensualmente cuál contrato aporta valor y cuál lo destruye.</p>
+    <table>
+      <tr><th>Concepto</th><th>Universidad Norte</th><th>C. Comercial</th><th>Edif. Corp.</th><th>Total</th></tr>
+      <tr><td><strong>Ingresos</strong></td><td>$7.200</td><td>$5.800</td><td>$2.700</td><td>$15.700</td></tr>
+      <tr><td>Sueldos (costo real)</td><td>($5.839)</td><td>($3.640)</td><td>($2.190)</td><td>($11.669)</td></tr>
+      <tr><td>Uniformes y equipos</td><td>($120)</td><td>($90)</td><td>($55)</td><td>($265)</td></tr>
+      <tr><td>Supervisión</td><td>($340)</td><td>($240)</td><td>($150)</td><td>($730)</td></tr>
+      <tr><td>Depreciación equipos</td><td>($80)</td><td>($60)</td><td>($40)</td><td>($180)</td></tr>
+      <tr class="highlight-row"><td><strong>Margen de contribución</strong></td><td><strong>$821</strong></td><td><strong>$1.770</strong></td><td><strong>$265</strong></td><td><strong>$2.856</strong></td></tr>
+      <tr><td>Costos indirectos asignados</td><td>($4.200)</td><td>($2.625)</td><td>($1.575)</td><td>($8.400)</td></tr>
+      <tr class="red-row"><td><strong>Margen neto</strong></td><td><strong>($3.379)</strong></td><td><strong>($855)</strong></td><td><strong>($1.310)</strong></td><td><strong>($5.544)</strong></td></tr>
+    </table>
+    <div class="alert alert-blue"><strong>¿Por qué el margen neto es negativo en todos los contratos?</strong> No significa que los contratos pierdan dinero. Significa que los márgenes de contribución acumulados ($2.856) no alcanzan a cubrir los costos fijos ($8.400). La solución es crecer en contratos o reducir costos fijos — no eliminar contratos, porque eso reduciría también el margen de contribución.</div>
+  </div>
+
+  <div id="s2e" class="subsec">
+    <h2>Preguntas de autoevaluación — Semana 3</h2>
+    <div id="q2a"></div><div id="q2b"></div><div id="q2c"></div><div id="q2d"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ COSTOS OCULTOS -->
+<div id="s3" class="section">
+  <h2>Costos ocultos en empresas de seguridad</h2>
+  <p class="lead">En la práctica, tu empresa enfrenta costos que no aparecen en ningún manual contable estándar. Aquí los analizamos con nombre propio, porque si no los identificas y los registras, tu análisis de rentabilidad siempre estará incompleto.</p>
+
+  <div class="card">
+    <div class="tag tag-gold">Costo oculto #1</div>
+    <h3>"Las contribuciones" para que los pagos no demoren</h3>
+    <div class="alert alert-red" style="margin:.5rem 0"><strong>Realidad que identificaste:</strong> "Hay rubros económicos que se entienden como favores que ayudan a que el pago de servicios no demore... son pagos a empresas públicas corrompidas que sin esas contribuciones nada se mueve."</div>
+    <h4>¿Cómo se clasifica este costo?</h4>
+    <p>Aunque el origen de este gasto es problemático desde el punto de vista ético y legal, <em>existe y afecta la rentabilidad</em>. Desde el punto de vista contable-gerencial:</p>
+    <ul>
+      <li><strong>Clasificación:</strong> Costo indirecto operativo y administrativo</li>
+      <li><strong>Comportamiento:</strong> Variable — depende del contrato y del cliente</li>
+      <li><strong>Inductor sugerido:</strong> Asignarlo al contrato específico que lo genera</li>
+    </ul>
+    <div class="alert alert-gold">
+      <strong>Cómo registrarlo sin comprometerse:</strong> En la contabilidad gerencial interna se puede registrar como "gestión de cobro" o "costo de recuperación de cartera". No debe aparecer en la contabilidad financiera como tal. Su impacto real es reducir el margen de contribución del contrato afectado.
+    </div>
+    <div class="example-box">
+      <h4>Impacto en el margen de contribución</h4>
+      <p>Si el Contrato Universidad Norte requiere $200 mensuales en "gestión de cobro", su margen de contribución real baja:</p>
+      <p style="margin-top:.5rem"><strong>Margen calculado:</strong> $821<br><strong>Costo oculto de cobro:</strong> ($200)<br><strong>Margen real:</strong> $621</p>
+    </div>
+    <div class="alert alert-blue"><strong>Perspectiva ética (CECE):</strong> La Objetividad obliga a registrar este costo en el análisis interno aunque sea incómodo. Ignorarlo produce un análisis que sobreestima la rentabilidad y lleva a tomar decisiones incorrectas. El contador gerencial debe reflejar la realidad, no la versión conveniente de la realidad.</div>
+  </div>
+
+  <div class="card">
+    <div class="tag tag-red">Costo oculto #2</div>
+    <h3>El guardia que no aparece — ausentismo de final de mes</h3>
+    <div class="alert alert-red" style="margin:.5rem 0"><strong>Realidad que identificaste:</strong> "Una semana antes de terminar el mes, como están sin dinero se desmotivan y no quieren ir a trabajar."</div>
+    <h4>Las dos formas en que se resuelve y cómo se clasifican</h4>
+    <div class="two-col">
+      <div class="card-gold">
+        <h4>Opción A: Pago adicional al reemplazante</h4>
+        <p>Se llama al guardia que está de descanso y se le paga un valor extra por cubrir la guardia.</p>
+        <ul style="margin-top:.5rem">
+          <li><strong>Tipo:</strong> Costo variable de personal</li>
+          <li><strong>Cuenta:</strong> Horas extra o bonificación por guardia adicional</li>
+          <li><strong>Asignación:</strong> Al contrato donde ocurrió el ausentismo</li>
+        </ul>
+      </div>
+      <div class="card-blue">
+        <h4>Opción B: Día libre por compensación</h4>
+        <p>El que faltó debe cubrir otro turno sin cobro adicional — se intercambia el día libre.</p>
+        <ul style="margin-top:.5rem">
+          <li><strong>Tipo:</strong> Costo de eficiencia y seguimiento administrativo</li>
+          <li><strong>Impacto real:</strong> Tiempo de supervisores para gestionar el intercambio</li>
+          <li><strong>Asignación:</strong> Costo indirecto de supervisión</li>
+        </ul>
+      </div>
+    </div>
+    <div class="alert alert-blue">
+      <strong>Código 58 del IESS — Lo que esto significa para tu nómina:</strong><br>
+      Los guardias de seguridad privada están bajo contrato de obra cierta (intermediación laboral). Bajo este código, <strong>los fondos de reserva se acumulan desde el primer día</strong>, no desde el mes 13 como en el contrato indefinido estándar. Esto significa que desde el primer mes de trabajo, debes provisionar el 8,33% del sueldo como fondo de reserva de ese guardia.
+    </div>
+    <div class="example-box">
+      <h4>¿Cuánto cuesta realmente el ausentismo de fin de mes?</h4>
+      <p>Si en un mes 3 guardias faltan y se resuelve con la Opción A:</p>
+      <table>
+        <tr><th>Concepto</th><th>Cálculo</th><th>Costo</th></tr>
+        <tr><td>Bono por guardia de reemplazo (3 turnos)</td><td>3 × $35</td><td>$105</td></tr>
+        <tr><td>Recargo nocturno si aplica</td><td>3 turnos × 25% adicional</td><td>$26</td></tr>
+        <tr><td>Tiempo administrativo del supervisor</td><td>2h × $8/h</td><td>$16</td></tr>
+        <tr class="highlight-row"><td><strong>Costo mensual del ausentismo</strong></td><td>—</td><td><strong>$147</strong></td></tr>
+        <tr><td><strong>Costo anual proyectado</strong></td><td>$147 × 12</td><td><strong>$1.764</strong></td></tr>
+      </table>
+      <p style="margin-top:.5rem;font-size:13px;color:var(--color-text-secondary)">$1.764 al año es un costo que normalmente no aparece en ningún análisis — y que destruye silenciosamente el margen de los contratos afectados.</p>
+    </div>
+    <div class="alert alert-teal"><strong>Solución gerencial:</strong> Registrar mensualmente los eventos de ausentismo por contrato. Cuando el costo acumulado supera el 5% del margen de contribución de ese contrato, es una señal de que el problema es estructural (no solo motivacional) y debe abordarse con un ajuste de precio o de condiciones laborales.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ CALCULADORA -->
+<div id="s4" class="section">
+  <h2>Calculadora de costo real por guardia</h2>
+  <p class="lead">Ingresa el sueldo mensual de un guardia y el sistema calcula automáticamente su costo real para la empresa, incluyendo todos los componentes legales según el Código 58 del IESS.</p>
+
+  <div class="slider-wrap">
+    <label>Sueldo básico mensual del guardia</label>
+    <input type="range" min="460" max="900" value="520" step="10" id="sueldo-slider" oninput="calcCosto()">
+    <div class="slider-val">$<span id="sueldo-val">520</span></div>
+  </div>
+
+  <div id="cost-grid" class="cost-grid"></div>
+
+  <div class="card" style="margin-top:1rem">
+    <div class="label" style="font-size:11px;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.3rem">Costo real mensual por guardia</div>
+    <div class="result-big" id="costo-total">$729,83</div>
+    <div id="porcentaje-extra" style="font-size:13px;color:var(--color-text-secondary)"></div>
+  </div>
+
+  <div class="divider"></div>
+  <h3>Simulador de margen por contrato</h3>
+  <p>Ingresa los datos de un contrato y calcula el margen de contribución usando el costo real.</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0">
+    <div>
+      <label style="font-size:13px;color:var(--color-text-secondary);display:block;margin-bottom:.3rem">Número de guardias</label>
+      <input type="range" min="1" max="20" value="8" step="1" id="guardias-slider" oninput="calcMargen()">
+      <div style="font-size:14px;font-weight:500;color:var(--ug-blue)"><span id="guardias-val">8</span> guardias</div>
+    </div>
+    <div>
+      <label style="font-size:13px;color:var(--color-text-secondary);display:block;margin-bottom:.3rem">Ingreso mensual del contrato</label>
+      <input type="range" min="1000" max="15000" value="7200" step="100" id="ingreso-slider" oninput="calcMargen()">
+      <div style="font-size:14px;font-weight:500;color:var(--ug-blue)">$<span id="ingreso-val">7.200</span></div>
+    </div>
+  </div>
+
+  <div id="margen-result" class="example-box"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ EVALUACIÓN GLOBAL -->
+<div id="s5" class="section">
+  <h2>Evaluación global — Semanas 1 a 3</h2>
+  <p class="lead">Responde todas las preguntas. Cada una tiene retroalimentación inmediata que explica por qué cada opción es correcta o incorrecta.</p>
+  <div id="prog-bar" class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+  <div id="q5a"></div><div id="q5b"></div><div id="q5c"></div><div id="q5d"></div><div id="q5e"></div><div id="q5f"></div>
+  <div id="score-box" style="display:none" class="card-teal">
+    <h3 id="score-title"></h3>
+    <p id="score-msg"></p>
+  </div>
+</div>
+
+</div>
+
+<script>
+function showSection(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('visible'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('visible');
+  event.target.classList.add('active');
+}
+function showSub(sec,sub){
+  document.querySelectorAll('#'+sec+' .subsec').forEach(s=>s.classList.remove('visible'));
+  document.querySelectorAll('#'+sec+' .sub-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(sec+sub).classList.add('visible');
+  event.target.classList.add('active');
+}
+
+var answered={};
+function buildQuiz(containerId, q, opts, correct, feedbacks){
+  var d=document.getElementById(containerId);
+  if(!d)return;
+  var html='<div class="quiz-block"><p class="quiz-q">'+q+'</p><div class="quiz-opts">';
+  opts.forEach(function(o,i){
+    html+='<button class="opt-btn" id="'+containerId+'_opt'+i+'" onclick="answer(\''+containerId+'\','+i+','+correct+','+opts.length+')">'+(i+1)+'. '+o+'</button>';
+  });
+  html+='</div>';
+  feedbacks.forEach(function(f,i){
+    var cls=i===correct?'ok':'bad';
+    html+='<div class="feedback '+cls+'" id="'+containerId+'_fb'+i+'">'+f+'</div>';
+  });
+  html+='</div>';
+  d.innerHTML=html;
+}
+
+function answer(cid,chosen,correct,total){
+  if(answered[cid])return;
+  answered[cid]=true;
+  for(var i=0;i<total;i++){
+    var btn=document.getElementById(cid+'_opt'+i);
+    btn.disabled=true;
+    if(i===correct) btn.classList.add('correct');
+    else if(i===chosen) btn.classList.add('wrong');
+    else btn.classList.add('revealed');
+    document.getElementById(cid+'_fb'+i).classList.add('show');
+  }
+  updateProgress();
+}
+
+function updateProgress(){
+  var total=Object.keys(window.allQuizIds||{}).length;
+  var done=Object.keys(answered).length;
+  var pct=total>0?Math.round(done/total*100):0;
+  var pf=document.getElementById('prog-fill');
+  if(pf) pf.style.width=pct+'%';
+  var globalIds=['q5a','q5b','q5c','q5d','q5e','q5f'];
+  var globalDone=globalIds.filter(function(id){return answered[id];}).length;
+  if(globalDone===globalIds.length){
+    var sb=document.getElementById('score-box');
+    if(sb){sb.style.display='block';}
+    var st=document.getElementById('score-title');
+    var sm=document.getElementById('score-msg');
+    if(st)st.textContent='¡Evaluación completada!';
+    if(sm)sm.textContent='Has respondido todas las preguntas de la evaluación global. Revisa las retroalimentaciones de cada respuesta para reforzar los conceptos que necesitas consolidar antes de la Semana 4.';
+  }
+}
+
+function calcCosto(){
+  var s=parseInt(document.getElementById('sueldo-slider').value);
+  document.getElementById('sueldo-val').textContent=s;
+  var iess=Math.round(s*0.1215*100)/100;
+  var d13=Math.round(s/12*100)/100;
+  var d14=Math.round(460/12*100)/100;
+  var fr=Math.round(s*0.0833*100)/100;
+  var vac=Math.round(s/24*100)/100;
+  var total=Math.round((s+iess+d13+d14+fr+vac)*100)/100;
+  var pct=Math.round((total/s-1)*1000)/10;
+  var cg=document.getElementById('cost-grid');
+  cg.innerHTML='<div class="cost-card"><div class="label">IESS patronal</div><div class="amount">$'+iess.toFixed(2)+'</div></div>'+
+    '<div class="cost-card"><div class="label">Décimo tercero</div><div class="amount">$'+d13.toFixed(2)+'</div></div>'+
+    '<div class="cost-card"><div class="label">Décimo cuarto</div><div class="amount">$'+d14.toFixed(2)+'</div></div>'+
+    '<div class="cost-card"><div class="label">Fondos de reserva</div><div class="amount">$'+fr.toFixed(2)+'</div></div>'+
+    '<div class="cost-card"><div class="label">Vacaciones</div><div class="amount">$'+vac.toFixed(2)+'</div></div>';
+  document.getElementById('costo-total').textContent='$'+total.toFixed(2);
+  document.getElementById('porcentaje-extra').textContent='Un '+pct+'% más que el sueldo nominal de $'+s;
+  calcMargen();
+}
+
+function calcMargen(){
+  var s=parseInt(document.getElementById('sueldo-slider').value);
+  var g=parseInt(document.getElementById('guardias-slider').value);
+  var ing=parseInt(document.getElementById('ingreso-slider').value);
+  document.getElementById('guardias-val').textContent=g;
+  document.getElementById('ingreso-val').textContent=ing.toLocaleString();
+  var iess=s*0.1215; var d13=s/12; var d14=460/12; var fr=s*0.0833; var vac=s/24;
+  var costoGuardia=s+iess+d13+d14+fr+vac;
+  var totalGuardias=Math.round(costoGuardia*g*100)/100;
+  var uniformes=Math.round(g*45*100)/100;
+  var supervision=Math.round(g*42*100)/100;
+  var deprec=Math.round(g*10*100)/100;
+  var totalCostos=Math.round((totalGuardias+uniformes+supervision+deprec)*100)/100;
+  var margen=Math.round((ing-totalCostos)*100)/100;
+  var margenPct=Math.round(margen/ing*1000)/10;
+  var colorMargen=margen>0?'var(--ug-teal)':'#A32D2D';
+  var msgMargen=margen>0?'Este contrato tiene margen de contribución positivo. Conviene mantenerlo o aceptarlo.':'Este contrato tiene margen de contribución negativo. Está destruyendo valor. Hay que revisar el precio o los costos.';
+  var alertClass=margen>0?'alert-teal':'alert-red';
+  document.getElementById('margen-result').innerHTML=
+    '<h4>Resultados del contrato</h4>'+
+    '<table><tr><th>Concepto</th><th>Valor</th></tr>'+
+    '<tr><td>Ingreso mensual</td><td>$'+ing.toLocaleString()+'</td></tr>'+
+    '<tr><td>Costo real de '+g+' guardias</td><td>($'+totalGuardias.toFixed(0)+')</td></tr>'+
+    '<tr><td>Uniformes y equipos (est.)</td><td>($'+uniformes+')</td></tr>'+
+    '<tr><td>Supervisión (est.)</td><td>($'+supervision+')</td></tr>'+
+    '<tr><td>Depreciación (est.)</td><td>($'+deprec+')</td></tr>'+
+    '<tr style="background:'+(margen>0?'#E1F5EE':'#FCEBEB')+'"><td><strong>Margen de contribución</strong></td><td style="color:'+colorMargen+'"><strong>$'+margen.toFixed(0)+' ('+margenPct+'%)</strong></td></tr>'+
+    '</table>'+
+    '<div class="alert '+alertClass+'" style="margin-top:.75rem">'+msgMargen+'</div>';
+}
+
+window.allQuizIds={'q1a':1,'q1b':1,'q1c':1,'q1d':1,'q2a':1,'q2b':1,'q2c':1,'q2d':1,'q5a':1,'q5b':1,'q5c':1,'q5d':1,'q5e':1,'q5f':1};
+
+buildQuiz('q1a',
+  'Un gerente tiene el Estado de Resultados de su empresa y quiere saber si debe aceptar un nuevo contrato. ¿Le es suficiente ese documento?',
+  ['Sí, el Estado de Resultados muestra todos los costos y la utilidad final.',
+   'No, porque el Estado de Resultados muestra el resultado global pero no el impacto específico del nuevo contrato.',
+   'Sí, si la utilidad neta es positiva, cualquier contrato nuevo también será rentable.',
+   'No, porque el Estado de Resultados solo sirve para el SRI y no tiene información útil.'],
+  1,
+  ['Incorrecto. El Estado de Resultados muestra lo que ya pasó en la empresa en conjunto. No dice si un contrato nuevo será rentable — para eso necesitas calcular el margen de contribución del nuevo contrato específicamente.',
+   'Correcto. El Estado de Resultados es un reporte global y retrospectivo. Para evaluar un contrato nuevo necesitas la Contabilidad Gerencial: calcular sus costos variables, su margen de contribución y si ese margen es positivo.',
+   'Incorrecto. Una empresa puede tener utilidad neta positiva y aun así tener contratos individuales que pierden dinero. La utilidad global no dice nada sobre cada contrato.',
+   'Incorrecto en parte. El Estado de Resultados sí tiene información útil (ingresos, costos generales, utilidad). Lo que no puede hacer es desglosar la rentabilidad por contrato ni evaluar decisiones futuras.']
+);
+
+buildQuiz('q1b',
+  'El arriendo mensual de la oficina es de $2.800. Este costo se clasifica como:',
+  ['Costo variable, porque depende de cuántos contratos tenga la empresa.',
+   'Costo fijo, porque no cambia aunque haya más o menos contratos.',
+   'Costo semivariable, porque parte es fija y parte varía.',
+   'Costo directo, porque se puede asignar a cada contrato.'],
+  1,
+  ['Incorrecto. El arriendo no cambia si tienes 3 contratos o 15. Es exactamente el mismo monto mensual independientemente del volumen de trabajo.',
+   'Correcto. El arriendo es un costo fijo clásico: existe y se paga haya o no contratos activos. Si la empresa cierra todos sus contratos mañana, el arriendo seguiría venciendo hasta que expire el contrato de arrendamiento.',
+   'Incorrecto. Un costo semivariable tiene una parte fija y una variable — como la electricidad que tiene una tarifa base más un cargo por consumo. El arriendo es completamente fijo.',
+   'Incorrecto. Los costos directos son los que se pueden asignar claramente a un contrato específico. El arriendo de la oficina es de toda la empresa, no de un contrato en particular — es un costo indirecto.']
+);
+
+buildQuiz('q1c',
+  'Tu empresa tiene utilidad neta positiva. ¿Eso garantiza que todos tus contratos son rentables?',
+  ['Sí, si la empresa gana dinero, todos sus contratos deben ser rentables.',
+   'No. Puede haber contratos deficitarios que se compensan con contratos muy rentables.',
+   'Sí, porque los costos fijos se distribuyen igual entre todos los contratos.',
+   'No se puede saber sin ver el balance general.'],
+  1,
+  ['Incorrecto. Es perfectamente posible que un contrato pierda $500 al mes mientras otro gana $2.000. La suma da positivo, pero el primero está destruyendo valor y debería revisarse.',
+   'Correcto. La utilidad global es una suma de todos los contratos. Un contrato muy rentable puede "esconder" a uno deficitario. Por eso el Estado de Costos por Contrato es tan importante: muestra la rentabilidad de cada uno por separado.',
+   'Incorrecto. Que los costos fijos se distribuyan no significa que todos los contratos sean rentables. La distribución es solo un método de asignación, no una garantía de rentabilidad.',
+   'Incorrecto. El balance general muestra la situación patrimonial (activos, pasivos, patrimonio), no la rentabilidad por contrato.']
+);
+
+buildQuiz('q1d',
+  'Un contador presenta un análisis que muestra que el contrato principal del gerente es altamente rentable, aunque los números reales muestran lo contrario. ¿Qué principio del CECE está violando?',
+  ['Confidencialidad — está compartiendo información reservada.',
+   'Competencia — no tiene los conocimientos para hacer el análisis.',
+   'Objetividad — está distorsionando la realidad para presentar lo que el gerente quiere ver.',
+   'Integridad — no está cumpliendo con las normas NIIF.'],
+  2,
+  ['Incorrecto. La confidencialidad se refiere a proteger la información financiera de la empresa frente a terceros no autorizados. Aquí el problema es que la información presentada internamente es falsa.',
+   'Incorrecto en este caso. La competencia sería el principio violado si el contador no supiera hacer el análisis. Aquí el problema no es ignorancia — es que sabe la verdad y la oculta.',
+   'Correcto. La objetividad exige presentar la realidad aunque contradiga lo que el gerente o el socio quieren escuchar. Manipular el análisis para que muestre un resultado favorable es una violación directa de este principio. Es uno de los dilemas éticos más comunes en empresas de seguridad privada.',
+   'Incorrecto. Las normas NIIF son para la contabilidad financiera externa. El análisis gerencial interno no tiene obligación de seguir NIIF. El problema aquí es ético, no de normativa contable.']
+);
+
+buildQuiz('q2a',
+  'Un guardia tiene sueldo de $560 mensual y lleva 6 meses en la empresa, con contrato bajo Código 58 del IESS. ¿Su costo real mensual para la empresa es aproximadamente?',
+  ['$560 — solo se paga el sueldo pactado.',
+   '$627 — sueldo más el aporte patronal al IESS.',
+   '$784 — incluyendo todos los componentes laborales.',
+   '$980 — el costo se duplica por las obligaciones legales.'],
+  2,
+  ['Incorrecto. El sueldo nominal es solo lo que el trabajador recibe en mano. La empresa tiene obligaciones legales adicionales que aumentan significativamente ese costo.',
+   'Incorrecto. Incluir solo el IESS patronal (12,15%) es un error muy común. Faltan el décimo tercero, décimo cuarto, fondos de reserva (Código 58: desde el primer día) y vacaciones proporcionales.',
+   'Correcto. El costo aproximado: $560 (sueldo) + $68,04 (IESS 12,15%) + $46,67 (13ro) + $38,33 (14to) + $46,65 (fondos de reserva Código 58) + $23,33 (vacaciones) = $782,02. Aproximadamente $784, un 40% más que el sueldo nominal.',
+   'Incorrecto. Aunque los componentes laborales suman alrededor del 40% adicional, no llegan a duplicar el sueldo. Una duplicación implicaría un 100% extra, que no corresponde a la realidad legal ecuatoriana.']
+);
+
+buildQuiz('q2b',
+  'Tu empresa tiene $6.000 de costos indirectos mensuales y 3 contratos con 10, 6 y 4 guardias respectivamente. ¿Cuánto le corresponde al contrato de 6 guardias si usas el número de guardias como inductor?',
+  ['$2.000 — se divide en 3 partes iguales entre los contratos.',
+   '$1.800 — el 30% de $6.000, porque 6 de 20 guardias es el 30%.',
+   '$2.250 — depende del ingreso de ese contrato.',
+   '$1.200 — el 20% porque hay 3 contratos y 6 es el contrato del medio.'],
+  1,
+  ['Incorrecto. Dividir en partes iguales entre contratos ignora que tienen tamaños diferentes. Un contrato con 10 guardias consume más supervisión y administración que uno con 4.',
+   'Correcto. Total de guardias: 10+6+4=20. El contrato de 6 guardias representa 6/20 = 30% del total. Por tanto: 30% de $6.000 = $1.800. Este es el método del inductor de costo, que distribuye proporcionalmente según el consumo real.',
+   'Incorrecto. Si usas los ingresos como inductor, el cálculo sería diferente. La pregunta especifica que el inductor es el número de guardias.',
+   'Incorrecto. El 20% no tiene ninguna justificación lógica en este contexto. No es ni la proporción de guardias ni la proporción de ingresos.']
+);
+
+buildQuiz('q2c',
+  'Un contrato genera ingresos de $3.200 y sus costos variables totales son $3.050. Sus costos fijos asignados son $1.800. ¿Cuál es el margen de contribución?',
+  ['$1.400 — ingresos menos todos los costos (variables y fijos).',
+   '$150 — ingresos menos solo los costos variables.',
+   '($1.650) — el contrato tiene pérdida porque no cubre los costos fijos.',
+   '$3.200 — el margen de contribución es igual al ingreso.'],
+  1,
+  ['Incorrecto. Ese cálculo da el margen neto ($3.200 − $3.050 − $1.800 = −$1.650), no el margen de contribución. El margen de contribución solo resta los costos variables, no los fijos.',
+   'Correcto. Margen de contribución = $3.200 − $3.050 = $150. Aunque pequeño, es positivo: este contrato aporta $150 hacia cubrir los costos fijos. Si lo eliminas, perderías esos $150 de contribución y los costos fijos se redistribuirían entre los contratos restantes.',
+   'Incorrecto. Eso es el margen neto (incluyendo costos fijos asignados), no el margen de contribución. El margen de contribución es siempre ingresos menos costos variables únicamente.',
+   'Incorrecto. El margen de contribución nunca puede ser igual al ingreso a menos que los costos variables sean cero, lo que no ocurre en ningún contrato de seguridad.']
+);
+
+buildQuiz('q2d',
+  'Los "pagos para que las facturas no demoren" en contratos con entidades públicas son, en la Contabilidad Gerencial:',
+  ['No deben registrarse porque son ilegales y no existen oficialmente.',
+   'Son un costo oculto real que afecta el margen de contribución del contrato y debe registrarse internamente.',
+   'Se registran como ingreso porque es una inversión que genera cobro más rápido.',
+   'Son parte del costo de ventas estándar y no necesitan análisis especial.'],
+  1,
+  ['Incorrecto desde la perspectiva gerencial. Aunque su origen es problemático, ignorarlos produce un análisis de rentabilidad incorrecto. Si existen y afectan la caja, deben considerarse en el análisis interno aunque no aparezcan en la contabilidad financiera oficial.',
+   'Correcto. La Objetividad del CECE obliga a reflejar la realidad. Internamente, este costo debe asignarse al contrato específico que lo genera, reduciendo su margen de contribución real. No registrarlo produce una sobreestimación de la rentabilidad y decisiones incorrectas.',
+   'Incorrecto. Un gasto es siempre un costo, nunca un ingreso. Que ese gasto genere un beneficio (cobro más rápido) no lo convierte en ingreso — en todo caso sería un costo que se evalúa en función de si el beneficio supera su monto.',
+   'Incorrecto. No son parte del costo estándar de servicio — son un costo adicional específico de ciertos contratos con entidades públicas. Tratarlos como estándar distorsionaría el análisis de rentabilidad de todos los contratos.']
+);
+
+buildQuiz('q5a',
+  'La diferencia fundamental entre Contabilidad Financiera y Contabilidad Gerencial es:',
+  ['La Financiera usa Excel y la Gerencial usa software especializado.',
+   'La Financiera sirve para rendir cuentas a externos; la Gerencial sirve para tomar decisiones internas.',
+   'La Financiera es obligatoria y la Gerencial es optativa para empresas grandes.',
+   'No hay diferencia real — ambas producen el mismo Estado de Resultados.'],
+  1,
+  ['Incorrecto. Ambas pueden usar Excel o cualquier software. La diferencia no es tecnológica sino de propósito y audiencia.',
+   'Correcto. La Contabilidad Financiera produce información para el SRI, bancos y socios, siguiendo normas NIIF. La Gerencial produce información para el gerente, con el formato que él necesite, para apoyar decisiones específicas.',
+   'Incorrecto. La Contabilidad Financiera es obligatoria para todas las empresas. La Gerencial no tiene obligación legal pero es indispensable para gestionar bien cualquier negocio.',
+   'Incorrecto. Son herramientas completamente diferentes. La Financiera mira el pasado en formatos estándar. La Gerencial mira hacia las decisiones futuras con el nivel de detalle que se necesite.']
+);
+
+buildQuiz('q5b',
+  '¿Desde qué momento se acumulan los fondos de reserva para un guardia de seguridad privada bajo Código 58 del IESS?',
+  ['Desde el mes 13, igual que cualquier trabajador bajo contrato indefinido.',
+   'No tienen fondos de reserva porque son contratos de obra cierta.',
+   'Desde el primer día que ingresan a trabajar.',
+   'Desde el primer año cumplido, al igual que el fondo de cesantía.'],
+  2,
+  ['Incorrecto. Esa regla aplica al contrato a plazo indefinido estándar. El Código 58 tiene condiciones diferentes.',
+   'Incorrecto. Los trabajadores bajo Código 58 sí tienen fondos de reserva. Lo que cambia es desde cuándo se acumulan.',
+   'Correcto. Los guardias de seguridad bajo contrato de obra cierta (Código 58 del IESS) acumulan fondos de reserva desde el primer día de trabajo, no desde el mes 13. Esto significa que el empleador debe provisionar el 8,33% del sueldo como fondo de reserva desde el primer mes.',
+   'Incorrecto. El fondo de cesantía y los fondos de reserva son conceptos diferentes. Los fondos de reserva bajo Código 58 se acumulan desde el primer día, no desde el primer año.']
+);
+
+buildQuiz('q5c',
+  'Un contrato tiene margen de contribución negativo. ¿Cuál es la decisión correcta?',
+  ['Eliminarlo inmediatamente, porque está generando pérdidas.',
+   'Analizarlo: si su margen de contribución es negativo, cada unidad vendida empeora la situación — pero hay que verificar si hay opciones antes de eliminar.',
+   'Mantenerlo porque los costos fijos existen de todas formas.',
+   'Transferirlo a otro supervisor para reducir costos.'],
+  1,
+  ['Incorrecto como regla general. Antes de eliminar hay que hacer el análisis completo. Sin embargo, si el margen de contribución es negativo, ese contrato sí está destruyendo valor y hay urgencia de actuar.',
+   'Correcto. Un margen de contribución negativo significa que el contrato cuesta más en costos variables de lo que genera en ingresos. Cada mes que se mantiene así empeora la situación. Las opciones son: aumentar el precio, reducir costos variables, o en último caso, no renovar. Pero siempre verificar primero si hay errores en el cálculo.',
+   'Incorrecto. Los costos fijos existen de todas formas, sí — pero eso aplica cuando el margen de contribución es positivo aunque pequeño. Si es negativo, el contrato no solo no cubre fijos: ni siquiera cubre sus propios costos variables.',
+   'Incorrecto. Cambiar de supervisor no resuelve el problema si el precio del contrato es insuficiente para cubrir los costos variables.']
+);
+
+buildQuiz('q5d',
+  'El ausentismo de guardias a final de mes que mencionaste en tus respuestas — ¿cómo afecta la contabilidad gerencial?',
+  ['No afecta, porque los guardias igual cobran su sueldo mensual.',
+   'Solo afecta si se paga bono al reemplazante; si se hace compensación de días no hay costo.',
+   'Genera costos adicionales (bonos o tiempo administrativo) que deben asignarse al contrato afectado y monitorearse como indicador de eficiencia.',
+   'Es un tema de recursos humanos, no de contabilidad gerencial.'],
+  2,
+  ['Incorrecto. Aunque el sueldo del guardia que faltó ya está pagado, resolver el ausentismo genera costos adicionales: el bono al reemplazante en la Opción A, o el tiempo administrativo del supervisor en la Opción B.',
+   'Incorrecto. La compensación de días también tiene costo: el tiempo del supervisor que gestiona el intercambio, el riesgo de error en la cobertura, y el desgaste operativo. Todo costo real debe registrarse.',
+   'Correcto. El ausentismo genera costos variables adicionales por contrato. Si 3 guardias faltan en el Contrato A cada mes y se pagan $35 de bono por reemplazo, son $105 mensuales que destruyen silenciosamente el margen de ese contrato. Registrarlo permite decidir si ese contrato necesita un ajuste de precio.',
+   'Incorrecto. La contabilidad gerencial integra información operativa (recursos humanos, supervisión, incidentes) con la rentabilidad financiera. El ausentismo es un tema de ambas áreas.']
+);
+
+buildQuiz('q5e',
+  'Tu empresa tiene costos fijos de $9.000 mensuales y la suma de márgenes de contribución de todos los contratos es $7.200. ¿En qué situación está la empresa?',
+  ['Con utilidad neta de $7.200 porque los márgenes de contribución son positivos.',
+   'Con pérdida operativa de $1.800 porque los márgenes no alcanzan a cubrir los fijos.',
+   'En equilibrio, porque $7.200 cubre la mayor parte de los $9.000.',
+   'Con utilidad de $16.200 sumando márgenes y costos fijos.'],
+  1,
+  ['Incorrecto. La utilidad neta se calcula: Suma de márgenes de contribución − Costos fijos = $7.200 − $9.000 = −$1.800. El hecho de que los márgenes individuales sean positivos no garantiza utilidad global.',
+   'Correcto. La empresa pierde $1.800 al mes. Para llegar al equilibrio necesita $1.800 más de margen de contribución, ya sea con nuevos contratos, aumentando precios o reduciendo costos variables. Esta información solo es visible cuando se construye el Estado de Costos por Contrato.',
+   'Incorrecto. Cubrir "la mayor parte" de los costos fijos no es suficiente. La empresa necesita cubrir el 100% de los costos fijos para llegar al punto de equilibrio.',
+   'Incorrecto. Los costos fijos no se suman a la utilidad — se restan. Sumarlos sería un error conceptual grave.']
+);
+
+buildQuiz('q5f',
+  'Para registrar el "costo real" de un guardia bajo Código 58, ¿cuáles componentes debes incluir?',
+  ['Solo el sueldo básico pactado en el contrato.',
+   'Sueldo básico más aporte patronal al IESS (12,15%).',
+   'Sueldo básico más IESS patronal, décimo tercero, décimo cuarto, fondos de reserva y vacaciones proporcionales.',
+   'Sueldo básico más todos los beneficios, más el costo de su uniforme y equipos.'],
+  2,
+  ['Incorrecto. El sueldo básico es solo lo que el trabajador recibe. El empleador tiene obligaciones legales adicionales que incrementan el costo real hasta un 40%.',
+   'Incorrecto. El IESS patronal es solo uno de los componentes. Faltan el décimo tercero ($sueldo/12), décimo cuarto ($460/12), fondos de reserva (8,33% desde el día 1 bajo Código 58) y vacaciones (sueldo/24).',
+   'Correcto. El costo real de personal incluye los seis componentes: sueldo básico + IESS patronal (12,15%) + décimo tercero (sueldo/12) + décimo cuarto ($460/12) + fondos de reserva (8,33%, desde el día 1 bajo Código 58) + vacaciones (sueldo/24). La suma total es aproximadamente un 40% más que el sueldo nominal.',
+   'Incorrecto aunque está cerca. Los uniformes y equipos son costos directos del contrato, pero no son parte del "costo de personal" en sentido estricto. Se registran como una línea separada en el análisis de costos del contrato.']
+);
+
+calcCosto();
+calcMargen();
+</script>
