@@ -1,0 +1,556 @@
+
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  .tabs{display:flex;border-bottom:0.5px solid var(--color-border-tertiary);margin-bottom:0;}
+  .tab-btn{padding:12px 20px;font-size:14px;font-weight:500;color:var(--color-text-secondary);background:transparent;border:none;border-bottom:2px solid transparent;cursor:pointer;transition:all 0.2s;}
+  .tab-btn.active{color:#0C447C;border-bottom-color:#0C447C;}
+  .tab-btn:hover:not(.active){color:var(--color-text-primary);background:var(--color-background-secondary);}
+  .tab-panel{display:none;padding:1.5rem 0;}
+  .tab-panel.active{display:block;}
+  .sec-label{font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:12px;padding-bottom:6px;border-bottom:0.5px solid var(--color-border-tertiary);}
+  .card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem;margin-bottom:1rem;}
+  .card-title{font-size:15px;font-weight:500;color:var(--color-text-primary);margin-bottom:8px;}
+  .card-body{font-size:14px;line-height:1.75;color:var(--color-text-secondary);}
+  .card-body p{margin-bottom:10px;}
+  .card-body p:last-child{margin-bottom:0;}
+  .badge{display:inline-block;font-size:11px;font-weight:500;padding:3px 10px;border-radius:var(--border-radius-md);}
+  .badge-ok{background:#EAF3DE;color:#27500A;}
+  .badge-warn{background:#FAEEDA;color:#633806;}
+  .badge-gap{background:#FAECE7;color:#712B13;}
+  .badge-blue{background:#E6F1FB;color:#0C447C;}
+  .hi{background:#E6F1FB;border-left:3px solid #185FA5;border-radius:0 var(--border-radius-md) var(--border-radius-md) 0;padding:1rem 1.25rem;margin-bottom:1rem;}
+  .hi .lbl{font-size:11px;font-weight:500;color:#185FA5;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.07em;}
+  .hi p{font-size:14px;line-height:1.75;color:#0C447C;margin-bottom:8px;}
+  .hi p:last-child{margin-bottom:0;}
+  .warn{background:#FAEEDA;border-left:3px solid #BA7517;border-radius:0 var(--border-radius-md) var(--border-radius-md) 0;padding:1rem 1.25rem;margin-bottom:1rem;}
+  .warn .lbl{font-size:11px;font-weight:500;color:#854F0B;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.07em;}
+  .warn p{font-size:14px;line-height:1.75;color:#633806;margin-bottom:8px;}
+  .warn p:last-child{margin-bottom:0;}
+  .score-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:1.25rem;}
+  .sc{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:1rem;text-align:center;}
+  .sc-lbl{font-size:12px;color:var(--color-text-tertiary);margin-bottom:6px;}
+  .sc-val{font-size:22px;font-weight:500;}
+  .sc-val.green{color:#3B6D11;}
+  .sc-val.amber{color:#854F0B;}
+  .sc-val.blue{color:#185FA5;}
+  .cb{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;margin-bottom:1rem;}
+  .cb-head{background:#042C53;color:#B5D4F4;font-size:14px;font-weight:500;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;}
+  .cb-head:hover{background:#0C447C;}
+  .cb-body{padding:1.25rem;font-size:14px;line-height:1.75;color:var(--color-text-secondary);display:none;}
+  .cb-body.open{display:block;}
+  .cb-body p{margin-bottom:10px;}
+  .cb-body p:last-child{margin-bottom:0;}
+  .pc{display:flex;gap:12px;align-items:flex-start;padding:1rem;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);margin-bottom:10px;}
+  .pnum{width:32px;height:32px;border-radius:50%;background:#042C53;color:#B5D4F4;font-size:13px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .pt{font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px;}
+  .pd{font-size:13px;color:var(--color-text-secondary);line-height:1.7;}
+  .sc2{background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:1.25rem;margin-bottom:1rem;}
+  .sc2-lbl{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.07em;color:var(--color-text-tertiary);margin-bottom:8px;}
+  .sc2-sit{font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:10px;line-height:1.5;}
+  .sc2-an{font-size:13px;color:var(--color-text-secondary);line-height:1.6;}
+  .gcards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.5rem;}
+  @media(max-width:500px){.gcards{grid-template-columns:1fr;}}
+  .gi{padding:1rem;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);}
+  .gi-t{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:6px;}
+  .gi-d{font-size:12px;color:var(--color-text-secondary);line-height:1.6;}
+  .rr{display:flex;gap:8px;align-items:flex-start;margin-bottom:10px;}
+  .rdot{width:8px;height:8px;border-radius:50%;background:#185FA5;flex-shrink:0;margin-top:6px;}
+  .rtxt{font-size:14px;line-height:1.6;color:var(--color-text-secondary);}
+  .divider{border:none;border-top:0.5px solid var(--color-border-tertiary);margin:1.5rem 0;}
+  .tic{font-size:12px;transition:transform 0.2s;}
+  .tic.open{transform:rotate(180deg);}
+  .progress-bar{height:4px;background:var(--color-border-tertiary);border-radius:2px;margin-bottom:1.5rem;overflow:hidden;}
+  .progress-fill{height:100%;background:#185FA5;border-radius:2px;transition:width 0.3s;}
+  .qc{margin-bottom:1.5rem;}
+  .qh{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;}
+  .qn{width:28px;height:28px;border-radius:50%;background:#042C53;color:#B5D4F4;font-size:12px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .qt{font-size:14px;font-weight:500;color:var(--color-text-primary);line-height:1.5;padding-top:4px;}
+  .opts{display:flex;flex-direction:column;gap:8px;padding-left:40px;}
+  .opt{text-align:left;padding:10px 14px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);font-size:13px;color:var(--color-text-primary);background:var(--color-background-primary);cursor:pointer;transition:all 0.15s;}
+  .opt:hover:not(:disabled){background:var(--color-background-secondary);border-color:var(--color-border-primary);}
+  .opt.correct{background:#EAF3DE;border-color:#639922;color:#173404;}
+  .opt.wrong{background:#FCEBEB;border-color:#A32D2D;color:#501313;}
+  .opt:disabled{cursor:default;}
+  .exp{margin-top:10px;padding:10px 14px;border-radius:var(--border-radius-md);font-size:13px;line-height:1.6;margin-left:40px;display:none;}
+  .exp.show{display:block;}
+  .exp.ce{background:#EAF3DE;color:#27500A;border-left:3px solid #639922;}
+  .exp.we{background:#FCEBEB;color:#501313;border-left:3px solid #A32D2D;}
+  .qscore{background:#042C53;color:#B5D4F4;border-radius:var(--border-radius-lg);padding:1.5rem;text-align:center;margin-top:1.5rem;display:none;}
+  .qscore.show{display:block;}
+  .qscore .fn{font-size:36px;font-weight:500;color:#85B7EB;}
+  .qscore .fm{font-size:14px;margin-top:8px;line-height:1.6;}
+  .rbtn{margin-top:12px;padding:8px 20px;border:0.5px solid #378ADD;border-radius:var(--border-radius-md);background:transparent;color:#85B7EB;font-size:13px;cursor:pointer;}
+  .rbtn:hover{background:rgba(55,138,221,0.15);}
+  .content-body{font-size:14px;line-height:1.75;color:var(--color-text-secondary);}
+  .content-body p{margin-bottom:12px;}
+</style>
+
+<h2 class="sr-only">Material de Contabilidad Gerencial — Semana 4, escrito directamente para el estudiante</h2>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('feedback')">Su trabajo de la semana 3</button>
+  <button class="tab-btn" onclick="switchTab('content')">Semana 4 — Ética profesional</button>
+  <button class="tab-btn" onclick="switchTab('quiz')">Cuestionario</button>
+</div>
+
+<!-- PESTAÑA 1 -->
+<div id="tab-feedback" class="tab-panel active">
+  <p class="sec-label">Revisión de su trabajo del 16 de abril de 2026</p>
+
+  <div class="hi">
+    <div class="lbl">Antes de revisar ejercicio por ejercicio</div>
+    <p>Quiero que empiece leyendo esto: lo que usted entregó el 16 de abril no es el trabajo de alguien que está aprendiendo a memorizar conceptos. Es el trabajo de alguien que está aprendiendo a pensar como gerente. Esa es una diferencia importante, y merece reconocimiento explícito antes de entrar en los detalles.</p>
+    <p>Dicho eso, precisamente porque usted ya piensa como gerente, vamos a exigirnos más. La contabilidad gerencial no admite respuestas a medio calcular ni conclusiones sin el número que las respalde. Lo que sigue es una revisión honesta de lo que hizo bien y de lo que necesita completar.</p>
+  </div>
+
+  <div class="score-grid">
+    <div class="sc"><div class="sc-lbl">Comprensión conceptual</div><div class="sc-val green">Alta</div></div>
+    <div class="sc"><div class="sc-lbl">Aplicación a su empresa</div><div class="sc-val amber">Parcial</div></div>
+    <div class="sc"><div class="sc-lbl">Profundidad analítica</div><div class="sc-val amber">En desarrollo</div></div>
+    <div class="sc"><div class="sc-lbl">Rigor numérico</div><div class="sc-val blue">Coherente</div></div>
+  </div>
+
+  <p class="sec-label" style="margin-top:1.5rem;">Ejercicio por ejercicio</p>
+
+  <div class="cb">
+    <div class="cb-head" onclick="toggleCB(this)">
+      Ejercicio 6.1 — Diseño de su sistema de distribución de costos indirectos
+      <span class="tic">▼</span>
+    </div>
+    <div class="cb-body">
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;">
+        <span class="badge badge-ok">Bien logrado</span>
+        <span class="badge badge-warn">Requiere profundización</span>
+      </div>
+      <p>Usted identificó cinco rubros de costos indirectos para SEGURSIGMA: arriendo, sueldo del gerente, servicios básicos, contador y mantenimiento de la camioneta, con un total de 2.300 dólares mensuales. Propuso el número de guardias como inductor y lo aplicó correctamente a los dos contratos. Ese razonamiento es sólido.</p>
+      <div class="warn">
+        <div class="lbl">Un punto que necesita revisar</div>
+        <p>Incluir el sueldo del gerente como un costo indirecto genérico es una simplificación válida para empezar, pero en su caso específico merece más reflexión. Si usted dedica el 60% de su tiempo a supervisar el contrato del Banco y el 20% al contrato de la UNEMI, esas proporciones deberían reflejarse en la distribución, no el número de guardias.</p>
+        <p>La regla de oro del inductor es esta: el inductor debe representar la causa real de ese costo específico. El sueldo del contador se distribuye mejor por número de contratos (no de guardias). El mantenimiento de la camioneta se distribuye mejor por kilómetros recorridos o días de supervisión por contrato. Usar el mismo inductor para todos los costos es un buen punto de partida, pero a medida que su empresa crezca, esa simplificación producirá distorsiones que afectarán sus decisiones de precio.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="cb">
+    <div class="cb-head" onclick="toggleCB(this)">
+      Ejercicio 7.2 — El alcance que se amplía después de cerrar el contrato
+      <span class="tic">▼</span>
+    </div>
+    <div class="cb-body">
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;">
+        <span class="badge badge-ok">Cálculo correcto</span>
+        <span class="badge badge-ok">Redacción gerencial sobresaliente</span>
+      </div>
+      <p>Recalculó correctamente el margen original (36%) y el margen ajustado tras las exigencias adicionales del cliente (27%). Hasta ahí, perfecto. Y los dos párrafos de negociación que redactó son, sin exageración, el punto más destacado de todo su trabajo de esta semana. En ellos se puede ver que el aprendizaje no se quedó en la teoría: usted lo convirtió en lenguaje que puede usar frente a un cliente real. Eso es exactamente lo que distingue la contabilidad gerencial de la contabilidad financiera.</p>
+      <div class="warn">
+        <div class="lbl">El número que faltó calcular</div>
+        <p>Sin embargo, usted dejó escrito "[Nuevo Precio]" en sus párrafos de negociación, cuando todos los datos para calcular ese número estaban en su propio ejercicio. Eso no puede quedarse abierto en un informe real que va a presentarle a un cliente.</p>
+        <p>Aquí está el cálculo que le faltó: con un costo variable nuevo de 2.039,66 dólares, y si usted quiere mantener el margen del 36% que tenía originalmente, el precio que debe cobrar se obtiene así: 2.039,66 ÷ (1 − 0,36) = 3.187 dólares aproximadamente. Ese era el número que debía reemplazar a "[Nuevo Precio]". Cuando tenga todos los datos disponibles para llegar al número final, no se detenga antes de calcularlo.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="cb">
+    <div class="cb-head" onclick="toggleCB(this)">
+      Ejercicio 8.1 — Estado de Costos Integrado en tres hojas
+      <span class="tic">▼</span>
+    </div>
+    <div class="cb-body">
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;">
+        <span class="badge badge-ok">Estructura impecable</span>
+        <span class="badge badge-warn">Conclusión incompleta</span>
+      </div>
+      <p>Construyó las tres hojas correctamente usando sus propios contratos reales: el Banco con diez guardias y la UNEMI con seis. Aplicó el factor 1.404 con precisión, distribuyó los 3.200 dólares de costos indirectos por número de guardias y llegó a un estado consolidado con márgenes del 18,4% y 18,1%. Y lo más importante: llegó a la conclusión de que la empresa pierde 417,28 dólares al mes y de inmediato propuso dos acciones concretas. Eso es pensamiento gerencial genuino.</p>
+      <div class="warn">
+        <div class="lbl">Lo que necesitaba demostrar, no solo proponer</div>
+        <p>La pregunta 4 del ejercicio pedía saber qué tan lejos estaba usted del punto de equilibrio. Proponer conseguir un contrato de tres guardias como opción A es correcto, pero una respuesta técnica exige mostrar el cálculo que lleva a ese número.</p>
+        <p>A 950 dólares por guardia con un margen del 18%, cada guardia adicional aporta aproximadamente 171 dólares de margen de contribución (950 × 18%). Para cubrir los 417,28 dólares que hacen falta, se necesitan 417,28 ÷ 171 = 2,44 guardias. Eso se redondea a tres guardias, que es exactamente lo que usted propuso. La acción era correcta; lo que faltaba era el cálculo que la demuestra. En una evaluación formal, la acción sin el respaldo técnico no tiene el mismo valor.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="card">
+    <div class="card-title">Para cerrar esta revisión</div>
+    <div class="card-body">
+      <p>Usted llegó al 80% del objetivo de la semana 3. Lo que le falta para el 100% no es más teoría: es el hábito de llevar cada cálculo hasta el último número que los datos permiten obtener. La contabilidad gerencial no admite conclusiones a medias cuando los datos están disponibles. Ese es el único ajuste de fondo que necesita hacer.</p>
+      <p>Y una reflexión que conecta directamente con la semana que comienza: en el Ejercicio 7.2, usted redactó una carta de negociación con su cliente. Esa carta tiene una dimensión técnica (cuánto cobrar) pero también tiene una dimensión ética: qué información revelarle al cliente, cómo presentarla, hasta qué punto puede comprometerse. Esa conexión entre números y ética es el hilo conductor de todo lo que viene a continuación.</p>
+    </div>
+  </div>
+</div>
+
+<!-- PESTAÑA 2 -->
+<div id="tab-content" class="tab-panel">
+  <p class="sec-label">Semana 4 — Ética profesional del contador gerencial</p>
+
+  <div class="hi">
+    <div class="lbl">Por qué este tema le concierne directamente</div>
+    <p>En la semana anterior usted calculó que su empresa pierde 417,28 dólares al mes y propuso subir el precio por guardia. Esa decisión tiene una dimensión técnica, que ya trabajamos juntos, y una dimensión ética: cómo comunicarle esa situación al cliente, qué información revelarle a sus propios guardias, qué puede firmar y qué no puede firmar. Esta semana no vamos a hablar de ética como si fuera una asignatura de filosofía. Vamos a hablar de ética como la herramienta que protege su empresa, su reputación y su libertad.</p>
+  </div>
+
+  <div style="margin-bottom:2rem;">
+    <p class="sec-label" style="margin-top:1.5rem;">Parte 1 — La información gerencial es poder, y el poder sin ética destruye empresas</p>
+    <div class="card">
+      <div class="card-title">Lo que usted sabe que nadie más sabe</div>
+      <div class="card-body">
+        <p>Como gerente de SEGURSIGMA que trabaja con análisis de costos, usted tiene acceso a algo que muy pocas personas en su entorno empresarial manejan con esa claridad: sabe cuánto le cuesta realmente cada guardia, cuánto genera cada contrato, cuál de sus clientes le deja más margen y qué pasaría con su empresa si un contrato se va. Esa posición de conocimiento es una ventaja competitiva enorme. Pero también es una responsabilidad.</p>
+        <p>Cuando esa información se usa para engañar a un cliente, para ocultar pérdidas a un socio, para presentar estados de costos que hacen ver rentable algo que no lo es, o para justificar decisiones ya tomadas en lugar de evaluarlas con honestidad, deja de ser contabilidad gerencial y se convierte en manipulación. Y en Ecuador, la manipulación de información financiera tiene consecuencias legales, civiles y penales que pueden afectarle directamente a usted como gerente, no solo al contador que firma los documentos.</p>
+        <p>Conocer la ética profesional del contador no es solo una obligación académica. Es saber qué exigirle al contador que trabaja para usted, qué documentos no debe firmar nunca, y cómo protegerse cuando alguien intenta involucrarlo en prácticas irregulares.</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:2rem;">
+    <p class="sec-label">Parte 2 — Los cinco principios que rigen a su contador (y que usted debe conocer)</p>
+    <div class="content-body" style="margin-bottom:1rem;">
+      <p>El Código de Ética del Contador Ecuatoriano, adoptado por la Federación Nacional de Contadores del Ecuador y alineado con las normas internacionales de ética para profesionales de la contabilidad, establece cinco principios fundamentales. Conózcalos: son los mismos criterios con los que puede evaluar si el trabajo de su contador cumple estándares profesionales.</p>
+    </div>
+
+    <div class="pc">
+      <div class="pnum">1</div>
+      <div>
+        <div class="pt">Integridad</div>
+        <div class="pd">Su contador debe ser recto y honesto en todo lo que produce y comunica. En términos prácticos para usted: si un contrato pierde dinero, el análisis debe decírselo con claridad, aunque esa conclusión sea incómoda. Un contador que infla los márgenes de un contrato para complacer su expectativa no está siendo íntegro; está fabricando una ilusión que tarde o temprano produce una decisión empresarial equivocada. Si alguna vez su contador le presenta resultados que siempre coinciden exactamente con lo que usted quería ver, tenga cuidado: eso no es buena suerte. Puede ser una señal de que alguien está priorizando su comodidad sobre la verdad.</div>
+      </div>
+    </div>
+
+    <div class="pc">
+      <div class="pnum">2</div>
+      <div>
+        <div class="pt">Objetividad</div>
+        <div class="pd">Su contador no puede permitir que sus propios intereses, sus relaciones personales o las presiones externas distorsionen su criterio profesional. Para usted esto significa algo muy concreto: no puede pedirle a su contador que cambie los supuestos de un análisis de costos porque el resultado no le gusta. Si el análisis dice que el contrato de la UNEMI pierde dinero después de asignarle costos indirectos, ese resultado no cambia porque usted lo necesite diferente. Lo que cambia es la decisión que usted toma a partir de ese resultado. Un contador objetivo le presenta los números como son; la decisión es suya.</div>
+      </div>
+    </div>
+
+    <div class="pc">
+      <div class="pnum">3</div>
+      <div>
+        <div class="pt">Competencia profesional y diligencia debida</div>
+        <div class="pd">Su contador tiene la obligación de mantenerse actualizado y de aplicar las metodologías más adecuadas para su empresa. Usted tiene el derecho de preguntarle en qué norma técnica se basa cada cálculo. Si la respuesta es "así siempre se ha hecho" o "esto es lo que todos usan", eso no es una respuesta técnica. Por ejemplo, usted ya aprendió que existen inductores diferenciados para distribuir costos indirectos de manera más precisa. Si su contador usa el mismo inductor para todos los costos sin justificarlo, puede estar aplicando una simplificación que distorsiona la rentabilidad real de cada contrato. Usted puede y debe preguntarle por qué.</div>
+      </div>
+    </div>
+
+    <div class="pc">
+      <div class="pnum">4</div>
+      <div>
+        <div class="pt">Confidencialidad</div>
+        <div class="pd">Su contador tiene prohibición absoluta de revelar la información de su empresa a terceros sin autorización expresa suya. En SEGURSIGMA esto es especialmente sensible: los costos reales por contrato, los márgenes por cliente, las condiciones de sus contratos de seguridad son información que, en manos de un competidor, puede costarle negocios. La confidencialidad no es solo una obligación ética del contador; es un derecho suyo como empleador. Por eso le recomiendo que tenga un acuerdo de confidencialidad por escrito con cualquier persona que maneje información financiera de su empresa, independientemente de que sea contador, asistente o familiar.</div>
+      </div>
+    </div>
+
+    <div class="pc">
+      <div class="pnum">5</div>
+      <div>
+        <div class="pt">Comportamiento profesional</div>
+        <div class="pd">Su contador debe cumplir todas las leyes y regulaciones que aplican a su empresa: obligaciones con el Servicio de Rentas Internas, con el Instituto Ecuatoriano de Seguridad Social, con la Superintendencia de Compañías. Una empresa de seguridad privada que no reporta correctamente la nómina de sus guardias, que subestima los costos laborales en sus declaraciones tributarias o que presenta estados financieros que no reflejan la realidad no solo está en riesgo de multas: está exponiendo al gerente a responsabilidad penal. Lo que firma el contador puede comprometerle a usted también. Antes de firmar cualquier documento contable o tributario, asegúrese de entenderlo.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:2rem;">
+    <p class="sec-label">Parte 3 — Lo que usted puede exigir y lo que usted no puede hacer</p>
+    <div class="gcards">
+      <div class="gi">
+        <div class="gi-t">Preguntas que usted puede y debe hacer</div>
+        <div class="gi-d">¿En qué norma técnica se basa este cálculo? ¿Este resultado fue revisado de manera independiente? ¿Existe algún supuesto que podría cambiar este número significativamente? ¿Qué pasaría si este dato es incorrecto?</div>
+      </div>
+      <div class="gi">
+        <div class="gi-t">Señales de alerta que debe reconocer</div>
+        <div class="gi-d">Su contador siempre le da el resultado que usted esperaba. Los números cambian entre versiones sin explicación. El contador se niega a documentar los supuestos usados. Los informes no tienen fecha ni versión identificable.</div>
+      </div>
+      <div class="gi">
+        <div class="gi-t">Sus derechos como gerente</div>
+        <div class="gi-d">Exigir explicación de cada supuesto. Solicitar las referencias normativas aplicadas. Pedir que los informes sean reproducibles. Requerir que los cálculos estén documentados y con firma.</div>
+      </div>
+      <div class="gi">
+        <div class="gi-t">Lo que usted no puede hacer</div>
+        <div class="gi-d">Presionar a su contador para que cambie cifras. Firmar estados financieros que no entiende. Facilitar evasión tributaria aunque sea "pequeña". Usar información contable confidencial para fines no autorizados.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:2rem;">
+    <p class="sec-label">Parte 4 — Responsabilidad social corporativa: lo que significa en su empresa</p>
+    <div class="card">
+      <div class="card-title">Responsabilidad social no es un programa de donaciones</div>
+      <div class="card-body">
+        <p>Existe una confusión frecuente sobre lo que significa que una empresa sea "socialmente responsable". No se trata de donar útiles en diciembre ni de publicar frases motivadoras en redes sociales. La responsabilidad social corporativa es el compromiso de operar de manera que su impacto en las personas que dependen de su empresa sea positivo o, al menos, no dañino. Para SEGURSIGMA, eso tiene implicaciones muy concretas.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Transparencia con sus guardias</div>
+      <div class="card-body">
+        <p>Usted aprendió en la Semana 3 que el costo real de un guardia es 1.404 veces su sueldo nominal, porque incluye los aportes al seguro social, los décimos, los fondos de reserva y las vacaciones. Esos recursos no son un favor que usted le hace al guardia: son derechos laborales que la ley garantiza. Una empresa que calcula correctamente esos costos y los destina íntegramente a los beneficios correspondientes no solo está haciendo buena contabilidad; está siendo responsable con personas que dependen de ese trabajo para vivir.</p>
+        <p>La responsabilidad social con sus guardias no empieza con un bono de Navidad. Empieza con pagar a tiempo el aporte al seguro social, reconocer los décimos en las fechas que corresponde, y no recortar beneficios para mejorar artificialmente el margen de un contrato.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Transparencia con sus clientes</div>
+      <div class="card-body">
+        <p>Cuando usted le explica a un cliente por qué la tarifa debe subir y lo hace con base en un análisis técnico documentado del Estado de Costos por Contrato, no solo está siendo honesto: está siendo profesional. Los clientes que valoran la formalidad y la confiabilidad prefieren proveedores que pueden demostrar, con números reales, que sus tarifas tienen un fundamento técnico. Eso le diferencia de la competencia que simplemente dice "los costos subieron".</p>
+        <p>Por el contrario, si usted acepta condiciones contractuales que sabe que no puede cumplir porque el análisis muestra que generarán pérdidas, no está siendo astuto: está creando una deuda que tarde o temprano tendrá que pagar, ya sea saliendo del contrato de manera desordenada o absorbiendo pérdidas que dañarán el resto de su operación.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Transparencia con el Estado</div>
+      <div class="card-body">
+        <p>Declarar correctamente sus ingresos, sus costos reales y la utilidad resultante, y pagar los impuestos que corresponden, no es solo una obligación legal. Es la forma en que su empresa contribuye a los bienes públicos de los que también se beneficia: la seguridad jurídica que le permite cobrar sus contratos, las instituciones que regulan el mercado donde opera, la infraestructura que usa. La evasión tributaria, por pequeña que parezca, es el opuesto exacto de la responsabilidad social. Y en Ecuador, las consecuencias de una auditoría del Servicio de Rentas Internas sobre una empresa de seguridad privada que no reporta correctamente su nómina pueden ser muy graves.</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:2rem;">
+    <p class="sec-label">Tres escenarios que pueden ocurrirle a usted</p>
+
+    <div class="sc2">
+      <div class="sc2-lbl">Escenario 1 — El contador que le propone ahorrar impuestos</div>
+      <div class="sc2-sit">"Para pagar menos impuesto a la renta, podemos registrar como gasto de la empresa el mantenimiento de su vehículo personal."</div>
+      <div class="sc2-an">Si alguien le dice esto, la respuesta correcta es negarse. El gasto personal no es deducible del negocio. Si lo registra y el Servicio de Rentas Internas lo detecta en una revisión, la multa y los intereses superarán con creces el ahorro que esperaba. Además, usted asume responsabilidad solidaria con el contador: si él firmó, pero usted lo autorizó, usted también responde. Documente esa conversación y, si es un patrón repetido, cámbielo.</div>
+    </div>
+
+    <div class="sc2">
+      <div class="sc2-lbl">Escenario 2 — El banco pide estados financieros para un crédito</div>
+      <div class="sc2-sit">Usted necesita un crédito para comprar equipos. Su análisis real muestra pérdida mensual de 417,28 dólares. El banco pide un estado que muestre utilidad positiva.</div>
+      <div class="sc2-an">Presentar información alterada a una institución financiera para obtener un crédito es falsificación de documentos y puede constituir el delito de estafa en Ecuador. El contador que firma ese estado sabiendo que es falso puede perder su habilitación profesional. Usted puede ir a juicio penal. La alternativa correcta es presentar el estado real junto con su plan de acción para corregir la pérdida: nuevos contratos, ajuste de precios o reducción de costos. Un banco responsable prefiere un cliente honesto con un plan que un cliente con números perfectos pero falsos.</div>
+    </div>
+
+    <div class="sc2">
+      <div class="sc2-lbl">Escenario 3 — El cliente del sector público pide una factura diferente</div>
+      <div class="sc2-sit">Un cliente institucional le pide que emita la factura con un desglose diferente al real "para que su departamento de contabilidad lo registre más fácilmente", prometiendo devolver la diferencia en efectivo.</div>
+      <div class="sc2-an">Esto puede parecer un favor inocente, pero emitir un comprobante de venta con información que no refleja la transacción real configura en Ecuador emisión de facturas con datos falsos, que tiene sanciones tributarias tanto para quien emite como para quien recibe. Si además el cliente usa fondos públicos, puede configurarse complicidad en peculado. No existen facturas "alternativas" legítimas. Si un cliente le pide algo así, la respuesta es no, sin importar el tamaño del contrato.</div>
+    </div>
+  </div>
+</div>
+
+<!-- PESTAÑA 3 -->
+<div id="tab-quiz" class="tab-panel">
+  <p class="sec-label">Cuestionario — Semana 4: ética profesional del contador gerencial</p>
+
+  <div class="hi" style="margin-bottom:1.5rem;">
+    <div class="lbl">Antes de comenzar</div>
+    <p>Este cuestionario no evalúa si memorizó definiciones. Evalúa si usted comprende cómo actuar cuando la situación ética no es obvia. Verá que varias opciones parecen razonables o prácticas a primera vista. Eso es intencional. Léalas con cuidado antes de responder.</p>
+  </div>
+
+  <div class="progress-bar"><div class="progress-fill" id="pfill" style="width:0%"></div></div>
+  <div id="quiz-body"></div>
+  <div class="qscore" id="qscore">
+    <div style="font-size:14px;color:#85B7EB;margin-bottom:8px;">Su resultado final</div>
+    <div class="fn" id="sdisplay">0/10</div>
+    <div class="fm" id="smsg"></div>
+    <button class="rbtn" onclick="resetQuiz()">Intentar de nuevo</button>
+  </div>
+</div>
+
+<script>
+const TABS=['feedback','content','quiz'];
+function switchTab(id){
+  TABS.forEach(t=>{
+    document.getElementById('tab-'+t).classList.toggle('active',t===id);
+    document.querySelectorAll('.tab-btn')[TABS.indexOf(t)].classList.toggle('active',t===id);
+  });
+}
+function toggleCB(hdr){
+  const b=hdr.nextElementSibling;
+  const ic=hdr.querySelector('.tic');
+  const o=b.classList.contains('open');
+  b.classList.toggle('open',!o);
+  ic.classList.toggle('open',!o);
+}
+
+const questions=[
+  {
+    q:"El contador de su empresa le presenta un informe donde el contrato del Banco aparece con un margen neto positivo del 12%, pero usted recuerda que hace dos semanas el mismo análisis mostraba una pérdida. El contador le dice que 'ajustó algunos supuestos para que los números cerraran mejor'. ¿Qué principio ético está en riesgo?",
+    opts:[
+      "a) Confidencialidad, porque el contador está revelando información interna del contrato.",
+      "b) Competencia profesional, porque si los números cambian así, el contador no sabe hacer el cálculo.",
+      "c) Objetividad e integridad, porque los supuestos fueron modificados para complacer una expectativa y no por razones técnicas.",
+      "d) Comportamiento profesional, porque el contador debió comunicar el cambio al Servicio de Rentas Internas."
+    ],
+    correct:2,
+    explanation:"La respuesta correcta es la c. Cuando los supuestos de un análisis se modifican con el propósito de obtener un resultado más conveniente, y no porque existan razones técnicas que lo justifiquen, se está violando simultáneamente la objetividad (el criterio profesional está siendo influenciado por intereses externos) y la integridad (la información dejó de ser honesta). La opción b puede parecer atractiva porque hay un error visible, pero el problema no es de habilidad: es de intención. El contador sabe lo que hace y lo hace conscientemente. Eso es mucho más grave que un error técnico."
+  },
+  {
+    q:"Un cliente importante le pide incluir en el contrato una cláusula que garantiza que sus tarifas no subirán más del 5% en los próximos 24 meses. Su análisis de costos muestra que los costos de personal subirán al menos un 8% el próximo año. ¿Cuál es la postura correcta?",
+    opts:[
+      "a) Firmar la cláusula porque el cliente lo exige y ese contrato es demasiado importante para perderlo.",
+      "b) Pedirle a su contador que ajuste la proyección para que muestre menos del 5% de incremento.",
+      "c) Negarse a incluir esa cláusula o renegociarla con base en el análisis técnico real, explicando la situación con transparencia.",
+      "d) Aceptar la cláusula pero planear no renovar el contrato cuando los costos suban, para no asumir la pérdida."
+    ],
+    correct:2,
+    explanation:"La respuesta correcta es la c. La transparencia informativa y el comportamiento profesional exigen que usted no adquiera compromisos contractuales que sabe que no puede cumplir. Firmar sabiendo que es incumplible puede constituir dolo contractual. La opción b viola directamente los principios de integridad y objetividad: pedirle al contador que cambie el análisis para justificar una decisión ya tomada es exactamente lo que los principios éticos prohíben. Las opciones a y d parecen pragmáticas, pero en realidad crean problemas legales y reputacionales más graves que los que pretenden evitar."
+  },
+  {
+    q:"Está considerando contratar a un familiar de confianza como contador de SEGURSIGMA. ¿Cuál es el principal riesgo ético que debe considerar antes de tomar esa decisión?",
+    opts:[
+      "a) Ninguno. Contratar a un familiar es una práctica empresarial común y aceptada en Ecuador.",
+      "b) Que el familiar podría revelar información confidencial a otros miembros de la familia.",
+      "c) Que el vínculo familiar puede dificultar que el contador le presente análisis honestos cuando las conclusiones sean incómodas para usted.",
+      "d) Que los contadores que trabajan para familiares suelen descuidar su actualización profesional."
+    ],
+    correct:2,
+    explanation:"La respuesta correcta es la c. El Código de Ética del Contador identifica las amenazas a la objetividad como uno de los riesgos más graves. Una relación familiar estrecha puede crear lo que se denomina una amenaza de familiaridad: la dificultad de ser crítico o de presentar conclusiones incómodas con alguien con quien se tiene un vínculo afectivo. Esto no significa que sea imposible trabajar con un familiar, pero usted debe ser consciente de ese riesgo y establecer mecanismos de verificación independiente. La opción b puede ser un riesgo menor, pero no es el central desde la perspectiva del Código de Ética."
+  },
+  {
+    q:"Su análisis de la semana pasada mostró que SEGURSIGMA pierde 417 dólares mensuales. Su contador le sugiere no compartir esa información con sus guardias porque 'puede generar pánico'. Desde la perspectiva de la responsabilidad social corporativa, ¿es correcta esa decisión?",
+    opts:[
+      "a) Sí, porque la información financiera interna es confidencial y no le corresponde al personal operativo.",
+      "b) Sí, porque los guardias no tienen formación contable y no entenderían el análisis de todos modos.",
+      "c) No necesariamente, porque la responsabilidad social incluye transparencia con sus propios colaboradores, aunque la información deba comunicarse de manera apropiada a cada nivel.",
+      "d) No, porque la ley obliga a compartir los estados financieros con todos los empleados."
+    ],
+    correct:2,
+    explanation:"La respuesta correcta es la c. La responsabilidad social corporativa incluye transparencia con los propios colaboradores. No significa que cada guardia deba recibir el estado de costos completo, pero su equipo tiene derecho a saber si la empresa enfrenta dificultades y qué acciones se están tomando. Ocultar sistemáticamente la situación real daña la confianza y, si la empresa eventualmente tiene que cerrar contratos o reducir personal sin previo aviso, usted habrá mantenido a sus colaboradores en una ficción que les impidió planificar su propia situación. La opción a confunde confidencialidad externa con transparencia interna. La opción d es incorrecta: no existe esa obligación legal general."
+  },
+  {
+    q:"Un competidor le ofrece a su contador comprar la base de datos de clientes de SEGURSIGMA a cambio de una comisión personal. Si el contador acepta, ¿qué principio del Código de Ética viola principalmente?",
+    opts:[
+      "a) Competencia profesional, porque vender una base de datos requiere conocimientos técnicos específicos.",
+      "b) Confidencialidad, porque la información de clientes obtenida en el ejercicio profesional no puede revelarse a terceros.",
+      "c) Integridad, porque el contador estaría actuando de manera deshonesta frente a la empresa que lo contrata.",
+      "d) Las opciones b y c son correctas, y además configura una violación del comportamiento profesional."
+    ],
+    correct:3,
+    explanation:"La respuesta correcta es la d. Este escenario viola múltiples principios simultáneamente. Viola la confidencialidad porque la información se obtuvo en el marco de una relación profesional. Viola la integridad porque el contador actúa de manera deshonesta frente a quien lo contrató. Y viola el comportamiento profesional porque puede constituir un delito penal. Reconocer que varios principios se violan al mismo tiempo es parte del análisis ético maduro. En la práctica, las situaciones más graves no violan un solo principio: violan varios a la vez."
+  },
+  {
+    q:"Cuando hablamos de transparencia informativa en contabilidad gerencial, nos referimos a que:",
+    opts:[
+      "a) Toda la información financiera de su empresa debe publicarse en un sitio web para que cualquier persona pueda consultarla.",
+      "b) La información que se produce y comunica debe ser completa, comprensible y libre de distorsiones intencionales, de manera que cada destinatario reciba lo que necesita para decidir.",
+      "c) Usted debe compartir el análisis de costos completo con sus clientes antes de negociar los precios.",
+      "d) Su contador debe explicarle cada fórmula de Excel para que el proceso sea transparente."
+    ],
+    correct:1,
+    explanation:"La respuesta correcta es la b. La transparencia informativa no es publicidad irrestricta de todo (opción a), ni tampoco significa revelar sus costos internos a los clientes (opción c). Significa que la información se produce con rigor, se comunica sin manipulaciones y se entrega de manera que quien la recibe pueda comprenderla y usarla. La opción d describe algo positivo pero reduce la transparencia a un asunto técnico de fórmulas, cuando en realidad es un principio más amplio que abarca la honestidad en los supuestos y la ausencia de distorsiones intencionales."
+  },
+  {
+    q:"Un cliente del sector público le pide emitir la factura del servicio con un valor un 15% mayor al precio real pactado, prometiéndole devolver la diferencia en efectivo. Su contador le responde: 'Hágalo, todos lo hacen en el sector público'. Evalúe esa respuesta:",
+    opts:[
+      "a) Es correcta porque en el sector público esos arreglos son comunes y están implícitamente aceptados.",
+      "b) Viola el comportamiento profesional del contador y expone a ambos a consecuencias penales.",
+      "c) Podría ser válida si se documenta en un contrato adicional entre las partes.",
+      "d) Es un problema ético solo si el valor excede el 20% del contrato original."
+    ],
+    correct:1,
+    explanation:"La respuesta correcta es la b. Emitir un comprobante por un valor diferente al real para facilitar una apropiación de fondos públicos configura en Ecuador al menos tres ilícitos: falsificación de documento mercantil, facilitación de peculado y evasión tributaria. El argumento de 'todos lo hacen' no tiene valor ético ni jurídico: la frecuencia de una práctica ilegal no la hace legal. El contador que da ese consejo puede ser inhabilitado profesionalmente y enfrentar responsabilidad penal solidaria con usted. Las opciones a, c y d son peligrosas porque normalizan o condicionan una conducta que la ley sanciona sin excepciones de porcentaje ni de costumbre."
+  },
+  {
+    q:"¿Cuál de las siguientes acciones representa mejor la responsabilidad social corporativa de su empresa de seguridad?",
+    opts:[
+      "a) Donar los uniformes usados de sus guardias a una escuela del barrio al final del año.",
+      "b) Pagar correctamente todos los beneficios laborales de sus guardias, declarar sus ingresos reales al fisco y presentar información técnica honesta a sus clientes.",
+      "c) Contratar a personas de comunidades vulnerables aunque no cumplan los requisitos mínimos del puesto.",
+      "d) Publicar en redes sociales los estados financieros de su empresa para demostrar su solidez."
+    ],
+    correct:1,
+    explanation:"La respuesta correcta es la b. La responsabilidad social auténtica no es un gesto puntual de generosidad ni una publicidad de resultados. Es el compromiso sostenido de operar dentro del marco legal y ético, honrando las obligaciones con sus empleados, con el Estado y con sus clientes. En su empresa, cumplir las obligaciones laborales de sus guardias es la forma más directa de responsabilidad social: esas personas dependen de ese trabajo para vivir. La opción c parece socialmente responsable pero puede poner en riesgo tanto la calidad del servicio como la integridad de las personas contratadas sin las capacidades necesarias para una labor que exige preparación específica."
+  },
+  {
+    q:"Usted decide no renovar el contrato con la UNEMI porque el análisis muestra que no es rentable. Antes de comunicar esa decisión, ¿qué principio ético debe guiar su comunicación con el cliente?",
+    opts:[
+      "a) Actuar con integridad y oportunidad: comunicar la decisión con anticipación suficiente, ser honesto sobre las razones y respetar los plazos contractuales.",
+      "b) Guardar confidencialidad sobre su análisis de costos y dar una razón genérica para no renovar.",
+      "c) Esperar hasta el último día del contrato para comunicarlo, porque revelar antes que no renovará podría afectar la relación.",
+      "d) Consultar primero si el cliente acepta subir el precio antes de revelar que el contrato no le es rentable."
+    ],
+    correct:0,
+    explanation:"La respuesta correcta es la a. La integridad exige honestidad también en las relaciones comerciales. Comunicar con tiempo suficiente para que el cliente busque una alternativa es tanto una obligación ética como frecuentemente una obligación contractual. Ser transparente sobre las razones, sin necesariamente revelar todos los detalles internos de su análisis, construye una reputación de confiabilidad que tiene valor de largo plazo en el mercado de seguridad privada. Las opciones b y c priorizan la comodidad de corto plazo sobre la integridad. La opción d puede parecer hábil, pero si el cliente eventualmente descubre que la decisión ya estaba tomada, perderá su confianza de manera permanente."
+  },
+  {
+    q:"El principio de competencia profesional y diligencia debida exige que su contador se mantenga actualizado. ¿Cuál de las siguientes situaciones configura una falta a ese principio?",
+    opts:[
+      "a) Su contador usa una tabla de Excel en lugar de un software contable especializado.",
+      "b) Su contador distribuye todos los costos indirectos con un solo inductor, sabiendo que existe una metodología más precisa para su empresa, pero no la aplica porque requiere más tiempo de trabajo.",
+      "c) Su contador no tiene título universitario pero tiene diez años de experiencia práctica en el sector de seguridad privada.",
+      "d) Su contador elabora los informes en español y no en inglés, aunque las normas internacionales estén redactadas originalmente en inglés."
+    ],
+    correct:1,
+    explanation:"La respuesta correcta es la b. El principio de competencia profesional exige no solo conocer los métodos correctos sino aplicarlos cuando son necesarios. Si su contador sabe que la metodología de inductores diferenciados produce resultados más precisos para su empresa y conscientemente decide no usarla por conveniencia propia, está actuando contra ese principio. Esto es especialmente relevante cuando la simplificación distorsiona la rentabilidad de sus contratos y afecta sus decisiones de precio. La opción a es incorrecta porque la herramienta no define la calidad del análisis. Las opciones c y d no describen una falta al principio de competencia en el ejercicio del análisis gerencial."
+  }
+];
+
+let answered=[], score=0;
+
+function buildQuiz(){
+  answered=new Array(questions.length).fill(false);
+  score=0;
+  const c=document.getElementById('quiz-body');
+  c.innerHTML='';
+  document.getElementById('qscore').classList.remove('show');
+  document.getElementById('pfill').style.width='0%';
+
+  questions.forEach((q,qi)=>{
+    const div=document.createElement('div');
+    div.className='qc';
+    div.id='q-'+qi;
+
+    const hdr=document.createElement('div');
+    hdr.className='qh';
+    hdr.innerHTML=`<div class="qn">${qi+1}</div><div class="qt">${q.q}</div>`;
+    div.appendChild(hdr);
+
+    const opts=document.createElement('div');
+    opts.className='opts';
+    q.opts.forEach((o,oi)=>{
+      const btn=document.createElement('button');
+      btn.className='opt';
+      btn.textContent=o;
+      btn.onclick=()=>pick(qi,oi);
+      opts.appendChild(btn);
+    });
+    div.appendChild(opts);
+
+    const exp=document.createElement('div');
+    exp.className='exp';
+    exp.id='exp-'+qi;
+    div.appendChild(exp);
+
+    if(qi<questions.length-1){
+      const hr=document.createElement('hr');
+      hr.className='divider';
+      div.appendChild(hr);
+    }
+    c.appendChild(div);
+  });
+}
+
+function pick(qi,oi){
+  if(answered[qi])return;
+  answered[qi]=true;
+  const q=questions[qi];
+  const btns=document.querySelectorAll('#q-'+qi+' .opt');
+  const exp=document.getElementById('exp-'+qi);
+  btns.forEach((b,i)=>{
+    b.disabled=true;
+    if(i===q.correct)b.classList.add('correct');
+    else if(i===oi&&oi!==q.correct)b.classList.add('wrong');
+  });
+  const ok=oi===q.correct;
+  if(ok)score++;
+  exp.textContent=q.explanation;
+  exp.className='exp show '+(ok?'ce':'we');
+  const done=answered.filter(Boolean).length;
+  document.getElementById('pfill').style.width=Math.round(done/questions.length*100)+'%';
+  if(done===questions.length){
+    const se=document.getElementById('qscore');
+    document.getElementById('sdisplay').textContent=score+'/'+questions.length;
+    const p=Math.round(score/questions.length*100);
+    let m='';
+    if(p>=90)m='Excelente. Demuestra comprensión profunda de los principios éticos y de cómo aplicarlos en situaciones reales de su empresa.';
+    else if(p>=70)m='Buen desempeño. Revise las preguntas donde se equivocó para consolidar los conceptos antes de avanzar.';
+    else if(p>=50)m='Desempeño aceptable. Le recomiendo releer las partes 2 y 3 del contenido de esta semana y volver a intentarlo.';
+    else m='Le recomiendo leer nuevamente todo el contenido de la Semana 4 antes de intentar el cuestionario de nuevo.';
+    document.getElementById('smsg').textContent=m;
+    se.classList.add('show');
+    se.scrollIntoView({behavior:'smooth'});
+  }
+}
+
+function resetQuiz(){buildQuiz();}
+buildQuiz();
+</script>
