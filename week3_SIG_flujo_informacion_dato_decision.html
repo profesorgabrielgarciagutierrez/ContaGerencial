@@ -1,0 +1,498 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Source+Sans+3:wght@300;400;600&display=swap');
+
+  .w3{font-family:'Source Sans 3',sans-serif;color:#1a1a2e;background:#fff;}
+  .w3 h1,.w3 h2,.w3 h3{font-family:'Lora',serif;}
+
+  .w3-header{background:#003366;color:#fff;padding:1.5rem 1.5rem 1rem;border-radius:12px 12px 0 0;}
+  .w3-header .inst{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#7ec8e3;margin-bottom:4px;}
+  .w3-header h1{font-size:18px;color:#fff;margin:0 0 2px;font-weight:600;}
+  .w3-header .sub{font-size:13px;color:#b3d4ec;margin:0;}
+
+  .tab-bar{background:#003366;padding:0 1rem 8px;display:flex;flex-wrap:wrap;gap:4px;}
+  .tab-btn{background:rgba(255,255,255,0.1);color:#b3d4ec;border:1px solid rgba(255,255,255,0.2);border-radius:6px 6px 0 0;padding:6px 10px;font-size:11.5px;cursor:pointer;font-family:'Source Sans 3',sans-serif;transition:background 0.2s;white-space:nowrap;}
+  .tab-btn:hover{background:rgba(255,255,255,0.2);color:#fff;}
+  .tab-btn.active{background:#fff;color:#003366;font-weight:600;border-color:#fff;}
+
+  .tab-panel{display:none;padding:1.5rem;}
+  .tab-panel.active{display:block;}
+
+  .section-title{font-size:16px;color:#003366;border-bottom:2px solid #0099cc;padding-bottom:4px;margin:1.5rem 0 0.8rem;font-family:'Lora',serif;}
+
+  .concept-box{background:#e8f4fd;border-left:4px solid #0077b6;border-radius:0 8px 8px 0;padding:1rem 1.2rem;margin:1rem 0;}
+  .concept-box .ct{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#0077b6;font-weight:600;margin-bottom:4px;}
+  .concept-box p{margin:0;font-size:14.5px;line-height:1.7;color:#1a1a2e;}
+
+  .story-box{background:#f0f9ff;border:1px solid #bde0f5;border-radius:10px;padding:1.2rem;margin:1rem 0;font-size:14.5px;line-height:1.8;color:#1a1a2e;}
+  .story-box strong{color:#003366;}
+
+  .highlight-key{background:#e8f4fd;border-radius:8px;padding:0.8rem 1rem;margin:0.8rem 0;font-size:14px;line-height:1.7;color:#1a1a2e;}
+  .highlight-key strong{color:#003366;}
+
+  .repaso-card{background:#fff;border:1px solid #bde0f5;border-radius:10px;padding:1rem;margin-bottom:10px;}
+  .repaso-card .rc-title{font-size:13px;font-weight:600;color:#003366;margin-bottom:5px;}
+  .repaso-card .rc-body{font-size:13.5px;line-height:1.6;color:#1a1a2e;}
+
+  .nivel-card{border-radius:10px;padding:1rem;margin-bottom:10px;}
+  .nivel-card .nivel-tag{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:6px;}
+  .nivel-card h3{font-size:14px;margin:0 0 6px;font-family:'Lora',serif;}
+  .nivel-card p{font-size:13.5px;line-height:1.6;margin:0;}
+
+  .n-operativo{background:#fff8e1;border:1px solid #f0c050;}
+  .n-operativo .nivel-tag{color:#856404;}
+  .n-operativo h3{color:#856404;}
+  .n-tactico{background:#e8f4fd;border:1px solid #0077b6;}
+  .n-tactico .nivel-tag{color:#0077b6;}
+  .n-tactico h3{color:#003366;}
+  .n-estrategico{background:#003366;border:1px solid #003366;}
+  .n-estrategico .nivel-tag{color:#7ec8e3;}
+  .n-estrategico h3{color:#fff;}
+  .n-estrategico p{color:#b3d4ec;}
+
+  .piramide-row{padding:0.7rem 1.2rem;margin-bottom:4px;border-radius:6px;font-size:13.5px;line-height:1.6;}
+
+  .table-resp{width:100%;border-collapse:collapse;font-size:13px;margin:1rem 0;}
+  .table-resp th{background:#003366;color:#fff;padding:8px 10px;text-align:left;font-weight:600;font-size:12px;}
+  .table-resp td{padding:8px 10px;border-bottom:1px solid #e0eaf5;vertical-align:top;line-height:1.5;}
+  .table-resp tr:nth-child(even) td{background:#f5f9ff;}
+  .table-resp td:first-child{font-weight:600;color:#003366;}
+
+  .prompt-box{background:#003366;color:#fff;border-radius:10px;padding:1.2rem;margin:1rem 0;}
+  .prompt-box .pl{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:#7ec8e3;margin-bottom:8px;}
+  .prompt-box .pt{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:10px 12px;font-size:13.5px;line-height:1.7;color:#e8f4fd;font-style:italic;margin-bottom:10px;}
+  .prompt-box .pi{font-size:13px;color:#b3d4ec;line-height:1.6;}
+
+  .q-block{margin:1rem 0;border:1px solid #bde0f5;border-radius:10px;overflow:hidden;}
+  .q-header{background:#003366;color:#fff;padding:10px 14px;font-size:14px;font-weight:600;}
+  .q-body{padding:12px 14px;}
+  .q-stem{font-size:14px;line-height:1.7;color:#1a1a2e;margin-bottom:10px;font-family:'Lora',serif;}
+  .opt-btn{display:block;width:100%;text-align:left;background:#f5f9ff;border:1px solid #bde0f5;border-radius:6px;padding:8px 12px;margin-bottom:6px;cursor:pointer;font-size:13.5px;color:#1a1a2e;font-family:'Source Sans 3',sans-serif;transition:background 0.15s;line-height:1.5;}
+  .opt-btn:hover{background:#e0f0f8;}
+  .opt-btn.correct{background:#d4edda;border-color:#28a745;color:#155724;}
+  .opt-btn.wrong{background:#f8d7da;border-color:#dc3545;color:#721c24;}
+  .opt-btn:disabled{cursor:default;}
+  .feedback-box{display:none;border-radius:6px;padding:10px 12px;font-size:13.5px;line-height:1.6;margin-top:8px;}
+  .feedback-box.show{display:block;}
+  .feedback-correct{background:#d4edda;color:#155724;border:1px solid #28a745;}
+  .feedback-wrong{background:#f8d7da;color:#721c24;border:1px solid #dc3545;}
+  .score-bar{background:#e0eaf5;border-radius:8px;padding:1rem;text-align:center;margin-top:1rem;}
+  .score-bar .sn{font-size:32px;font-weight:700;color:#003366;font-family:'Lora',serif;}
+  .score-bar .sl{font-size:13px;color:#555;margin-top:4px;}
+
+  .dato-info-game{background:#f5f9ff;border:1px solid #bde0f5;border-radius:10px;padding:1rem;margin:1rem 0;}
+  .dato-info-game .dg-title{font-size:13px;font-weight:600;color:#003366;margin-bottom:10px;}
+  .dato-card{background:#fff;border:1px solid #bde0f5;border-radius:8px;padding:0.8rem;margin-bottom:8px;cursor:pointer;font-size:13.5px;line-height:1.6;transition:background 0.15s;}
+  .dato-card:hover{background:#e8f4fd;}
+  .dato-card.dato-sel{background:#fff3cd;border-color:#f0c050;}
+  .dato-card.info-sel{background:#d1ecf1;border-color:#0077b6;}
+  .dato-card.correct{background:#d4edda;border-color:#28a745;}
+  .dato-card.wrong{background:#f8d7da;border-color:#dc3545;}
+  .dato-card.locked{cursor:default;}
+
+  .excel-step{background:#fff;border:1px solid #bde0f5;border-radius:8px;margin:0.8rem 0;overflow:hidden;}
+  .excel-step-header{background:#0077b6;color:#fff;padding:8px 12px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;}
+  .excel-step-num{background:rgba(255,255,255,0.25);width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;}
+  .excel-step-body{padding:10px 12px;font-size:13.5px;line-height:1.6;color:#1a1a2e;}
+</style>
+
+<div class="w3">
+  <div class="w3-header">
+    <div class="inst">Universidad de Guayaquil &nbsp;|&nbsp; Facultad de Ciencias Administrativas &nbsp;|&nbsp; CPA — 5.° Semestre</div>
+    <h1>Semana 3 — Sistemas de Información Gerencial: del Dato a la Decisión</h1>
+    <p class="sub">Contabilidad Gerencial &nbsp;·&nbsp; Unidad 1 &nbsp;·&nbsp; 13 al 17 de abril de 2026</p>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="showTab3('repaso')">Repaso Sem. 1 y 2</button>
+    <button class="tab-btn" onclick="showTab3('tema1')">1. Dato vs. Información</button>
+    <button class="tab-btn" onclick="showTab3('tema2')">2. Pirámide del SIG</button>
+    <button class="tab-btn" onclick="showTab3('tema3')">3. Flujo de información</button>
+    <button class="tab-btn" onclick="showTab3('tema4')">4. El SIG en Excel</button>
+    <button class="tab-btn" onclick="showTab3('juego')">5. Ejercicio interactivo</button>
+    <button class="tab-btn" onclick="showTab3('prompt')">6. Actividad con IA</button>
+    <button class="tab-btn" onclick="showTab3('quiz')">7. Cuestionario</button>
+  </div>
+
+  <!-- REPASO -->
+  <div id="tab3-repaso" class="tab-panel active">
+    <h2 class="section-title">Repaso — Lo esencial de las Semanas 1 y 2</h2>
+    <p style="font-size:14px;color:#555;margin-bottom:1rem;">Antes de avanzar, confirma que estos conceptos están claros. Son la base sobre la que se construye la Semana 3.</p>
+
+    <div class="repaso-card">
+      <div class="rc-title">Los tres sistemas contables</div>
+      <div class="rc-body">La <strong>Contabilidad Financiera</strong> informa a externos y registra el pasado. La <strong>Contabilidad Gerencial</strong> apoya decisiones internas y mira al futuro. La <strong>Contabilidad de Costos</strong> alimenta a las dos. Sin costos bien calculados, ninguna de las otras dos funciona correctamente.</div>
+    </div>
+
+    <div class="repaso-card">
+      <div class="rc-title">Las 5 limitaciones del Estado de Resultados</div>
+      <div class="rc-body">No separa rentabilidad por línea de servicio · No muestra el efectivo real · Puede omitir costos como depreciación · No evalúa contratos futuros · Solo mira al pasado.</div>
+    </div>
+
+    <div class="repaso-card">
+      <div class="rc-title">La tabla de costos gerencial en Excel</div>
+      <div class="rc-body">Las <strong>filas son los contratos</strong> (lo que analizas) y las <strong>columnas son los rubros de costo</strong> (lo que mides). La referencia absoluta ($) congela una celda al copiar fórmulas. SUMAR.SI suma solo los valores que cumplen un criterio. El formato condicional crea semáforos automáticos.</div>
+    </div>
+
+    <div class="repaso-card">
+      <div class="rc-title">La Hoja de Trabajo Gerencial tiene 3 hojas integradas</div>
+      <div class="rc-body">Hoja 1: contratos e ingresos · Hoja 2: costos fijos · Hoja 3: margen por contrato (la hoja de decisiones). Actualizada mensualmente, responde: ¿cuáles contratos son rentables y cuáles están en riesgo?</div>
+    </div>
+
+    <div class="highlight-key" style="margin-top:1.2rem;">
+      <strong>Esta semana:</strong> Ahora que tienes las herramientas básicas de análisis, el siguiente paso es entender cómo la información fluye dentro de la empresa — desde el guardia en campo hasta el escritorio del gerente — y cómo diseñar un sistema que haga ese flujo eficiente y útil.
+    </div>
+  </div>
+
+  <!-- TEMA 1: DATO VS INFORMACIÓN -->
+  <div id="tab3-tema1" class="tab-panel">
+    <h2 class="section-title">1. Dato vs. Información — una distinción fundamental</h2>
+
+    <p style="font-size:14.5px;line-height:1.8;">Existe una confusión muy común en las empresas: creer que tener muchos datos es lo mismo que tener información. No lo es. Y la diferencia entre los dos es precisamente lo que distingue a una empresa que gestiona bien de una que simplemente registra.</p>
+
+    <div class="concept-box">
+      <div class="ct">Definición precisa: Dato</div>
+      <p>Un <strong>dato</strong> es un hecho en bruto, sin contexto, sin interpretación. Solo describe que algo ocurrió. Por sí solo no permite tomar ninguna decisión.<br><br>
+      <span style="font-style:italic; color:#555;">Ejemplo: "El guardia número 7 trabajó 192 horas en marzo."</span><br><br>
+      Ese dato existe. Está registrado. Pero no te dice nada sobre si es bueno, malo, costoso, eficiente o problemático.</p>
+    </div>
+
+    <div class="concept-box">
+      <div class="ct">Definición precisa: Información</div>
+      <p>Una <strong>información</strong> es un dato procesado, contextualizado e interpretado de forma que permite tomar una decisión.<br><br>
+      <span style="font-style:italic; color:#555;">Ejemplo: "El guardia 7 generó un costo de $698 en marzo, equivalente al 55,8% del costo total del Contrato Universidad Norte. Ese contrato generó un margen de $1.252. Si este guardia genera un incidente grave y el cliente no renueva, perderíamos $1.252 mensuales de margen."</span><br><br>
+      Ahora sí puedes decidir: ¿supervisas más a ese guardia? ¿Hablas con el cliente? ¿Tienes un plan de contingencia?</p>
+    </div>
+
+    <h3 style="font-size:15px;color:#003366;margin:1.2rem 0 0.5rem;font-family:'Lora',serif;">¿Qué hace falta para transformar un dato en información?</h3>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:1rem 0;">
+      <div style="background:#e8f4fd;border-radius:8px;padding:0.9rem;text-align:center;">
+        <div style="font-size:22px;margin-bottom:6px;">1</div>
+        <div style="font-size:13px;font-weight:600;color:#003366;margin-bottom:4px;">Estructura</div>
+        <p style="font-size:13px;line-height:1.5;margin:0;color:#1a1a2e;">Saber qué preguntas quieres responder con los datos antes de organizarlos.</p>
+      </div>
+      <div style="background:#e8f4fd;border-radius:8px;padding:0.9rem;text-align:center;">
+        <div style="font-size:22px;margin-bottom:6px;">2</div>
+        <div style="font-size:13px;font-weight:600;color:#003366;margin-bottom:4px;">Proceso</div>
+        <p style="font-size:13px;line-height:1.5;margin:0;color:#1a1a2e;">Capturar, limpiar y organizar los datos de forma sistemática y periódica.</p>
+      </div>
+      <div style="background:#e8f4fd;border-radius:8px;padding:0.9rem;text-align:center;">
+        <div style="font-size:22px;margin-bottom:6px;">3</div>
+        <div style="font-size:13px;font-weight:600;color:#003366;margin-bottom:4px;">Interpretación</div>
+        <p style="font-size:13px;line-height:1.5;margin:0;color:#1a1a2e;">Analizar los datos con criterio para extraer conclusiones que permitan actuar.</p>
+      </div>
+    </div>
+
+    <div class="story-box">
+      <strong>El problema real de las empresas no es falta de datos — es falta de información.</strong><br><br>
+      Una empresa de seguridad mediana puede tener: registros de asistencia de 30 guardias, facturas de 15 clientes, reportes de incidentes de los últimos 6 meses, nómina mensual, contratos firmados con sus condiciones. Tiene muchísimos datos. Pero si nadie los procesa, contextualiza e interpreta de manera sistemática, esos datos solo ocupan espacio. La diferencia entre una empresa que toma buenas decisiones y una que decide con intuición no suele ser los datos que tienen — es lo que hacen con ellos.
+    </div>
+  </div>
+
+  <!-- TEMA 2: PIRÁMIDE SIG -->
+  <div id="tab3-tema2" class="tab-panel">
+    <h2 class="section-title">2. La Pirámide del Sistema de Información Gerencial</h2>
+
+    <p style="font-size:14.5px;line-height:1.8;">Un Sistema de Información Gerencial (SIG) es el conjunto de procesos, herramientas y personas que transforman los datos operativos de una empresa en información útil para tomar decisiones. No tiene que ser un software costoso. Puede ser un conjunto de hojas de Excel bien diseñadas. Lo que importa es la lógica, no el software.</p>
+
+    <p style="font-size:14.5px;line-height:1.8;">El SIG funciona en tres niveles, como una pirámide. <strong>En la base están los datos operativos — la materia prima.</strong> En el nivel medio están las informaciones tácticas — los datos procesados. En la cima está el conocimiento estratégico — la información que mueve decisiones de alto nivel.</p>
+
+    <div class="nivel-card n-estrategico" style="margin-top:1rem;">
+      <div class="nivel-tag">Nivel 3 — Estratégico</div>
+      <h3>Conocimiento para decidir el rumbo del negocio</h3>
+      <p>Tendencia de rentabilidad por línea de servicio (últimos 6 meses) · Comparación de costo vs. precio por segmento · Proyección de flujo de caja a 3 meses · Análisis de rentabilidad de nuevos contratos potenciales.<br><br>
+      <strong style="color:#7ec8e3;">Preguntas que responde:</strong> ¿Conviene diversificar hacia consultoría? ¿Debemos renegociar precios en renovaciones? ¿Necesitamos financiamiento para crecer?</p>
+    </div>
+    <div class="nivel-card n-tactico">
+      <div class="nivel-tag">Nivel 2 — Táctico</div>
+      <h3>Información procesada para gestionar el mes</h3>
+      <p>Costo real por contrato · Margen de contribución por línea de servicio · Rotación de personal en el período · Eficiencia de la central de monitoreo · Cartera por cobrar por cliente.<br><br>
+      <strong style="color:#003366;">Preguntas que responde:</strong> ¿Cuáles contratos son rentables? ¿Hay clientes con facturas vencidas? ¿Qué línea necesita ajuste de precio?</p>
+    </div>
+    <div class="nivel-card n-operativo">
+      <div class="nivel-tag">Nivel 1 — Operativo</div>
+      <h3>Datos brutos del día a día</h3>
+      <p>Registro de asistencia de guardias · Partes de novedades e incidentes · Consumo de combustible por vehículo · Horas de monitoreo activo por zona · Equipos entregados y devueltos.<br><br>
+      <strong style="color:#856404;">Preguntas que responde:</strong> ¿Cuántas horas trabajó cada guardia? ¿Cuántos incidentes hubo en cada contrato? ¿Qué equipos necesitan reposición?</p>
+    </div>
+
+    <div class="highlight-key" style="margin-top:1rem;">
+      <strong>La brecha más común en empresas medianas de seguridad:</strong> El nivel operativo existe (los datos se generan aunque no siempre se registren bien). El nivel estratégico se improvisa (el gerente decide con intuición). Pero el nivel táctico — el procesamiento sistemático mensual — casi nunca existe de forma ordenada. Construir ese nivel táctico es exactamente lo que estás aprendiendo a hacer en esta materia.
+    </div>
+
+    <table class="table-resp" style="margin-top:1.2rem;">
+      <thead>
+        <tr><th>Nivel</th><th>Frecuencia recomendada</th><th>Herramienta en empresa pequeña</th><th>Herramienta ideal</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Operativo</td><td>Diaria</td><td>Registro en papel o WhatsApp</td><td>App de supervisión</td></tr>
+        <tr><td>Táctico</td><td>Mensual</td><td>Excel con las 3 hojas integradas</td><td>ERP básico (Siigo, Mónica)</td></tr>
+        <tr><td>Estratégico</td><td>Trimestral</td><td>Análisis en Excel con gráficos</td><td>Dashboard en Power BI</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- TEMA 3: FLUJO -->
+  <div id="tab3-tema3" class="tab-panel">
+    <h2 class="section-title">3. El flujo de información en la empresa de seguridad</h2>
+
+    <p style="font-size:14.5px;line-height:1.8;">Entender cómo fluye la información dentro de tu empresa es el primer paso para diseñar un sistema que funcione. Muchas empresas tienen información valiosa atrapada en un nivel sin que llegue al siguiente. El guardia sabe que un equipo está fallando — pero nadie lo registra, nadie lo procesa, nadie toma una decisión antes de que el cliente se queje.</p>
+
+    <div class="excel-step">
+      <div class="excel-step-header"><div class="excel-step-num">1</div>Del guardia al supervisor — Nivel operativo a táctico</div>
+      <div class="excel-step-body">
+        El guardia genera datos cada día: asistencia, incidentes, consumo de equipo, novedades del turno. El supervisor tiene la responsabilidad de capturar esos datos de forma sistemática. Si el supervisor solo "sabe" la información pero no la registra, el dato muere en el nivel operativo y nunca llega a alimentar el análisis gerencial.<br><br>
+        <strong style="color:#003366;">Lo que falla en la mayoría de empresas:</strong> Los datos operativos se capturan informalmente (en un cuaderno, en WhatsApp, de memoria) y se pierden o son difíciles de recuperar cuando se necesitan.
+      </div>
+    </div>
+    <div class="excel-step">
+      <div class="excel-step-header"><div class="excel-step-num">2</div>Del supervisor al contador — Nivel táctico</div>
+      <div class="excel-step-body">
+        El contador (o analista) toma los datos operativos registrados y los convierte en información táctica: costo por contrato, margen por línea, cartera por cobrar. Esto requiere que los datos operativos lleguen de forma completa y ordenada. Si el registro operativo es caótico, el análisis táctico será incorrecto o imposible.<br><br>
+        <strong style="color:#003366;">Principio clave:</strong> "Basura entra, basura sale" (garbage in, garbage out). Si los datos de entrada son incorrectos o incompletos, ninguna fórmula de Excel puede corregirlos.
+      </div>
+    </div>
+    <div class="excel-step">
+      <div class="excel-step-header"><div class="excel-step-num">3</div>Del contador al gerente — Nivel estratégico</div>
+      <div class="excel-step-body">
+        La información táctica procesada llega al gerente como conocimiento: análisis de rentabilidad, proyecciones, alertas sobre contratos en riesgo, comparaciones con períodos anteriores. El gerente toma decisiones estratégicas con esa base.<br><br>
+        <strong style="color:#003366;">El rol del contador gerencial aquí:</strong> No es solo entregar un número — es presentar la información de forma que el gerente entienda qué significa y qué debería hacer. Un análisis brillante mal presentado no genera ninguna decisión.
+      </div>
+    </div>
+
+    <h3 style="font-size:15px;color:#003366;margin:1.2rem 0 0.5rem;font-family:'Lora',serif;">Mapa de información: lo que SÍ fluye vs. lo que DEBERÍA fluir</h3>
+
+    <table class="table-resp">
+      <thead>
+        <tr><th>Área</th><th>Dato que se genera</th><th>¿Llega al análisis gerencial?</th><th>Consecuencia si no llega</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Operaciones</td><td>Horas extra de guardias</td><td>Raramente, de forma sistemática</td><td>El costo real de contratos está subestimado</td></tr>
+        <tr><td>Facturación</td><td>Fechas de vencimiento de facturas</td><td>A veces, cuando hay problema</td><td>Clientes acumulan deuda sin alerta temprana</td></tr>
+        <tr><td>Logística</td><td>Consumo de combustible por vehículo</td><td>Casi nunca como costo por contrato</td><td>El costo real de supervisión es desconocido</td></tr>
+        <tr><td>RRHH</td><td>Ausentismo y rotación de guardias</td><td>Solo para nómina, no para análisis</td><td>Contratos con alta rotación parecen normales</td></tr>
+        <tr><td>Clientes</td><td>Renovaciones y reclamos</td><td>Solo cuando hay problema grave</td><td>Pérdida de contratos sin señales previas</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- TEMA 4: SIG EN EXCEL -->
+  <div id="tab3-tema4" class="tab-panel">
+    <h2 class="section-title">4. Construyendo el SIG mínimo con Excel — sin software costoso</h2>
+
+    <div class="concept-box">
+      <div class="ct">¿Qué es el SIG mínimo viable?</div>
+      <p>Es el conjunto más pequeño de herramientas y procesos que te permiten tener información gerencial útil sin inversión adicional. Para una empresa mediana de seguridad en Ecuador, ese mínimo viable se puede construir con Excel, disciplina y un proceso mensual de 2 a 3 horas. No necesitas software especializado para empezar — lo necesitarás cuando hayas superado las limitaciones de Excel.</p>
+    </div>
+
+    <div class="excel-step">
+      <div class="excel-step-header"><div class="excel-step-num">Paso 1</div>Define las preguntas que tu sistema debe responder cada mes</div>
+      <div class="excel-step-body">
+        Antes de diseñar cualquier hoja de Excel, escribe las 5 preguntas que, si las pudieras responder el primer día de cada mes, te darían el control total del negocio.<br><br>
+        Ejemplo para empresa de seguridad:<br>
+        1. ¿Cuál es el margen real de cada contrato activo este mes?<br>
+        2. ¿Cuánto me deben mis clientes y quién lleva más de 30 días sin pagar?<br>
+        3. ¿Qué contratos vencen en los próximos 60 días?<br>
+        4. ¿Cuál fue mi flujo neto de efectivo este mes?<br>
+        5. ¿El costo de mi nómina operativa fue mayor o menor que el mes anterior, y por qué?<br><br>
+        Cada hoja de tu sistema debe responder al menos una de esas preguntas.
+      </div>
+    </div>
+
+    <div class="excel-step">
+      <div class="excel-step-header"><div class="excel-step-num">Paso 2</div>Diseña la estructura antes de abrir Excel</div>
+      <div class="excel-step-body">
+        Dibuja en papel qué hojas tendrá tu archivo, qué columnas tendrá cada hoja, y cómo se conectan entre sí. Esto se llama diseñar el modelo antes de construirlo. Cambiar el diseño en papel toma 5 minutos. Cambiar el diseño en Excel cuando ya tienes 200 filas puede tomar horas.<br><br>
+        <strong style="color:#003366;">Estructura recomendada para empresa de seguridad:</strong><br>
+        Hoja "Contratos" → Hoja "Nómina" → Hoja "Costos Fijos" → Hoja "Márgenes" → Hoja "Cartera" → Hoja "Flujo de Caja"
+      </div>
+    </div>
+
+    <div class="excel-step">
+      <div class="excel-step-header"><div class="excel-step-num">Paso 3</div>Establece el proceso mensual de actualización</div>
+      <div class="excel-step-body">
+        El mejor sistema del mundo no sirve si no se actualiza. Define un día fijo cada mes (por ejemplo, el primer viernes del mes) para actualizar todas las hojas con los datos del mes anterior. Establece quién es responsable de cada hoja. Un sistema simple actualizado regularmente produce más valor que uno sofisticado que nadie mantiene.<br><br>
+        <strong style="color:#003366;">Señal de alerta:</strong> Si la última actualización de tu hoja de trabajo tiene más de 45 días, el sistema está fallando — no el Excel, el proceso.
+      </div>
+    </div>
+
+    <div class="highlight-key">
+      <strong>La diferencia entre un sistema tradicional y uno contemporáneo no es el software:</strong> es la frecuencia, la integración y el acceso. Un modelo Excel integrado y actualizado mensualmente es infinitamente más valioso que un software costoso que nadie usa correctamente.
+    </div>
+  </div>
+
+  <!-- JUEGO INTERACTIVO -->
+  <div id="tab3-juego" class="tab-panel">
+    <h2 class="section-title">5. Ejercicio interactivo — ¿Dato o Información?</h2>
+    <p style="font-size:14px;color:#555;margin-bottom:1rem;">Lee cada enunciado y decide si es un <strong>Dato</strong> (hecho bruto sin contexto que no permite decidir) o una <strong>Información</strong> (dato procesado que sí permite tomar una decisión). Haz clic en tu respuesta.</p>
+
+    <div id="dato-info-game">
+      <div id="di-items"></div>
+      <div id="di-feedback" style="display:none; margin-top:1rem;"></div>
+      <button id="di-check" onclick="checkDI()" style="background:#003366;color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:14px;cursor:pointer;margin-top:10px;">Verificar respuestas</button>
+    </div>
+  </div>
+
+  <!-- PROMPT IA -->
+  <div id="tab3-prompt" class="tab-panel">
+    <h2 class="section-title">6. Actividad con Inteligencia Artificial</h2>
+
+    <p style="font-size:14px;line-height:1.7;color:#1a1a2e;">Esta semana usas la IA para diseñar el SIG de tu empresa. El objetivo no es que la IA diseñe tu sistema — es que su propuesta te ayude a pensar en lo que tu empresa necesita y en lo que no.</p>
+
+    <div class="prompt-box">
+      <div class="pl">Prompt de la Semana 3 — Sesión del viernes (actividad evaluable)</div>
+      <div class="pt">
+        "Tengo una empresa de seguridad privada en Ecuador con guardias físicos, monitoreo por cámaras y escolta ejecutiva. No tengo software especializado. ¿Cómo puedo construir un Sistema de Información Gerencial básico usando solo Excel? Dime exactamente qué hojas debería tener el archivo, qué información registrar en cada hoja, cómo conectarlas con fórmulas, y con qué frecuencia actualizar cada una. Sé específico y práctico."
+      </div>
+      <div class="pi">
+        <strong style="color:#7ec8e3;">¿Qué hacer con la respuesta?</strong><br>
+        1. Lee la propuesta completa de la IA.<br>
+        2. Compárala con la estructura de 3 hojas que aprendiste en este material (Contratos, Costos Fijos, Márgenes).<br>
+        3. Escribe en tu cuaderno o Word: ¿Qué hojas propone la IA que no están en el material? ¿Cuáles te parecen útiles y cuáles no? ¿Cuáles propone el material que la IA no menciona?<br>
+        4. Elabora tu propia lista final de hojas para el SIG de tu empresa (real o ficticia), justificando cada hoja en una línea.
+      </div>
+    </div>
+
+    <div class="concept-box" style="margin-top:1rem;">
+      <div class="ct">Lo que se evalúa</div>
+      <p>No se evalúa si la IA dio una buena o mala respuesta. Se evalúa tu capacidad de <strong>comparar, filtrar y construir criterio propio</strong>. Un estudiante que dice "la IA propuso 8 hojas, yo elegiré 5 y explico por qué descarté las otras 3" demuestra más pensamiento crítico que uno que copia las 8 sin analizar.</p>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="tab3-quiz" class="tab-panel">
+    <h2 class="section-title">7. Cuestionario de la Semana 3</h2>
+    <p style="font-size:14px;color:#555;margin-bottom:1.2rem;">Lee con cuidado. Varias preguntas tienen opciones muy similares — la diferencia está en los detalles. Confía en lo que aprendiste en este material.</p>
+    <div id="quiz3-container"></div>
+    <div class="score-bar" id="score3-bar" style="display:none;">
+      <div class="sn" id="score3-num">0/6</div>
+      <div class="sl" id="score3-label"></div>
+    </div>
+    <button id="reset3-btn" style="display:none;margin:1rem auto;background:#003366;color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:14px;cursor:pointer;" onclick="resetQuiz3()">Reiniciar cuestionario</button>
+  </div>
+</div>
+
+<script>
+function showTab3(id){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab3-'+id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+var diItems = [
+  {text: '"El guardia 12 trabajó 168 horas en abril."', correct: 'dato', explain: 'Es un dato. Describe un hecho en bruto. No dice si trabajó más o menos de lo esperado, cuánto costó, ni qué implica para ningún contrato.'},
+  {text: '"El contrato con la empresa Farmacorp generó un margen del 28% en abril, por encima del promedio de la empresa (19%), lo que lo convierte en el segundo contrato más rentable del portafolio."', correct: 'info', explain: 'Es información. El dato de margen está contextualizado (comparado con el promedio), clasificado (segundo más rentable) y permite una decisión (priorizar renovación de ese contrato).'},
+  {text: '"Hubo 3 incidentes en el contrato de monitoreo el mes pasado."', correct: 'dato', explain: 'Es un dato. Tres incidentes puede ser mucho, normal o poco — depende del contrato, el período y el promedio histórico. Sin ese contexto, no puedo decidir nada.'},
+  {text: '"La rotación de guardias en los contratos de escolta subió del 12% al 31% en los últimos tres meses, duplicando el costo de capacitación y generando dos quejas de clientes."', correct: 'info', explain: 'Es información. El porcentaje de rotación está comparado con el período anterior, el impacto en costos está cuantificado, y hay consecuencia identificable (quejas de clientes). Esto permite actuar.'},
+  {text: '"El costo de combustible del vehículo de supervisión fue $340 en marzo."', correct: 'dato', explain: 'Es un dato. Sin saber si $340 es más o menos que el mes anterior, si corresponde a cuántos contratos supervisó ese vehículo, o qué porcentaje del costo total representa, no permite tomar ninguna decisión.'},
+  {text: '"El cliente Banco del Pacífico debe $4.800 con 47 días de vencimiento, lo que representa el 19% de la cartera total pendiente. Si no paga en los próximos 15 días, afectará el flujo de caja de junio."', correct: 'info', explain: 'Es información. El monto vencido está contextualizado en tiempo (47 días), en proporción (19% de la cartera) y con proyección de impacto (flujo de caja de junio). Permite decidir: llamar al cliente, negociar, o planificar financiamiento alternativo.'}
+];
+var diSelected = Array(diItems.length).fill(null);
+var diLocked = false;
+
+function buildDI(){
+  var c = document.getElementById('di-items');
+  c.innerHTML = '';
+  diItems.forEach(function(item, i){
+    var d = document.createElement('div');
+    d.style.cssText = 'background:#f5f9ff;border:1px solid #bde0f5;border-radius:8px;padding:0.9rem;margin-bottom:10px;';
+    d.innerHTML = '<p style="font-size:14px;line-height:1.7;color:#1a1a2e;margin:0 0 8px;font-style:italic;">'+item.text+'</p>' +
+      '<div style="display:flex;gap:8px;">' +
+      '<button onclick="selectDI('+i+',\'dato\')" id="di-dato-'+i+'" style="flex:1;padding:6px 10px;border:1px solid #f0c050;border-radius:6px;background:#fff8e1;color:#856404;font-size:13px;cursor:pointer;font-family:\'Source Sans 3\',sans-serif;font-weight:600;">Dato</button>' +
+      '<button onclick="selectDI('+i+',\'info\')" id="di-info-'+i+'" style="flex:1;padding:6px 10px;border:1px solid #0077b6;border-radius:6px;background:#e8f4fd;color:#003366;font-size:13px;cursor:pointer;font-family:\'Source Sans 3\',sans-serif;font-weight:600;">Información</button>' +
+      '</div>' +
+      '<div id="di-exp-'+i+'" style="display:none;margin-top:8px;font-size:13.5px;line-height:1.6;border-radius:6px;padding:8px 10px;"></div>';
+    c.appendChild(d);
+  });
+}
+buildDI();
+
+function selectDI(i, val){
+  if(diLocked) return;
+  diSelected[i] = val;
+  var datoBtn = document.getElementById('di-dato-'+i);
+  var infoBtn = document.getElementById('di-info-'+i);
+  datoBtn.style.background = val==='dato' ? '#f0c050' : '#fff8e1';
+  datoBtn.style.borderWidth = val==='dato' ? '2px' : '1px';
+  infoBtn.style.background = val==='info' ? '#0077b6' : '#e8f4fd';
+  infoBtn.style.color = val==='info' ? '#fff' : '#003366';
+  infoBtn.style.borderWidth = val==='info' ? '2px' : '1px';
+}
+
+function checkDI(){
+  if(diSelected.some(function(s){return s===null;})){
+    alert('Por favor responde todos los enunciados antes de verificar.');
+    return;
+  }
+  diLocked = true;
+  var correct = 0;
+  diItems.forEach(function(item,i){
+    var exp = document.getElementById('di-exp-'+i);
+    exp.style.display = 'block';
+    if(diSelected[i]===item.correct){
+      correct++;
+      exp.style.background='#d4edda';exp.style.border='1px solid #28a745';exp.style.color='#155724';
+      exp.innerHTML='<strong>Correcto.</strong> '+item.explain;
+    } else {
+      exp.style.background='#f8d7da';exp.style.border='1px solid #dc3545';exp.style.color='#721c24';
+      exp.innerHTML='<strong>Incorrecto.</strong> Era <strong>'+item.correct.toUpperCase()+'</strong>. '+item.explain;
+    }
+  });
+  document.getElementById('di-check').style.display='none';
+  var fb = document.getElementById('di-feedback');
+  fb.style.display='block';
+  var pct=Math.round(correct/diItems.length*100);
+  fb.innerHTML='<div style="background:#e0eaf5;border-radius:8px;padding:1rem;text-align:center;"><span style="font-size:28px;font-weight:700;color:#003366;font-family:Lora,serif;">'+correct+'/'+diItems.length+'</span><br><span style="font-size:13px;color:#555;">'+(pct>=83?'Excelente dominio de la distinción dato-información.':pct>=67?'Buen resultado. Revisa los enunciados donde hubo error.':'Repasa la pestaña "1. Dato vs. Información" y vuelve a intentarlo.')+'</span></div>';
+}
+
+var q3=[
+  {q:'¿Cuál de las siguientes opciones es la definición correcta de "información" en el contexto de la Contabilidad Gerencial?',
+   opts:['Cualquier número que aparece en un registro contable de la empresa','Un dato bruto generado por las operaciones diarias que aún no ha sido procesado','Un dato procesado, contextualizado e interpretado de forma que permite tomar una decisión gerencial específica','El conjunto de reportes que el contador entrega al gerente cada mes, independientemente de su utilidad'],
+   correct:2,fb:'Correcto. La información no es simplemente un número o un registro — es un dato que ha sido procesado, puesto en contexto y convertido en algo que permite actuar. Un dato sin contexto ni interpretación no es información, aunque esté bien registrado.'},
+  {q:'Una empresa de seguridad tiene datos de asistencia de todos sus guardias en hojas de papel. ¿Qué nivel del SIG representa ese registro?',
+   opts:['Nivel estratégico, porque la asistencia afecta las decisiones de contratación a largo plazo','Nivel táctico, porque permite calcular el costo por contrato mensualmente','Nivel operativo, porque son datos brutos del día a día que aún no han sido procesados','No representa ningún nivel del SIG porque los registros en papel no son parte de un sistema de información'],
+   correct:2,fb:'Correcto. Los registros de asistencia en papel son datos operativos — la materia prima del SIG. Están en la base de la pirámide. Para convertirse en información táctica (costo por contrato) necesitan ser procesados, capturados en Excel y calculados.'},
+  {q:'¿Cuál es la "brecha más común" en empresas medianas de seguridad, según lo estudiado?',
+   opts:['La falta de datos operativos — los guardias no registran su asistencia ni los incidentes','La ausencia del nivel táctico — los datos se generan pero no se procesan sistemáticamente para análisis gerencial','La falta de nivel estratégico — la empresa no tiene visión a largo plazo','La falta de nivel operativo — los supervisores no capturan datos del campo'],
+   correct:1,fb:'Correcto. El nivel operativo existe (aunque mal organizado), el nivel estratégico se improvisa con intuición. Lo que falta casi siempre es el nivel táctico: el procesamiento sistemático y mensual que convierte datos en información útil para el gerente. Eso es exactamente lo que construyes con la Hoja de Trabajo Gerencial.'},
+  {q:'¿Qué significa el principio "garbage in, garbage out" en el contexto del SIG?',
+   opts:['Que Excel puede corregir automáticamente los errores de los datos ingresados si las fórmulas son correctas','Que si los datos de entrada son incorrectos o incompletos, el análisis resultante también será incorrecto, sin importar qué tan bien esté diseñado el sistema','Que los datos desactualizados deben eliminarse del sistema para no ocupar espacio','Que los datos de costos variables son menos confiables que los de costos fijos'],
+   correct:1,fb:'Correcto. Es uno de los principios más importantes del manejo de información. Una hoja de Excel perfectamente diseñada con fórmulas impecables producirá resultados incorrectos si los datos de entrada son erróneos. La calidad del sistema depende de la calidad de los datos que lo alimentan.'},
+  {q:'El primer paso recomendado antes de diseñar el SIG en Excel es:',
+   opts:['Instalar software especializado de gestión empresarial para tener una base tecnológica adecuada','Contratar a un experto en bases de datos para diseñar las tablas correctamente','Definir las preguntas que el sistema debe responder cada mes, antes de abrir Excel','Capacitar a todos los empleados en el uso de Excel para asegurar que puedan ingresar datos correctamente'],
+   correct:2,fb:'Correcto. El primer paso siempre es la pregunta, no la herramienta. Si no sabes qué preguntas quieres responder, ningún sistema — por sofisticado que sea — te dará información útil. Definir las 5 preguntas clave que necesitas responder cada mes orienta toda la estructura del sistema.'},
+  {q:'El enunciado "El costo de nómina operativa de abril fue $18.400" es:',
+   opts:['Información, porque es un dato financiero preciso que cualquier gerente puede usar para decidir','Dato, porque aunque es un número concreto, sin contexto (¿más o menos que marzo? ¿cuánto por contrato? ¿afecta la rentabilidad?) no permite tomar ninguna decisión específica','Información estratégica, porque el costo de nómina es la variable más importante del negocio','Ni dato ni información — es simplemente un registro contable sin valor gerencial'],
+   correct:1,fb:'Correcto. Un número preciso no es automáticamente información. $18.400 de nómina puede ser excelente, normal o catastrófico — depende de si subió o bajó respecto al mes anterior, de cuántos contratos cubrió, de si estaba dentro del presupuesto. Sin ese contexto comparativo, es solo un dato.'}
+];
+var ans3=0,cor3=0;
+function buildQuiz3(){
+  var c=document.getElementById('quiz3-container');c.innerHTML='';
+  q3.forEach(function(q,i){
+    var b=document.createElement('div');b.className='q-block';b.id='q3-'+i;
+    var opts=q.opts.map(function(o,j){return '<button class="opt-btn" onclick="answer3('+i+','+j+')" id="opt3-'+i+'-'+j+'">'+String.fromCharCode(65+j)+') '+o+'</button>';}).join('');
+    b.innerHTML='<div class="q-header">Pregunta '+(i+1)+' de '+q3.length+'</div><div class="q-body"><div class="q-stem">'+q.q+'</div>'+opts+'<div class="feedback-box" id="fb3-'+i+'"></div></div>';
+    c.appendChild(b);
+  });
+}
+function answer3(qi,oi){
+  var q=q3[qi];
+  document.querySelectorAll('[id^="opt3-'+qi+'-"]').forEach(function(b){b.disabled=true;});
+  var sel=document.getElementById('opt3-'+qi+'-'+oi);
+  var fb=document.getElementById('fb3-'+qi);
+  if(oi===q.correct){sel.classList.add('correct');fb.className='feedback-box show feedback-correct';fb.innerHTML='<strong>Correcto.</strong> '+q.fb;cor3++;}
+  else{sel.classList.add('wrong');document.getElementById('opt3-'+qi+'-'+q.correct).classList.add('correct');fb.className='feedback-box show feedback-wrong';fb.innerHTML='<strong>Respuesta incorrecta.</strong> La correcta era la '+String.fromCharCode(65+q.correct)+'. '+q.fb;}
+  ans3++;
+  if(ans3===q3.length){
+    document.getElementById('score3-bar').style.display='block';
+    document.getElementById('score3-num').textContent=cor3+'/'+q3.length;
+    var pct=Math.round(cor3/q3.length*100);
+    document.getElementById('score3-label').textContent=pct+'% — '+(pct===100?'Dominio completo del SIG.':pct>=67?'Buen avance. Repasa los conceptos con error.':'Revisa las pestañas 1 y 2 antes de continuar.');
+    document.getElementById('reset3-btn').style.display='block';
+  }
+}
+function resetQuiz3(){ans3=0;cor3=0;document.getElementById('score3-bar').style.display='none';document.getElementById('reset3-btn').style.display='none';buildQuiz3();}
+buildQuiz3();
+</script>

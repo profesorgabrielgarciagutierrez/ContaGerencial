@@ -1,0 +1,483 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Source+Sans+3:wght@300;400;600&display=swap');
+
+  .w4{font-family:'Source Sans 3',sans-serif;color:#1a1a2e;background:#fff;}
+  .w4 h1,.w4 h2,.w4 h3{font-family:'Lora',serif;}
+
+  .w4-header{background:#003366;color:#fff;padding:1.5rem 1.5rem 1rem;border-radius:12px 12px 0 0;}
+  .w4-header .inst{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#7ec8e3;margin-bottom:4px;}
+  .w4-header h1{font-size:18px;color:#fff;margin:0 0 2px;font-weight:600;}
+  .w4-header .sub{font-size:13px;color:#b3d4ec;margin:0;}
+
+  .tab-bar{background:#003366;padding:0 1rem 8px;display:flex;flex-wrap:wrap;gap:4px;}
+  .tab-btn{background:rgba(255,255,255,0.1);color:#b3d4ec;border:1px solid rgba(255,255,255,0.2);border-radius:6px 6px 0 0;padding:6px 10px;font-size:11.5px;cursor:pointer;font-family:'Source Sans 3',sans-serif;transition:background 0.2s;white-space:nowrap;}
+  .tab-btn:hover{background:rgba(255,255,255,0.2);color:#fff;}
+  .tab-btn.active{background:#fff;color:#003366;font-weight:600;border-color:#fff;}
+
+  .tab-panel{display:none;padding:1.5rem;}
+  .tab-panel.active{display:block;}
+
+  .section-title{font-size:16px;color:#003366;border-bottom:2px solid #0099cc;padding-bottom:4px;margin:1.5rem 0 0.8rem;font-family:'Lora',serif;}
+
+  .concept-box{background:#e8f4fd;border-left:4px solid #0077b6;border-radius:0 8px 8px 0;padding:1rem 1.2rem;margin:1rem 0;}
+  .concept-box .ct{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#0077b6;font-weight:600;margin-bottom:4px;}
+  .concept-box p{margin:0;font-size:14.5px;line-height:1.7;color:#1a1a2e;}
+
+  .story-box{background:#f0f9ff;border:1px solid #bde0f5;border-radius:10px;padding:1.2rem;margin:1rem 0;font-size:14.5px;line-height:1.8;color:#1a1a2e;}
+  .story-box strong{color:#003366;}
+
+  .highlight-key{background:#e8f4fd;border-radius:8px;padding:0.8rem 1rem;margin:0.8rem 0;font-size:14px;line-height:1.7;color:#1a1a2e;}
+  .highlight-key strong{color:#003366;}
+
+  .repaso-card{background:#fff;border:1px solid #bde0f5;border-radius:10px;padding:1rem;margin-bottom:10px;}
+  .repaso-card .rc-title{font-size:13px;font-weight:600;color:#003366;margin-bottom:5px;}
+  .repaso-card .rc-body{font-size:13.5px;line-height:1.6;color:#1a1a2e;}
+
+  .principio-card{border-radius:12px;padding:1.2rem;margin-bottom:12px;cursor:pointer;border:2px solid transparent;transition:all 0.2s;}
+  .principio-card:hover{transform:translateX(4px);}
+  .p-competencia{background:#e8f4fd;border-color:#0077b6;}
+  .p-objetividad{background:#e8f5e9;border-color:#2e7d32;}
+  .p-integridad{background:#fff8e1;border-color:#f9a825;}
+  .p-confidencialidad{background:#fce4ec;border-color:#c62828;}
+  .p-title{font-size:15px;font-weight:600;margin-bottom:6px;font-family:'Lora',serif;}
+  .p-competencia .p-title{color:#003366;}
+  .p-objetividad .p-title{color:#1b5e20;}
+  .p-integridad .p-title{color:#e65100;}
+  .p-confidencialidad .p-title{color:#b71c1c;}
+  .p-tag{display:inline-block;font-size:10px;text-transform:uppercase;letter-spacing:1px;font-weight:700;padding:2px 8px;border-radius:4px;margin-bottom:6px;}
+  .p-competencia .p-tag{background:#0077b6;color:#fff;}
+  .p-objetividad .p-tag{background:#2e7d32;color:#fff;}
+  .p-integridad .p-tag{background:#f9a825;color:#fff;}
+  .p-confidencialidad .p-tag{background:#c62828;color:#fff;}
+  .p-body{font-size:13.5px;line-height:1.6;color:#1a1a2e;}
+  .p-example{font-size:13px;line-height:1.6;font-style:italic;margin-top:6px;color:#555;}
+
+  .caso-box{background:#f5f9ff;border:1px solid #bde0f5;border-radius:10px;padding:1.2rem;margin:1rem 0;}
+  .caso-num{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:#0077b6;font-weight:700;margin-bottom:6px;}
+  .caso-titulo{font-size:15px;font-weight:600;color:#003366;margin-bottom:8px;font-family:'Lora',serif;}
+  .caso-body{font-size:14px;line-height:1.8;color:#1a1a2e;margin-bottom:12px;}
+  .caso-q{font-size:13.5px;font-weight:600;color:#003366;margin-bottom:8px;}
+  .caso-opts button{display:block;width:100%;text-align:left;background:#fff;border:1px solid #bde0f5;border-radius:6px;padding:8px 12px;margin-bottom:6px;cursor:pointer;font-size:13.5px;color:#1a1a2e;font-family:'Source Sans 3',sans-serif;transition:background 0.15s;line-height:1.5;}
+  .caso-opts button:hover{background:#e8f4fd;}
+  .caso-opts button.correct{background:#d4edda;border-color:#28a745;color:#155724;}
+  .caso-opts button.wrong{background:#f8d7da;border-color:#dc3545;color:#721c24;}
+  .caso-opts button:disabled{cursor:default;}
+  .caso-fb{display:none;border-radius:6px;padding:10px 12px;font-size:13.5px;line-height:1.6;margin-top:8px;}
+  .caso-fb.show{display:block;}
+  .caso-fb.ok{background:#d4edda;color:#155724;border:1px solid #28a745;}
+  .caso-fb.err{background:#f8d7da;color:#721c24;border:1px solid #dc3545;}
+
+  .q-block{margin:1rem 0;border:1px solid #bde0f5;border-radius:10px;overflow:hidden;}
+  .q-header{background:#003366;color:#fff;padding:10px 14px;font-size:14px;font-weight:600;}
+  .q-body{padding:12px 14px;}
+  .q-stem{font-size:14px;line-height:1.7;color:#1a1a2e;margin-bottom:10px;font-family:'Lora',serif;}
+  .opt-btn{display:block;width:100%;text-align:left;background:#f5f9ff;border:1px solid #bde0f5;border-radius:6px;padding:8px 12px;margin-bottom:6px;cursor:pointer;font-size:13.5px;color:#1a1a2e;font-family:'Source Sans 3',sans-serif;transition:background 0.15s;line-height:1.5;}
+  .opt-btn:hover{background:#e0f0f8;}
+  .opt-btn.correct{background:#d4edda;border-color:#28a745;color:#155724;}
+  .opt-btn.wrong{background:#f8d7da;border-color:#dc3545;color:#721c24;}
+  .opt-btn:disabled{cursor:default;}
+  .feedback-box{display:none;border-radius:6px;padding:10px 12px;font-size:13.5px;line-height:1.6;margin-top:8px;}
+  .feedback-box.show{display:block;}
+  .feedback-correct{background:#d4edda;color:#155724;border:1px solid #28a745;}
+  .feedback-wrong{background:#f8d7da;color:#721c24;border:1px solid #dc3545;}
+  .score-bar{background:#e0eaf5;border-radius:8px;padding:1rem;text-align:center;margin-top:1rem;}
+  .score-bar .sn{font-size:32px;font-weight:700;color:#003366;font-family:'Lora',serif;}
+  .score-bar .sl{font-size:13px;color:#555;margin-top:4px;}
+
+  .prompt-box{background:#003366;color:#fff;border-radius:10px;padding:1.2rem;margin:1rem 0;}
+  .prompt-box .pl{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:#7ec8e3;margin-bottom:8px;}
+  .prompt-box .pt{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:10px 12px;font-size:13.5px;line-height:1.7;color:#e8f4fd;font-style:italic;margin-bottom:10px;}
+  .prompt-box .pi{font-size:13px;color:#b3d4ec;line-height:1.6;}
+
+  .cierre-box{background:#003366;color:#fff;border-radius:12px;padding:1.5rem;margin-top:1.5rem;}
+  .cierre-box h3{color:#7ec8e3;font-family:'Lora',serif;font-size:16px;margin:0 0 1rem;}
+  .cierre-item{background:rgba(255,255,255,0.08);border-radius:8px;padding:0.9rem 1rem;margin-bottom:8px;font-size:13.5px;line-height:1.6;color:#e8f4fd;}
+  .cierre-item strong{color:#7ec8e3;}
+</style>
+
+<div class="w4">
+  <div class="w4-header">
+    <div class="inst">Universidad de Guayaquil &nbsp;|&nbsp; Facultad de Ciencias Administrativas &nbsp;|&nbsp; CPA — 5.° Semestre</div>
+    <h1>Semana 4 — Ética Profesional del Contador Gerencial</h1>
+    <p class="sub">Contabilidad Gerencial &nbsp;·&nbsp; Unidad 1 &nbsp;·&nbsp; 20 al 24 de abril de 2026 &nbsp;·&nbsp; Cierre de la Unidad 1</p>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="showTab4('repaso')">Repaso Sem. 1-3</button>
+    <button class="tab-btn" onclick="showTab4('tema1')">1. Por qué la ética importa</button>
+    <button class="tab-btn" onclick="showTab4('tema2')">2. Los 4 principios del CECE</button>
+    <button class="tab-btn" onclick="showTab4('tema3')">3. Casos éticos aplicados</button>
+    <button class="tab-btn" onclick="showTab4('tema4')">4. RSC y transparencia</button>
+    <button class="tab-btn" onclick="showTab4('casos')">5. Casos interactivos</button>
+    <button class="tab-btn" onclick="showTab4('cierre')">6. Cierre Unidad 1</button>
+    <button class="tab-btn" onclick="showTab4('prompt')">7. Actividad con IA</button>
+    <button class="tab-btn" onclick="showTab4('quiz')">8. Cuestionario</button>
+  </div>
+
+  <!-- REPASO -->
+  <div id="tab4-repaso" class="tab-panel active">
+    <h2 class="section-title">Repaso — Lo esencial de las Semanas 1, 2 y 3</h2>
+    <p style="font-size:14px;color:#555;margin-bottom:1rem;">Esta es la última semana de la Unidad 1. Antes de continuar, verifica que tienes claros estos fundamentos.</p>
+
+    <div class="repaso-card">
+      <div class="rc-title">Semana 1 — Los tres sistemas contables y sus propósitos</div>
+      <div class="rc-body">Contabilidad Financiera = pasado, externos, normas NIIF · Contabilidad Gerencial = futuro, decisiones internas, sin normas externas · Contabilidad de Costos = el puente que alimenta a las dos. El Estado de Resultados tiene 5 limitaciones clave para la gestión.</div>
+    </div>
+    <div class="repaso-card">
+      <div class="rc-title">Semana 2 — Excel como herramienta gerencial</div>
+      <div class="rc-body">Las filas = contratos, las columnas = rubros de costo. Referencia absoluta ($) congela una celda al copiar. SUMAR.SI suma por criterio. Formato condicional = semáforo automático. La Hoja de Trabajo Gerencial tiene 3 hojas integradas: Contratos, Costos Fijos, Márgenes.</div>
+    </div>
+    <div class="repaso-card">
+      <div class="rc-title">Semana 3 — Del dato a la decisión</div>
+      <div class="rc-body">Dato = hecho bruto sin contexto. Información = dato procesado que permite decidir. Pirámide del SIG: Operativo → Táctico → Estratégico. La brecha más común es el nivel táctico. "Garbage in, garbage out": datos incorrectos producen análisis incorrectos sin importar las fórmulas.</div>
+    </div>
+
+    <div class="highlight-key" style="margin-top:1.2rem;">
+      <strong>Esta semana cerramos la Unidad 1 con el fundamento que hace que todo lo anterior valga:</strong> la ética. Un contador gerencial puede tener todas las herramientas y todo el conocimiento técnico del mundo — pero si distorsiona la información por presión, miedo o interés propio, esas herramientas se vuelven armas contra el negocio y contra las personas que dependen de él.
+    </div>
+  </div>
+
+  <!-- TEMA 1: POR QUÉ LA ÉTICA IMPORTA -->
+  <div id="tab4-tema1" class="tab-panel">
+    <h2 class="section-title">1. Por qué la ética no es un adorno del perfil profesional</h2>
+
+    <p style="font-size:14.5px;line-height:1.8;">Cuando se habla de ética en los cursos de contabilidad, muchos estudiantes la perciben como un tema "teórico" que no tiene impacto real en el trabajo del día a día. Esa percepción es un error costoso. La ética del contador gerencial no es un adorno académico — es el mecanismo que garantiza que la información que produce sea confiable.</p>
+
+    <div class="story-box">
+      <strong>Piénsalo de esta forma:</strong> Un gerente toma una decisión de $200.000 basado en un análisis de rentabilidad que su contador preparó. Si ese análisis fue distorsionado — ya sea por incompetencia, por presión del gerente, por miedo a dar malas noticias, o por interés propio — la decisión de $200.000 podría ser completamente equivocada.<br><br>
+      La empresa pierde dinero. Los socios pierden confianza. Los empleados pueden perder sus empleos. Y el contador pierde su reputación profesional, y posiblemente enfrenta consecuencias legales.<br><br>
+      <strong>La ética no es abstracta. Tiene consecuencias concretas y medibles.</strong>
+    </div>
+
+    <h3 style="font-size:15px;color:#003366;margin:1.2rem 0 0.5rem;font-family:'Lora',serif;">La presión más común que enfrenta el contador gerencial</h3>
+
+    <p style="font-size:14.5px;line-height:1.8;">En la práctica real, el principal desafío ético del contador gerencial no son los errores técnicos — son las presiones sociales y organizacionales para presentar información de una manera que favorezca una decisión ya tomada. Algunos ejemplos reales del sector de seguridad privada:</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:1rem 0;">
+      <div style="background:#fce4ec;border:1px solid #e57373;border-radius:8px;padding:1rem;">
+        <div style="font-size:12px;font-weight:700;color:#b71c1c;margin-bottom:6px;">SITUACIÓN DE PRESIÓN</div>
+        <p style="font-size:13.5px;color:#1a1a2e;margin:0;line-height:1.6;">"El gerente quiere que el análisis muestre que el contrato con el cliente X es rentable, aunque los números digan lo contrario, porque tiene una relación personal con ese cliente."</p>
+      </div>
+      <div style="background:#fce4ec;border:1px solid #e57373;border-radius:8px;padding:1rem;">
+        <div style="font-size:12px;font-weight:700;color:#b71c1c;margin-bottom:6px;">SITUACIÓN DE PRESIÓN</div>
+        <p style="font-size:13.5px;color:#1a1a2e;margin:0;line-height:1.6;">"El socio pide que los costos de nómina se reporten de forma que parezca que el margen del último trimestre fue mayor, para presentar mejores resultados a un banco del que quiere obtener un crédito."</p>
+      </div>
+      <div style="background:#fce4ec;border:1px solid #e57373;border-radius:8px;padding:1rem;">
+        <div style="font-size:12px;font-weight:700;color:#b71c1c;margin-bottom:6px;">SITUACIÓN DE PRESIÓN</div>
+        <p style="font-size:13.5px;color:#1a1a2e;margin:0;line-height:1.6;">"Un guardia que es familiar de un directivo tiene costos de capacitación especiales que 'conviene' no incluir en el análisis de ese contrato para que el margen se vea limpio."</p>
+      </div>
+      <div style="background:#e8f5e9;border:1px solid #66bb6a;border-radius:8px;padding:1rem;">
+        <div style="font-size:12px;font-weight:700;color:#1b5e20;margin-bottom:6px;">LA RESPUESTA ÉTICA</div>
+        <p style="font-size:13.5px;color:#1a1a2e;margin:0;line-height:1.6;">Presentar los números correctamente, con respaldo técnico, aunque contradigan lo que el gerente o el socio quieren ver. Con tacto, con profesionalismo — pero sin distorsionar la realidad.</p>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <div class="ct">¿Por qué es tan difícil decir la verdad incómoda?</div>
+      <p>Porque el contador está dentro de la organización. No es externo. Depende de esa empresa para su trabajo. Tiene relaciones con las personas a quienes presenta la información. La presión social de "no generar conflictos" o "no ser el que trae malas noticias" es real y poderosa. Por eso la ética profesional no es solo conocer las reglas — es tener la fortaleza de aplicarlas cuando cuesta.</p>
+    </div>
+  </div>
+
+  <!-- TEMA 2: LOS 4 PRINCIPIOS -->
+  <div id="tab4-tema2" class="tab-panel">
+    <h2 class="section-title">2. Los 4 principios del Código de Ética del Contador Ecuatoriano (CECE)</h2>
+
+    <div class="concept-box">
+      <div class="ct">¿Qué es el CECE?</div>
+      <p>El Código de Ética del Contador Ecuatoriano es el conjunto de principios que regulan el comportamiento profesional de los contadores en Ecuador. No es una lista de prohibiciones — es un marco de valores que guía cómo el contador debe actuar frente a situaciones difíciles. El CECE está alineado con las normas éticas internacionales de la IFAC (Federación Internacional de Contadores).</p>
+    </div>
+
+    <p style="font-size:14px;color:#555;margin:1rem 0 0.5rem;">Haz clic en cada principio para leer su explicación completa.</p>
+
+    <div class="principio-card p-competencia" onclick="toggleP('p1')">
+      <div class="p-tag">Principio 1</div>
+      <div class="p-title">Competencia</div>
+      <div id="p1" style="display:none;">
+        <div class="p-body">
+          <strong>¿Qué significa?</strong> El contador tiene la obligación de mantener y mejorar continuamente su conocimiento técnico. No basta con lo que aprendió en la universidad — las normas cambian, las herramientas evolucionan, la legislación se actualiza. La competencia significa estar permanentemente actualizado.<br><br>
+          <strong>¿Por qué importa en la práctica?</strong> Un contador que aplica una norma derogada, que no conoce los cambios recientes en la legislación laboral, o que usa métodos de análisis desactualizados, puede estar produciendo información incorrecta aunque lo haga con total buena fe. La ignorancia no es excusa.<br><br>
+          <strong>En empresa de seguridad privada:</strong> No conocer los cambios en la tabla sectorial del MRL, las actualizaciones de las tasas del IESS, o los cambios en el tratamiento fiscal de los fondos de reserva puede producir análisis de nómina incorrectos que afectan decisiones de precios y márgenes.
+        </div>
+      </div>
+    </div>
+
+    <div class="principio-card p-objetividad" onclick="toggleP('p2')">
+      <div class="p-tag">Principio 2</div>
+      <div class="p-title">Objetividad</div>
+      <div id="p2" style="display:none;">
+        <div class="p-body">
+          <strong>¿Qué significa?</strong> El contador no debe dejar que sus prejuicios personales, sus simpatías o antipatías, sus intereses económicos o las presiones del entorno influyan en el análisis que produce. La información debe reflejar la realidad, no lo que alguien quiere que parezca.<br><br>
+          <strong>¿Por qué importa en la práctica?</strong> Es el principio más desafiante en empresas familiares o medianas, donde el contador tiene relaciones personales cercanas con los propietarios. Cuando el gerente te pide que "ajustes" los números para que un contrato deficitario parezca rentable, la Objetividad es el principio que dice "no".<br><br>
+          <strong>En empresa de seguridad privada:</strong> Si el análisis muestra que el contrato con el cliente más antiguo de la empresa genera pérdidas, la Objetividad exige presentarlo así, aunque ese cliente sea amigo del socio fundador.
+        </div>
+      </div>
+    </div>
+
+    <div class="principio-card p-integridad" onclick="toggleP('p3')">
+      <div class="p-tag">Principio 3</div>
+      <div class="p-title">Integridad</div>
+      <div id="p3" style="display:none;">
+        <div class="p-body">
+          <strong>¿Qué significa?</strong> El contador debe ser honesto y recto en todas sus relaciones profesionales. No solo con los números — también con las personas. No omitir información relevante. No engañar por omisión. No prometer lo que no se puede cumplir. Actuar siempre de buena fe.<br><br>
+          <strong>Diferencia con Objetividad:</strong> La Objetividad se refiere a la información en sí (que los números reflejen la realidad). La Integridad se refiere al comportamiento del contador en sus relaciones (que actúe con honestidad en todo lo que hace y dice).<br><br>
+          <strong>En empresa de seguridad privada:</strong> Si sabes que una proyección de flujo de caja es demasiado optimista pero el gerente la quiere así para presentarla al banco, la Integridad exige que expreses esa preocupación, aunque incomode.
+        </div>
+      </div>
+    </div>
+
+    <div class="principio-card p-confidencialidad" onclick="toggleP('p4')">
+      <div class="p-tag">Principio 4</div>
+      <div class="p-title">Confidencialidad</div>
+      <div id="p4" style="display:none;">
+        <div class="p-body">
+          <strong>¿Qué significa?</strong> El contador tiene acceso a información muy sensible: márgenes de contratos, costos reales, situación financiera, estrategias comerciales. Esa información no puede ser compartida con personas externas que no tienen derecho a conocerla, sin autorización expresa de la empresa.<br><br>
+          <strong>¿Cuándo termina la confidencialidad?</strong> La obligación de confidencialidad no es absoluta. Cesa cuando la información revela un delito o una actividad ilegal, cuando hay una obligación legal de reportarla (por ejemplo, ante el SRI), o cuando la propia empresa autoriza su divulgación.<br><br>
+          <strong>Caso delicado en empresa de seguridad:</strong> Si el contador trabaja para dos empresas que compiten en la misma zona por los mismos clientes, tiene información confidencial de ambas. Aunque no comparta explícitamente datos, su conocimiento de ambas situaciones puede influir en sus análisis. Esto es un conflicto de interés que compromete la Confidencialidad.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEMA 3: CASOS APLICADOS -->
+  <div id="tab4-tema3" class="tab-panel">
+    <h2 class="section-title">3. Casos éticos aplicados al sector de seguridad privada</h2>
+
+    <p style="font-size:14.5px;line-height:1.8;">La ética no se practica en el vacío. Se practica en situaciones concretas, con personas reales y con presiones reales. Los siguientes casos están basados en situaciones que pueden ocurrir — y ocurren — en empresas de seguridad privada en Ecuador.</p>
+
+    <div class="caso-box">
+      <div class="caso-num">Caso 1</div>
+      <div class="caso-titulo">El contador que "no sabe" de la nueva regulación</div>
+      <div class="caso-body">Pedro lleva tres años como contador de una empresa de seguridad en Guayaquil. En enero de 2026, el Ministerio de Trabajo actualizó la tabla sectorial para el sector de seguridad privada, incrementando el salario mínimo sectorial de los guardias en un 6,8%. Pedro no se enteró del cambio porque "no tiene tiempo de estar revisando regulaciones". Siguió calculando la nómina con la tabla anterior durante tres meses. Como resultado, los análisis de margen que presentó al gerente estaban sobreestimados en ese 6,8% — y el gerente tomó decisiones de precios basado en márgenes que no eran reales.</div>
+      <div class="caso-q">¿Qué principio del CECE fue vulnerado principalmente?</div>
+      <div class="caso-opts" id="caso1-opts">
+        <button onclick="answerCaso(1,0)">A) Objetividad — Pedro distorsionó los números intencionalmente para favorecer al gerente</button>
+        <button onclick="answerCaso(1,1)">B) Competencia — Pedro no mantuvo su conocimiento técnico actualizado, produciendo información incorrecta aunque no intencionalmente</button>
+        <button onclick="answerCaso(1,2)">C) Confidencialidad — Pedro compartió información sensible de la empresa con terceros</button>
+        <button onclick="answerCaso(1,3)">D) Integridad — Pedro mintió deliberadamente al gerente sobre el estado de la nómina</button>
+      </div>
+      <div class="caso-fb" id="caso1-fb"></div>
+    </div>
+
+    <div class="caso-box">
+      <div class="caso-num">Caso 2</div>
+      <div class="caso-titulo">El análisis que "necesita" mostrar rentabilidad</div>
+      <div class="caso-body">La empresa "Guardias del Sur" tiene un contrato con el Hospital Provincial que genera pérdidas de $420 mensuales según el análisis de costos. El gerente general, que es cuñado del director del hospital, le pide a la contadora Ana que "reorganice los costos" para que el análisis muestre que ese contrato es rentable. El argumento del gerente es que "el contrato tiene valor estratégico" y que "perderlo afectaría la relación institucional". Ana sabe que lo que le piden es distorsionar la realidad.</div>
+      <div class="caso-q">¿Qué debería hacer Ana correctamente?</div>
+      <div class="caso-opts" id="caso2-opts">
+        <button onclick="answerCaso(2,0)">A) Acceder al pedido del gerente — él es la autoridad máxima y tiene razones estratégicas válidas para pedir eso</button>
+        <button onclick="answerCaso(2,1)">B) Presentar el análisis correcto con la pérdida real, y ofrecer al gerente un análisis separado del "valor estratégico" en términos no financieros que justifique mantener el contrato</button>
+        <button onclick="answerCaso(2,2)">C) Renunciar inmediatamente — es la única opción ética cuando la empresa pide algo incorrecto</button>
+        <button onclick="answerCaso(2,3)">D) Presentar dos análisis: uno real (solo para ella) y uno "ajustado" (para el gerente), para no crear conflicto</button>
+      </div>
+      <div class="caso-fb" id="caso2-fb"></div>
+    </div>
+
+    <div class="caso-box">
+      <div class="caso-num">Caso 3</div>
+      <div class="caso-titulo">El contador que trabaja para la competencia</div>
+      <div class="caso-body">Carlos es contador freelance. Lleva la contabilidad de "Seguridad Total S.A." y recientemente aceptó también llevar la contabilidad de "Protección Máxima Cía. Ltda.", que opera en la misma zona geográfica y compite por los mismos contratos institucionales en Guayaquil. Carlos argumenta que "él nunca compartiría información de una empresa con la otra".</div>
+      <div class="caso-q">¿Qué principio está en riesgo aunque Carlos nunca comparta datos explícitamente?</div>
+      <div class="caso-opts" id="caso3-opts">
+        <button onclick="answerCaso(3,0)">A) Competencia — Carlos podría no tener el conocimiento suficiente para llevar dos empresas a la vez</button>
+        <button onclick="answerCaso(3,1)">B) Confidencialidad e Integridad — aunque no comparta datos, su conocimiento de ambas situaciones crea un conflicto de interés estructural que compromete la independencia de su análisis</button>
+        <button onclick="answerCaso(3,2)">C) Objetividad — Carlos podría favorecer a una empresa sobre otra en sus análisis</button>
+        <button onclick="answerCaso(3,3)">D) No hay ningún principio en riesgo — cada empresa tiene sus propios libros contables separados y Carlos los maneja de forma independiente</button>
+      </div>
+      <div class="caso-fb" id="caso3-fb"></div>
+    </div>
+  </div>
+
+  <!-- TEMA 4: RSC -->
+  <div id="tab4-tema4" class="tab-panel">
+    <h2 class="section-title">4. Responsabilidad Social Corporativa y transparencia informativa</h2>
+
+    <p style="font-size:14.5px;line-height:1.8;">La ética del contador no termina en cumplir con el CECE. Hay un nivel más amplio que conecta la práctica profesional con el impacto que la empresa tiene en su entorno: la Responsabilidad Social Corporativa (RSC).</p>
+
+    <div class="concept-box">
+      <div class="ct">¿Qué es la Responsabilidad Social Corporativa?</div>
+      <p>La RSC es el compromiso voluntario de una empresa de contribuir positivamente al bienestar de sus empleados, clientes, comunidad y medio ambiente, más allá de cumplir simplemente con la ley. No es filantropía — es gestión. Una empresa que practica RSC genuinamente lo hace porque entiende que su sostenibilidad a largo plazo depende de esas relaciones.</p>
+    </div>
+
+    <h3 style="font-size:15px;color:#003366;margin:1.2rem 0 0.5rem;font-family:'Lora',serif;">¿Qué significa RSC específicamente para una empresa de seguridad privada?</h3>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:1rem 0;">
+      <div style="background:#e8f4fd;border-radius:8px;padding:1rem;">
+        <div style="font-size:12px;font-weight:700;color:#003366;margin-bottom:6px;">HACIA LOS GUARDIAS</div>
+        <p style="font-size:13.5px;line-height:1.6;margin:0;color:#1a1a2e;">Pagar a tiempo todos los beneficios de ley (IESS, décimos, vacaciones, fondos de reserva). Proporcionar equipos seguros. Garantizar condiciones de trabajo dignas en turnos nocturnos. No exigir horas extra no remuneradas.</p>
+      </div>
+      <div style="background:#e8f4fd;border-radius:8px;padding:1rem;">
+        <div style="font-size:12px;font-weight:700;color:#003366;margin-bottom:6px;">HACIA LOS CLIENTES</div>
+        <p style="font-size:13.5px;line-height:1.6;margin:0;color:#1a1a2e;">Presentar propuestas de precio que reflejen los costos reales. No comprometer la calidad del servicio para reducir costos. Reportar incidentes con transparencia, aunque afecten la renovación del contrato.</p>
+      </div>
+      <div style="background:#e8f4fd;border-radius:8px;padding:1rem;">
+        <div style="font-size:12px;font-weight:700;color:#003366;margin-bottom:6px;">HACIA EL ESTADO Y LA SOCIEDAD</div>
+        <p style="font-size:13.5px;line-height:1.6;margin:0;color:#1a1a2e;">Cumplir con todas las obligaciones tributarias. No pagar sueldos "por fuera" para evitar aportes al IESS. Respetar la normativa del Reglamento de Vigilancia y Seguridad Privada.</p>
+      </div>
+      <div style="background:#e8f4fd;border-radius:8px;padding:1rem;">
+        <div style="font-size:12px;font-weight:700;color:#003366;margin-bottom:6px;">TRANSPARENCIA INFORMATIVA</div>
+        <p style="font-size:13.5px;line-height:1.6;margin:0;color:#1a1a2e;">El contador gerencial es el garante de que la información que circula dentro y fuera de la empresa sea veraz. La transparencia informativa no es solo ética — protege a la empresa de riesgos legales y reputacionales.</p>
+      </div>
+    </div>
+
+    <div class="concept-box" style="margin-top:1rem;">
+      <div class="ct">RSC y la Contabilidad Gerencial se conectan así</div>
+      <p>Los costos de RSC (capacitación de guardias, equipos de calidad, cumplimiento total de beneficios de ley) aparecen en el análisis de costos. Una empresa que recorta en esas áreas puede parecer más rentable en el corto plazo — pero acumula riesgos: guardias desmotivados, alta rotación, multas del IESS, demandas laborales, pérdida de clientes. El contador gerencial que solo optimiza el margen del mes sin considerar esos riesgos no está haciendo análisis gerencial — está haciendo daño disfrazado de eficiencia.</p>
+    </div>
+  </div>
+
+  <!-- CASOS INTERACTIVOS -->
+  <div id="tab4-casos" class="tab-panel">
+    <h2 class="section-title">5. Casos interactivos — Identifica el principio</h2>
+    <p style="font-size:14px;color:#555;margin-bottom:1rem;">Estos casos no tienen una sola respuesta obvia. Lee con cuidado, porque algunos principios se superponen. Elige el principio <strong>principalmente</strong> vulnerado o en riesgo.</p>
+
+    <div class="caso-box">
+      <div class="caso-num">Caso 4</div>
+      <div class="caso-titulo">La proyección imposible</div>
+      <div class="caso-body">El gerente de "Seguridad Andina" necesita presentar un flujo de caja proyectado para solicitar un crédito bancario. Le pide a su contador que proyecte un crecimiento del 35% en ingresos para el próximo año. El contador sabe que los últimos tres años la empresa ha crecido en promedio un 8% anual y que no hay contratos nuevos firmados ni en negociación avanzada. De todos modos elabora la proyección al 35% porque "el banco la necesita así" y "el gerente asume la responsabilidad".</div>
+      <div class="caso-q">¿Qué principio vulnera el contador al elaborar una proyección que sabe que es irreal?</div>
+      <div class="caso-opts" id="caso4-opts">
+        <button onclick="answerCaso(4,0)">A) Confidencialidad — está revelando información financiera privada al banco</button>
+        <button onclick="answerCaso(4,1)">B) Competencia — no sabe cómo hacer una proyección correcta</button>
+        <button onclick="answerCaso(4,2)">C) Integridad y Objetividad — presenta información que sabe es irreal, distorsionando la realidad aunque el gerente asuma la responsabilidad nominal</button>
+        <button onclick="answerCaso(4,3)">D) No viola ningún principio — si el gerente asume la responsabilidad, el contador está libre de obligación ética</button>
+      </div>
+      <div class="caso-fb" id="caso4-fb"></div>
+    </div>
+
+    <div class="caso-box">
+      <div class="caso-num">Caso 5</div>
+      <div class="caso-titulo">El guardia con beneficios "especiales"</div>
+      <div class="caso-body">El gerente le informa a la contadora que el guardia número 15 (sobrino del socio principal) no debe tener descuentos de IESS en su rol porque "tiene un acuerdo especial". La contadora sabe que esto es ilegal — todos los trabajadores en relación de dependencia deben ser afiliados al IESS. Si no registra el aporte, la empresa acumula deuda previsional y el guardia pierde protección social.</div>
+      <div class="caso-q">¿Cuál es la acción correcta de la contadora?</div>
+      <div class="caso-opts" id="caso5-opts">
+        <button onclick="answerCaso(5,0)">A) Seguir la instrucción del gerente — él tiene más jerarquía y es su responsabilidad, no la del contador</button>
+        <button onclick="answerCaso(5,1)">B) Registrar el aporte al IESS correctamente y comunicar al gerente por escrito que no puede omitirlo sin violar la ley y los principios del CECE, independientemente del "acuerdo especial"</button>
+        <button onclick="answerCaso(5,2)">C) Omitir el aporte solo este mes y el próximo mes regularizar, para no generar conflicto ahora</button>
+        <button onclick="answerCaso(5,3)">D) Renunciar inmediatamente sin comunicar nada, para no verse involucrada en la irregularidad</button>
+      </div>
+      <div class="caso-fb" id="caso5-fb"></div>
+    </div>
+  </div>
+
+  <!-- CIERRE UNIDAD 1 -->
+  <div id="tab4-cierre" class="tab-panel">
+    <h2 class="section-title">6. Cierre de la Unidad 1 — Lo que construiste en cuatro semanas</h2>
+
+    <p style="font-size:14.5px;line-height:1.8;">La Unidad 1 no fue solo teoría — fue la construcción del marco mental con el que analizarás todo lo que sigue. Aquí está lo que aprendiste y para qué te servirá en cada unidad:</p>
+
+    <div class="cierre-box">
+      <h3>Lo que aprendiste y para qué sirve</h3>
+
+      <div class="cierre-item">
+        <strong>Diferencia CF vs. CG vs. CC (Semana 1)</strong><br>
+        Para qué sirve ahora: Cuando analices costos en la Unidad 2, sabrás que estás haciendo Contabilidad de Costos y que los resultados alimentarán tu análisis gerencial, no tu reporte para el SRI.
+      </div>
+      <div class="cierre-item">
+        <strong>Limitaciones del Estado de Resultados (Semana 1)</strong><br>
+        Para qué sirve ahora: Antes de eliminar una línea de servicio en la Unidad 2, buscarás el análisis segmentado por línea, no solo el resultado global.
+      </div>
+      <div class="cierre-item">
+        <strong>Excel como herramienta gerencial (Semana 2)</strong><br>
+        Para qué sirve ahora: Construirás tablas de costos, puntos de equilibrio y análisis CVU en las Unidades 2 y 3 usando exactamente las funciones que aprendiste.
+      </div>
+      <div class="cierre-item">
+        <strong>Del dato a la decisión — pirámide del SIG (Semana 3)</strong><br>
+        Para qué sirve ahora: Entenderás de dónde vienen los datos que alimentan cada análisis y qué nivel de decisión apoya cada herramienta que aprenderás.
+      </div>
+      <div class="cierre-item">
+        <strong>Ética profesional — CECE (Semana 4)</strong><br>
+        Para qué sirve siempre: Cuando el análisis muestre que un contrato es deficitario, lo presentarás correctamente aunque contradiga la intuición del socio gerente. La ética no es negociable.
+      </div>
+    </div>
+
+    <div class="highlight-key" style="margin-top:1.2rem;">
+      <strong>El puente hacia la Unidad 2:</strong> Ahora que sabes QUÉ es la Contabilidad Gerencial, PARA QUÉ sirve, CÓMO fluye la información y CON QUÉ valores debe practicarse — estamos listos para ir al corazón técnico de la materia: los costos. Porque para tomar buenas decisiones, primero hay que saber exactamente cuánto cuesta cada cosa.
+    </div>
+  </div>
+
+  <!-- PROMPT IA -->
+  <div id="tab4-prompt" class="tab-panel">
+    <h2 class="section-title">7. Actividad con Inteligencia Artificial</h2>
+
+    <div class="prompt-box">
+      <div class="pl">Prompt de la Semana 4 — Sesión del viernes (actividad evaluable)</div>
+      <div class="pt">
+        "Soy contador gerencial de una empresa de seguridad privada en Ecuador. Mi gerente me pide que presente el análisis de costos de un contrato deficitario de tal manera que parezca rentable, para no perder a ese cliente. ¿Qué principios éticos del Código de Ética del Contador están en riesgo en esta situación? ¿Cuáles serían las consecuencias para mí, para la empresa y para el cliente si accedo al pedido? ¿Cómo debería manejar esta situación de forma profesional y ética?"
+      </div>
+      <div class="pi">
+        <strong style="color:#7ec8e3;">¿Qué hacer con la respuesta?</strong><br>
+        1. Lee la respuesta completa de la IA.<br>
+        2. Compárala con lo que estudiaste sobre los 4 principios del CECE y los casos éticos de este material.<br>
+        3. Escribe en tu cuaderno o Word: ¿La IA identificó los principios correctamente? ¿Mencionó consecuencias que el material no menciona? ¿Hay alguna recomendación de la IA que no compartes? Justifica tu posición.<br>
+        4. Redacta en 3 a 5 líneas tu propia posición personal: ¿cómo manejarías tú esa situación?
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="tab4-quiz" class="tab-panel">
+    <h2 class="section-title">8. Cuestionario de la Semana 4 — Cierre de Unidad 1</h2>
+    <p style="font-size:14px;color:#555;margin-bottom:1.2rem;">Este cuestionario combina conceptos de ética con la síntesis de toda la Unidad 1. Prepárate para el Primer Parcial — estas preguntas representan el tipo de razonamiento que se evaluará.</p>
+    <div id="quiz4-container"></div>
+    <div class="score-bar" id="score4-bar" style="display:none;">
+      <div class="sn" id="score4-num">0/7</div>
+      <div class="sl" id="score4-label"></div>
+    </div>
+    <button id="reset4-btn" style="display:none;margin:1rem auto;background:#003366;color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:14px;cursor:pointer;" onclick="resetQuiz4()">Reiniciar cuestionario</button>
+  </div>
+</div>
+
+<script>
+function showTab4(id){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab4-'+id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function toggleP(id){
+  var el=document.getElementById(id);
+  el.style.display=el.style.display==='none'?'block':'none';
+}
+
+var casoAnswers={
+  1:{correct:1,fb:'Correcto. El principio principalmente vulnerado es la Competencia. Pedro no distorsionó los números intencionalmente — simplemente no se mantuvo actualizado con los cambios regulatorios. Pero la ignorancia no es excusa ética. La Competencia exige que el contador se mantenga actualizado permanentemente, porque sus análisis alimentan decisiones reales de la empresa.'},
+  2:{correct:1,fb:'Correcto. Ana debe presentar el análisis correcto con la pérdida real ($420 mensuales), porque la Objetividad y la Integridad lo exigen. Pero puede —y debe— ofrecer al gerente algo adicional: un análisis del "valor estratégico" no financiero del contrato (imagen institucional, posibilidad de referidos, apertura de otras licitaciones). De esa forma, la decisión de mantener el contrato puede ser una decisión informada y consciente, no una basada en números distorsionados.'},
+  3:{correct:1,fb:'Correcto. Aunque Carlos nunca comparta datos explícitamente, su conocimiento simultáneo de las estrategias, costos y planes de dos empresas competidoras crea un conflicto de interés estructural. Esto compromete tanto la Confidencialidad (porque inevitablemente su comprensión de una empresa influye en su análisis de la otra) como la Integridad (porque no puede garantizar independencia absoluta en esa situación).'},
+  4:{correct:2,fb:'Correcto. El contador vulnera principalmente la Integridad y la Objetividad. Sabe que la proyección es irreal — crecer 35% cuando el promedio histórico es 8% sin contratos nuevos en pipeline es una distorsión. Que el gerente "asuma la responsabilidad" no elimina la responsabilidad ética del contador. El contador no es un simple ejecutor de instrucciones — es un profesional con responsabilidad propia sobre la información que produce.'},
+  5:{correct:1,fb:'Correcto. La contadora debe registrar el aporte al IESS correctamente y comunicarlo por escrito al gerente. No puede omitir una obligación legal por instrucción de un superior, independientemente del "acuerdo especial". La Integridad y la Competencia le exigen conocer y aplicar la ley. Si el gerente insiste en la irregularidad, la contadora debe considerar escalar la situación o, en caso extremo, protegerse por escrito documentando que cumplió con su obligación de advertir.'}
+};
+var casoLocked={};
+
+function answerCaso(caseNum, optIdx){
+  if(casoLocked[caseNum]) return;
+  casoLocked[caseNum]=true;
+  var caso=casoAnswers[caseNum];
+  var btns=document.getElementById('caso'+caseNum+'-opts').querySelectorAll('button');
+  btns.forEach(function(b){b.disabled=true;});
+  btns[optIdx].classList.add(optIdx===caso.correct?'correct':'wrong');
+  if(optIdx!==caso.correct) btns[caso.correct].classList.add('correct');
+  var fb=document.getElementById('caso'+caseNum+'-fb');
+  fb.className='caso-fb show '+(optIdx===caso.correct?'ok':'err');
+  fb.innerHTML='<strong>'+(optIdx===caso.correct?'Correcto.':'Respuesta incorrecta.')+'</strong> '+caso.fb;
+}
+
+var q4=[
+  {q:'¿Cuál de las siguientes afirmaciones describe mejor la diferencia entre Objetividad e Integridad según el CECE?',
+   opts:['Son sinónimos — ambos principios significan que el contador debe ser honesto en todo momento','La Objetividad se refiere a que la información refleje la realidad sin sesgos; la Integridad se refiere a la honestidad del contador en sus relaciones y comportamiento profesional','La Objetividad es más importante que la Integridad porque afecta directamente los números','La Integridad solo aplica cuando el contador interactúa con clientes externos, no con el equipo interno de la empresa'],
+   correct:1,fb:'Correcto. La Objetividad tiene que ver con la información que se produce: que los números y análisis reflejen la realidad sin distorsión. La Integridad tiene que ver con la persona: que el contador actúe con honestidad, buena fe y sin engaño en todas sus relaciones, tanto con los números como con las personas.'},
+  {q:'Un contador gerencial recibe presión de su gerente para que "ajuste" los costos de un contrato deficitario para que parezca rentable. ¿Cuál es la consecuencia a largo plazo de acceder a esa petición?',
+   opts:['Ninguna consecuencia — es una decisión interna que no afecta a nadie fuera de la empresa','El gerente tomará decisiones estratégicas basadas en información falsa, lo que puede producir pérdidas reales y comprometer la sostenibilidad del negocio','Solo afecta al contador profesionalmente si alguien lo descubre — de lo contrario, el impacto es neutral','El contador habrá cumplido con su función de apoyar las decisiones del gerente, que es su propósito principal'],
+   correct:1,fb:'Correcto. Las consecuencias son concretas y medibles. Si el gerente cree que ese contrato es rentable cuando en realidad no lo es, puede decidir replicarlo, expandirlo o priorizar recursos hacia él — todas decisiones que amplifican la pérdida. Además, cuando la realidad se revele (y siempre se revela), la credibilidad del contador queda destruida.'},
+  {q:'¿Por qué la ética profesional es especialmente desafiante para el contador que trabaja dentro de una empresa familiar o mediana?',
+   opts:['Porque en empresas medianas no hay supervisión externa, lo que hace más fácil omitir requisitos éticos sin consecuencias','Porque el contador tiene relaciones personales cercanas con los propietarios, lo que genera presión social para ceder ante pedidos que contradicen los principios del CECE','Porque las empresas medianas tienen más clientes y más contratos, lo que aumenta el riesgo de error','Porque el CECE solo aplica a contadores de empresas grandes o que cotizan en bolsa'],
+   correct:1,fb:'Correcto. La presión social en empresas familiares o medianas es real y poderosa. Cuando el dueño es también tu jefe y hay una relación personal de años, decir "no" a un pedido éticamente cuestionable requiere más coraje que en una corporación anónima. Es exactamente en esos contextos donde el CECE tiene mayor importancia práctica.'},
+  {q:'La Responsabilidad Social Corporativa (RSC) en una empresa de seguridad privada incluye:',
+   opts:['Donaciones a fundaciones y actividades de caridad solamente — la RSC no tiene relación con la operación del negocio','El pago completo y puntual de todos los beneficios de ley a los guardias, la transparencia con los clientes y el cumplimiento de obligaciones tributarias, entre otros aspectos de gestión responsable','Solo las obligaciones legales con el Estado — lo que la ley no exige no es parte de la RSC','La RSC es un concepto para empresas multinacionales — no aplica a empresas medianas ecuatorianas'],
+   correct:1,fb:'Correcto. La RSC no es solo filantropía — es gestión responsable que incluye el trato digno a los empleados, la transparencia con los clientes, el cumplimiento tributario y el respeto a la normativa sectorial. Para una empresa de seguridad privada, cumplir con todos los beneficios de ley de los guardias no es solo ética — es la base de su sostenibilidad operativa.'},
+  {q:'Un contador que no conoce los cambios recientes en la legislación laboral aplicable a guardias de seguridad y produce análisis de nómina incorrectos, ¿qué principio del CECE ha vulnerado principalmente?',
+   opts:['Objetividad — sus análisis no reflejan la realidad','Competencia — no mantuvo su conocimiento técnico actualizado aunque los errores no fueron intencionales','Confidencialidad — reveló información laboral sensible','Integridad — actuó con deshonestidad al producir análisis incorrectos'],
+   correct:1,fb:'Correcto. La Competencia exige actualización permanente. Aunque los errores no sean intencionales, el contador tiene la responsabilidad de conocer la normativa vigente que aplica a su sector. Un error por ignorancia tiene las mismas consecuencias prácticas que un error intencional — y el principio de Competencia existe exactamente para prevenir este tipo de situación.'},
+  {q:'¿Cuál de estas cuatro herramientas o conceptos aprendidos en la Unidad 1 es el que más directamente "alimenta" a todas las demás unidades del semestre?',
+   opts:['La ética profesional
