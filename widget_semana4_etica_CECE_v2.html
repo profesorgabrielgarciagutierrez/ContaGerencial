@@ -1,0 +1,456 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Source+Sans+3:wght@300;400;600&display=swap');
+*{box-sizing:border-box;}
+.w4{font-family:'Source Sans 3',sans-serif;color:#1a1a2e;background:#fff;}
+.w4 h1,.w4 h2,.w4 h3{font-family:'Lora',serif;}
+.w4-header{background:#003366;color:#fff;padding:1.5rem 1.5rem 1rem;border-radius:12px 12px 0 0;}
+.w4-header .inst{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#7ec8e3;margin-bottom:4px;}
+.w4-header h1{font-size:18px;color:#fff;margin:0 0 2px;font-weight:600;}
+.w4-header .sub{font-size:13px;color:#b3d4ec;margin:0;}
+.tab-bar{background:#003366;padding:0 1rem 8px;display:flex;flex-wrap:wrap;gap:4px;}
+.tab-btn{background:rgba(255,255,255,0.1);color:#b3d4ec;border:1px solid rgba(255,255,255,0.2);border-radius:6px 6px 0 0;padding:6px 10px;font-size:11px;cursor:pointer;font-family:'Source Sans 3',sans-serif;white-space:nowrap;}
+.tab-btn.active{background:#fff;color:#003366;font-weight:600;border-color:#fff;}
+.tab-panel{display:none;padding:1.5rem;}
+.tab-panel.active{display:block;}
+.sec-title{font-size:16px;color:#003366;border-bottom:2px solid #0099cc;padding-bottom:4px;margin:1.2rem 0 0.8rem;font-family:'Lora',serif;}
+.cbox{background:#e8f4fd;border-left:4px solid #0077b6;border-radius:0 8px 8px 0;padding:1rem 1.2rem;margin:1rem 0;}
+.cbox .ct{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#0077b6;font-weight:600;margin-bottom:4px;}
+.cbox p{margin:0;font-size:14px;line-height:1.7;color:#1a1a2e;}
+.story{background:#f0f9ff;border:1px solid #bde0f5;border-radius:10px;padding:1.2rem;margin:1rem 0;font-size:14px;line-height:1.8;color:#1a1a2e;}
+.story strong{color:#003366;}
+.hkey{background:#e8f4fd;border-radius:8px;padding:0.8rem 1rem;margin:0.8rem 0;font-size:14px;line-height:1.7;color:#1a1a2e;}
+.hkey strong{color:#003366;}
+.rcard{background:#fff;border:1px solid #bde0f5;border-radius:10px;padding:1rem;margin-bottom:10px;}
+.rcard .rt{font-size:13px;font-weight:600;color:#003366;margin-bottom:5px;}
+.rcard .rb{font-size:13.5px;line-height:1.6;color:#1a1a2e;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:1rem 0;}
+.grid4{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:1rem 0;}
+.pcard{border-radius:10px;padding:1rem;margin-bottom:10px;border:2px solid transparent;cursor:pointer;}
+.pcard-comp{background:#e8f4fd;border-color:#0077b6;}
+.pcard-obj{background:#e8f5e9;border-color:#2e7d32;}
+.pcard-int{background:#fff8e1;border-color:#f9a825;}
+.pcard-conf{background:#fce4ec;border-color:#c62828;}
+.ptag{display:inline-block;font-size:10px;text-transform:uppercase;letter-spacing:1px;font-weight:700;padding:2px 8px;border-radius:4px;margin-bottom:6px;}
+.ptag-comp{background:#0077b6;color:#fff;}
+.ptag-obj{background:#2e7d32;color:#fff;}
+.ptag-int{background:#f9a825;color:#fff;}
+.ptag-conf{background:#c62828;color:#fff;}
+.ptitle-comp{font-size:15px;font-weight:600;color:#003366;font-family:'Lora',serif;margin:0 0 6px;}
+.ptitle-obj{font-size:15px;font-weight:600;color:#1b5e20;font-family:'Lora',serif;margin:0 0 6px;}
+.ptitle-int{font-size:15px;font-weight:600;color:#e65100;font-family:'Lora',serif;margin:0 0 6px;}
+.ptitle-conf{font-size:15px;font-weight:600;color:#b71c1c;font-family:'Lora',serif;margin:0 0 6px;}
+.pbody{font-size:13.5px;line-height:1.6;color:#1a1a2e;}
+.pcontent{display:none;margin-top:8px;}
+.caso-box{background:#f5f9ff;border:1px solid #bde0f5;border-radius:10px;padding:1.2rem;margin:1rem 0;}
+.caso-num{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:#0077b6;font-weight:700;margin-bottom:6px;}
+.caso-titulo{font-size:15px;font-weight:600;color:#003366;margin-bottom:8px;font-family:'Lora',serif;}
+.caso-body{font-size:14px;line-height:1.8;color:#1a1a2e;margin-bottom:10px;}
+.caso-q{font-size:13.5px;font-weight:600;color:#003366;margin-bottom:8px;}
+.copt{display:block;width:100%;text-align:left;background:#fff;border:1px solid #bde0f5;border-radius:6px;padding:8px 12px;margin-bottom:6px;cursor:pointer;font-size:13px;color:#1a1a2e;font-family:'Source Sans 3',sans-serif;line-height:1.5;}
+.copt:hover{background:#e8f4fd;}
+.copt.cor{background:#d4edda;border-color:#28a745;color:#155724;cursor:default;}
+.copt.err{background:#f8d7da;border-color:#dc3545;color:#721c24;cursor:default;}
+.cfb{display:none;border-radius:6px;padding:10px 12px;font-size:13.5px;line-height:1.6;margin-top:8px;}
+.cfb.show{display:block;}
+.cfb.ok{background:#d4edda;color:#155724;border:1px solid #28a745;}
+.cfb.err2{background:#f8d7da;color:#721c24;border:1px solid #dc3545;}
+.qblock{margin:1rem 0;border:1px solid #bde0f5;border-radius:10px;overflow:hidden;}
+.qhdr{background:#003366;color:#fff;padding:10px 14px;font-size:14px;font-weight:600;}
+.qbody{padding:12px 14px;}
+.qstem{font-size:14px;line-height:1.7;color:#1a1a2e;margin-bottom:10px;font-family:'Lora',serif;}
+.qopt{display:block;width:100%;text-align:left;background:#f5f9ff;border:1px solid #bde0f5;border-radius:6px;padding:8px 12px;margin-bottom:6px;cursor:pointer;font-size:13px;color:#1a1a2e;font-family:'Source Sans 3',sans-serif;line-height:1.5;}
+.qopt:hover{background:#e0f0f8;}
+.qopt.qcor{background:#d4edda;border-color:#28a745;color:#155724;cursor:default;}
+.qopt.qerr{background:#f8d7da;border-color:#dc3545;color:#721c24;cursor:default;}
+.qfb{display:none;border-radius:6px;padding:10px 12px;font-size:13.5px;line-height:1.6;margin-top:8px;}
+.qfb.show{display:block;}
+.qfb-ok{background:#d4edda;color:#155724;border:1px solid #28a745;}
+.qfb-err{background:#f8d7da;color:#721c24;border:1px solid #dc3545;}
+.sbar{background:#e0eaf5;border-radius:8px;padding:1rem;text-align:center;margin-top:1rem;}
+.snum{font-size:32px;font-weight:700;color:#003366;font-family:'Lora',serif;}
+.slbl{font-size:13px;color:#555;margin-top:4px;}
+.prompt-box{background:#003366;color:#fff;border-radius:10px;padding:1.2rem;margin:1rem 0;}
+.prompt-box .pl{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:#7ec8e3;margin-bottom:8px;}
+.prompt-box .pt{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:10px 12px;font-size:13.5px;line-height:1.7;color:#e8f4fd;font-style:italic;margin-bottom:10px;}
+.prompt-box .pi{font-size:13px;color:#b3d4ec;line-height:1.6;}
+.cierre-box{background:#003366;color:#fff;border-radius:12px;padding:1.5rem;margin-top:1.2rem;}
+.cierre-box h3{color:#7ec8e3;font-family:'Lora',serif;font-size:16px;margin:0 0 1rem;}
+.ci{background:rgba(255,255,255,0.08);border-radius:8px;padding:0.9rem 1rem;margin-bottom:8px;font-size:13.5px;line-height:1.6;color:#e8f4fd;}
+.ci strong{color:#7ec8e3;}
+.tbl{width:100%;border-collapse:collapse;font-size:13px;margin:1rem 0;}
+.tbl th{background:#003366;color:#fff;padding:8px 10px;text-align:left;font-weight:600;font-size:12px;}
+.tbl td{padding:8px 10px;border-bottom:1px solid #e0eaf5;vertical-align:top;line-height:1.5;}
+.tbl tr:nth-child(even) td{background:#f5f9ff;}
+.tbl td:first-child{font-weight:600;color:#003366;}
+.pres-card{background:#e8f4fd;border-radius:8px;padding:1rem;font-size:13.5px;line-height:1.6;}
+</style>
+
+<div class="w4">
+<div class="w4-header">
+  <div class="inst">Universidad de Guayaquil &nbsp;|&nbsp; Facultad de Ciencias Administrativas &nbsp;|&nbsp; CPA — 5.° Semestre</div>
+  <h1>Semana 4 — Ética Profesional del Contador Gerencial</h1>
+  <p class="sub">Contabilidad Gerencial &nbsp;·&nbsp; Unidad 1 &nbsp;·&nbsp; 20 al 24 de abril de 2026 &nbsp;·&nbsp; Cierre de la Unidad 1</p>
+</div>
+
+<div class="tab-bar" id="tabbar4">
+  <button class="tab-btn active" data-tab="repaso">Repaso Sem. 1-3</button>
+  <button class="tab-btn" data-tab="tema1">1. Por qué la ética</button>
+  <button class="tab-btn" data-tab="tema2">2. Los 4 principios</button>
+  <button class="tab-btn" data-tab="tema3">3. RSC y transparencia</button>
+  <button class="tab-btn" data-tab="casos">4. Casos interactivos</button>
+  <button class="tab-btn" data-tab="cierre">5. Cierre Unidad 1</button>
+  <button class="tab-btn" data-tab="prompt">6. Actividad con IA</button>
+  <button class="tab-btn" data-tab="quiz">7. Cuestionario</button>
+</div>
+
+<!-- REPASO -->
+<div id="pan-repaso" class="tab-panel active">
+  <h2 class="sec-title">Repaso — Lo esencial de las Semanas 1, 2 y 3</h2>
+  <p style="font-size:14px;color:#555;margin-bottom:1rem;">Esta es la última semana de la Unidad 1. Verifica que tienes claros estos fundamentos antes de continuar.</p>
+  <div class="rcard"><div class="rt">Semana 1 — Los tres sistemas contables</div><div class="rb">Contabilidad Financiera = pasado, externos, normas NIIF. Contabilidad Gerencial = futuro, decisiones internas, sin normas externas. Contabilidad de Costos = el puente que alimenta a las dos. El Estado de Resultados tiene 5 limitaciones clave para la gestión gerencial.</div></div>
+  <div class="rcard"><div class="rt">Semana 2 — Excel como herramienta gerencial</div><div class="rb">Filas = contratos, columnas = rubros de costo. Referencia absoluta ($) congela una celda al copiar. SUMAR.SI suma por criterio. La Hoja de Trabajo Gerencial tiene 3 hojas integradas: Contratos, Costos Fijos, Márgenes.</div></div>
+  <div class="rcard"><div class="rt">Semana 3 — Del dato a la decisión (SIG)</div><div class="rb">Dato = hecho bruto sin contexto. Información = dato procesado que permite decidir. Pirámide del SIG: Operativo → Táctico → Estratégico. La brecha más común es el nivel táctico. "Garbage in, garbage out": datos incorrectos producen análisis incorrectos sin importar las fórmulas.</div></div>
+  <div class="hkey" style="margin-top:1.2rem;"><strong>Esta semana:</strong> Cerramos la Unidad 1 con el fundamento que hace que todo lo anterior valga: la ética. Un contador con todas las herramientas del mundo que distorsiona la información por presión o interés propio convierte esas herramientas en armas contra el negocio.</div>
+</div>
+
+<!-- TEMA 1 -->
+<div id="pan-tema1" class="tab-panel">
+  <h2 class="sec-title">1. Por qué la ética no es un adorno del perfil profesional</h2>
+  <p style="font-size:14.5px;line-height:1.8;">Cuando se habla de ética en contabilidad, muchos la perciben como un tema "teórico" sin impacto real. Esa percepción es un error costoso. La ética del contador gerencial es el mecanismo que garantiza que la información que produce sea confiable — y las decisiones que se toman con ella sean correctas.</p>
+  <div class="story"><strong>Piénsalo así:</strong> Un gerente toma una decisión de $200.000 basado en un análisis que su contador preparó. Si ese análisis fue distorsionado — por presión del gerente, por miedo a dar malas noticias, o por interés propio — la decisión puede ser completamente equivocada.<br><br>La empresa pierde dinero. Los empleados pueden perder sus trabajos. Y el contador pierde su reputación profesional — y posiblemente enfrenta consecuencias legales.<br><br><strong>La ética no es abstracta. Tiene consecuencias concretas y medibles.</strong></div>
+
+  <h3 style="font-size:15px;color:#003366;margin:1.2rem 0 0.5rem;font-family:'Lora',serif;">Presiones éticas reales en el sector de seguridad privada</h3>
+  <div class="grid2">
+    <div style="background:#fce4ec;border:1px solid #e57373;border-radius:8px;padding:1rem;">
+      <div style="font-size:12px;font-weight:700;color:#b71c1c;margin-bottom:6px;">SITUACIÓN DE PRESIÓN</div>
+      <p style="font-size:13.5px;color:#1a1a2e;margin:0;line-height:1.6;">"El gerente quiere que el análisis muestre que el contrato con el cliente X es rentable, aunque los números digan lo contrario, porque tiene una relación personal con ese cliente."</p>
+    </div>
+    <div style="background:#fce4ec;border:1px solid #e57373;border-radius:8px;padding:1rem;">
+      <div style="font-size:12px;font-weight:700;color:#b71c1c;margin-bottom:6px;">SITUACIÓN DE PRESIÓN</div>
+      <p style="font-size:13.5px;color:#1a1a2e;margin:0;line-height:1.6;">"El socio pide reportar los costos de forma que el margen parezca mayor para presentar mejores resultados al banco y obtener un crédito."</p>
+    </div>
+    <div style="background:#fce4ec;border:1px solid #e57373;border-radius:8px;padding:1rem;">
+      <div style="font-size:12px;font-weight:700;color:#b71c1c;margin-bottom:6px;">SITUACIÓN DE PRESIÓN</div>
+      <p style="font-size:13.5px;color:#1a1a2e;margin:0;line-height:1.6;">"Un guardia que es familiar de un directivo tiene costos especiales que 'conviene' no incluir en el análisis de ese contrato para que el margen se vea limpio."</p>
+    </div>
+    <div style="background:#e8f5e9;border:1px solid #66bb6a;border-radius:8px;padding:1rem;">
+      <div style="font-size:12px;font-weight:700;color:#1b5e20;margin-bottom:6px;">LA RESPUESTA ÉTICA</div>
+      <p style="font-size:13.5px;color:#1a1a2e;margin:0;line-height:1.6;">Presentar los números correctamente, con respaldo técnico, aunque contradigan lo que el gerente o el socio quieren ver. Con tacto y profesionalismo — pero sin distorsionar la realidad.</p>
+    </div>
+  </div>
+  <div class="cbox"><div class="ct">¿Por qué es tan difícil decir la verdad incómoda?</div><p>Porque el contador está dentro de la organización. Depende de esa empresa. Tiene relaciones con las personas a quienes informa. La presión de "no generar conflictos" es real. Por eso la ética no es solo conocer las reglas — es tener la fortaleza de aplicarlas cuando cuesta hacerlo.</p></div>
+</div>
+
+<!-- TEMA 2 -->
+<div id="pan-tema2" class="tab-panel">
+  <h2 class="sec-title">2. Los 4 principios del Código de Ética del Contador Ecuatoriano (CECE)</h2>
+  <div class="cbox"><div class="ct">¿Qué es el CECE?</div><p>El Código de Ética del Contador Ecuatoriano regula el comportamiento profesional de los contadores en Ecuador. No es una lista de prohibiciones — es un marco de valores para actuar bien en situaciones difíciles. Está alineado con las normas de la IFAC (Federación Internacional de Contadores).</p></div>
+  <p style="font-size:13.5px;color:#555;margin-bottom:8px;">Haz clic en cada principio para ver su explicación completa.</p>
+
+  <div class="pcard pcard-comp" onclick="togglePrincipio('pc1')">
+    <div class="ptag ptag-comp">Principio 1</div>
+    <div class="ptitle-comp">Competencia</div>
+    <div class="pcontent" id="pc1">
+      <div class="pbody"><strong>¿Qué significa?</strong> El contador tiene la obligación de mantener y mejorar continuamente su conocimiento técnico. No basta con lo aprendido en la universidad — las normas cambian, las herramientas evolucionan, la legislación se actualiza. La competencia es estar permanentemente actualizado.<br><br>
+      <strong>¿Por qué importa?</strong> Un contador que aplica una norma derogada o no conoce cambios recientes en la legislación laboral puede producir información incorrecta aunque lo haga con total buena fe. La ignorancia no es excusa ética.<br><br>
+      <strong>En empresa de seguridad:</strong> No conocer los cambios en la tabla sectorial del MRL o las tasas del IESS puede producir análisis de nómina incorrectos que distorsionan los márgenes reales.</div>
+    </div>
+  </div>
+
+  <div class="pcard pcard-obj" onclick="togglePrincipio('pc2')">
+    <div class="ptag ptag-obj">Principio 2</div>
+    <div class="ptitle-obj">Objetividad</div>
+    <div class="pcontent" id="pc2">
+      <div class="pbody"><strong>¿Qué significa?</strong> El contador no debe dejar que sus prejuicios personales, sus simpatías, sus intereses económicos o las presiones del entorno influyan en el análisis que produce. La información debe reflejar la realidad, no lo que alguien quiere que parezca.<br><br>
+      <strong>¿Por qué importa?</strong> Es el principio más desafiante en empresas familiares o medianas, donde el contador tiene relaciones personales con los propietarios. Cuando el gerente pide que "ajustes" los números para que un contrato deficitario parezca rentable, la Objetividad dice "no".<br><br>
+      <strong>En empresa de seguridad:</strong> Si el análisis muestra que el contrato con el cliente más antiguo genera pérdidas, la Objetividad exige presentarlo así, aunque ese cliente sea amigo del socio fundador.</div>
+    </div>
+  </div>
+
+  <div class="pcard pcard-int" onclick="togglePrincipio('pc3')">
+    <div class="ptag ptag-int">Principio 3</div>
+    <div class="ptitle-int">Integridad</div>
+    <div class="pcontent" id="pc3">
+      <div class="pbody"><strong>¿Qué significa?</strong> El contador debe ser honesto y recto en todas sus relaciones profesionales. No solo con los números — también con las personas. No omitir información relevante. No engañar por omisión. Actuar siempre de buena fe.<br><br>
+      <strong>Diferencia con Objetividad:</strong> La Objetividad se refiere a la información (que los números reflejen la realidad). La Integridad se refiere al comportamiento del contador (que actúe con honestidad en todo lo que hace y dice).<br><br>
+      <strong>En empresa de seguridad:</strong> Si sabes que una proyección de flujo de caja es demasiado optimista pero el gerente la quiere así para presentar al banco, la Integridad exige que expreses esa preocupación, aunque incomode.</div>
+    </div>
+  </div>
+
+  <div class="pcard pcard-conf" onclick="togglePrincipio('pc4')">
+    <div class="ptag ptag-conf">Principio 4</div>
+    <div class="ptitle-conf">Confidencialidad</div>
+    <div class="pcontent" id="pc4">
+      <div class="pbody"><strong>¿Qué significa?</strong> El contador tiene acceso a información muy sensible: márgenes de contratos, costos reales, situación financiera, estrategias comerciales. Esa información no puede compartirse con personas externas sin autorización expresa de la empresa.<br><br>
+      <strong>¿Cuándo termina la confidencialidad?</strong> Cesa cuando la información revela un delito, cuando hay una obligación legal de reportarla (por ejemplo, ante el SRI), o cuando la empresa autoriza expresamente su divulgación.<br><br>
+      <strong>Caso delicado:</strong> Si el contador trabaja para dos empresas que compiten en la misma zona, su conocimiento simultáneo de ambas situaciones crea un conflicto de interés que compromete la Confidencialidad aunque no comparta datos explícitamente.</div>
+    </div>
+  </div>
+</div>
+
+<!-- TEMA 3: RSC -->
+<div id="pan-tema3" class="tab-panel">
+  <h2 class="sec-title">3. Responsabilidad Social Corporativa y transparencia informativa</h2>
+  <p style="font-size:14.5px;line-height:1.8;">La ética del contador no termina en cumplir con el CECE. Hay un nivel más amplio que conecta la práctica profesional con el impacto que la empresa tiene en su entorno: la Responsabilidad Social Corporativa (RSC).</p>
+  <div class="cbox"><div class="ct">¿Qué es la RSC?</div><p>La RSC es el compromiso voluntario de una empresa de contribuir positivamente al bienestar de sus empleados, clientes, comunidad y medio ambiente, más allá de cumplir simplemente con la ley. No es filantropía — es gestión. Una empresa que practica RSC genuinamente lo hace porque entiende que su sostenibilidad a largo plazo depende de esas relaciones.</p></div>
+
+  <h3 style="font-size:15px;color:#003366;margin:1.2rem 0 0.5rem;font-family:'Lora',serif;">RSC en una empresa de seguridad privada</h3>
+  <div class="grid4">
+    <div style="background:#e8f4fd;border-radius:8px;padding:1rem;">
+      <div style="font-size:12px;font-weight:700;color:#003366;margin-bottom:6px;">HACIA LOS GUARDIAS</div>
+      <p style="font-size:13.5px;line-height:1.6;margin:0;color:#1a1a2e;">Pagar a tiempo todos los beneficios de ley: IESS, décimos, vacaciones, fondos de reserva. Proporcionar equipos seguros. Garantizar condiciones dignas en turnos nocturnos. No exigir horas extra no remuneradas.</p>
+    </div>
+    <div style="background:#e8f4fd;border-radius:8px;padding:1rem;">
+      <div style="font-size:12px;font-weight:700;color:#003366;margin-bottom:6px;">HACIA LOS CLIENTES</div>
+      <p style="font-size:13.5px;line-height:1.6;margin:0;color:#1a1a2e;">Presentar propuestas de precio que reflejen los costos reales. No comprometer la calidad del servicio para reducir costos. Reportar incidentes con transparencia, aunque afecten la renovación del contrato.</p>
+    </div>
+    <div style="background:#e8f4fd;border-radius:8px;padding:1rem;">
+      <div style="font-size:12px;font-weight:700;color:#003366;margin-bottom:6px;">HACIA EL ESTADO</div>
+      <p style="font-size:13.5px;line-height:1.6;margin:0;color:#1a1a2e;">Cumplir todas las obligaciones tributarias. No pagar sueldos "por fuera" para evitar aportes al IESS. Respetar el Reglamento de Vigilancia y Seguridad Privada del Ecuador.</p>
+    </div>
+    <div style="background:#e8f4fd;border-radius:8px;padding:1rem;">
+      <div style="font-size:12px;font-weight:700;color:#003366;margin-bottom:6px;">TRANSPARENCIA INFORMATIVA</div>
+      <p style="font-size:13.5px;line-height:1.6;margin:0;color:#1a1a2e;">El contador gerencial es el garante de que la información que circula dentro y fuera de la empresa sea veraz. La transparencia no es solo ética — protege a la empresa de riesgos legales y reputacionales.</p>
+    </div>
+  </div>
+
+  <div class="cbox" style="margin-top:1rem;"><div class="ct">RSC y Contabilidad Gerencial — la conexión</div><p>Los costos de RSC (capacitación de guardias, equipos de calidad, cumplimiento total de beneficios de ley) aparecen en el análisis de costos. Una empresa que recorta en esas áreas puede parecer más rentable a corto plazo — pero acumula riesgos: guardias desmotivados, alta rotación, multas del IESS, demandas laborales, pérdida de clientes. El contador que solo optimiza el margen del mes sin considerar esos riesgos no está haciendo análisis gerencial — está haciendo daño disfrazado de eficiencia.</p></div>
+</div>
+
+<!-- CASOS INTERACTIVOS -->
+<div id="pan-casos" class="tab-panel">
+  <h2 class="sec-title">4. Casos interactivos — Aplica los principios del CECE</h2>
+  <p style="font-size:14px;color:#555;margin-bottom:1rem;">Lee cada caso con cuidado. Elige el principio principalmente vulnerado o la acción correcta. Recibirás retroalimentación inmediata.</p>
+
+  <div class="caso-box">
+    <div class="caso-num">Caso 1</div>
+    <div class="caso-titulo">El contador que no sabe de la nueva regulación</div>
+    <div class="caso-body">Pedro lleva tres años como contador de una empresa de seguridad. En enero de 2026, el Ministerio de Trabajo actualizó la tabla sectorial para el sector, incrementando el salario mínimo en un 6,8%. Pedro no se enteró del cambio. Siguió calculando nómina con la tabla anterior durante tres meses. Los análisis de margen que presentó al gerente estaban sobreestimados en ese 6,8% — y el gerente tomó decisiones de precios basadas en márgenes que no eran reales.</div>
+    <div class="caso-q">¿Qué principio del CECE fue vulnerado principalmente?</div>
+    <div id="c1opts">
+      <button class="copt" onclick="respCaso('c1',0,1,'Correcto. El principio vulnerado es la Competencia. Pedro no distorsionó los números intencionalmente — simplemente no se mantuvo actualizado. Pero la ignorancia no es excusa ética. La Competencia exige actualización permanente, porque los análisis del contador alimentan decisiones reales.','Incorrecto. Pedro no distorsionó intencionalmente los números — el problema es que no se mantuvo actualizado. El principio vulnerado es la Competencia, que exige al contador mantener su conocimiento técnico al día.')">A) Objetividad — distorsionó los números intencionalmente para favorecer al gerente</button>
+      <button class="copt" onclick="respCaso('c1',1,1,'Correcto. El principio vulnerado es la Competencia. Pedro no distorsionó los números intencionalmente — simplemente no se mantuvo actualizado. Pero la ignorancia no es excusa ética. La Competencia exige actualización permanente, porque los análisis del contador alimentan decisiones reales.','Incorrecto.')">B) Competencia — no mantuvo su conocimiento técnico actualizado, produciendo información incorrecta aunque no intencionalmente</button>
+      <button class="copt" onclick="respCaso('c1',2,1,'Correcto.','Incorrecto. Pedro no compartió información con terceros. El problema es que produjo información errónea por falta de actualización técnica — eso es un problema de Competencia.')">C) Confidencialidad — compartió información sensible con terceros</button>
+      <button class="copt" onclick="respCaso('c1',3,1,'Correcto.','Incorrecto. Pedro no mintió deliberadamente — no sabía del cambio. El problema es que debía saberlo. Eso es un fallo de Competencia, no de Integridad.')">D) Integridad — mintió deliberadamente al gerente sobre la nómina</button>
+    </div>
+    <div class="cfb" id="c1fb"></div>
+  </div>
+
+  <div class="caso-box">
+    <div class="caso-num">Caso 2</div>
+    <div class="caso-titulo">El análisis que necesita mostrar rentabilidad</div>
+    <div class="caso-body">La empresa "Guardias del Sur" tiene un contrato con el Hospital Provincial que genera pérdidas de $420 mensuales. El gerente, cuñado del director del hospital, le pide a la contadora Ana que "reorganice los costos" para que el análisis muestre rentabilidad. El argumento: "el contrato tiene valor estratégico". Ana sabe que lo que le piden es distorsionar la realidad.</div>
+    <div class="caso-q">¿Qué debería hacer Ana correctamente?</div>
+    <div id="c2opts">
+      <button class="copt" onclick="respCaso('c2',0,1,'Correcto.','Incorrecto. Acceder al pedido viola la Objetividad y la Integridad del CECE. Que el gerente tenga jerarquía no elimina la responsabilidad ética del contador sobre la información que produce.')">A) Acceder al pedido — el gerente es la autoridad máxima y tiene razones estratégicas válidas</button>
+      <button class="copt" onclick="respCaso('c2',1,1,'Correcto. Ana debe presentar el análisis correcto con la pérdida real ($420/mes), porque la Objetividad y la Integridad lo exigen. Puede —y debe— ofrecer adicionalmente un análisis del valor estratégico no financiero del contrato para que el gerente tome una decisión informada y consciente, no basada en números distorsionados.','Incorrecto.')">B) Presentar el análisis correcto con la pérdida real, y ofrecer un análisis separado del valor estratégico no financiero del contrato</button>
+      <button class="copt" onclick="respCaso('c2',2,1,'Correcto.','Incorrecto. Renunciar puede ser la última opción, pero primero el contador debe cumplir con su obligación: presentar la información correcta y comunicar formalmente su posición. Abandonar sin comunicar tampoco es éticamente correcto.')">C) Renunciar inmediatamente — es la única opción ética</button>
+      <button class="copt" onclick="respCaso('c2',3,1,'Correcto.','Incorrecto. Tener dos versiones — una real y una ajustada — es doble contabilidad y viola la Integridad y la Objetividad. No importa que la versión real sea solo "para ella". El problema no está en cuántas personas lo ven, sino en producir información falsa.')">D) Presentar dos análisis: uno real para ella y uno ajustado para el gerente, para no crear conflicto</button>
+    </div>
+    <div class="cfb" id="c2fb"></div>
+  </div>
+
+  <div class="caso-box">
+    <div class="caso-num">Caso 3</div>
+    <div class="caso-titulo">La proyección imposible</div>
+    <div class="caso-body">El gerente necesita presentar un flujo de caja proyectado para solicitar un crédito bancario. Le pide al contador proyectar un crecimiento del 35% en ingresos para el próximo año. El contador sabe que los últimos tres años la empresa ha crecido en promedio el 8% anual y que no hay contratos nuevos firmados. De todos modos elabora la proyección al 35% porque "el banco la necesita así" y "el gerente asume la responsabilidad".</div>
+    <div class="caso-q">¿Qué principio vulnera el contador al elaborar una proyección que sabe que es irreal?</div>
+    <div id="c3opts">
+      <button class="copt" onclick="respCaso('c3',0,1,'Correcto.','Incorrecto. El contador no está revelando información privada — está elaborando una proyección irreal. El problema es que produce información que sabe es falsa.')">A) Confidencialidad — revela información financiera privada al banco</button>
+      <button class="copt" onclick="respCaso('c3',1,1,'Correcto.','Incorrecto. El contador sabe hacer proyecciones — el problema no es falta de habilidad técnica sino que sabe que la proyección es irreal y la elabora de todos modos.')">B) Competencia — no sabe cómo hacer una proyección correcta</button>
+      <button class="copt" onclick="respCaso('c3',2,1,'Correcto. El contador vulnera la Integridad y la Objetividad. Sabe que la proyección es irreal y la elabora de todos modos. Que el gerente "asuma la responsabilidad" no elimina la responsabilidad ética del contador. El contador no es un simple ejecutor de instrucciones — es un profesional con responsabilidad propia sobre la información que produce.','Incorrecto.')">C) Integridad y Objetividad — presenta información que sabe es irreal, aunque el gerente asuma la responsabilidad nominal</button>
+      <button class="copt" onclick="respCaso('c3',3,1,'Correcto.','Incorrecto. Que el gerente asuma la responsabilidad nominal no libera al contador de su obligación ética. El CECE establece responsabilidad personal del contador sobre la información que produce, independientemente de quién la solicita.')">D) No viola ningún principio — si el gerente asume la responsabilidad, el contador está libre</button>
+    </div>
+    <div class="cfb" id="c3fb"></div>
+  </div>
+
+  <div class="caso-box">
+    <div class="caso-num">Caso 4</div>
+    <div class="caso-titulo">El guardia con beneficios especiales</div>
+    <div class="caso-body">El gerente le informa a la contadora que el guardia número 15 — sobrino del socio principal — no debe tener descuentos de IESS en su rol porque "tiene un acuerdo especial". La contadora sabe que esto es ilegal: todos los trabajadores en relación de dependencia deben ser afiliados al IESS. Si omite el aporte, la empresa acumula deuda previsional y el guardia pierde protección social.</div>
+    <div class="caso-q">¿Cuál es la acción correcta de la contadora?</div>
+    <div id="c4opts">
+      <button class="copt" onclick="respCaso('c4',0,1,'Correcto.','Incorrecto. El hecho de que el gerente tenga más jerarquía no elimina la responsabilidad legal y ética del contador. Omitir un aporte obligatorio al IESS es una ilegalidad, y el contador que la ejecuta también es responsable.')">A) Seguir la instrucción del gerente — él tiene más jerarquía y es su responsabilidad</button>
+      <button class="copt" onclick="respCaso('c4',1,1,'Correcto. La contadora debe registrar el aporte al IESS correctamente y comunicar al gerente por escrito que no puede omitirlo sin violar la ley y los principios del CECE, independientemente de cualquier "acuerdo especial". La obligación legal y ética es clara — y protegerla también protege a la empresa de multas y demandas futuras.','Incorrecto.')">B) Registrar el aporte correctamente y comunicar al gerente por escrito que no puede omitirlo sin violar la ley y el CECE</button>
+      <button class="copt" onclick="respCaso('c4',2,1,'Correcto.','Incorrecto. Omitir el aporte aunque sea solo un mes es ilegal. Además, "regularizar después" es más difícil de lo que parece: genera recargos, intereses y puede activar una inspección del IESS. El problema no se resuelve posponiéndolo.')">C) Omitir el aporte solo este mes y regularizar el próximo para no generar conflicto ahora</button>
+      <button class="copt" onclick="respCaso('c4',3,1,'Correcto.','Incorrecto. Renunciar sin comunicar nada tampoco es éticamente correcto. La contadora tiene la obligación de registrar la irregularidad formalmente antes de cualquier decisión sobre su continuidad.')">D) Renunciar inmediatamente sin comunicar nada para no verse involucrada</button>
+    </div>
+    <div class="cfb" id="c4fb"></div>
+  </div>
+</div>
+
+<!-- CIERRE UNIDAD 1 -->
+<div id="pan-cierre" class="tab-panel">
+  <h2 class="sec-title">5. Cierre de la Unidad 1 — Lo que construiste en cuatro semanas</h2>
+  <p style="font-size:14.5px;line-height:1.8;">La Unidad 1 no fue solo teoría — fue la construcción del marco mental con el que analizarás todo lo que sigue en el semestre.</p>
+  <div class="cierre-box">
+    <h3>Lo que aprendiste y para qué sirve en las siguientes unidades</h3>
+    <div class="ci"><strong>Diferencia CF vs. CG vs. CC (Semana 1)</strong><br>Para qué sirve: Cuando analices costos en la Unidad 2, sabrás que estás haciendo Contabilidad de Costos y que los resultados alimentarán tu análisis gerencial, no tu reporte para el SRI.</div>
+    <div class="ci"><strong>Limitaciones del Estado de Resultados (Semana 1)</strong><br>Para qué sirve: Antes de eliminar una línea de servicio en la Unidad 2, buscarás el análisis segmentado por línea, no solo el resultado global.</div>
+    <div class="ci"><strong>Excel como herramienta gerencial (Semana 2)</strong><br>Para qué sirve: Construirás tablas de costos, puntos de equilibrio y análisis CVU en las Unidades 2 y 3 usando exactamente las funciones que aprendiste.</div>
+    <div class="ci"><strong>Pirámide del SIG — del dato a la decisión (Semana 3)</strong><br>Para qué sirve: Entenderás de dónde vienen los datos que alimentan cada análisis y qué nivel de decisión apoya cada herramienta que aprenderás.</div>
+    <div class="ci"><strong>Ética profesional — CECE (Semana 4)</strong><br>Para qué sirve siempre: Cuando el análisis muestre que un contrato es deficitario, lo presentarás correctamente aunque contradiga la intuición del socio gerente. La ética no es negociable.</div>
+  </div>
+  <div class="hkey" style="margin-top:1.2rem;"><strong>El puente hacia la Unidad 2:</strong> Ahora que sabes QUÉ es la Contabilidad Gerencial, PARA QUÉ sirve, CÓMO fluye la información y CON QUÉ valores debe practicarse — estamos listos para ir al corazón técnico: los costos. Para tomar buenas decisiones, primero hay que saber exactamente cuánto cuesta cada cosa.</div>
+
+  <h3 style="font-size:15px;color:#003366;margin:1.5rem 0 0.5rem;font-family:'Lora',serif;">Síntesis de la Unidad 1 en una tabla</h3>
+  <table class="tbl">
+    <thead><tr><th>Concepto</th><th>Para qué sirve en la práctica</th><th>Cómo lo aplicará en su empresa</th></tr></thead>
+    <tbody>
+      <tr><td>CF vs. CG vs. CC</td><td>Saber qué análisis necesita para cada decisión</td><td>Al evaluar un contrato nuevo, sabrá que necesita análisis gerencial, no el reporte del SRI</td></tr>
+      <tr><td>Límites del Estado de Resultados</td><td>No tomar decisiones estratégicas solo con la utilidad global</td><td>Antes de eliminar una línea de servicio, buscará el análisis segmentado</td></tr>
+      <tr><td>Clasificación de costos en Excel</td><td>Identificar qué costos cambian con las decisiones</td><td>Al evaluar un contrato nuevo, sabrá qué costos adicionales generará</td></tr>
+      <tr><td>Pirámide del SIG</td><td>Entender de dónde viene la información y qué decisiones alimenta</td><td>Sabrá qué datos operativos capturar para generar los análisis que necesita</td></tr>
+      <tr><td>Ética profesional</td><td>Presentar la información honestamente aunque incomode</td><td>Cuando el análisis muestre un contrato deficitario, lo presentará claramente</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- PROMPT IA -->
+<div id="pan-prompt" class="tab-panel">
+  <h2 class="sec-title">6. Actividad con Inteligencia Artificial</h2>
+  <p style="font-size:14px;line-height:1.7;color:#1a1a2e;">Esta semana usas la IA para reflexionar sobre la ética en un caso real. El objetivo no es copiar la respuesta — es contrastarla con lo que aprendiste y construir tu propia posición.</p>
+  <div class="prompt-box">
+    <div class="pl">Prompt de la Semana 4 — Sesión del viernes (actividad evaluable)</div>
+    <div class="pt">"Soy contador gerencial de una empresa de seguridad privada en Ecuador. Mi gerente me pide que presente el análisis de costos de un contrato deficitario de tal manera que parezca rentable, para no perder a ese cliente. ¿Qué principios éticos del Código de Ética del Contador están en riesgo en esta situación? ¿Cuáles serían las consecuencias para mí, para la empresa y para el cliente si accedo al pedido? ¿Cómo debería manejar esta situación de forma profesional y ética?"</div>
+    <div class="pi">
+      <strong style="color:#7ec8e3;">¿Qué hacer con la respuesta?</strong><br>
+      1. Lee la respuesta completa de la IA.<br>
+      2. Compárala con los 4 principios del CECE y los casos interactivos de este material.<br>
+      3. Escribe: ¿La IA identificó los principios correctamente? ¿Mencionó consecuencias que el material no menciona? ¿Hay alguna recomendación de la IA que no compartes? Justifica tu posición.<br>
+      4. Redacta en 3 a 5 líneas tu propia posición personal: ¿cómo manejarías tú esa situación en la realidad?
+    </div>
+  </div>
+  <div class="cbox" style="margin-top:1rem;"><div class="ct">Lo que se evalúa</div><p>No se evalúa si la IA dio una buena respuesta. Se evalúa tu capacidad de <strong>comparar, filtrar y construir criterio propio</strong>. Un estudiante que dice "la IA mencionó estos principios correctamente, pero no consideró esta consecuencia específica del contexto ecuatoriano" demuestra más aprendizaje que uno que copia la respuesta sin analizarla.</p></div>
+</div>
+
+<!-- QUIZ -->
+<div id="pan-quiz" class="tab-panel">
+  <h2 class="sec-title">7. Cuestionario de la Semana 4 — Cierre de Unidad 1</h2>
+  <p style="font-size:14px;color:#555;margin-bottom:1.2rem;">Este cuestionario combina ética con la síntesis de toda la Unidad 1. Prepárate para el Primer Parcial — estas preguntas representan el tipo de razonamiento que se evaluará.</p>
+  <div id="quiz4cont"></div>
+  <div class="sbar" id="sbar4" style="display:none;">
+    <div class="snum" id="snum4">0/6</div>
+    <div class="slbl" id="slbl4"></div>
+  </div>
+  <button id="rbtn4" style="display:none;margin:1rem auto;background:#003366;color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:14px;cursor:pointer;" onclick="resetQ4()">Reiniciar cuestionario</button>
+</div>
+</div>
+
+<script>
+(function(){
+  var bar = document.getElementById('tabbar4');
+  bar.addEventListener('click', function(e){
+    var btn = e.target.closest('.tab-btn');
+    if(!btn) return;
+    var tab = btn.getAttribute('data-tab');
+    document.querySelectorAll('#tabbar4 .tab-btn').forEach(function(b){ b.classList.remove('active'); });
+    document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
+    btn.classList.add('active');
+    document.getElementById('pan-' + tab).classList.add('active');
+  });
+
+  function togglePrincipio(id){
+    var el = document.getElementById(id);
+    el.style.display = (el.style.display === 'none' || el.style.display === '') ? 'block' : 'none';
+  }
+  window.togglePrincipio = togglePrincipio;
+
+  var casoLocked = {};
+  function respCaso(cid, optIdx, correct, fbOk, fbErr){
+    if(casoLocked[cid]) return;
+    casoLocked[cid] = true;
+    var btns = document.getElementById(cid+'opts').querySelectorAll('.copt');
+    btns.forEach(function(b){ b.disabled = true; });
+    var fb = document.getElementById(cid+'fb');
+    if(optIdx === correct){
+      btns[optIdx].classList.add('cor');
+      fb.className = 'cfb show ok';
+      fb.innerHTML = '<strong>Correcto.</strong> ' + fbOk;
+    } else {
+      btns[optIdx].classList.add('err');
+      btns[correct].classList.add('cor');
+      fb.className = 'cfb show err2';
+      fb.innerHTML = '<strong>Respuesta incorrecta.</strong> ' + fbErr;
+    }
+  }
+  window.respCaso = respCaso;
+
+  var q4 = [
+    {q:'¿Cuál describe mejor la diferencia entre Objetividad e Integridad según el CECE?',
+     opts:['Son sinónimos — ambos significan que el contador debe ser honesto en todo momento','La Objetividad se refiere a que la información refleje la realidad sin sesgos; la Integridad se refiere a la honestidad del contador en sus relaciones y comportamiento profesional','La Objetividad es más importante porque afecta directamente los números','La Integridad solo aplica cuando el contador interactúa con clientes externos'],
+     correct:1,fb:'Correcto. La Objetividad tiene que ver con la información que se produce: que los números reflejen la realidad sin distorsión. La Integridad tiene que ver con la persona: que el contador actúe con honestidad y buena fe en todas sus relaciones, tanto con los números como con las personas.'},
+    {q:'Un contador accede a presentar un análisis de costos distorsionado para que un contrato deficitario parezca rentable. ¿Cuál es la consecuencia más probable a largo plazo?',
+     opts:['Ninguna consecuencia — es una decisión interna que no afecta a nadie fuera de la empresa','El gerente tomará decisiones estratégicas basadas en información falsa, produciendo pérdidas reales y comprometiendo la sostenibilidad del negocio','Solo afecta al contador si alguien lo descubre — de lo contrario el impacto es neutral','El contador habrá cumplido con apoyar las decisiones del gerente, que es su propósito principal'],
+     correct:1,fb:'Correcto. Las consecuencias son concretas y medibles. Si el gerente cree que ese contrato es rentable cuando no lo es, puede decidir replicarlo, expandirlo o priorizar recursos hacia él — decisiones que amplifican la pérdida. Y cuando la realidad se revele, la credibilidad del contador queda destruida.'},
+    {q:'¿Por qué la ética profesional es especialmente desafiante para el contador de una empresa familiar o mediana?',
+     opts:['Porque en empresas medianas no hay supervisión externa, haciendo más fácil omitir requisitos éticos','Porque tiene relaciones personales cercanas con los propietarios, generando presión social para ceder ante pedidos que contradicen los principios del CECE','Porque las empresas medianas tienen más clientes y más riesgo de error','Porque el CECE solo aplica a contadores de empresas grandes o que cotizan en bolsa'],
+     correct:1,fb:'Correcto. La presión social en empresas familiares es real y poderosa. Cuando el dueño es también tu jefe y hay una relación personal de años, decir "no" a un pedido éticamente cuestionable requiere más coraje que en una corporación anónima. Es exactamente en esos contextos donde el CECE tiene mayor importancia práctica.'},
+    {q:'La RSC (Responsabilidad Social Corporativa) en una empresa de seguridad privada incluye principalmente:',
+     opts:['Donaciones a fundaciones y actividades de caridad solamente','El pago completo y puntual de todos los beneficios de ley a los guardias, la transparencia con los clientes y el cumplimiento de obligaciones tributarias, entre otros aspectos de gestión responsable','Solo las obligaciones legales con el Estado — lo que la ley no exige no es parte de la RSC','La RSC es un concepto para multinacionales — no aplica a empresas medianas ecuatorianas'],
+     correct:1,fb:'Correcto. La RSC no es solo filantropía — es gestión responsable que incluye el trato digno a los empleados, la transparencia con los clientes y el cumplimiento tributario. Para una empresa de seguridad, cumplir con todos los beneficios de ley de los guardias no es solo ética — es la base de su sostenibilidad operativa.'},
+    {q:'Un contador no conoce los cambios recientes en la legislación laboral aplicable a guardias de seguridad y produce análisis de nómina incorrectos. ¿Qué principio del CECE ha vulnerado principalmente?',
+     opts:['Objetividad — sus análisis no reflejan la realidad','Competencia — no mantuvo su conocimiento técnico actualizado, aunque los errores no fueron intencionales','Confidencialidad — reveló información laboral sensible','Integridad — actuó con deshonestidad al producir análisis incorrectos'],
+     correct:1,fb:'Correcto. La Competencia exige actualización permanente. Un error por ignorancia tiene las mismas consecuencias prácticas que un error intencional. El principio de Competencia existe exactamente para prevenir este tipo de situación.'},
+    {q:'¿Cuál es la síntesis más precisa del rol del contador gerencial que resume toda la Unidad 1?',
+     opts:['El contador gerencial produce estados financieros para el SRI y los socios, igual que el contador financiero, pero con mayor detalle','El contador gerencial transforma datos operativos en información útil para decisiones internas, con rigor técnico y con los valores éticos del CECE como garantía de confiabilidad','El contador gerencial solo interviene cuando la empresa tiene problemas de rentabilidad o liquidez graves','El contador gerencial diseña sistemas de software para automatizar la contabilidad de la empresa'],
+     correct:1,fb:'Correcto. Esta síntesis captura los tres pilares de la Unidad 1: el propósito (transformar datos en información para decisiones), el método (rigor técnico — Excel, SIG, análisis de costos) y el fundamento (los valores éticos del CECE que garantizan que esa información sea confiable).'}
+  ];
+
+  var ans4=0, cor4=0;
+
+  function buildQ4(){
+    var c = document.getElementById('quiz4cont');
+    c.innerHTML = '';
+    q4.forEach(function(q,i){
+      var d = document.createElement('div');
+      d.className = 'qblock';
+      var opts = q.opts.map(function(o,j){
+        return '<button class="qopt" onclick="ansQ4('+i+','+j+')">'+String.fromCharCode(65+j)+') '+o+'</button>';
+      }).join('');
+      d.innerHTML = '<div class="qhdr">Pregunta '+(i+1)+' de '+q4.length+'</div>' +
+        '<div class="qbody"><div class="qstem">'+q.q+'</div>'+opts+'<div class="qfb" id="qf4-'+i+'"></div></div>';
+      c.appendChild(d);
+    });
+  }
+
+  function ansQ4(qi,oi){
+    if(document.getElementById('qf4-'+qi).classList.contains('show')) return;
+    var q=q4[qi];
+    var btns=document.querySelectorAll('#quiz4cont .qblock:nth-child('+(qi+1)+') .qopt');
+    btns.forEach(function(b){b.disabled=true;});
+    var fb=document.getElementById('qf4-'+qi);
+    if(oi===q.correct){
+      btns[oi].classList.add('qcor');
+      fb.className='qfb show qfb-ok';
+      fb.innerHTML='<strong>Correcto.</strong> '+q.fb;
+      cor4++;
+    } else {
+      btns[oi].classList.add('qerr');
+      btns[q.correct].classList.add('qcor');
+      fb.className='qfb show qfb-err';
+      fb.innerHTML='<strong>Respuesta incorrecta.</strong> La correcta era la '+String.fromCharCode(65+q.correct)+'. '+q.fb;
+    }
+    ans4++;
+    if(ans4===q4.length){
+      document.getElementById('sbar4').style.display='block';
+      document.getElementById('snum4').textContent=cor4+'/'+q4.length;
+      var pct=Math.round(cor4/q4.length*100);
+      document.getElementById('slbl4').textContent=pct+'% — '+(pct===100?'Dominio completo de la Unidad 1. Estás listo para el Parcial.':pct>=67?'Buen avance. Repasa los temas con error antes del parcial.':'Dedica tiempo a releer todo el material de la Unidad 1 antes del examen.');
+      document.getElementById('rbtn4').style.display='block';
+    }
+  }
+  window.ansQ4 = ansQ4;
+
+  function resetQ4(){
+    ans4=0; cor4=0;
+    document.getElementById('sbar4').style.display='none';
+    document.getElementById('rbtn4').style.display='none';
+    buildQ4();
+  }
+  window.resetQ4 = resetQ4;
+
+  buildQ4();
+})();
+</script>
