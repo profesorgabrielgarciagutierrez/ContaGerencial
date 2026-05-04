@@ -1,0 +1,1921 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Contabilidad Gerencial — Semana 5</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+<style>
+/* ============================================================
+   VARIABLES Y RESET
+============================================================ */
+:root {
+  --azul-oscuro: #003366;
+  --azul-medio: #004a94;
+  --celeste: #87CEEB;
+  --celeste-claro: #d4eef9;
+  --dorado: #C8991A;
+  --dorado-claro: #fef3c7;
+  --blanco: #ffffff;
+  --gris-claro: #f5f7fa;
+  --gris-medio: #e2e8f0;
+  --gris-texto: #4a5568;
+  --verde: #276749;
+  --verde-claro: #d1fae5;
+  --rojo: #c0392b;
+  --rojo-claro: #fee2e2;
+  --radio: 10px;
+  --sombra: 0 4px 16px rgba(0,51,102,0.10);
+  --sombra-hover: 0 8px 28px rgba(0,51,102,0.18);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Source Sans 3', sans-serif;
+  background: #e8f0f8;
+  color: #222;
+  min-height: 100vh;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+/* ============================================================
+   HEADER
+============================================================ */
+.header {
+  background: var(--azul-oscuro);
+  color: var(--blanco);
+  padding: 0;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+.header-top {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 16px 28px 10px;
+  border-bottom: 2px solid var(--dorado);
+}
+.header-logo {
+  width: 56px; height: 56px;
+  background: var(--dorado);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Lora', serif;
+  font-weight: 700; font-size: 22px;
+  color: var(--azul-oscuro);
+  flex-shrink: 0;
+}
+.header-inst { flex: 1; }
+.header-inst h1 {
+  font-family: 'Lora', serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.header-inst p {
+  font-size: 0.82rem;
+  color: var(--celeste);
+  font-weight: 300;
+}
+.header-meta {
+  background: rgba(255,255,255,0.07);
+  padding: 10px 28px;
+  display: flex; gap: 28px; flex-wrap: wrap;
+}
+.meta-item {
+  display: flex; flex-direction: column;
+}
+.meta-label {
+  font-size: 0.68rem;
+  color: var(--celeste);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+.meta-value {
+  font-family: 'Lora', serif;
+  font-size: 0.95rem;
+  color: var(--blanco);
+  font-weight: 600;
+}
+.meta-value.dorado { color: var(--dorado); }
+
+/* ============================================================
+   NAV PESTAÑAS
+============================================================ */
+.tabs-wrapper {
+  background: var(--celeste);
+  border-bottom: 3px solid var(--azul-oscuro);
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--azul-oscuro) var(--celeste);
+}
+.tabs-wrapper::-webkit-scrollbar { height: 5px; }
+.tabs-wrapper::-webkit-scrollbar-track { background: var(--celeste); }
+.tabs-wrapper::-webkit-scrollbar-thumb { background: var(--azul-oscuro); border-radius: 10px; }
+.tabs-nav {
+  display: flex;
+  min-width: max-content;
+  padding: 0 8px;
+}
+.tab-btn {
+  background: transparent;
+  border: none;
+  padding: 12px 18px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 0.82rem;
+  color: #1a1a1a;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+  border-bottom: 3px solid transparent;
+  font-weight: 500;
+}
+.tab-btn:hover { background: rgba(255,255,255,0.5); }
+.tab-btn.active {
+  background: var(--blanco);
+  color: var(--azul-oscuro);
+  font-weight: 700;
+  border-bottom: 3px solid var(--dorado);
+}
+
+/* ============================================================
+   CONTENIDO PRINCIPAL
+============================================================ */
+.main { max-width: 920px; margin: 0 auto; padding: 28px 16px 60px; }
+.tab-content { display: none; }
+.tab-content.active { display: block; animation: fadeIn 0.35s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ============================================================
+   COMPONENTES DE CONTENIDO
+============================================================ */
+h2.section-title {
+  font-family: 'Lora', serif;
+  font-size: 1.55rem;
+  color: var(--azul-oscuro);
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+h3.subsection {
+  font-family: 'Lora', serif;
+  font-size: 1.15rem;
+  color: var(--azul-medio);
+  margin: 22px 0 8px;
+  font-weight: 600;
+}
+.divider {
+  height: 3px;
+  background: linear-gradient(90deg, var(--dorado), transparent);
+  margin-bottom: 22px;
+  border-radius: 2px;
+}
+p { margin-bottom: 14px; color: var(--gris-texto); }
+ul, ol { margin: 0 0 14px 20px; color: var(--gris-texto); }
+li { margin-bottom: 6px; }
+
+/* Caja de concepto — borde izquierdo azul */
+.caja-concepto {
+  border-left: 5px solid var(--azul-oscuro);
+  background: var(--gris-claro);
+  padding: 16px 20px;
+  border-radius: 0 var(--radio) var(--radio) 0;
+  margin: 18px 0;
+}
+.caja-concepto .label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--azul-oscuro);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.caja-concepto p { color: #222; margin: 0; }
+
+/* Caja de ejemplo — fondo azul claro */
+.caja-ejemplo {
+  background: var(--celeste-claro);
+  border: 1px solid var(--celeste);
+  border-radius: var(--radio);
+  padding: 16px 20px;
+  margin: 18px 0;
+}
+.caja-ejemplo .label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--azul-oscuro);
+  font-weight: 700;
+  margin-bottom: 6px;
+  display: flex; align-items: center; gap: 6px;
+}
+.caja-ejemplo .label::before { content: "🏢"; font-size: 1rem; }
+
+/* Caja de idea clave */
+.caja-clave {
+  background: linear-gradient(135deg, var(--azul-oscuro), var(--azul-medio));
+  color: var(--blanco);
+  border-radius: var(--radio);
+  padding: 18px 22px;
+  margin: 22px 0;
+}
+.caja-clave .label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--dorado);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.caja-clave p { color: var(--blanco); margin: 0; }
+
+/* Caja de alerta / nota */
+.caja-nota {
+  background: var(--dorado-claro);
+  border-left: 5px solid var(--dorado);
+  border-radius: 0 var(--radio) var(--radio) 0;
+  padding: 14px 18px;
+  margin: 16px 0;
+}
+.caja-nota p { color: #7c5e04; margin: 0; font-weight: 500; }
+
+/* Tablas */
+.tabla-wrap { overflow-x: auto; margin: 18px 0; border-radius: var(--radio); box-shadow: var(--sombra); }
+table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+thead th {
+  background: var(--azul-oscuro);
+  color: var(--blanco);
+  padding: 12px 14px;
+  font-family: 'Lora', serif;
+  font-weight: 600;
+  text-align: left;
+}
+tbody tr:nth-child(even) { background: var(--gris-claro); }
+tbody tr:nth-child(odd) { background: var(--blanco); }
+td { padding: 10px 14px; border-bottom: 1px solid var(--gris-medio); vertical-align: top; }
+tbody tr:hover { background: var(--celeste-claro); }
+
+/* Badges */
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.badge-fijo { background: #dbeafe; color: #1e40af; }
+.badge-variable { background: var(--verde-claro); color: var(--verde); }
+.badge-semivariable { background: #fde68a; color: #92400e; }
+.badge-directo { background: #ede9fe; color: #5b21b6; }
+.badge-indirecto { background: #fee2e2; color: var(--rojo); }
+.badge-producto { background: var(--celeste-claro); color: var(--azul-oscuro); }
+.badge-periodo { background: var(--dorado-claro); color: #92400e; }
+
+/* Cards de costo visual */
+.cost-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin: 18px 0; }
+.cost-card {
+  border-radius: var(--radio);
+  padding: 16px;
+  box-shadow: var(--sombra);
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: default;
+}
+.cost-card:hover { transform: translateY(-3px); box-shadow: var(--sombra-hover); }
+.cost-card .icon { font-size: 2rem; margin-bottom: 8px; }
+.cost-card h4 { font-family: 'Lora', serif; font-size: 1rem; margin-bottom: 4px; }
+.cost-card p { font-size: 0.84rem; margin: 0; }
+
+/* Grafico ascii simple */
+.grafico-container {
+  background: var(--azul-oscuro);
+  border-radius: var(--radio);
+  padding: 24px;
+  margin: 18px 0;
+  color: var(--blanco);
+  font-family: monospace;
+}
+.grafico-title {
+  font-family: 'Lora', serif;
+  color: var(--dorado);
+  font-size: 1rem;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+/* SVG charts inline */
+.chart-wrap { margin: 18px 0; }
+.chart-wrap svg { width: 100%; height: auto; border-radius: var(--radio); overflow: visible; }
+
+/* ============================================================
+   REPASO — timeline
+============================================================ */
+.timeline { position: relative; padding-left: 30px; margin: 20px 0; }
+.timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 3px; background: var(--celeste); border-radius: 2px; }
+.timeline-item { position: relative; margin-bottom: 22px; }
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -26px; top: 6px;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--azul-oscuro);
+  border: 3px solid var(--dorado);
+}
+.timeline-item .semana-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  color: var(--dorado);
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+.timeline-item h4 { font-family: 'Lora', serif; font-size: 1rem; color: var(--azul-oscuro); margin: 2px 0 4px; }
+.timeline-item p { font-size: 0.88rem; margin: 0; }
+
+/* ============================================================
+   EJERCICIO Y CUESTIONARIO
+============================================================ */
+.quiz-container { margin-top: 10px; }
+.quiz-item {
+  background: var(--blanco);
+  border-radius: var(--radio);
+  padding: 20px;
+  margin-bottom: 18px;
+  box-shadow: var(--sombra);
+  border-left: 4px solid var(--gris-medio);
+  transition: border-color 0.3s;
+}
+.quiz-item.correct { border-left-color: var(--verde); background: #f0fdf4; }
+.quiz-item.incorrect { border-left-color: var(--rojo); background: #fff5f5; }
+.quiz-item .num { font-weight: 700; color: var(--azul-oscuro); font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.5px; }
+.quiz-item .pregunta { font-family: 'Lora', serif; font-size: 1.05rem; margin: 8px 0 14px; color: #1a1a1a; font-weight: 600; }
+
+/* Opciones seleccionables */
+.opciones { display: flex; flex-direction: column; gap: 8px; }
+.opcion-btn {
+  display: flex; align-items: flex-start; gap: 10px;
+  background: var(--gris-claro);
+  border: 2px solid var(--gris-medio);
+  border-radius: 8px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 0.93rem;
+  color: #333;
+  text-align: left;
+  transition: all 0.2s;
+}
+.opcion-btn:hover:not(:disabled) { border-color: var(--celeste); background: var(--celeste-claro); }
+.opcion-btn.selected { border-color: var(--azul-oscuro); background: #dbeafe; color: var(--azul-oscuro); font-weight: 600; }
+.opcion-btn.correct-ans { border-color: var(--verde); background: var(--verde-claro); color: var(--verde); font-weight: 700; }
+.opcion-btn.wrong-ans { border-color: var(--rojo); background: var(--rojo-claro); color: var(--rojo); }
+.opcion-btn:disabled { cursor: default; }
+.opcion-letter {
+  min-width: 26px; height: 26px;
+  background: var(--azul-oscuro);
+  color: var(--blanco);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.78rem; font-weight: 700; flex-shrink: 0;
+}
+
+/* Explicación de respuesta */
+.explicacion {
+  display: none;
+  margin-top: 12px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+.explicacion.correct { background: var(--verde-claro); color: #14532d; border-left: 4px solid var(--verde); }
+.explicacion.incorrect { background: var(--rojo-claro); color: #7f1d1d; border-left: 4px solid var(--rojo); }
+.explicacion.visible { display: block; }
+
+/* Botones de acción */
+.btn-verificar, .btn-reiniciar {
+  padding: 14px 32px;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-block;
+  margin: 6px;
+}
+.btn-verificar {
+  background: var(--azul-oscuro);
+  color: var(--blanco);
+  box-shadow: 0 4px 14px rgba(0,51,102,0.3);
+}
+.btn-verificar:hover { background: var(--azul-medio); transform: translateY(-2px); }
+.btn-reiniciar {
+  background: var(--gris-medio);
+  color: var(--azul-oscuro);
+}
+.btn-reiniciar:hover { background: #cbd5e0; }
+
+/* Resultados finales */
+.resultado-final {
+  display: none;
+  background: linear-gradient(135deg, var(--azul-oscuro), var(--azul-medio));
+  color: var(--blanco);
+  border-radius: var(--radio);
+  padding: 28px;
+  text-align: center;
+  margin-top: 24px;
+  box-shadow: var(--sombra);
+}
+.resultado-final.visible { display: block; animation: fadeIn 0.5s ease; }
+.resultado-emoji { font-size: 3.5rem; margin-bottom: 10px; }
+.resultado-score { font-family: 'Lora', serif; font-size: 2.4rem; font-weight: 700; color: var(--dorado); }
+.resultado-pct { font-size: 1.1rem; color: var(--celeste); margin-bottom: 14px; }
+.barra-progreso-wrap { background: rgba(255,255,255,0.2); border-radius: 20px; height: 14px; overflow: hidden; margin: 14px 0; }
+.barra-progreso { height: 100%; border-radius: 20px; background: var(--dorado); transition: width 1s ease; }
+.resultado-msg { font-size: 1.05rem; color: var(--blanco); font-style: italic; margin-top: 8px; }
+
+/* Badge cuestionario */
+.badge-tipo { font-size: 0.7rem; padding: 2px 8px; border-radius: 20px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-left: 8px; }
+.badge-teorica { background: var(--celeste-claro); color: var(--azul-oscuro); }
+.badge-analisis { background: var(--dorado-claro); color: #7c5e04; }
+
+/* ============================================================
+   ACTIVIDAD IA
+============================================================ */
+.ia-card {
+  background: var(--blanco);
+  border-radius: var(--radio);
+  padding: 24px;
+  box-shadow: var(--sombra);
+  margin-bottom: 20px;
+  border-top: 4px solid var(--azul-oscuro);
+}
+.ia-card h3 { font-family: 'Lora', serif; color: var(--azul-oscuro); margin-bottom: 12px; }
+.prompt-box {
+  background: #1e293b;
+  color: #e2e8f0;
+  border-radius: var(--radio);
+  padding: 18px 20px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  position: relative;
+  margin: 12px 0;
+}
+.prompt-box .copy-btn {
+  position: absolute; top: 10px; right: 10px;
+  background: var(--azul-medio);
+  color: var(--blanco);
+  border: none;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  font-family: 'Source Sans 3', sans-serif;
+}
+.prompt-box .copy-btn:hover { background: var(--dorado); color: var(--azul-oscuro); }
+.criterio-item {
+  display: flex; gap: 10px; align-items: flex-start;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+.criterio-item.bien { background: var(--verde-claro); }
+.criterio-item.mal { background: var(--rojo-claro); }
+.criterio-item .icon { font-size: 1.2rem; flex-shrink: 0; }
+.criterio-item p { font-size: 0.88rem; margin: 0; }
+
+/* ============================================================
+   PREGUNTAS REFLEXIVAS
+============================================================ */
+.reflexion-card {
+  background: linear-gradient(135deg, #f0f4ff, #fff7ed);
+  border-radius: var(--radio);
+  padding: 22px;
+  margin-bottom: 16px;
+  border: 1px solid var(--celeste);
+  box-shadow: var(--sombra);
+}
+.reflexion-num {
+  width: 34px; height: 34px;
+  background: var(--azul-oscuro);
+  color: var(--dorado);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Lora', serif;
+  font-weight: 700; font-size: 1rem;
+  margin-bottom: 12px;
+}
+.reflexion-card h4 { font-family: 'Lora', serif; color: var(--azul-oscuro); font-size: 1.05rem; margin-bottom: 8px; }
+.reflexion-card p { font-size: 0.9rem; color: var(--gris-texto); margin: 0; }
+
+/* ============================================================
+   BIBLIOGRAFÍA
+============================================================ */
+.bib-card {
+  background: var(--blanco);
+  border-radius: var(--radio);
+  padding: 18px 20px;
+  margin-bottom: 14px;
+  box-shadow: var(--sombra);
+  border-left: 4px solid var(--dorado);
+  display: flex; gap: 14px; align-items: flex-start;
+}
+.bib-num {
+  min-width: 34px; height: 34px;
+  background: var(--dorado);
+  color: var(--azul-oscuro);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 0.9rem; flex-shrink: 0;
+}
+.bib-content p { margin: 0; font-size: 0.9rem; }
+.bib-content em { color: var(--azul-oscuro); }
+.bib-nota {
+  background: var(--gris-claro);
+  border-radius: var(--radio);
+  padding: 14px 18px;
+  margin-top: 20px;
+  font-size: 0.85rem;
+  color: var(--gris-texto);
+  border-left: 4px solid var(--celeste);
+}
+
+/* ============================================================
+   DRAG & DROP (ejercicio interactivo)
+============================================================ */
+.clasificar-area { margin: 18px 0; }
+.items-pool { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; min-height: 50px; }
+.drag-item {
+  background: var(--azul-oscuro);
+  color: var(--blanco);
+  padding: 8px 14px;
+  border-radius: 20px;
+  cursor: grab;
+  font-size: 0.88rem;
+  font-weight: 600;
+  user-select: none;
+  transition: transform 0.15s, opacity 0.15s;
+}
+.drag-item:active { cursor: grabbing; transform: scale(1.05); }
+.drag-item.dragging { opacity: 0.5; }
+.drop-zones { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; }
+.drop-zone {
+  min-height: 100px;
+  border: 2px dashed var(--azul-medio);
+  border-radius: var(--radio);
+  padding: 12px;
+  background: var(--gris-claro);
+  transition: background 0.2s, border-color 0.2s;
+}
+.drop-zone.drag-over { background: var(--celeste-claro); border-color: var(--azul-oscuro); border-style: solid; }
+.drop-zone h4 { font-size: 0.85rem; font-weight: 700; color: var(--azul-oscuro); margin-bottom: 8px; text-align: center; }
+.drop-zone .items { display: flex; flex-wrap: wrap; gap: 8px; min-height: 40px; }
+.drop-zone .drag-item { background: var(--azul-medio); }
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+@media (max-width: 600px) {
+  .header-top { padding: 12px 14px 8px; gap: 12px; }
+  .header-inst h1 { font-size: 0.9rem; }
+  .header-meta { padding: 8px 14px; gap: 14px; }
+  .main { padding: 18px 10px 50px; }
+  h2.section-title { font-size: 1.3rem; }
+  .cost-grid { grid-template-columns: 1fr 1fr; }
+  .drop-zones { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER
+============================================================ -->
+<div class="header">
+  <div class="header-top">
+    <div class="header-logo">UG</div>
+    <div class="header-inst">
+      <h1>Universidad de Guayaquil &mdash; Facultad de Ciencias Administrativas</h1>
+      <p>Carrera en Contabilidad y Auditoría &nbsp;|&nbsp; Programa CPA Semestral &nbsp;|&nbsp; Quinto Semestre</p>
+    </div>
+  </div>
+  <div class="header-meta">
+    <div class="meta-item"><span class="meta-label">Materia</span><span class="meta-value">Contabilidad Gerencial</span></div>
+    <div class="meta-item"><span class="meta-label">Unidad</span><span class="meta-value">Unidad 1 — Fundamentos de Costos</span></div>
+    <div class="meta-item"><span class="meta-label">Semana</span><span class="meta-value dorado">Semana 5</span></div>
+    <div class="meta-item"><span class="meta-label">Sesiones</span><span class="meta-value">8 &ndash; 9 &ndash; 10</span></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     PESTAÑAS DE NAVEGACIÓN
+============================================================ -->
+<div class="tabs-wrapper">
+  <nav class="tabs-nav" id="tabsNav">
+    <button class="tab-btn active" data-tab="repaso">📋 Repaso</button>
+    <button class="tab-btn" data-tab="tema1">1. Costos Fijos y Variables</button>
+    <button class="tab-btn" data-tab="tema2">2. Costos Semivariables</button>
+    <button class="tab-btn" data-tab="tema3">3. Costos Directos e Indirectos</button>
+    <button class="tab-btn" data-tab="tema4">4. Comportamiento según Actividad</button>
+    <button class="tab-btn" data-tab="tema5">5. Producto vs. Período</button>
+    <button class="tab-btn" data-tab="ejercicio">🧩 Ejercicio Interactivo</button>
+    <button class="tab-btn" data-tab="cuestionario">📝 Cuestionario</button>
+    <button class="tab-btn" data-tab="ia">🤖 Actividad con IA</button>
+    <button class="tab-btn" data-tab="reflexion">💭 Preguntas Reflexivas</button>
+    <button class="tab-btn" data-tab="biblio">📚 Bibliografía</button>
+  </nav>
+</div>
+
+<!-- ============================================================
+     CONTENIDO DE PESTAÑAS
+============================================================ -->
+<div class="main">
+
+<!-- ===== REPASO ===== -->
+<div class="tab-content active" id="tab-repaso">
+  <h2 class="section-title">📋 Repaso: El camino recorrido hasta aquí</h2>
+  <div class="divider"></div>
+  <p>Antes de adentrarnos en la clasificación detallada de los costos, es fundamental consolidar lo que hemos construido semana a semana. Cada concepto previo es un <strong>ladrillo esencial</strong> que da soporte a lo que aprenderemos hoy. Revisa este resumen con atención.</p>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="semana-label">Semana 1</div>
+      <h4>Contabilidad Gerencial vs. Contabilidad Financiera</h4>
+      <p>Aprendiste que la contabilidad gerencial <strong>no solo registra lo que pasó</strong>, sino que genera información para <em>decidir qué hacer</em>. El gerente de tu empresa de seguridad necesita saber mucho más que el balance: necesita saber si un contrato es rentable, si un guardia cuesta demasiado, o si añadir un nuevo cliente vale la pena. Los estados financieros tradicionales, aunque útiles, tienen limitaciones para esa toma de decisiones interna.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="semana-label">Semana 2</div>
+      <h4>Excel como herramienta gerencial + Primer acercamiento a los costos</h4>
+      <p>Trabajaste con Excel para organizar datos y construir una hoja de trabajo gerencial básica. También hiciste tu <strong>primer acercamiento a la clasificación de costos</strong>: entendiste que no todos los gastos de una empresa de seguridad se comportan igual —el sueldo del gerente no cambia aunque contrates un cliente más, pero sí cambia el gasto en uniformes.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="semana-label">Semana 3</div>
+      <h4>Sistemas de Información Gerencial (SIG)</h4>
+      <p>Descubriste que el dato operativo (horas trabajadas por un guardia, kilómetros recorridos, número de rondas) <strong>es materia prima para la decisión gerencial</strong>. Sin un flujo de información limpio y ordenado, el gerente navega a ciegas. La contabilidad gerencial toma esos datos y los convierte en reportes que iluminan el camino.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="semana-label">Semana 4</div>
+      <h4>Ética profesional del contador gerencial</h4>
+      <p>Comprendiste que detrás de cada número hay una responsabilidad moral. El contador que distorsiona los costos de un contrato de seguridad para "ganar" una licitación no solo comete una falta técnica: viola el Código de Ética del Contador Ecuatoriano (CECE) y afecta la confianza que la sociedad deposita en la profesión.</p>
+    </div>
+  </div>
+
+  <div class="caja-clave">
+    <div class="label">🔑 Idea integradora</div>
+    <p>Hemos pasado de <em>entender para qué sirve</em> la contabilidad gerencial, a <em>cómo se organiza la información</em>, a <em>los valores que la sustentan</em>. En la Semana 5 damos el salto hacia el corazón técnico de la materia: <strong>¿cómo se clasifican y comportan los costos?</strong> Esta es la base de toda decisión gerencial en tu empresa de seguridad.</p>
+  </div>
+
+  <div class="caja-nota">
+    <p>⏰ <strong>Esta semana (Sesiones 8, 9 y 10)</strong> abarca el punto de inflexión de la Unidad 1. Al dominar la clasificación de costos, tendrás la lente analítica para evaluar cualquier contrato, presupuesto o decisión operativa.</p>
+  </div>
+</div>
+
+<!-- ===== TEMA 1: COSTOS FIJOS Y VARIABLES ===== -->
+<div class="tab-content" id="tab-tema1">
+  <h2 class="section-title">1. Costos Fijos y Costos Variables</h2>
+  <div class="divider"></div>
+
+  <div class="caja-concepto">
+    <div class="label">📖 Definición esencial</div>
+    <p>La clasificación de costos según su comportamiento ante los cambios en el nivel de actividad es una de las más importantes en contabilidad gerencial. <strong>El nivel de actividad</strong> es la medida que usamos para expresar cuánto produce o trabaja la empresa: puede ser horas trabajadas, número de contratos, guardias activos, kilómetros patrullados, etc.</p>
+  </div>
+
+  <h3 class="subsection">¿Qué son los Costos Fijos?</h3>
+  <p>Un <strong>costo fijo</strong> es aquel cuyo <em>monto total</em> permanece constante dentro de un rango relevante de actividad, independientemente de cuánto produzca o trabaje la empresa. Aunque cambie el volumen de operaciones, este costo no varía.</p>
+  <p>El concepto clave aquí es el <strong>rango relevante</strong>: el intervalo de actividad dentro del cual los costos fijos efectivamente se mantienen constantes. Fuera de ese rango, los costos fijos pueden "saltar" a un nuevo nivel.</p>
+
+  <div class="caja-ejemplo">
+    <div class="label">Ejemplo en tu empresa de seguridad</div>
+    <p>Tu empresa paga <strong>$2.400 mensuales de arrendamiento</strong> por las oficinas de operaciones en Guayaquil. Este monto es el mismo tanto si en ese mes tienes 3 contratos vigentes como si tienes 15. El arriendo no sube porque contrates un cliente más, ni baja si pierdes uno. <em>Es fijo</em>.</p>
+    <p>Otros ejemplos fijos: el sueldo del gerente general ($1.800/mes), las licencias de software de gestión ($120/mes), el servicio de internet corporativo ($85/mes), la depreciación mensual del vehículo administrativo.</p>
+  </div>
+
+  <div class="caja-nota">
+    <p>⚠️ <strong>Importante:</strong> Decir que un costo es "fijo" no significa que <em>nunca</em> cambia. Significa que no cambia en respuesta al nivel de actividad. El arriendo puede subir si renegocias el contrato, pero eso no depende de cuántos guardias tengas activos.</p>
+  </div>
+
+  <h3 class="subsection">Costo Fijo Unitario: el efecto de la dilución</h3>
+  <p>Un fenómeno clave es que, aunque el <em>total</em> del costo fijo no cambia, el <strong>costo fijo por unidad</strong> (por contrato, por guardia, por hora) sí disminuye al aumentar la actividad. Esto se llama <strong>dilución del costo fijo</strong>.</p>
+
+  <div class="tabla-wrap">
+    <table>
+      <thead><tr><th>Contratos activos</th><th>Arriendo total ($)</th><th>Costo fijo por contrato ($)</th></tr></thead>
+      <tbody>
+        <tr><td>3 contratos</td><td>2.400</td><td>800,00</td></tr>
+        <tr><td>6 contratos</td><td>2.400</td><td>400,00</td></tr>
+        <tr><td>12 contratos</td><td>2.400</td><td>200,00</td></tr>
+        <tr><td>24 contratos</td><td>2.400</td><td>100,00</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>¿Ves el patrón? Cuantos más contratos tienes, <strong>menos te cuesta el arriendo por cada uno</strong>. Esta es una razón poderosa para crecer: los costos fijos se "diluyen" y cada cliente nuevo te cuesta proporcionalmente menos en estructura.</p>
+
+  <h3 class="subsection">¿Qué son los Costos Variables?</h3>
+  <p>Un <strong>costo variable</strong> es aquel que cambia en <em>proporción directa</em> al nivel de actividad. Si la actividad sube un 20%, el costo variable total también sube aproximadamente un 20%. Si la actividad baja, el costo variable baja.</p>
+  <p>Dicho de otro modo: si no hay actividad, el costo variable es cero (o muy cercano a cero).</p>
+
+  <div class="caja-ejemplo">
+    <div class="label">Ejemplo en tu empresa de seguridad</div>
+    <p>Cada guardia que asignas a un puesto genera un <strong>costo de uniforme y equipo de $45</strong> al momento de la asignación. Si tienes 10 guardias activos, ese costo es $450. Si contratas 10 más, el costo sube a $900. El costo varía directamente con el número de guardias.</p>
+    <p>Otros ejemplos variables en tu empresa: las horas extra pagadas según trabajo nocturno o feriados, los gastos de gasolina del vehículo de supervisión (más patrullajes = más gasolina), las comisiones pagadas al asesor comercial por cada contrato cerrado.</p>
+  </div>
+
+  <h3 class="subsection">El costo variable por unidad es constante</h3>
+  <p>Al contrario del costo fijo, el <strong>costo variable unitario</strong> es constante: siempre cuesta $45 equipar a un guardia, independientemente de cuántos guardias tenga la empresa. Lo que varía es el <em>total</em>.</p>
+
+  <div class="chart-wrap">
+    <svg viewBox="0 0 600 260" xmlns="http://www.w3.org/2000/svg" style="max-height:260px; background:#f8fafc; border-radius:10px; border:1px solid #e2e8f0;">
+      <!-- Grid lines -->
+      <line x1="70" y1="30" x2="70" y2="210" stroke="#cbd5e0" stroke-width="1"/>
+      <line x1="70" y1="210" x2="570" y2="210" stroke="#cbd5e0" stroke-width="1"/>
+      <line x1="70" y1="160" x2="570" y2="160" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4"/>
+      <line x1="70" y1="110" x2="570" y2="110" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4"/>
+      <line x1="70" y1="60" x2="570" y2="60" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4"/>
+      <!-- Etiquetas Y -->
+      <text x="60" y="214" text-anchor="end" font-size="11" fill="#666">0</text>
+      <text x="60" y="164" text-anchor="end" font-size="11" fill="#666">1.000</text>
+      <text x="60" y="114" text-anchor="end" font-size="11" fill="#666">2.000</text>
+      <text x="60" y="64" text-anchor="end" font-size="11" fill="#666">3.000</text>
+      <!-- Etiquetas X -->
+      <text x="170" y="226" text-anchor="middle" font-size="11" fill="#666">10</text>
+      <text x="270" y="226" text-anchor="middle" font-size="11" fill="#666">20</text>
+      <text x="370" y="226" text-anchor="middle" font-size="11" fill="#666">30</text>
+      <text x="470" y="226" text-anchor="middle" font-size="11" fill="#666">40</text>
+      <!-- Línea de Costo Fijo (horizontal) -->
+      <line x1="70" y1="110" x2="570" y2="110" stroke="#003366" stroke-width="3"/>
+      <circle cx="70" cy="110" r="4" fill="#003366"/>
+      <circle cx="170" cy="110" r="4" fill="#003366"/>
+      <circle cx="270" cy="110" r="4" fill="#003366"/>
+      <circle cx="370" cy="110" r="4" fill="#003366"/>
+      <circle cx="470" cy="110" r="4" fill="#003366"/>
+      <circle cx="570" cy="110" r="4" fill="#003366"/>
+      <text x="580" y="114" font-size="11" fill="#003366" font-weight="bold">CF</text>
+      <!-- Línea de Costo Variable (diagonal) -->
+      <line x1="70" y1="210" x2="570" y2="60" stroke="#C8991A" stroke-width="3"/>
+      <circle cx="70" cy="210" r="4" fill="#C8991A"/>
+      <circle cx="170" cy="180" r="4" fill="#C8991A"/>
+      <circle cx="270" cy="150" r="4" fill="#C8991A"/>
+      <circle cx="370" cy="120" r="4" fill="#C8991A"/>
+      <circle cx="470" cy="90" r="4" fill="#C8991A"/>
+      <circle cx="570" cy="60" r="4" fill="#C8991A"/>
+      <text x="580" y="64" font-size="11" fill="#C8991A" font-weight="bold">CV</text>
+      <!-- Títulos -->
+      <text x="320" y="18" text-anchor="middle" font-size="13" fill="#003366" font-weight="bold">Comportamiento: Costo Fijo vs. Costo Variable</text>
+      <text x="320" y="245" text-anchor="middle" font-size="11" fill="#888">Número de guardias activos</text>
+      <text x="20" y="130" text-anchor="middle" font-size="11" fill="#888" transform="rotate(-90,20,130)">Costo total ($)</text>
+    </svg>
+  </div>
+
+  <div class="cost-grid">
+    <div class="cost-card" style="background:#dbeafe; border-top:4px solid #003366;">
+      <div class="icon">🏛️</div>
+      <h4 style="color:#003366;">Costo Fijo</h4>
+      <p style="color:#1e3a5f;">Total: <strong>constante</strong><br/>Por unidad: <strong>disminuye</strong> al crecer<br/>Ejemplo: arriendo, sueldos administrativos</p>
+      <span class="badge badge-fijo" style="margin-top:8px; display:inline-block;">FIJO</span>
+    </div>
+    <div class="cost-card" style="background:#d1fae5; border-top:4px solid #276749;">
+      <div class="icon">📈</div>
+      <h4 style="color:#276749;">Costo Variable</h4>
+      <p style="color:#14532d;">Total: <strong>cambia</strong> con la actividad<br/>Por unidad: <strong>constante</strong><br/>Ejemplo: uniformes, comisiones, gasolina</p>
+      <span class="badge badge-variable" style="margin-top:8px; display:inline-block;">VARIABLE</span>
+    </div>
+  </div>
+
+  <div class="caja-clave">
+    <div class="label">🔑 Idea clave para recordar</div>
+    <p>La distinción fijo/variable es la base para calcular el <strong>margen de contribución</strong> y el <strong>punto de equilibrio</strong> —herramientas que aprenderemos en las próximas unidades. Por ahora, domina identificar qué costo es cuál en tu empresa. Ante la duda, pregúntate: <em>¿si duplico el número de guardias activos, este costo también se duplica?</em> Si sí → variable. Si no → fijo.</p>
+  </div>
+</div>
+
+<!-- ===== TEMA 2: COSTOS SEMIVARIABLES ===== -->
+<div class="tab-content" id="tab-tema2">
+  <h2 class="section-title">2. Costos Semivariables (Mixtos)</h2>
+  <div class="divider"></div>
+
+  <div class="caja-concepto">
+    <div class="label">📖 Definición</div>
+    <p>Un <strong>costo semivariable</strong> (también llamado <em>costo mixto</em>) es aquel que tiene <em>dos componentes</em>: una <strong>parte fija</strong> que se paga siempre, independientemente de la actividad, y una <strong>parte variable</strong> que aumenta o disminuye según el nivel de operación. Su comportamiento es una combinación de los dos tipos anteriores.</p>
+  </div>
+
+  <p>Los costos semivariables son muy comunes en la práctica empresarial, y reconocerlos es crucial porque si los tratamos como completamente fijos o completamente variables, cometemos errores de cálculo que afectan las decisiones gerenciales.</p>
+
+  <h3 class="subsection">La fórmula del costo semivariable</h3>
+  <p>Todo costo semivariable puede expresarse con la siguiente ecuación:</p>
+
+  <div class="caja-concepto" style="border-left-color: var(--dorado); background: var(--dorado-claro);">
+    <div class="label" style="color: #7c5e04;">📐 Fórmula matemática</div>
+    <p style="font-size: 1.1rem; font-family: 'Lora', serif; color: #1a1a1a;"><strong>Costo Total = Costo Fijo + (Costo Variable Unitario × Nivel de Actividad)</strong></p>
+    <p style="color: #7c5e04; font-size: 0.9rem; margin-top: 6px;">Donde: CF = parte que siempre se paga &nbsp;|&nbsp; CV unitario = costo adicional por cada unidad de actividad</p>
+  </div>
+
+  <div class="caja-ejemplo">
+    <div class="label">Ejemplo 1: Plan de telefonía corporativa</div>
+    <p>Tu empresa contrata un plan de telefonía para los supervisores de turno. El plan cuesta <strong>$80 fijos al mes</strong> (la renta del plan) más <strong>$0,12 por minuto</strong> de llamada adicional que supere la franquicia incluida.</p>
+    <p>Si en el mes de agosto tus supervisores realizaron 500 minutos adicionales:</p>
+    <p style="font-family: 'Courier New', monospace; background:#1e293b; color:#e2e8f0; padding: 10px 14px; border-radius: 8px; font-size: 0.9rem;">
+      Costo total = $80 + ($0,12 × 500) = $80 + $60 = <strong>$140</strong>
+    </p>
+    <p>Si en septiembre usaron solo 200 minutos adicionales:</p>
+    <p style="font-family: 'Courier New', monospace; background:#1e293b; color:#e2e8f0; padding: 10px 14px; border-radius: 8px; font-size: 0.9rem;">
+      Costo total = $80 + ($0,12 × 200) = $80 + $24 = <strong>$104</strong>
+    </p>
+    <p>La parte fija ($80) nunca desaparece. La parte variable ($0,12/min) sube o baja según el uso.</p>
+  </div>
+
+  <div class="caja-ejemplo">
+    <div class="label">Ejemplo 2: Servicio de mantenimiento de equipos de comunicación</div>
+    <p>La empresa que mantiene los radios y equipos de comunicación de tus guardias cobra <strong>$150 mensuales como tarifa base</strong> (revisión preventiva, soporte técnico disponible) más <strong>$25 por cada intervención técnica</strong> realizada fuera de la revisión mensual.</p>
+    <p>En un mes con 3 intervenciones:<br/>Costo = $150 + (3 × $25) = $150 + $75 = <strong>$225</strong></p>
+    <p>En un mes sin intervenciones extra:<br/>Costo = $150 + (0 × $25) = <strong>$150</strong></p>
+  </div>
+
+  <h3 class="subsection">Tipos de costos semivariables que debes conocer</h3>
+
+  <div class="tabla-wrap">
+    <table>
+      <thead><tr><th>Tipo</th><th>Descripción</th><th>Ejemplo en seguridad</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Escalón (Step Cost)</strong></td>
+          <td>Permanece fijo dentro de un rango, luego "salta" a un nivel mayor de golpe al superar ese rango.</td>
+          <td>Un supervisor puede controlar hasta 8 guardias. Si contratas el guardia 9, necesitas un segundo supervisor: el costo sube en bloque.</td>
+        </tr>
+        <tr>
+          <td><strong>Mixto clásico</strong></td>
+          <td>Tiene una parte fija claramente identificable y una parte variable continua, como en los ejemplos anteriores.</td>
+          <td>Factura de electricidad (consumo base + consumo variable por hora de operación de cámaras).</td>
+        </tr>
+        <tr>
+          <td><strong>Semi-fijo con límite</strong></td>
+          <td>Variable hasta cierto punto, luego se "techa" en un máximo aunque la actividad siga creciendo.</td>
+          <td>Seguro de responsabilidad civil: tarifa variable hasta cierto nivel de contratos, luego tarifa plana para niveles altos.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="subsection">¿Por qué importa separar la parte fija de la variable?</h3>
+  <p>Para planificar y presupuestar correctamente, el gerente necesita conocer los <em>componentes</em> del costo semivariable, no solo el total. Si mezclas ambos sin separarlos, no podrás predecir qué pasará con el costo si la actividad cambia.</p>
+  <p>El método más usado para separar ambas partes es el <strong>método del punto alto-punto bajo (High-Low Method)</strong>, que consiste en tomar el mes de mayor actividad y el de menor actividad, calcular la diferencia en costos y actividad, y de ahí deducir el costo variable unitario y el costo fijo.</p>
+
+  <div class="caja-ejemplo">
+    <div class="label">Aplicación: Método del Punto Alto-Punto Bajo</div>
+    <p>Tu empresa tiene los siguientes datos del consumo eléctrico (en función de las horas de cámaras activas):</p>
+    <div class="tabla-wrap">
+      <table>
+        <thead><tr><th>Mes</th><th>Horas de cámara</th><th>Factura eléctrica ($)</th></tr></thead>
+        <tbody>
+          <tr><td>Enero</td><td>800 h</td><td>$310</td></tr>
+          <tr><td>Febrero (MÍNIMO)</td><td>500 h</td><td>$250</td></tr>
+          <tr><td>Marzo</td><td>700 h</td><td>$290</td></tr>
+          <tr><td>Abril (MÁXIMO)</td><td>1.000 h</td><td>$350</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Paso 1:</strong> Costo variable unitario = (Costo máx - Costo mín) ÷ (Actividad máx - Actividad mín)</p>
+    <p style="font-family: monospace; background: #1e293b; color: #e2e8f0; padding: 10px; border-radius: 8px;">
+      CV unitario = ($350 - $250) ÷ (1.000 - 500) = $100 ÷ 500 = <strong>$0,20 por hora</strong>
+    </p>
+    <p><strong>Paso 2:</strong> Costo fijo = Costo total - (CV unitario × Actividad)</p>
+    <p style="font-family: monospace; background: #1e293b; color: #e2e8f0; padding: 10px; border-radius: 8px;">
+      CF = $350 - ($0,20 × 1.000) = $350 - $200 = <strong>$150 fijos al mes</strong>
+    </p>
+    <p><strong>Fórmula final:</strong> Costo eléctrico = $150 + $0,20 × horas de cámara</p>
+  </div>
+
+  <div class="caja-clave">
+    <div class="label">🔑 Idea clave</div>
+    <p>Los costos semivariables son los más comunes en la realidad empresarial, pero también los que más confunden. Identificarlos correctamente y separar sus componentes te permite <strong>presupuestar con precisión</strong> y evitar sorpresas en los estados financieros gerenciales.</p>
+  </div>
+</div>
+
+<!-- ===== TEMA 3: DIRECTOS E INDIRECTOS ===== -->
+<div class="tab-content" id="tab-tema3">
+  <h2 class="section-title">3. Costos Directos e Indirectos</h2>
+  <div class="divider"></div>
+
+  <p>Esta clasificación responde a una pregunta diferente: no <em>"¿cómo se comporta este costo?"</em>, sino <em>"¿puedo atribuirlo claramente a un objeto de costo específico?"</em>. El <strong>objeto de costo</strong> puede ser un contrato, un cliente, un proyecto, un departamento, un servicio concreto.</p>
+
+  <div class="cost-grid">
+    <div class="cost-card" style="background:#ede9fe; border-top:4px solid #5b21b6;">
+      <div class="icon">🎯</div>
+      <h4 style="color:#5b21b6;">Costo Directo</h4>
+      <p style="color:#3b0764;">Puede <strong>trazarse directamente</strong> y de forma económicamente viable hacia un objeto de costo específico. Hay una relación clara y verificable.</p>
+      <span class="badge badge-directo" style="margin-top:8px; display:inline-block;">DIRECTO</span>
+    </div>
+    <div class="cost-card" style="background:#fee2e2; border-top:4px solid #c0392b;">
+      <div class="icon">🔀</div>
+      <h4 style="color:#c0392b;">Costo Indirecto</h4>
+      <p style="color:#7f1d1d;">No puede atribuirse directamente a un objeto de costo. Beneficia a <strong>múltiples objetos</strong> y debe distribuirse mediante criterios de asignación (prorrateo).</p>
+      <span class="badge badge-indirecto" style="margin-top:8px; display:inline-block;">INDIRECTO</span>
+    </div>
+  </div>
+
+  <h3 class="subsection">La clave está en la "trazabilidad"</h3>
+  <p>La distinción entre directo e indirecto no es absoluta: <strong>depende del objeto de costo que estemos analizando</strong>. Un mismo costo puede ser directo respecto a un objeto y simultáneamente indirecto respecto a otro.</p>
+
+  <div class="caja-ejemplo">
+    <div class="label">Ejemplo en tu empresa de seguridad</div>
+    <p><strong>Objeto de costo: Contrato con el Banco XYZ</strong></p>
+    <ul>
+      <li>✅ <strong>Directo:</strong> El sueldo de los 3 guardias asignados exclusivamente a ese banco. Se puede trazar con precisión: "guardia A, B y C trabajan en Banco XYZ".</li>
+      <li>✅ <strong>Directo:</strong> Los uniformes y credenciales emitidos con el logo del banco para esos guardias.</li>
+      <li>❌ <strong>Indirecto:</strong> El arriendo de la oficina central donde se coordina toda la operación. No puedes decir "el 15% del arriendo es del contrato del banco" con certeza; tienes que distribuirlo entre todos los contratos.</li>
+      <li>❌ <strong>Indirecto:</strong> El sueldo del gerente general. Supervisa todos los contratos, no solo el del banco.</li>
+      <li>❌ <strong>Indirecto:</strong> La factura del internet corporativo. Sirve a toda la empresa.</li>
+    </ul>
+  </div>
+
+  <h3 class="subsection">¿Cómo se asignan los costos indirectos?</h3>
+  <p>Dado que los costos indirectos no pueden trazarse directamente, se utilizan <strong>bases de distribución</strong> (también llamadas <em>inductores de costo</em> o <em>drivers</em>) que son criterios que representan de forma razonable cómo se consume ese costo.</p>
+
+  <div class="tabla-wrap">
+    <table>
+      <thead><tr><th>Costo Indirecto</th><th>Base de distribución lógica</th><th>Ejemplo en seguridad</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Arriendo de oficinas</td>
+          <td>Número de contratos o guardias por contrato</td>
+          <td>Si tienes 20 guardias y el Banco XYZ tiene 4 de ellos, le corresponde el 20% del arriendo.</td>
+        </tr>
+        <tr>
+          <td>Sueldo del gerente</td>
+          <td>Horas dedicadas a cada contrato</td>
+          <td>Si el gerente dedica 30% de su tiempo al Banco XYZ, ese porcentaje de su sueldo va a ese contrato.</td>
+        </tr>
+        <tr>
+          <td>Electricidad de oficinas</td>
+          <td>Metros cuadrados o número de personas</td>
+          <td>Proporcional al personal administrativo que atiende cada contrato.</td>
+        </tr>
+        <tr>
+          <td>Software de gestión</td>
+          <td>Número de usuarios o contratos activos</td>
+          <td>Si el sistema gestiona 10 contratos, cada contrato absorbe 1/10 del costo de la licencia.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="caja-nota">
+    <p>⚠️ <strong>Atención:</strong> La elección de la base de distribución afecta significativamente la rentabilidad calculada de cada contrato. Una mala elección puede hacer que un contrato parezca rentable cuando no lo es, o viceversa. El gerente debe elegir bases que reflejen de forma realista el consumo de recursos.</p>
+  </div>
+
+  <h3 class="subsection">Relación entre Directo/Indirecto y Fijo/Variable</h3>
+  <p>Estas clasificaciones son <strong>independientes entre sí</strong> pero se cruzan. Un costo puede ser:</p>
+
+  <div class="tabla-wrap">
+    <table>
+      <thead><tr><th>Combinación</th><th>Ejemplo en seguridad</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge badge-directo">Directo</span> + <span class="badge badge-variable">Variable</span></td><td>Sueldo de guardia asignado a un contrato (sube si hay más horas, y se atribuye a ese contrato).</td></tr>
+        <tr><td><span class="badge badge-directo">Directo</span> + <span class="badge badge-fijo">Fijo</span></td><td>Arriendo de una caseta de seguridad dedicada exclusivamente a un cliente (siempre el mismo monto, solo de ese contrato).</td></tr>
+        <tr><td><span class="badge badge-indirecto">Indirecto</span> + <span class="badge badge-fijo">Fijo</span></td><td>Sueldo del gerente (no cambia con la actividad, no se atribuye a un contrato).</td></tr>
+        <tr><td><span class="badge badge-indirecto">Indirecto</span> + <span class="badge badge-variable">Variable</span></td><td>Consumo de gasolina del vehículo de supervisión (varía con los recorridos, pero sirve a múltiples contratos).</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="caja-clave">
+    <div class="label">🔑 Idea clave</div>
+    <p>La clasificación Directo/Indirecto te dice <strong>a quién cargarle el costo</strong>. La clasificación Fijo/Variable te dice <strong>cómo se comportará ese costo</strong>. Para tomar buenas decisiones gerenciales, necesitas ambas lentes simultáneamente.</p>
+  </div>
+</div>
+
+<!-- ===== TEMA 4: COMPORTAMIENTO SEGÚN ACTIVIDAD ===== -->
+<div class="tab-content" id="tab-tema4">
+  <h2 class="section-title">4. Comportamiento del Costo según el Nivel de Actividad</h2>
+  <div class="divider"></div>
+
+  <p>Ya definimos los tipos de costos. Ahora profundizamos en cómo <em>visualizar y analizar</em> ese comportamiento en función del nivel de operaciones. Esta comprensión es la base del análisis Costo-Volumen-Utilidad (CVU) que estudiaremos en unidades futuras.</p>
+
+  <h3 class="subsection">El concepto de "Nivel de Actividad" o "Inductor de Costo"</h3>
+  <div class="caja-concepto">
+    <div class="label">📖 Definición</div>
+    <p>El <strong>nivel de actividad</strong> es la medida cuantitativa que usamos como referencia para analizar el comportamiento de los costos. En una empresa de seguridad, los inductores de actividad más comunes pueden ser:</p>
+  </div>
+
+  <div class="cost-grid" style="grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));">
+    <div class="cost-card" style="background:#f0f9ff; border-top:3px solid #0284c7; text-align:center;">
+      <div class="icon">👮</div>
+      <h4 style="color:#0284c7; font-size:0.9rem;">Guardias activos</h4>
+      <p style="font-size:0.82rem;">Número de personal de seguridad en funciones</p>
+    </div>
+    <div class="cost-card" style="background:#f0fdf4; border-top:3px solid #16a34a; text-align:center;">
+      <div class="icon">📋</div>
+      <h4 style="color:#16a34a; font-size:0.9rem;">Contratos vigentes</h4>
+      <p style="font-size:0.82rem;">Clientes atendidos simultáneamente</p>
+    </div>
+    <div class="cost-card" style="background:#fef9ee; border-top:3px solid #d97706; text-align:center;">
+      <div class="icon">⏱️</div>
+      <h4 style="color:#d97706; font-size:0.9rem;">Horas hombre</h4>
+      <p style="font-size:0.82rem;">Total de horas trabajadas por todos los guardias</p>
+    </div>
+    <div class="cost-card" style="background:#fdf4ff; border-top:3px solid #9333ea; text-align:center;">
+      <div class="icon">🚗</div>
+      <h4 style="color:#9333ea; font-size:0.9rem;">Kilómetros patrullados</h4>
+      <p style="font-size:0.82rem;">Distancia recorrida por vehículos de supervisión</p>
+    </div>
+  </div>
+
+  <h3 class="subsection">El Rango Relevante: el terreno donde operan los costos fijos</h3>
+  <p>El <strong>rango relevante</strong> es el intervalo de actividad dentro del cual las suposiciones sobre el comportamiento de los costos son válidas. Fuera de ese rango, los costos fijos pueden cambiar de nivel.</p>
+
+  <div class="caja-ejemplo">
+    <div class="label">Ejemplo práctico: capacidad del supervisor</div>
+    <p>Tu empresa tiene un supervisor de operaciones que puede gestionar entre <strong>1 y 10 contratos</strong>. Su sueldo es $900/mes y es un costo fijo dentro de ese rango.</p>
+    <p>Cuando la empresa crece y llega al contrato número 11, ese supervisor ya no da abasto. Necesitas contratar un segundo supervisor. El costo fijo "salta" de $900 a $1.800. Ahora el nuevo rango relevante es 11–20 contratos.</p>
+    <p>Este fenómeno se llama <strong>"costo escalonado" o step cost</strong>: sube en bloques discretos cuando se supera la capacidad de un recurso fijo.</p>
+  </div>
+
+  <div class="chart-wrap">
+    <svg viewBox="0 0 580 240" xmlns="http://www.w3.org/2000/svg" style="max-height:240px; background:#f8fafc; border-radius:10px; border:1px solid #e2e8f0;">
+      <!-- Axes -->
+      <line x1="60" y1="20" x2="60" y2="200" stroke="#cbd5e0" stroke-width="1.5"/>
+      <line x1="60" y1="200" x2="560" y2="200" stroke="#cbd5e0" stroke-width="1.5"/>
+      <!-- Step cost lines -->
+      <line x1="60" y1="160" x2="210" y2="160" stroke="#003366" stroke-width="3"/>
+      <line x1="210" y1="160" x2="210" y2="110" stroke="#003366" stroke-width="2" stroke-dasharray="4"/>
+      <line x1="210" y1="110" x2="370" y2="110" stroke="#003366" stroke-width="3"/>
+      <line x1="370" y1="110" x2="370" y2="60" stroke="#003366" stroke-width="2" stroke-dasharray="4"/>
+      <line x1="370" y1="60" x2="530" y2="60" stroke="#003366" stroke-width="3"/>
+      <!-- Labels Y -->
+      <text x="52" y="164" text-anchor="end" font-size="10" fill="#666">$900</text>
+      <text x="52" y="114" text-anchor="end" font-size="10" fill="#666">$1.800</text>
+      <text x="52" y="64" text-anchor="end" font-size="10" fill="#666">$2.700</text>
+      <!-- Labels X -->
+      <text x="135" y="215" text-anchor="middle" font-size="10" fill="#666">1-10 contratos</text>
+      <text x="290" y="215" text-anchor="middle" font-size="10" fill="#666">11-20 contratos</text>
+      <text x="450" y="215" text-anchor="middle" font-size="10" fill="#666">21-30 contratos</text>
+      <!-- Range labels -->
+      <rect x="62" y="135" width="145" height="20" rx="4" fill="#dbeafe" opacity="0.7"/>
+      <text x="135" y="149" text-anchor="middle" font-size="9" fill="#003366" font-weight="bold">1 supervisor</text>
+      <rect x="212" y="85" width="155" height="20" rx="4" fill="#dbeafe" opacity="0.7"/>
+      <text x="290" y="99" text-anchor="middle" font-size="9" fill="#003366" font-weight="bold">2 supervisores</text>
+      <rect x="372" y="35" width="155" height="20" rx="4" fill="#dbeafe" opacity="0.7"/>
+      <text x="450" y="49" text-anchor="middle" font-size="9" fill="#003366" font-weight="bold">3 supervisores</text>
+      <!-- Title -->
+      <text x="310" y="15" text-anchor="middle" font-size="12" fill="#003366" font-weight="bold">Costo Escalonado (Step Cost) — Supervisores</text>
+    </svg>
+  </div>
+
+  <h3 class="subsection">Análisis del comportamiento: las cuatro funciones de costo</h3>
+
+  <div class="tabla-wrap">
+    <table>
+      <thead><tr><th>Tipo de costo</th><th>Gráfico</th><th>Total cuando sube actividad</th><th>Unitario cuando sube actividad</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="badge badge-fijo">Fijo</span></td>
+          <td>Línea horizontal</td>
+          <td>🔄 Constante</td>
+          <td>📉 Disminuye (se diluye)</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-variable">Variable</span></td>
+          <td>Línea diagonal ascendente desde el origen</td>
+          <td>📈 Aumenta proporcionalmente</td>
+          <td>🔄 Constante</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-semivariable">Semivariable</span></td>
+          <td>Línea diagonal que no pasa por el origen</td>
+          <td>📈 Aumenta (pero desde una base)</td>
+          <td>📉 Disminuye (la parte fija se diluye)</td>
+        </tr>
+        <tr>
+          <td>Escalonado</td>
+          <td>Línea horizontal con saltos</td>
+          <td>↗️ Sube en bloques al superar capacidad</td>
+          <td>📉 Disminuye dentro de cada escalón</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="subsection">Implicaciones gerenciales del comportamiento de costos</h3>
+  <p>Comprender el comportamiento de los costos permite al gerente:</p>
+  <ul>
+    <li><strong>Presupuestar con precisión:</strong> Si sé que cada guardia adicional cuesta $400/mes (costo variable), puedo calcular exactamente cuánto costará crecer de 15 a 20 guardias.</li>
+    <li><strong>Identificar el punto de equilibrio:</strong> ¿A partir de cuántos contratos los ingresos cubren todos los costos fijos y variables?</li>
+    <li><strong>Tomar decisiones de capacidad:</strong> ¿Cuándo debo contratar un supervisor más? ¿Cuándo alquilar una bodega más grande?</li>
+    <li><strong>Evaluar la rentabilidad de contratos adicionales:</strong> Si ya cubrí los costos fijos, un contrato nuevo solo genera costos variables adicionales, haciendo que la utilidad marginal sea mayor.</li>
+  </ul>
+
+  <div class="caja-clave">
+    <div class="label">🔑 Idea clave</div>
+    <p>El comportamiento del costo no es estático ni teórico: cambia según el nivel de operación de tu empresa. Conocerlo te permite <strong>anticiparte</strong> en lugar de reaccionar. Un gerente que entiende sus costos puede decirte hoy cuánto va a gastar si el próximo mes cierra dos contratos nuevos. Eso es gestión proactiva.</p>
+  </div>
+</div>
+
+<!-- ===== TEMA 5: PRODUCTO VS PERÍODO ===== -->
+<div class="tab-content" id="tab-tema5">
+  <h2 class="section-title">5. Costos del Producto vs. Costos del Período</h2>
+  <div class="divider"></div>
+
+  <p>Esta es una clasificación que tiene profundas implicaciones en los <strong>estados financieros</strong>: afecta directamente el momento en que un costo aparece en el Estado de Resultados y cómo se refleja en el Balance General.</p>
+
+  <div class="caja-concepto">
+    <div class="label">📖 La pregunta que origina esta clasificación</div>
+    <p>¿Este costo se activa como inventario hasta que se vende el servicio/producto, o se gasta en el período en que ocurre, independientemente de las ventas? La respuesta define si es un <strong>Costo del Producto</strong> o un <strong>Costo del Período</strong>.</p>
+  </div>
+
+  <div class="cost-grid">
+    <div class="cost-card" style="background:#dbeafe; border-top:4px solid #003366;">
+      <div class="icon">📦</div>
+      <h4 style="color:#003366;">Costos del Producto</h4>
+      <p style="color:#1e3a5f;">Se incorporan al <strong>costo del servicio o producto</strong>. Solo se convierten en gasto cuando se entrega o vende el servicio. Mientras tanto, están "latentes".</p>
+      <span class="badge badge-producto" style="margin-top:8px; display:inline-block;">PRODUCTO</span>
+    </div>
+    <div class="cost-card" style="background:#fef3c7; border-top:4px solid #d97706;">
+      <div class="icon">📅</div>
+      <h4 style="color:#92400e;">Costos del Período</h4>
+      <p style="color:#7c5e04;">Se cargan al Estado de Resultados en el <strong>período en que ocurren</strong>, sin importar si se ha prestado o no el servicio correspondiente.</p>
+      <span class="badge badge-periodo" style="margin-top:8px; display:inline-block;">PERÍODO</span>
+    </div>
+  </div>
+
+  <h3 class="subsection">Costos del Producto en detalle</h3>
+  <p>En empresas manufactureras, los costos del producto son los que forman el inventario: materiales directos, mano de obra directa y costos indirectos de fabricación. En una <strong>empresa de servicios de seguridad</strong>, la lógica es equivalente: son los costos que conforman el "costo del servicio prestado".</p>
+
+  <div class="caja-ejemplo">
+    <div class="label">Costos del Producto en tu empresa de seguridad</div>
+    <p>Son todos los costos directamente relacionados con la <strong>prestación del servicio de seguridad</strong>:</p>
+    <ul>
+      <li>💼 Sueldos y salarios de los guardias de seguridad (incluyendo IESS, decimales, etc.)</li>
+      <li>👕 Uniformes, equipos de protección personal, radios de comunicación asignados</li>
+      <li>🔦 Linternas, grilletes y herramientas de trabajo de campo</li>
+      <li>🚗 Gasolina del vehículo de supervisión directamente vinculado a los recorridos de un contrato</li>
+      <li>🏢 Arrendamiento de caseta de seguridad en las instalaciones del cliente</li>
+    </ul>
+    <p>Estos costos <strong>se reconocen como gasto</strong> en el Estado de Resultados en el período en que se <em>presta efectivamente el servicio</em>, no necesariamente cuando se pagan.</p>
+  </div>
+
+  <h3 class="subsection">Costos del Período en detalle</h3>
+  <p>Son los costos que <strong>no están vinculados a la producción/prestación</strong> del servicio, sino a las funciones de administración, ventas y apoyo general de la empresa. Se llevan al Estado de Resultados en el período en que se incurren.</p>
+
+  <div class="caja-ejemplo">
+    <div class="label">Costos del Período en tu empresa de seguridad</div>
+    <p>Son los costos de la estructura organizacional y comercial:</p>
+    <ul>
+      <li>🖊️ Sueldo del gerente general y personal administrativo</li>
+      <li>🏢 Arriendo de la oficina principal (no de casetas de clientes)</li>
+      <li>💻 Software de contabilidad, planes de internet corporativo</li>
+      <li>📣 Publicidad, diseño de brochures, participación en ferias empresariales</li>
+      <li>⚖️ Honorarios del abogado para revisión de contratos</li>
+      <li>💰 Gastos financieros (intereses de préstamos)</li>
+    </ul>
+    <p>Estos costos <strong>se registran siempre en el mes que ocurren</strong>, aunque ese mes no haya prestado ningún nuevo servicio o aunque haya habido muy pocos contratos.</p>
+  </div>
+
+  <h3 class="subsection">Impacto en los Estados Financieros</h3>
+
+  <div class="tabla-wrap">
+    <table>
+      <thead><tr><th>Característica</th><th>Costo del Producto</th><th>Costo del Período</th></tr></thead>
+      <tbody>
+        <tr><td>¿Cuándo aparece en el ER?</td><td>Cuando se presta/vende el servicio</td><td>En el período en que se incurre</td></tr>
+        <tr><td>¿Puede ir al Balance?</td><td>Sí, como inventario en proceso o trabajo en curso</td><td>No, va directo al Estado de Resultados</td></tr>
+        <tr><td>Clasificación en ER</td><td>Costo de ventas / Costo del servicio prestado</td><td>Gastos operativos (admin., ventas)</td></tr>
+        <tr><td>Ejemplo concreto</td><td>Sueldo de guardia del mes de mayo pagado en junio</td><td>Publicidad de junio: se gasta en junio aunque no se cierre ningún contrato</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="subsection">Un ejemplo integrador para cerrar</h3>
+
+  <div class="caja-ejemplo">
+    <div class="label">Escenario completo: Empresa de Seguridad — Mes de mayo</div>
+    <p>Tu empresa operó el mes de mayo con los siguientes costos:</p>
+    <div class="tabla-wrap">
+      <table>
+        <thead><tr><th>Costo</th><th>Monto</th><th>Clasificación</th></tr></thead>
+        <tbody>
+          <tr><td>Sueldos de 12 guardias activos</td><td>$8.400</td><td><span class="badge badge-producto">PRODUCTO</span></td></tr>
+          <tr><td>Uniformes asignados a nuevos guardias</td><td>$540</td><td><span class="badge badge-producto">PRODUCTO</span></td></tr>
+          <tr><td>Gasolina de vehículos de ronda</td><td>$320</td><td><span class="badge badge-producto">PRODUCTO</span></td></tr>
+          <tr><td>Sueldo del gerente general</td><td>$1.800</td><td><span class="badge badge-periodo">PERÍODO</span></td></tr>
+          <tr><td>Arriendo de oficinas centrales</td><td>$2.400</td><td><span class="badge badge-periodo">PERÍODO</span></td></tr>
+          <tr><td>Publicidad en redes sociales</td><td>$250</td><td><span class="badge badge-periodo">PERÍODO</span></td></tr>
+          <tr><td>Honorarios del contador externo</td><td>$300</td><td><span class="badge badge-periodo">PERÍODO</span></td></tr>
+          <tr><td><strong>TOTAL COSTOS</strong></td><td><strong>$14.010</strong></td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Costo del Servicio Prestado:</strong> $8.400 + $540 + $320 = <span style="color:var(--azul-oscuro); font-weight:700;">$9.260</span></p>
+    <p><strong>Gastos del Período:</strong> $1.800 + $2.400 + $250 + $300 = <span style="color:#92400e; font-weight:700;">$4.750</span></p>
+  </div>
+
+  <div class="caja-clave">
+    <div class="label">🔑 Idea clave</div>
+    <p>Esta clasificación impacta directamente la <strong>utilidad bruta</strong> y la <strong>utilidad operativa</strong> de tu empresa. Si confundes un costo del período con uno del producto, tu Estado de Resultados mentirá: mostrará una utilidad diferente a la real. La correcta clasificación es base de la <em>transparencia informativa</em> que estudiamos en Semana 4 —ética y técnica van de la mano.</p>
+  </div>
+</div>
+
+<!-- ===== EJERCICIO INTERACTIVO ===== -->
+<div class="tab-content" id="tab-ejercicio">
+  <h2 class="section-title">🧩 Ejercicio Interactivo: Clasifica los costos</h2>
+  <div class="divider"></div>
+  <p>Lee cada costo de la empresa de seguridad y selecciona la opción correcta. Responde <strong>todos los ítems</strong> antes de verificar. Puedes apoyarte en el contenido de las pestañas anteriores.</p>
+
+  <div class="quiz-container" id="ejercicioContainer">
+
+    <!-- Item 1 -->
+    <div class="quiz-item" id="ej-1">
+      <div class="num">Ítem 1 de 8</div>
+      <div class="pregunta">El arrendamiento mensual ($2.400) de la oficina principal de la empresa de seguridad es un costo:</div>
+      <div class="opciones">
+        <button class="opcion-btn" data-q="ej1" data-v="A" onclick="seleccionarOpcion(this)"><span class="opcion-letter">A</span> Variable, porque depende de cuántos contratos tenga la empresa</button>
+        <button class="opcion-btn" data-q="ej1" data-v="B" onclick="seleccionarOpcion(this)"><span class="opcion-letter">B</span> Fijo, porque permanece constante independientemente del nivel de actividad</button>
+        <button class="opcion-btn" data-q="ej1" data-v="C" onclick="seleccionarOpcion(this)"><span class="opcion-letter">C</span> Semivariable, porque tiene una parte que cambia con el número de guardias</button>
+        <button class="opcion-btn" data-q="ej1" data-v="D" onclick="seleccionarOpcion(this)"><span class="opcion-letter">D</span> Directo, porque se puede atribuir a cada contrato de forma exacta</button>
+      </div>
+      <div class="explicacion" id="exp-ej1"></div>
+    </div>
+
+    <!-- Item 2 -->
+    <div class="quiz-item" id="ej-2">
+      <div class="num">Ítem 2 de 8</div>
+      <div class="pregunta">Los uniformes entregados a los guardias cada vez que inicia un nuevo contrato son un costo:</div>
+      <div class="opciones">
+        <button class="opcion-btn" data-q="ej2" data-v="A" onclick="seleccionarOpcion(this)"><span class="opcion-letter">A</span> Fijo, porque son parte de la estructura de la empresa</button>
+        <button class="opcion-btn" data-q="ej2" data-v="B" onclick="seleccionarOpcion(this)"><span class="opcion-letter">B</span> Variable, porque aumenta directamente con el número de guardias asignados</button>
+        <button class="opcion-btn" data-q="ej2" data-v="C" onclick="seleccionarOpcion(this)"><span class="opcion-letter">C</span> Del período, porque se gasta en el mes en que se compran</button>
+        <button class="opcion-btn" data-q="ej2" data-v="D" onclick="seleccionarOpcion(this)"><span class="opcion-letter">D</span> Indirecto, porque beneficia a toda la empresa por igual</button>
+      </div>
+      <div class="explicacion" id="exp-ej2"></div>
+    </div>
+
+    <!-- Item 3 -->
+    <div class="quiz-item" id="ej-3">
+      <div class="num">Ítem 3 de 8</div>
+      <div class="pregunta">El plan de telefonía corporativa que cobra $80 fijos al mes más $0,12 por minuto adicional es un costo:</div>
+      <div class="opciones">
+        <button class="opcion-btn" data-q="ej3" data-v="A" onclick="seleccionarOpcion(this)"><span class="opcion-letter">A</span> Fijo, porque siempre hay un monto base de $80</button>
+        <button class="opcion-btn" data-q="ej3" data-v="B" onclick="seleccionarOpcion(this)"><span class="opcion-letter">B</span> Variable, porque cambia según el uso</button>
+        <button class="opcion-btn" data-q="ej3" data-v="C" onclick="seleccionarOpcion(this)"><span class="opcion-letter">C</span> Semivariable, porque tiene una parte fija ($80) y una parte variable ($0,12/min)</button>
+        <button class="opcion-btn" data-q="ej3" data-v="D" onclick="seleccionarOpcion(this)"><span class="opcion-letter">D</span> Del período, porque se paga mensualmente sin importar la producción</button>
+      </div>
+      <div class="explicacion" id="exp-ej3"></div>
+    </div>
+
+    <!-- Item 4 -->
+    <div class="quiz-item" id="ej-4">
+      <div class="num">Ítem 4 de 8</div>
+      <div class="pregunta">El sueldo de los 3 guardias asignados exclusivamente al contrato con el Banco XYZ es un costo:</div>
+      <div class="opciones">
+        <button class="opcion-btn" data-q="ej4" data-v="A" onclick="seleccionarOpcion(this)"><span class="opcion-letter">A</span> Indirecto del contrato, porque los guardias también pueden ir a otros contratos</button>
+        <button class="opcion-btn" data-q="ej4" data-v="B" onclick="seleccionarOpcion(this)"><span class="opcion-letter">B</span> Directo del contrato, porque se puede trazar exactamente hacia ese cliente</button>
+        <button class="opcion-btn" data-q="ej4" data-v="C" onclick="seleccionarOpcion(this)"><span class="opcion-letter">C</span> Del período, porque los sueldos se pagan mensualmente</button>
+        <button class="opcion-btn" data-q="ej4" data-v="D" onclick="seleccionarOpcion(this)"><span class="opcion-letter">D</span> Fijo del período, porque el sueldo no cambia con las horas trabajadas</button>
+      </div>
+      <div class="explicacion" id="exp-ej4"></div>
+    </div>
+
+    <!-- Item 5 -->
+    <div class="quiz-item" id="ej-5">
+      <div class="num">Ítem 5 de 8</div>
+      <div class="pregunta">La publicidad en redes sociales que la empresa paga en mayo para atraer nuevos clientes es un costo:</div>
+      <div class="opciones">
+        <button class="opcion-btn" data-q="ej5" data-v="A" onclick="seleccionarOpcion(this)"><span class="opcion-letter">A</span> Del producto, porque sirve para generar más contratos de seguridad</button>
+        <button class="opcion-btn" data-q="ej5" data-v="B" onclick="seleccionarOpcion(this)"><span class="opcion-letter">B</span> Del período, porque se reconoce como gasto en mayo independientemente de si se cierran contratos</button>
+        <button class="opcion-btn" data-q="ej5" data-v="C" onclick="seleccionarOpcion(this)"><span class="opcion-letter">C</span> Variable directo, porque varía con el número de clientes obtenidos</button>
+        <button class="opcion-btn" data-q="ej5" data-v="D" onclick="seleccionarOpcion(this)"><span class="opcion-letter">D</span> Fijo indirecto, porque beneficia a toda la empresa de forma uniforme</button>
+      </div>
+      <div class="explicacion" id="exp-ej5"></div>
+    </div>
+
+    <!-- Item 6 -->
+    <div class="quiz-item" id="ej-6">
+      <div class="num">Ítem 6 de 8</div>
+      <div class="pregunta">El sueldo del gerente general ($1.800/mes) analizado respecto al contrato con el Banco XYZ es un costo:</div>
+      <div class="opciones">
+        <button class="opcion-btn" data-q="ej6" data-v="A" onclick="seleccionarOpcion(this)"><span class="opcion-letter">A</span> Directo fijo, porque el gerente siempre gana lo mismo</button>
+        <button class="opcion-btn" data-q="ej6" data-v="B" onclick="seleccionarOpcion(this)"><span class="opcion-letter">B</span> Indirecto, porque supervisa todos los contratos y no puede atribuirse solo al banco</button>
+        <button class="opcion-btn" data-q="ej6" data-v="C" onclick="seleccionarOpcion(this)"><span class="opcion-letter">C</span> Variable, porque si el banco pide más guardias, el gerente trabaja más</button>
+        <button class="opcion-btn" data-q="ej6" data-v="D" onclick="seleccionarOpcion(this)"><span class="opcion-letter">D</span> Del producto del banco, porque sin su gestión el contrato no existe</button>
+      </div>
+      <div class="explicacion" id="exp-ej6"></div>
+    </div>
+
+    <!-- Item 7 -->
+    <div class="quiz-item" id="ej-7">
+      <div class="num">Ítem 7 de 8</div>
+      <div class="pregunta">Al usar el método alto-bajo con datos de mayo (1.000 horas, $350) y febrero (500 horas, $250), el costo variable unitario calculado es:</div>
+      <div class="opciones">
+        <button class="opcion-btn" data-q="ej7" data-v="A" onclick="seleccionarOpcion(this)"><span class="opcion-letter">A</span> $0,35 por hora</button>
+        <button class="opcion-btn" data-q="ej7" data-v="B" onclick="seleccionarOpcion(this)"><span class="opcion-letter">B</span> $0,50 por hora</button>
+        <button class="opcion-btn" data-q="ej7" data-v="C" onclick="seleccionarOpcion(this)"><span class="opcion-letter">C</span> $0,20 por hora</button>
+        <button class="opcion-btn" data-q="ej7" data-v="D" onclick="seleccionarOpcion(this)"><span class="opcion-letter">D</span> $0,30 por hora</button>
+      </div>
+      <div class="explicacion" id="exp-ej7"></div>
+    </div>
+
+    <!-- Item 8 -->
+    <div class="quiz-item" id="ej-8">
+      <div class="num">Ítem 8 de 8</div>
+      <div class="pregunta">Tu empresa actualmente tiene 8 guardias y UN supervisor ($900/mes). Si contratas el guardia número 9, debes contratar un segundo supervisor. ¿Cómo se clasifica el costo del supervisor?</div>
+      <div class="opciones">
+        <button class="opcion-btn" data-q="ej8" data-v="A" onclick="seleccionarOpcion(this)"><span class="opcion-letter">A</span> Variable, porque crece cuando crece el número de guardias</button>
+        <button class="opcion-btn" data-q="ej8" data-v="B" onclick="seleccionarOpcion(this)"><span class="opcion-letter">B</span> Costo escalonado (step cost): fijo dentro de un rango de capacidad, que sube en bloque al superarlo</button>
+        <button class="opcion-btn" data-q="ej8" data-v="C" onclick="seleccionarOpcion(this)"><span class="opcion-letter">C</span> Semivariable, porque tiene un fijo de $900 más un variable por guardia adicional</button>
+        <button class="opcion-btn" data-q="ej8" data-v="D" onclick="seleccionarOpcion(this)"><span class="opcion-letter">D</span> Del período, porque el sueldo se paga en el período en que se trabaja</button>
+      </div>
+      <div class="explicacion" id="exp-ej8"></div>
+    </div>
+
+  </div><!-- fin quiz-container -->
+
+  <div style="text-align:center; margin: 24px 0 10px;">
+    <button class="btn-verificar" onclick="verificarEjercicio()">✅ Verificar respuestas</button>
+    <button class="btn-reiniciar" onclick="reiniciarEjercicio()" style="display:none;" id="reiniciarEj">🔄 Reiniciar ejercicio</button>
+  </div>
+
+  <div class="resultado-final" id="resultadoEjercicio">
+    <div class="resultado-emoji" id="emojiEj"></div>
+    <div class="resultado-score" id="scoreEj"></div>
+    <div class="resultado-pct" id="pctEj"></div>
+    <div class="barra-progreso-wrap"><div class="barra-progreso" id="barraEj" style="width:0%"></div></div>
+    <div class="resultado-msg" id="msgEj"></div>
+  </div>
+</div>
+
+<!-- ===== CUESTIONARIO ===== -->
+<div class="tab-content" id="tab-cuestionario">
+  <h2 class="section-title">📝 Cuestionario de evaluación</h2>
+  <div class="divider"></div>
+  <p>10 preguntas de opción múltiple. <strong>Selecciona todas tus respuestas primero</strong>, luego presiona "Verificar". Las preguntas teóricas puedes resolverlas con el contenido de este widget. Las de análisis son autónomas.</p>
+
+  <div class="quiz-container" id="cuestionarioContainer">
+
+    <!-- P1 -->
+    <div class="quiz-item" id="cu-1">
+      <div class="num">Pregunta 1 <span class="badge-tipo badge-teorica">Teórica</span></div>
+      <div class="pregunta">Un costo es considerado "variable" cuando:</div>
+      <div class="opciones">
+        <button class="opcion-btn" data-q="cu1" data-v="A" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">A</span> Su monto total no cambia aunque cambie la producción</button>
+        <button class="opcion-btn" data-q="cu1" data-v="B" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">B</span> Su monto total cambia en proporción directa al nivel de actividad</button>
+        <button class="opcion-btn" data-q="cu1" data-v="C" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">C</span> Su monto unitario decrece a medida que sube la producción</button>
+        <button class="opcion-btn" data-q="cu1" data-v="D" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">D</span> Tiene una parte fija y una parte que cambia con la actividad</button>
+      </div>
+      <div class="explicacion" id="exp-cu1"></div>
+    </div>
+
+    <!-- P2 -->
+    <div class="quiz-item" id="cu-2">
+      <div class="num">Pregunta 2 <span class="badge-tipo badge-teorica">Teórica</span></div>
+      <div class="pregunta">El fenómeno por el cual el costo fijo unitario disminuye al aumentar la producción se denomina:</div>
+      <div class="opciones">
+        <button class="opcion-btn" data-q="cu2" data-v="A" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">A</span> Absorción de costos variables</button>
+        <button class="opcion-btn" data-q="cu2" data-v="B" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">B</span> Dilución del costo fijo</button>
+        <button class="opcion-btn" data-q="cu2" data-v="C" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">C</span> Rango relevante máximo</button>
+        <button class="opcion-btn" data-q="cu2" data-v="D" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">D</span> Efecto de palanca operativa negativa</button>
+      </div>
+      <div class="explicacion" id="exp-cu2"></div>
+    </div>
+
+    <!-- P3 -->
+    <div class="quiz-item" id="cu-3">
+      <div class="num">Pregunta 3 <span class="badge-tipo badge-teorica">Teórica</span></div>
+      <div class="pregunta">El "rango relevante" en el análisis de costos fijos se refiere a:</div>
+      <div class="opciones">
+        <button class="opcion-btn" data-q="cu3" data-v="A" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">A</span> El rango de precios dentro del cual puede cotizarse un servicio</button>
+        <button class="opcion-btn" data-q="cu3" data-v="B" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">B</span> El intervalo de actividad dentro del cual los costos fijos se mantienen constantes</button>
+        <button class="opcion-btn" data-q="cu3" data-v="C" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">C</span> El monto máximo que puede tener un costo fijo antes de convertirse en variable</button>
+        <button class="opcion-btn" data-q="cu3" data-v="D" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">D</span> La diferencia entre el costo fijo total y el costo variable total</button>
+      </div>
+      <div class="explicacion" id="exp-cu3"></div>
+    </div>
+
+    <!-- P4 -->
+    <div class="quiz-item" id="cu-4">
+      <div class="num">Pregunta 4 <span class="badge-tipo badge-teorica">Teórica</span></div>
+      <div class="pregunta">La fórmula matemática de un costo semivariable es:</div>
+      <div class="opciones">
+        <button class="opcion-btn" data-q="cu4" data-v="A" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">A</span> Costo Total = Costo Variable Unitario × Actividad</button>
+        <button class="opcion-btn" data-q="cu4" data-v="B" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">B</span> Costo Total = Costo Fijo + (Costo Variable Unitario × Actividad)</button>
+        <button class="opcion-btn" data-q="cu4" data-v="C" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">C</span> Costo Total = Costo Fijo − Costo Variable Unitario</button>
+        <button class="opcion-btn" data-q="cu4" data-v="D" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">D</span> Costo Total = Costo Fijo × Nivel de Actividad</button>
+      </div>
+      <div class="explicacion" id="exp-cu4"></div>
+    </div>
+
+    <!-- P5 -->
+    <div class="quiz-item" id="cu-5">
+      <div class="num">Pregunta 5 <span class="badge-tipo badge-teorica">Teórica</span></div>
+      <div class="pregunta">La diferencia fundamental entre un costo DIRECTO y uno INDIRECTO radica en:</div>
+      <div class="opciones">
+        <button class="opcion-btn" data-q="cu5" data-v="A" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">A</span> Si el costo es fijo o variable en relación con la actividad</button>
+        <button class="opcion-btn" data-q="cu5" data-v="B" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">B</span> La posibilidad de trazarlo de forma económicamente viable a un objeto de costo específico</button>
+        <button class="opcion-btn" data-q="cu5" data-v="C" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">C</span> Si el costo es del producto o del período</button>
+        <button class="opcion-btn" data-q="cu5" data-v="D" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">D</span> Si el costo se paga en efectivo o se devenga</button>
+      </div>
+      <div class="explicacion" id="exp-cu5"></div>
+    </div>
+
+    <!-- P6 -->
+    <div class="quiz-item" id="cu-6">
+      <div class="num">Pregunta 6 <span class="badge-tipo badge-teorica">Teórica</span></div>
+      <div class="pregunta">Los costos del PERÍODO se reconocen en el Estado de Resultados:</div>
+      <div class="opciones">
+        <button class="opcion-btn" data-q="cu6" data-v="A" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">A</span> Solo cuando se presta o vende el servicio al cliente</button>
+        <button class="opcion-btn" data-q="cu6" data-v="B" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">B</span> En el período en que se incurren, independientemente de las ventas</button>
+        <button class="opcion-btn" data-q="cu6" data-v="C" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">C</span> Solo al final del ejercicio fiscal anual</button>
+        <button class="opcion-btn" data-q="cu6" data-v="D" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">D</span> Cuando el cliente paga la factura del servicio</button>
+      </div>
+      <div class="explicacion" id="exp-cu6"></div>
+    </div>
+
+    <!-- P7 -->
+    <div class="quiz-item" id="cu-7">
+      <div class="num">Pregunta 7 <span class="badge-tipo badge-teorica">Teórica</span></div>
+      <div class="pregunta">Un "costo escalonado" (step cost) se caracteriza porque:</div>
+      <div class="opciones">
+        <button class="opcion-btn" data-q="cu7" data-v="A" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">A</span> Cambia en proporción exacta a cada unidad adicional de actividad</button>
+        <button class="opcion-btn" data-q="cu7" data-v="B" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">B</span> Permanece fijo dentro de un rango de actividad y sube en bloque al superar ese rango</button>
+        <button class="opcion-btn" data-q="cu7" data-v="C" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">C</span> Tiene siempre una parte fija y una variable perfectamente separables</button>
+        <button class="opcion-btn" data-q="cu7" data-v="D" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">D</span> Disminuye a medida que aumenta la actividad por efecto de la dilución</button>
+      </div>
+      <div class="explicacion" id="exp-cu7"></div>
+    </div>
+
+    <!-- P8: Análisis de caso -->
+    <div class="quiz-item" id="cu-8">
+      <div class="num">Pregunta 8 <span class="badge-tipo badge-analisis">Análisis</span></div>
+      <div class="pregunta">Una empresa de distribución de alimentos tiene los siguientes datos de su flota de vehículos: en el mes de menor actividad (100 entregas), el costo de mantenimiento fue $800. En el mes de mayor actividad (400 entregas), el costo fue $1.400. Usando el método alto-bajo, el costo FIJO mensual de mantenimiento es:</div>
+      <div class="opciones">
+        <button class="opcion-btn" data-q="cu8" data-v="A" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">A</span> $600</button>
+        <button class="opcion-btn" data-q="cu8" data-v="B" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">B</span> $800</button>
+        <button class="opcion-btn" data-q="cu8" data-v="C" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">C</span> $600 — se calcula: CV unitario = ($1.400-$800)/(400-100) = $2/entrega; CF = $1.400 - ($2×400) = $600</button>
+        <button class="opcion-btn" data-q="cu8" data-v="D" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">D</span> $1.100</button>
+      </div>
+      <div class="explicacion" id="exp-cu8"></div>
+    </div>
+
+    <!-- P9: Análisis -->
+    <div class="quiz-item" id="cu-9">
+      <div class="num">Pregunta 9 <span class="badge-tipo badge-analisis">Análisis</span></div>
+      <div class="pregunta">Una clínica veterinaria tiene costos fijos de $3.000/mes (alquiler, sueldos administrativos) y costos variables de $15 por cada consulta atendida. Si en marzo atendió 200 consultas y en abril atendió 400 consultas, ¿cuánto más costó operar en abril vs. marzo en términos de costo TOTAL?</div>
+      <div class="opciones">
+        <button class="opcion-btn" data-q="cu9" data-v="A" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">A</span> $3.000 más, porque los costos fijos se duplican</button>
+        <button class="opcion-btn" data-q="cu9" data-v="B" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">B</span> $3.000 más en total, solo por los costos variables de las 200 consultas adicionales ($15 × 200)</button>
+        <button class="opcion-btn" data-q="cu9" data-v="C" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">C</span> $7.500, que es el costo total de abril</button>
+        <button class="opcion-btn" data-q="cu9" data-v="D" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">D</span> $9.000, porque todo se duplica con el doble de consultas</button>
+      </div>
+      <div class="explicacion" id="exp-cu9"></div>
+    </div>
+
+    <!-- P10: Análisis -->
+    <div class="quiz-item" id="cu-10">
+      <div class="num">Pregunta 10 <span class="badge-tipo badge-analisis">Análisis</span></div>
+      <div class="pregunta">Una empresa de catering para eventos tiene los siguientes costos en mayo: ingredientes $4.200, sueldos de cocineros $2.800, arrendamiento de cocina $1.500, sueldo del gerente $1.200, publicidad $400, honorarios contables $300. ¿Cuál es el total de COSTOS DEL PRODUCTO (del servicio prestado)?</div>
+      <div class="opciones">
+        <button class="opcion-btn" data-q="cu10" data-v="A" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">A</span> $10.400 (todos los costos son del producto)</button>
+        <button class="opcion-btn" data-q="cu10" data-v="B" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">B</span> $8.500 (ingredientes + cocineros + cocina = $4.200 + $2.800 + $1.500)</button>
+        <button class="opcion-btn" data-q="cu10" data-v="C" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">C</span> $7.000 (solo ingredientes + cocineros)</button>
+        <button class="opcion-btn" data-q="cu10" data-v="D" onclick="seleccionarOpcionCu(this)"><span class="opcion-letter">D</span> $1.900 (gerente + publicidad + honorarios)</button>
+      </div>
+      <div class="explicacion" id="exp-cu10"></div>
+    </div>
+
+  </div><!-- fin cuestionarioContainer -->
+
+  <div style="text-align:center; margin: 24px 0 10px;">
+    <button class="btn-verificar" onclick="verificarCuestionario()">✅ Verificar respuestas</button>
+    <button class="btn-reiniciar" onclick="reiniciarCuestionario()" style="display:none;" id="reiniciarCu">🔄 Reiniciar cuestionario</button>
+  </div>
+
+  <div class="resultado-final" id="resultadoCuestionario">
+    <div class="resultado-emoji" id="emojiCu"></div>
+    <div class="resultado-score" id="scoreCu"></div>
+    <div class="resultado-pct" id="pctCu"></div>
+    <div class="barra-progreso-wrap"><div class="barra-progreso" id="barraCu" style="width:0%"></div></div>
+    <div class="resultado-msg" id="msgCu"></div>
+  </div>
+</div>
+
+<!-- ===== ACTIVIDAD CON IA ===== -->
+<div class="tab-content" id="tab-ia">
+  <h2 class="section-title">🤖 Actividad con Inteligencia Artificial</h2>
+  <div class="divider"></div>
+
+  <div class="ia-card">
+    <h3>🎯 Actividad: "El gerente que no conocía sus costos"</h3>
+    <p>Esta actividad te invita a usar la IA como <strong>asesor gerencial virtual</strong> para analizar una situación empresarial de costos. No se trata de copiar lo que la IA responde: se trata de <em>cuestionar, comparar y aplicar</em> lo que aprendiste hoy para construir tu propio criterio.</p>
+
+    <div class="caja-nota">
+      <p>🌟 <strong>Herramienta recomendada:</strong> <a href="https://claude.ai" target="_blank" style="color:#003366; font-weight:700;">Claude en claude.ai</a> (Anthropic) — gratuita, con excelente capacidad analítica. También puedes usar ChatGPT (chat.openai.com) o Gemini (gemini.google.com).</p>
+    </div>
+  </div>
+
+  <div class="ia-card">
+    <h3>📋 Contexto del ejercicio</h3>
+    <p>Imagina que eres el nuevo contador gerencial de una empresa de seguridad privada en Guayaquil. El gerente-propietario te dice: <em>"Yo sé que tengo costos, pero nunca los he clasificado. Este mes gastamos $18.000 y no entiendo por qué a veces me queda poco aunque tenga muchos contratos."</em></p>
+    <p>La empresa tiene: 20 guardias activos, 8 contratos vigentes, 2 supervisores, 1 gerente, arriendo de oficinas, 2 vehículos de supervisión, uniformes, radios, plan de telefonía y publicidad.</p>
+  </div>
+
+  <div class="ia-card">
+    <h3>💬 Prompt exacto para usar con Claude (u otra IA)</h3>
+    <div class="prompt-box" id="promptIA">Actúa como un consultor experto en contabilidad de costos gerencial. Tengo una empresa de seguridad privada en Guayaquil, Ecuador. Quiero que me ayudes a analizar la siguiente situación:
+
+La empresa tiene: 20 guardias activos (sueldo promedio $450/mes c/u), 2 supervisores ($900/mes c/u), 1 gerente general ($1.800/mes), arriendo de oficinas $2.400/mes, 2 vehículos de supervisión (gasolina aprox. $160/mes c/u según rutas), uniformes para nuevos guardias ($45/guardia cuando inician), plan de telefonía: $80 fijos + $0,12/minuto adicional, publicidad digital $250/mes, software de gestión $120/mes.
+
+Por favor:
+1. Clasifica CADA uno de estos costos como: Fijo, Variable o Semivariable.
+2. Clasifica cada costo como: Directo o Indirecto (respecto a un contrato individual).
+3. Clasifica cada costo como: Del Producto o Del Período.
+4. Calcula el costo total mensual estimado si la empresa tiene 8 contratos activos.
+5. Explica qué pasaría con cada costo si la empresa crece a 12 contratos y necesita 5 guardias nuevos.
+
+Presenta los resultados en una tabla organizada y explica brevemente el razonamiento de cada clasificación.
+      <button class="copy-btn" onclick="copiarPrompt()">📋 Copiar</button>
+    </div>
+  </div>
+
+  <div class="ia-card">
+    <h3>📌 ¿Qué hacer con la respuesta de la IA?</h3>
+    <p>Una vez que tengas la respuesta de Claude (u otra IA), realiza las siguientes acciones <strong>de forma crítica</strong>:</p>
+    <ol style="color:var(--gris-texto);">
+      <li style="margin-bottom:12px;"><strong>Compara con lo aprendido:</strong> ¿La IA clasificó correctamente? Revisa cada ítem usando las definiciones de las pestañas 1 a 5 de este widget. Marca cuáles coinciden y cuáles no.</li>
+      <li style="margin-bottom:12px;"><strong>Encuentra una diferencia:</strong> Identifica al menos UN caso en que la clasificación de la IA sea discutible o dependa del contexto. Redacta en tus propias palabras por qué ese costo podría clasificarse diferente.</li>
+      <li style="margin-bottom:12px;"><strong>Pregunta de seguimiento:</strong> Escríbele a la IA: <em>"¿Cambia la clasificación del costo de gasolina si se usa un solo vehículo exclusivamente para un contrato de vigilancia bancaria?"</em> Analiza la respuesta.</li>
+      <li style="margin-bottom:12px;"><strong>Reflexión final:</strong> Escribe un párrafo de 5-8 oraciones explicando qué aprendiste del ejercicio con IA que complementa (o cuestiona) lo que el widget te enseñó.</li>
+    </ol>
+  </div>
+
+  <div class="ia-card">
+    <h3>📊 Criterio de evaluación: pensamiento crítico vs. copia simple</h3>
+
+    <div class="criterio-item bien">
+      <div class="icon">✅</div>
+      <p><strong>Demuestra pensamiento crítico cuando:</strong> Identificas discrepancias entre la respuesta de la IA y el contenido del widget, argumentas por qué un costo puede clasificarse de dos maneras distintas según el objeto de análisis, o propones un escenario alternativo que modifica la clasificación.</p>
+    </div>
+    <div class="criterio-item bien">
+      <div class="icon">✅</div>
+      <p><strong>También demuestra aprendizaje cuando:</strong> Detectas que la IA usa el concepto de "inductor de costo" de forma diferente a la del libro de texto, y explicas la diferencia con tus palabras.</p>
+    </div>
+    <div class="criterio-item mal">
+      <div class="icon">❌</div>
+      <p><strong>Es copia simple cuando:</strong> Pegas íntegramente la tabla que generó la IA sin añadir ningún análisis propio, sin señalar ninguna discrepancia y sin conectar el resultado con la realidad de la empresa.</p>
+    </div>
+    <div class="criterio-item mal">
+      <div class="icon">❌</div>
+      <p><strong>También es insuficiente cuando:</strong> Solo repites lo mismo que dice la IA con palabras diferentes, sin mostrar que revisaste el contenido del widget como criterio de comparación.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PREGUNTAS REFLEXIVAS ===== -->
+<div class="tab-content" id="tab-reflexion">
+  <h2 class="section-title">💭 Preguntas Reflexivas</h2>
+  <div class="divider"></div>
+  <p>Las siguientes preguntas conectan los conceptos de esta semana con tu vida cotidiana. No hay respuestas correctas ni incorrectas: el objetivo es que descubras que los costos fijos, variables y semivariables no son solo categorías contables —son parte de cómo organizas tu energía, tus recursos y tu tiempo cada día.</p>
+  <div class="caja-nota"><p>💡 <strong>Consejo:</strong> Tómate al menos 5 minutos por pregunta. Escribe tus respuestas en un cuaderno o archivo personal. Este ejercicio no se entrega, pero construye el puente entre la teoría y tu intuición gerencial.</p></div>
+
+  <div class="reflexion-card">
+    <div class="reflexion-num">1</div>
+    <h4>Tu "costo fijo personal"</h4>
+    <p>Piensa en tus gastos mensuales personales o los de tu hogar. ¿Cuáles son tus "costos fijos"? ¿El arriendo, la cuota del carro, el plan de celular básico? Ahora pregúntate: ¿en qué porcentaje de tu ingreso pesan esos costos fijos? ¿Qué pasa cuando un mes ganas menos? ¿Cómo te sientes ante esa presión de los costos que "no bajan"? ¿Qué estrategias usas para "diluirlos"?</p>
+  </div>
+
+  <div class="reflexion-card">
+    <div class="reflexion-num">2</div>
+    <h4>Tu energía como "costo variable"</h4>
+    <p>La energía que inviertes en tus actividades diarias (estudio, trabajo, familia, deporte) se comporta como un costo variable: cuantas más actividades asumes, más energía "gastas". ¿Eres consciente de tu "costo variable de energía" por cada compromiso que asumes? ¿Hay momentos en que asumes compromisos sin calcular el costo energético? ¿Qué herramienta usas para "presupuestar" tu energía semanal?</p>
+  </div>
+
+  <div class="reflexion-card">
+    <div class="reflexion-num">3</div>
+    <h4>El "rango relevante" de tus capacidades</h4>
+    <p>Así como un supervisor solo puede gestionar eficientemente hasta cierto número de guardias, tú también tienes un "rango relevante" personal: un número de responsabilidades dentro del cual te desempeñas bien, y un límite donde tu rendimiento "salta" a un nivel inferior o donde necesitas apoyo externo. ¿Cuál es ese límite para ti? ¿Lo reconoces a tiempo, o esperas hasta que el sistema "colapse" para reaccionar?</p>
+  </div>
+
+  <div class="reflexion-card">
+    <div class="reflexion-num">4</div>
+    <h4>Costos "directos" e "indirectos" en tus relaciones</h4>
+    <p>En la vida, algunas cosas que haces tienen un impacto directo y claro en una persona o resultado (como dedicar tiempo de calidad a un familiar). Otras son indirectas: el cuidado de tu salud, tu bienestar emocional, tu formación profesional —benefician a todos en tu entorno sin estar dirigidas a uno solo. ¿Cuánto tiempo y energía dedicas a las cosas "directas"? ¿Y a las "indirectas"? ¿Hay un desequilibrio? ¿Cómo afecta eso a quienes te rodean?</p>
+  </div>
+
+  <div class="reflexion-card">
+    <div class="reflexion-num">5</div>
+    <h4>Costos del "producto" vs. costos del "período" en tu vida</h4>
+    <p>En tu vida personal, hay inversiones que tienen un fruto directo y visible (estudiar para un examen → aprobarlo), y hay gastos de "estructura" que sostienes para que todo lo demás funcione (alimentarte bien, descansar, mantener relaciones sanas). ¿Cuáles son tus "costos del producto" vitales? ¿Y cuáles son los "costos del período" que, aunque parezcan no dar fruto inmediato, son la base de todo lo que sí rinde?</p>
+  </div>
+
+  <div class="reflexion-card">
+    <div class="reflexion-num">6</div>
+    <h4>La "base de distribución" de tu atención</h4>
+    <p>Cuando tienes múltiples responsabilidades (trabajo, familia, estudios, salud), ¿cómo distribuyes tu atención entre ellas? ¿Usas algún "criterio de distribución" racional, o actúas según la urgencia del momento? ¿Hay áreas de tu vida que sistemáticamente reciben menos atención de la que merecen? Desde la inteligencia emocional: ¿qué te dice esa distribución sobre tus valores reales frente a los valores que dices tener?</p>
+  </div>
+
+  <div class="reflexion-card">
+    <div class="reflexion-num">7</div>
+    <h4>Dilución de los costos y crecimiento personal</h4>
+    <p>La dilución del costo fijo nos enseña que crecer permite "repartir" la carga entre más unidades. En tu vida: ¿hay "costos fijos" emocionales o relacionales (miedos, creencias limitantes, hábitos negativos) que pesan mucho porque los llevas solo, sin "diluirlos" en una red de apoyo, un buen libro, un mentor, o una comunidad? ¿Qué pasaría si compartieras esa carga? ¿A qué te resistís a crecer, y por qué?</p>
+  </div>
+
+  <div class="caja-clave">
+    <div class="label">🌱 Reflexión integradora</div>
+    <p>La contabilidad gerencial no trata solo de números: trata de cómo usamos los recursos limitados que tenemos para crear el mayor valor posible. Ese principio aplica igual a una empresa de seguridad en Guayaquil que a tu vida personal. <strong>Quien conoce sus costos —los contables y los vitales— toma mejores decisiones.</strong></p>
+  </div>
+</div>
+
+<!-- ===== BIBLIOGRAFÍA ===== -->
+<div class="tab-content" id="tab-biblio">
+  <h2 class="section-title">📚 Bibliografía</h2>
+  <div class="divider"></div>
+  <p>Referencias académicas utilizadas y recomendadas para profundizar en los contenidos de esta semana. Todas son reales y verificables.</p>
+
+  <div class="bib-card">
+    <div class="bib-num">1</div>
+    <div class="bib-content">
+      <p>Horngren, C. T., Datar, S. M., &amp; Rajan, M. V. (2012). <em>Contabilidad de costos: Un enfoque gerencial</em> (14.ª ed.). Pearson Educación.</p>
+      <p style="color:#888; font-size:0.82rem; margin-top:4px;">El texto clásico de referencia para la clasificación de costos. Capítulos 2 y 3 cubren directamente los temas de esta semana: comportamiento de costos, fijos, variables, mixtos y la separación de componentes.</p>
+    </div>
+  </div>
+
+  <div class="bib-card">
+    <div class="bib-num">2</div>
+    <div class="bib-content">
+      <p>Garrison, R. H., Noreen, E. W., &amp; Brewer, P. C. (2021). <em>Contabilidad administrativa</em> (16.ª ed.). McGraw-Hill Education.</p>
+      <p style="color:#888; font-size:0.82rem; margin-top:4px;">Referencia esencial para el análisis de comportamiento de costos y el modelo Costo-Volumen-Utilidad. El Capítulo 5 desarrolla en detalle el método del punto alto-punto bajo.</p>
+    </div>
+  </div>
+
+  <div class="bib-card">
+    <div class="bib-num">3</div>
+    <div class="bib-content">
+      <p>Polimeni, R. S., Fabozzi, F. J., Adelberg, A. H., &amp; Kole, M. A. (2006). <em>Contabilidad de costos: Conceptos y aplicaciones para la toma de decisiones gerenciales</em> (3.ª ed.). McGraw-Hill.</p>
+      <p style="color:#888; font-size:0.82rem; margin-top:4px;">Obra clásica ampliamente usada en universidades latinoamericanas. Capítulo 1 y 2 proveen la taxonomía completa de clasificación de costos con ejemplos aplicados.</p>
+    </div>
+  </div>
+
+  <div class="bib-card">
+    <div class="bib-num">4</div>
+    <div class="bib-content">
+      <p>Hansen, D. R., &amp; Mowen, M. M. (2007). <em>Administración de costos: Contabilidad y control</em> (5.ª ed.). Cengage Learning.</p>
+      <p style="color:#888; font-size:0.82rem; margin-top:4px;">Especialmente útil para entender costos del producto vs. costos del período y la relación con los estados financieros. Capítulo 2: "Conceptos básicos de costos".</p>
+    </div>
+  </div>
+
+  <div class="bib-card">
+    <div class="bib-num">5</div>
+    <div class="bib-content">
+      <p>Jiménez Boulanger, F., &amp; Espinoza Gutiérrez, C. L. (2007). <em>Costos industriales</em>. Editorial Tecnológica de Costa Rica.</p>
+      <p style="color:#888; font-size:0.82rem; margin-top:4px;">Referencia de contexto latinoamericano con casos prácticos aplicados. Útil para comprender la clasificación de costos en empresas de servicios de la región.</p>
+    </div>
+  </div>
+
+  <div class="bib-card">
+    <div class="bib-num">6</div>
+    <div class="bib-content">
+      <p>Ramírez Padilla, D. N. (2013). <em>Contabilidad administrativa</em> (9.ª ed.). McGraw-Hill Interamericana.</p>
+      <p style="color:#888; font-size:0.82rem; margin-top:4px;">Referencia en español con enfoque latinoamericano. Desarrolla la clasificación de costos por comportamiento con ejemplos del entorno empresarial hispanoamericano.</p>
+    </div>
+  </div>
+
+  <div class="bib-card">
+    <div class="bib-num">7</div>
+    <div class="bib-content">
+      <p>International Federation of Accountants – IFAC. (2012). <em>Gestión de costos para complementar la toma de decisiones</em>. IFAC Publications.</p>
+      <p style="color:#888; font-size:0.82rem; margin-top:4px;">Documento institucional de referencia global para la clasificación y gestión de costos en organismos profesionales contables. Disponible en: www.ifac.org</p>
+    </div>
+  </div>
+
+  <div class="bib-nota">
+    📌 <strong>Nota académica importante:</strong> Se recomienda verificar cada referencia en <a href="https://scholar.google.com" target="_blank" style="color:var(--azul-oscuro); font-weight:600;">Google Scholar (scholar.google.com)</a> o en el repositorio institucional de la Universidad de Guayaquil antes de citar en trabajos académicos. Las ediciones disponibles pueden variar según el acervo bibliotecario.
+  </div>
+</div>
+
+</div><!-- fin .main -->
+
+<!-- ============================================================
+     JAVASCRIPT
+============================================================ -->
+<script>
+/* ========== NAVEGACIÓN DE PESTAÑAS ========== */
+const tabs = document.querySelectorAll('.tab-btn');
+const contents = document.querySelectorAll('.tab-content');
+
+tabs.forEach(btn => {
+  btn.addEventListener('click', () => {
+    tabs.forEach(b => b.classList.remove('active'));
+    contents.forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  });
+});
+
+/* ========== COPIAR PROMPT ========== */
+function copiarPrompt() {
+  const text = document.getElementById('promptIA').innerText.replace('📋 Copiar', '').trim();
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = '✅ Copiado';
+    setTimeout(() => { btn.textContent = '📋 Copiar'; }, 2000);
+  });
+}
+
+/* ========== DATOS DE EJERCICIO INTERACTIVO ========== */
+const respuestasCorrectas = {
+  ej1: 'B',
+  ej2: 'B',
+  ej3: 'C',
+  ej4: 'B',
+  ej5: 'B',
+  ej6: 'B',
+  ej7: 'C',
+  ej8: 'B'
+};
+
+const explicacionesEj = {
+  ej1: { correcta: 'B', texto: 'Correcto. El arrendamiento no cambia aunque la empresa tenga más o menos contratos. Es un costo fijo clásico: dentro del rango relevante, su total es siempre $2.400.' },
+  ej2: { correcta: 'B', texto: 'Correcto. Los uniformes son variables: cada guardia nuevo que se asigna genera $45 de costo. Si tienes el doble de guardias, el costo de uniformes se duplica.' },
+  ej3: { correcta: 'C', texto: 'Correcto. Este es el ejemplo perfecto de costo semivariable: $80 fijos que siempre se pagan (parte fija) más $0,12 por cada minuto que exceda la franquicia (parte variable).' },
+  ej4: { correcta: 'B', texto: 'Correcto. Como los 3 guardias están asignados EXCLUSIVAMENTE al Banco XYZ, su costo puede trazarse directamente a ese contrato. Es un costo directo de ese objeto de costo.' },
+  ej5: { correcta: 'B', texto: 'Correcto. La publicidad es un costo del período: se reconoce como gasto en mayo (el mes en que se incurre), sin importar si ese mes se cerró algún contrato nuevo o no.' },
+  ej6: { correcta: 'B', texto: 'Correcto. El gerente supervisa TODOS los contratos. No puede atribuirse su sueldo completo al Banco XYZ. Es un costo indirecto que debe distribuirse entre los contratos mediante una base de distribución.' },
+  ej7: { correcta: 'C', texto: 'Correcto. CV unitario = ($350 - $250) / (1.000 - 500) = $100 / 500 = $0,20 por hora. La clave del método alto-bajo es: diferencia de costos ÷ diferencia de actividad.' },
+  ej8: { correcta: 'B', texto: 'Correcto. El supervisor es un costo escalonado (step cost): $900 fijos para hasta 8 guardias, pero al llegar al guardia 9 el costo "salta" a $1.800. No es proporcional como un variable, sino que sube en bloques discretos.' }
+};
+
+const seleccionesEj = {};
+
+function seleccionarOpcion(btn) {
+  const q = btn.dataset.q;
+  const v = btn.dataset.v;
+  // Deselect siblings
+  btn.closest('.opciones').querySelectorAll('.opcion-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  seleccionesEj[q] = v;
+}
+
+function verificarEjercicio() {
+  const total = Object.keys(respuestasCorrectas).length;
+  const respondidas = Object.keys(seleccionesEj).length;
+
+  if (respondidas < total) {
+    alert(`⚠️ Por favor responde todos los ítems antes de verificar. Te faltan ${total - respondidas} por responder.`);
+    return;
+  }
+
+  let correctas = 0;
+  Object.keys(respuestasCorrectas).forEach(q => {
+    const exp = explicacionesEj[q];
+    const userAns = seleccionesEj[q];
+    const isCorrect = userAns === exp.correcta;
+    if (isCorrect) correctas++;
+
+    const item = document.querySelector(`[data-q="${q}"][data-v="${userAns}"]`);
+    const correctItem = document.querySelector(`[data-q="${q}"][data-v="${exp.correcta}"]`);
+    const expDiv = document.getElementById(`exp-${q}`);
+
+    // Disable all options
+    document.querySelectorAll(`[data-q="${q}"]`).forEach(b => { b.disabled = true; b.classList.remove('selected'); });
+
+    if (isCorrect) {
+      item.classList.add('correct-ans');
+      expDiv.classList.add('correct', 'visible');
+      expDiv.innerHTML = `✅ <strong>¡Correcto!</strong> ${exp.texto}`;
+    } else {
+      item.classList.add('wrong-ans');
+      correctItem.classList.add('correct-ans');
+      expDiv.classList.add('incorrect', 'visible');
+      expDiv.innerHTML = `❌ <strong>Incorrecto.</strong> La respuesta correcta es la opción <strong>${exp.correcta}</strong>. ${exp.texto}`;
+    }
+
+    const parent = document.getElementById(`ej-${q.replace('ej','')}`);
+    if (parent) parent.classList.add(isCorrect ? 'correct' : 'incorrect');
+  });
+
+  mostrarResultado('resultadoEjercicio', correctas, total, 'emojiEj', 'scoreEj', 'pctEj', 'barraEj', 'msgEj');
+  document.getElementById('reiniciarEj').style.display = 'inline-block';
+}
+
+function reiniciarEjercicio() {
+  Object.keys(seleccionesEj).forEach(k => delete seleccionesEj[k]);
+  document.querySelectorAll('#ejercicioContainer .opcion-btn').forEach(b => {
+    b.disabled = false;
+    b.classList.remove('selected','correct-ans','wrong-ans');
+  });
+  document.querySelectorAll('#ejercicioContainer .quiz-item').forEach(i => i.classList.remove('correct','incorrect'));
+  document.querySelectorAll('#ejercicioContainer .explicacion').forEach(e => { e.classList.remove('correct','incorrect','visible'); e.innerHTML=''; });
+  document.getElementById('resultadoEjercicio').classList.remove('visible');
+  document.getElementById('reiniciarEj').style.display = 'none';
+}
+
+/* ========== DATOS DE CUESTIONARIO ========== */
+const respuestasCu = {
+  cu1: 'B', cu2: 'B', cu3: 'B', cu4: 'B', cu5: 'B',
+  cu6: 'B', cu7: 'B', cu8: 'C', cu9: 'B', cu10: 'B'
+};
+
+const explicacionesCu = {
+  cu1: { correcta: 'B', texto: 'Un costo variable cambia en proporción directa al nivel de actividad. Si produces el doble, pagas el doble en costos variables totales. Su monto unitario, en cambio, permanece constante.' },
+  cu2: { correcta: 'B', texto: 'La dilución del costo fijo ocurre porque el total fijo se reparte entre más unidades producidas. Mientras más se produce, menos pesa ese costo por unidad, lo que mejora la rentabilidad marginal.' },
+  cu3: { correcta: 'B', texto: 'El rango relevante es el intervalo de actividad dentro del cual las premisas sobre el comportamiento de los costos (especialmente los fijos) son válidas. Fuera de ese rango, los costos fijos pueden cambiar de nivel.' },
+  cu4: { correcta: 'B', texto: 'La fórmula del costo semivariable es CT = CF + (CVu × Actividad). Siempre incluye un componente fijo que no desaparece aunque la actividad sea cero, más un componente variable proporcional.' },
+  cu5: { correcta: 'B', texto: 'La distinción directo/indirecto gira en torno a la trazabilidad: si puedo identificar de forma económicamente viable que este costo pertenece a X objeto, es directo. Si beneficia a múltiples objetos y no puedo atribuirlo a uno solo sin criterios de prorrateo, es indirecto.' },
+  cu6: { correcta: 'B', texto: 'Los costos del período se reconocen en el Estado de Resultados en el período en que se incurren. No esperan a que se preste el servicio: si pago publicidad en mayo, es gasto de mayo, haya o no ventas en ese mes.' },
+  cu7: { correcta: 'B', texto: 'El costo escalonado (step cost) permanece fijo dentro de un rango de capacidad y "salta" a un nivel superior al superar ese rango, como el costo de un supervisor que sube en bloque cuando se supera su capacidad de gestión.' },
+  cu8: { correcta: 'C', texto: 'CV unitario = ($1.400 - $800) / (400 - 100) = $600 / 300 = $2 por entrega. CF = $1.400 - ($2 × 400) = $1.400 - $800 = $600. Este es el procedimiento correcto del método alto-bajo, paso a paso.' },
+  cu9: { correcta: 'B', texto: 'Los costos fijos ($3.000) son iguales en ambos meses. La diferencia está solo en los variables: 200 consultas adicionales × $15 = $3.000 más. Marzo total = $3.000 + $3.000 = $6.000. Abril total = $3.000 + $6.000 = $9.000. Diferencia = $3.000.' },
+  cu10: { correcta: 'B', texto: 'Los costos del producto (servicio prestado) incluyen ingredientes ($4.200), cocineros ($2.800) y arriendo de cocina ($1.500) = $8.500. El gerente, publicidad y honorarios son costos del período ($1.900). Son cargos de estructura que se reconocen en el período, no en el servicio.' }
+};
+
+const seleccionesCu = {};
+
+function seleccionarOpcionCu(btn) {
+  const q = btn.dataset.q;
+  btn.closest('.opciones').querySelectorAll('.opcion-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  seleccionesCu[q] = btn.dataset.v;
+}
+
+function verificarCuestionario() {
+  const total = Object.keys(respuestasCu).length;
+  const respondidas = Object.keys(seleccionesCu).length;
+
+  if (respondidas < total) {
+    alert(`⚠️ Por favor responde todas las preguntas antes de verificar. Te faltan ${total - respondidas}.`);
+    return;
+  }
+
+  let correctas = 0;
+  Object.keys(respuestasCu).forEach(q => {
+    const exp = explicacionesCu[q];
+    const userAns = seleccionesCu[q];
+    const isCorrect = userAns === exp.correcta;
+    if (isCorrect) correctas++;
+
+    const idx = q.replace('cu','');
+    const item = document.querySelector(`[data-q="${q}"][data-v="${userAns}"]`);
+    const correctItem = document.querySelector(`[data-q="${q}"][data-v="${exp.correcta}"]`);
+    const expDiv = document.getElementById(`exp-${q}`);
+
+    document.querySelectorAll(`[data-q="${q}"]`).forEach(b => { b.disabled = true; b.classList.remove('selected'); });
+
+    if (isCorrect) {
+      item.classList.add('correct-ans');
+      expDiv.classList.add('correct', 'visible');
+      expDiv.innerHTML = `✅ <strong>¡Correcto!</strong> ${exp.texto}`;
+    } else {
+      item.classList.add('wrong-ans');
+      correctItem.classList.add('correct-ans');
+      expDiv.classList.add('incorrect', 'visible');
+      expDiv.innerHTML = `❌ <strong>Incorrecto.</strong> La respuesta correcta es la opción <strong>${exp.correcta}</strong>. ${exp.texto}`;
+    }
+
+    const parent = document.getElementById(`cu-${idx}`);
+    if (parent) parent.classList.add(isCorrect ? 'correct' : 'incorrect');
+  });
+
+  mostrarResultado('resultadoCuestionario', correctas, total, 'emojiCu', 'scoreCu', 'pctCu', 'barraCu', 'msgCu');
+  document.getElementById('reiniciarCu').style.display = 'inline-block';
+}
+
+function reiniciarCuestionario() {
+  Object.keys(seleccionesCu).forEach(k => delete seleccionesCu[k]);
+  document.querySelectorAll('#cuestionarioContainer .opcion-btn').forEach(b => {
+    b.disabled = false;
+    b.classList.remove('selected','correct-ans','wrong-ans');
+  });
+  document.querySelectorAll('#cuestionarioContainer .quiz-item').forEach(i => i.classList.remove('correct','incorrect'));
+  document.querySelectorAll('#cuestionarioContainer .explicacion').forEach(e => { e.classList.remove('correct','incorrect','visible'); e.innerHTML=''; });
+  document.getElementById('resultadoCuestionario').classList.remove('visible');
+  document.getElementById('reiniciarCu').style.display = 'none';
+}
+
+/* ========== MOSTRAR RESULTADO FINAL ========== */
+function mostrarResultado(divId, correctas, total, emojiId, scoreId, pctId, barraId, msgId) {
+  const pct = Math.round((correctas / total) * 100);
+  let emoji, msg;
+
+  if (pct === 100) { emoji = '🏆'; msg = '¡Perfecto! Dominas por completo los conceptos de clasificación de costos. Tu empresa de seguridad tiene un contador gerencial de primer nivel.'; }
+  else if (pct >= 80) { emoji = '🎯'; msg = '¡Excelente resultado! Tienes sólida comprensión de los tipos de costos. Revisa los ítems incorrectos para cerrar cualquier brecha conceptual.'; }
+  else if (pct >= 60) { emoji = '📘'; msg = 'Buen avance. Comprendes los conceptos base pero hay áreas que necesitan refuerzo. Vuelve a las pestañas correspondientes a los errores.'; }
+  else if (pct >= 40) { emoji = '⚠️'; msg = 'Hay conceptos importantes que necesitan revisión. Te recomendamos releer las pestañas de contenido antes de continuar con el siguiente tema.'; }
+  else { emoji = '📖'; msg = 'Este es el punto de partida. Vuelve con calma a cada pestaña de contenido, haz anotaciones y repite el ejercicio. ¡El aprendizaje es un proceso!'; }
+
+  const div = document.getElementById(divId);
+  document.getElementById(emojiId).textContent = emoji;
+  document.getElementById(scoreId).textContent = `${correctas} / ${total}`;
+  document.getElementById(pctId).textContent = `${pct}% de respuestas correctas`;
+  document.getElementById(msgId).textContent = msg;
+  div.classList.add('visible');
+
+  setTimeout(() => {
+    document.getElementById(barraId).style.width = pct + '%';
+  }, 200);
+
+  div.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+</script>
+</body>
+</html>

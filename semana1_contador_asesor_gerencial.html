@@ -1,0 +1,868 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Source+Sans+3:wght@300;400;600&display=swap');
+
+  .w1 { font-family: 'Source Sans 3', sans-serif; color: #1a1a2e; background: #fff; }
+  .w1 h1, .w1 h2, .w1 h3 { font-family: 'Lora', serif; }
+
+  .w1-header {
+    background: #003366;
+    color: #fff;
+    padding: 1.5rem 1.5rem 1rem;
+    border-radius: 12px 12px 0 0;
+  }
+  .w1-header .inst { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: #7ec8e3; margin-bottom: 4px; }
+  .w1-header h1 { font-size: 18px; color: #fff; margin: 0 0 2px; font-weight: 600; }
+  .w1-header .sub { font-size: 13px; color: #b3d4ec; margin: 0; }
+
+  .tab-bar {
+    background: #003366;
+    padding: 0 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding-bottom: 8px;
+  }
+  .tab-btn {
+    background: rgba(255,255,255,0.1);
+    color: #b3d4ec;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 6px 6px 0 0;
+    padding: 6px 10px;
+    font-size: 11.5px;
+    cursor: pointer;
+    font-family: 'Source Sans 3', sans-serif;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+  .tab-btn:hover { background: rgba(255,255,255,0.2); color: #fff; }
+  .tab-btn.active { background: #fff; color: #003366; font-weight: 600; border-color: #fff; }
+
+  .tab-panel { display: none; padding: 1.5rem; }
+  .tab-panel.active { display: block; }
+
+  .concept-box {
+    background: #e8f4fd;
+    border-left: 4px solid #0077b6;
+    border-radius: 0 8px 8px 0;
+    padding: 1rem 1.2rem;
+    margin: 1rem 0;
+  }
+  .concept-box .concept-title { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #0077b6; font-weight: 600; margin-bottom: 4px; }
+  .concept-box p { margin: 0; font-size: 14.5px; line-height: 1.7; color: #1a1a2e; }
+
+  .story-box {
+    background: #f0f9ff;
+    border: 1px solid #bde0f5;
+    border-radius: 10px;
+    padding: 1.2rem;
+    margin: 1rem 0;
+    font-size: 14.5px;
+    line-height: 1.8;
+    color: #1a1a2e;
+    font-style: italic;
+  }
+  .story-box strong { font-style: normal; color: #003366; }
+
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 1rem 0;
+  }
+  .compare-card {
+    border-radius: 10px;
+    padding: 1rem;
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+  .compare-card.financial { background: #fff3cd; border: 1px solid #f0c050; }
+  .compare-card.gerencial { background: #d1ecf1; border: 1px solid #0077b6; }
+  .compare-card h3 { font-size: 14px; margin: 0 0 8px; }
+  .compare-card.financial h3 { color: #856404; }
+  .compare-card.gerencial h3 { color: #003366; }
+  .compare-card ul { margin: 0; padding-left: 16px; }
+  .compare-card li { margin-bottom: 4px; }
+
+  .table-resp { width: 100%; border-collapse: collapse; font-size: 13px; margin: 1rem 0; }
+  .table-resp th { background: #003366; color: #fff; padding: 8px 10px; text-align: left; font-weight: 600; font-size: 12px; }
+  .table-resp td { padding: 8px 10px; border-bottom: 1px solid #e0eaf5; vertical-align: top; line-height: 1.5; }
+  .table-resp tr:nth-child(even) td { background: #f5f9ff; }
+  .table-resp td:first-child { font-weight: 600; color: #003366; }
+
+  .highlight-key {
+    background: #e8f4fd;
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    margin: 0.8rem 0;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #1a1a2e;
+  }
+  .highlight-key strong { color: #003366; }
+
+  .section-title {
+    font-size: 16px;
+    color: #003366;
+    border-bottom: 2px solid #0099cc;
+    padding-bottom: 4px;
+    margin: 1.5rem 0 0.8rem;
+    font-family: 'Lora', serif;
+  }
+
+  .excel-step {
+    background: #fff;
+    border: 1px solid #bde0f5;
+    border-radius: 8px;
+    margin: 0.8rem 0;
+    overflow: hidden;
+  }
+  .excel-step-header {
+    background: #0077b6;
+    color: #fff;
+    padding: 8px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .excel-step-num {
+    background: rgba(255,255,255,0.25);
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .excel-step-body { padding: 10px 12px; font-size: 13.5px; line-height: 1.6; color: #1a1a2e; }
+  .excel-step-body code {
+    background: #e8f4fd;
+    border: 1px solid #bde0f5;
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-family: 'Courier New', monospace;
+    font-size: 12.5px;
+    color: #003366;
+  }
+
+  .excel-sim {
+    background: #f5f9ff;
+    border: 1px solid #bde0f5;
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 0;
+    overflow-x: auto;
+  }
+  .excel-sim table { border-collapse: collapse; min-width: 500px; font-size: 12px; }
+  .excel-sim th { background: #217346; color: #fff; padding: 5px 10px; text-align: center; }
+  .excel-sim td { border: 1px solid #c8dfc8; padding: 4px 10px; text-align: right; }
+  .excel-sim td.label { text-align: left; background: #e8f0e8; font-weight: 600; color: #1a1a2e; }
+  .excel-sim td.formula { color: #0077b6; font-weight: 600; }
+  .excel-sim td.negative { color: #c0392b; font-weight: 600; }
+  .excel-sim td.positive { color: #217346; font-weight: 600; }
+
+  .formula-box {
+    background: #1a1a2e;
+    color: #7ec8e3;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    margin: 6px 0;
+    display: inline-block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .prompt-box {
+    background: #003366;
+    color: #fff;
+    border-radius: 10px;
+    padding: 1.2rem;
+    margin: 1rem 0;
+  }
+  .prompt-box .prompt-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: #7ec8e3; margin-bottom: 8px; }
+  .prompt-box .prompt-text {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: #e8f4fd;
+    font-style: italic;
+    margin-bottom: 10px;
+  }
+  .prompt-box .prompt-instruction { font-size: 13px; color: #b3d4ec; line-height: 1.6; }
+
+  .q-block { margin: 1rem 0; border: 1px solid #bde0f5; border-radius: 10px; overflow: hidden; }
+  .q-header { background: #003366; color: #fff; padding: 10px 14px; font-size: 14px; font-weight: 600; }
+  .q-body { padding: 12px 14px; }
+  .q-stem { font-size: 14px; line-height: 1.7; color: #1a1a2e; margin-bottom: 10px; font-family: 'Lora', serif; }
+  .opt-btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: #f5f9ff;
+    border: 1px solid #bde0f5;
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin-bottom: 6px;
+    cursor: pointer;
+    font-size: 13.5px;
+    color: #1a1a2e;
+    font-family: 'Source Sans 3', sans-serif;
+    transition: background 0.15s;
+    line-height: 1.5;
+  }
+  .opt-btn:hover { background: #e0f0f8; }
+  .opt-btn.correct { background: #d4edda; border-color: #28a745; color: #155724; }
+  .opt-btn.wrong { background: #f8d7da; border-color: #dc3545; color: #721c24; }
+  .opt-btn:disabled { cursor: default; }
+  .feedback-box { display: none; border-radius: 6px; padding: 10px 12px; font-size: 13.5px; line-height: 1.6; margin-top: 8px; }
+  .feedback-box.show { display: block; }
+  .feedback-correct { background: #d4edda; color: #155724; border: 1px solid #28a745; }
+  .feedback-wrong { background: #f8d7da; color: #721c24; border: 1px solid #dc3545; }
+
+  .score-bar { background: #e0eaf5; border-radius: 8px; padding: 1rem; text-align: center; margin-top: 1rem; }
+  .score-bar .score-num { font-size: 32px; font-weight: 700; color: #003366; font-family: 'Lora', serif; }
+  .score-bar .score-label { font-size: 13px; color: #555; margin-top: 4px; }
+
+  .sig-box {
+    background: #f0f9ff;
+    border: 1px dashed #0099cc;
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 0;
+    font-size: 14px;
+    line-height: 1.8;
+    color: #1a1a2e;
+  }
+  .sig-box strong { color: #003366; }
+
+  .tag {
+    display: inline-block;
+    background: #e8f4fd;
+    color: #003366;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-right: 4px;
+    letter-spacing: 0.5px;
+  }
+
+  @media (max-width: 600px) {
+    .compare-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<div class="w1">
+  <div class="w1-header">
+    <div class="inst">Universidad de Guayaquil &nbsp;|&nbsp; Facultad de Ciencias Administrativas &nbsp;|&nbsp; CPA — 5.° Semestre</div>
+    <h1>Semana 1 — El Contador como Asesor Gerencial</h1>
+    <p class="sub">Contabilidad Gerencial &nbsp;·&nbsp; Unidad 1 &nbsp;·&nbsp; 30 de marzo al 4 de abril de 2026</p>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="showTab('intro')">Bienvenida</button>
+    <button class="tab-btn" onclick="showTab('tema1')">1. Dos tipos de contador</button>
+    <button class="tab-btn" onclick="showTab('tema2')">2. Qué necesita el gerente</button>
+    <button class="tab-btn" onclick="showTab('tema3')">3. Límites del Estado de Resultados</button>
+    <button class="tab-btn" onclick="showTab('tema4')">4. Excel gerencial</button>
+    <button class="tab-btn" onclick="showTab('prompt')">5. Actividad con IA</button>
+    <button class="tab-btn" onclick="showTab('quiz')">6. Cuestionario</button>
+  </div>
+
+  <!-- INTRO -->
+  <div id="tab-intro" class="tab-panel active">
+    <h2 class="section-title">Bienvenido a Contabilidad Gerencial</h2>
+
+    <div class="story-box">
+      <strong>Antes de empezar, una pregunta real:</strong> Imagina que eres el dueño o gerente de una empresa de seguridad privada. Al final del mes, tu contador te entrega el Estado de Resultados. Dice que ganaste $9.000 de utilidad. Te alegras. Pero al revisar tu cuenta bancaria... hay $800.<br><br>
+      ¿Cómo es posible? ¿Estás ganando o perdiendo? ¿A quién le crees: al papel o al banco?<br><br>
+      <strong>Esa pregunta es exactamente lo que responde esta materia.</strong>
+    </div>
+
+    <h3 class="section-title">¿De qué trata esta asignatura?</h3>
+    <p style="font-size: 14.5px; line-height: 1.8; color: #1a1a2e;">La Contabilidad Gerencial no es una materia de fórmulas sin sentido. Es la herramienta que te permite <strong>convertir números en decisiones inteligentes</strong>. Aprenderás a responder preguntas que ningún balance general puede responder solo:</p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 1rem 0;">
+      <div class="concept-box" style="margin: 0;">
+        <div class="concept-title">Pregunta 1</div>
+        <p>¿Cuánto me cuesta realmente cada guardia, con todo incluido?</p>
+      </div>
+      <div class="concept-box" style="margin: 0;">
+        <div class="concept-title">Pregunta 2</div>
+        <p>¿A partir de cuántos contratos empiezo a ganar dinero?</p>
+      </div>
+      <div class="concept-box" style="margin: 0;">
+        <div class="concept-title">Pregunta 3</div>
+        <p>¿Vale la pena aceptar ese contrato nuevo a precio reducido?</p>
+      </div>
+      <div class="concept-box" style="margin: 0;">
+        <div class="concept-title">Pregunta 4</div>
+        <p>¿Cuánto dinero necesitaré el próximo mes y lo tendré disponible?</p>
+      </div>
+    </div>
+
+    <div class="sig-box">
+      <strong>Cómo usar este material:</strong> Cada pestaña de arriba contiene el contenido de una sesión de la semana. Lee con calma, resuelve los ejercicios interactivos y responde el cuestionario al final. Si algo no queda claro al leerlo por primera vez, vuelve a leerlo — este material está diseñado para que lo entiendas sin necesitar a nadie junto a ti.
+    </div>
+
+    <div style="margin-top: 1.2rem; padding: 10px 14px; background: #003366; border-radius: 8px; color: #fff; font-size: 13.5px;">
+      <span style="color: #7ec8e3; font-weight: 600;">Sesiones de esta semana:</span><br>
+      <span style="color: #e8f4fd;">Lunes 30 mar &nbsp;·&nbsp; Jueves 2 abr &nbsp;·&nbsp; Viernes 3 abr</span>
+    </div>
+  </div>
+
+  <!-- TEMA 1 -->
+  <div id="tab-tema1" class="tab-panel">
+    <h2 class="section-title">1. Dos tipos de contador, dos propósitos distintos</h2>
+
+    <div class="story-box">
+      Imagina que en tu empresa de seguridad tienes <strong>dos contadores</strong>.<br><br>
+      El <strong>Contador A</strong> aparece una vez al año. Te entrega documentos perfectamente elaborados: el Estado de Resultados, el Balance General, todo listo para el SRI y la Superintendencia de Compañías. Su trabajo cumple con la ley. Pero llega cuando el año ya terminó y ya no puedes cambiar nada.<br><br>
+      El <strong>Contador B</strong> aparece cada semana. No solo te muestra números: te dice a qué cliente cobrarle primero, qué servicio te deja más ganancia real, si conviene contratar un guardia adicional o cubrir ese turno de otra forma.<br><br>
+      Los dos son contadores. Los dos usan números. Pero <strong>uno te muestra el pasado, el otro te ayuda a decidir hoy</strong>.
+    </div>
+
+    <h3 style="font-size: 15px; color: #003366; margin: 1.2rem 0 0.5rem; font-family: 'Lora', serif;">Los tres sistemas contables que necesitas conocer</h3>
+
+    <p style="font-size: 14px; line-height: 1.7; color: #1a1a2e;">No existe solo un tipo de contabilidad. Existen tres sistemas, cada uno con un propósito diferente. Confundirlos es uno de los errores más comunes en la gestión empresarial.</p>
+
+    <table class="table-resp">
+      <thead>
+        <tr>
+          <th>Característica</th>
+          <th>Contabilidad Financiera</th>
+          <th>Contabilidad de Costos</th>
+          <th>Contabilidad Gerencial</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>¿Para qué sirve?</td>
+          <td>Reportar a personas externas y cumplir con la ley</td>
+          <td>Calcular cuánto cuesta producir cada servicio</td>
+          <td>Apoyar decisiones internas de la gerencia</td>
+        </tr>
+        <tr>
+          <td>¿Quién la usa?</td>
+          <td>SRI, bancos, socios, Superintendencia</td>
+          <td>Alimenta a las otras dos</td>
+          <td>Gerente, subgerente, directivos</td>
+        </tr>
+        <tr>
+          <td>¿Cuándo?</td>
+          <td>Periodicidad fija: mensual o anual</td>
+          <td>Cuando se necesite calcular un costo</td>
+          <td>Cuando el gerente necesite decidir</td>
+        </tr>
+        <tr>
+          <td>¿Sigue normas externas?</td>
+          <td>Sí — NIIF (normas internacionales)</td>
+          <td>Parcialmente</td>
+          <td>No — se adapta a lo que el negocio necesite</td>
+        </tr>
+        <tr>
+          <td>¿Mira al pasado o al futuro?</td>
+          <td>Al pasado: registra lo que ya ocurrió</td>
+          <td>Al pasado y al presente</td>
+          <td>Al futuro: ¿qué conviene hacer?</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="concept-box">
+      <div class="concept-title">La Contabilidad de Costos: el puente entre las dos</div>
+      <p>Piensa en ella como el motor. Sin un buen sistema de costos, la Contabilidad Financiera no puede valorar correctamente lo que tiene la empresa, y la Contabilidad Gerencial no tiene información real para tomar decisiones. Las tres trabajan juntas.</p>
+    </div>
+
+    <h3 style="font-size: 15px; color: #003366; margin: 1.2rem 0 0.5rem; font-family: 'Lora', serif;">Lo que la Contabilidad Financiera no puede responder</h3>
+
+    <div class="compare-grid">
+      <div class="compare-card financial">
+        <h3>Contabilidad Financiera</h3>
+        <ul>
+          <li>¿Cuánto ganó la empresa en total este año?</li>
+          <li>¿Cuánto vale el patrimonio de los socios?</li>
+          <li>¿Cumplimos con el SRI este período?</li>
+        </ul>
+        <p style="font-size: 12px; margin: 8px 0 0; color: #856404;">Responde estas preguntas correctamente.</p>
+      </div>
+      <div class="compare-card gerencial">
+        <h3>Contabilidad Gerencial</h3>
+        <ul>
+          <li>¿Cuál de nuestros tres servicios genera más utilidad real?</li>
+          <li>¿Conviene aceptar ese nuevo contrato a precio reducido?</li>
+          <li>¿Cuántos contratos necesito para no perder dinero?</li>
+        </ul>
+        <p style="font-size: 12px; margin: 8px 0 0; color: #0077b6;">Solo la Contabilidad Gerencial puede responder estas.</p>
+      </div>
+    </div>
+
+    <div class="highlight-key">
+      <strong>Para recordar siempre:</strong> Una empresa puede tener Contabilidad Financiera perfecta — cumple con el SRI, tiene sus balances al día — y aun así tomar decisiones a ciegas porque no tiene Contabilidad Gerencial. Las dos no compiten: se complementan.
+    </div>
+  </div>
+
+  <!-- TEMA 2 -->
+  <div id="tab-tema2" class="tab-panel">
+    <h2 class="section-title">2. ¿Qué información necesita realmente el gerente para decidir?</h2>
+
+    <p style="font-size: 14.5px; line-height: 1.8;">Un gerente toma decisiones todo el tiempo. Pero no todas las decisiones son iguales. Algunas son urgentes y operativas: ¿mando un guardia adicional esta noche? Otras son tácticas: ¿renuevo el contrato con ese cliente en las mismas condiciones? Y otras son estratégicas: ¿entramos al mercado de monitoreo o nos enfocamos en crecer en guardias?</p>
+
+    <p style="font-size: 14.5px; line-height: 1.8;">Para cada tipo de decisión, la información que se necesita tiene características distintas. Pero hay <strong>cuatro atributos que toda información gerencial útil debe tener</strong>:</p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 1rem 0;">
+      <div style="background: #e8f4fd; border-radius: 8px; padding: 1rem;">
+        <div style="font-size: 13px; font-weight: 700; color: #003366; margin-bottom: 6px;">RELEVANTE</div>
+        <p style="font-size: 13.5px; line-height: 1.6; margin: 0; color: #1a1a2e;">Solo incluye lo que cambia según la decisión. No toda la información disponible sirve para decidir. Ejemplo: para decidir si acepto un contrato nuevo, me importa el costo de atenderlo y el ingreso que generará — no el historial del año pasado.</p>
+      </div>
+      <div style="background: #e8f4fd; border-radius: 8px; padding: 1rem;">
+        <div style="font-size: 13px; font-weight: 700; color: #003366; margin-bottom: 6px;">OPORTUNA</div>
+        <p style="font-size: 13.5px; line-height: 1.6; margin: 0; color: #1a1a2e;">Llega cuando se necesita, no después. Si sé que un contrato fue deficitario seis meses después de ejecutarlo, ya no puedo corregir nada. La información perfecta que llega tarde no vale nada.</p>
+      </div>
+      <div style="background: #e8f4fd; border-radius: 8px; padding: 1rem;">
+        <div style="font-size: 13px; font-weight: 700; color: #003366; margin-bottom: 6px;">SUFICIENTEMENTE PRECISA</div>
+        <p style="font-size: 13.5px; line-height: 1.6; margin: 0; color: #1a1a2e;">No necesita ser exacta al centavo, pero no puede tener errores que cambien la conclusión. Un error del 5% en el costo de un servicio puede hacer que una decisión correcta se vea incorrecta — o al revés.</p>
+      </div>
+      <div style="background: #e8f4fd; border-radius: 8px; padding: 1rem;">
+        <div style="font-size: 13px; font-weight: 700; color: #003366; margin-bottom: 6px;">COMPRENSIBLE</div>
+        <p style="font-size: 13.5px; line-height: 1.6; margin: 0; color: #1a1a2e;">Debe estar presentada de forma que quien decide pueda interpretarla correctamente, aunque no sea contador. Un gerente de operaciones necesita entender el análisis de rentabilidad sin tener que aprender contabilidad primero.</p>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <div class="concept-title">Distinción importante: Liquidez vs. Rentabilidad</div>
+      <p>Dos conceptos que se confunden constantemente y que son completamente distintos:<br><br>
+      <strong>Rentabilidad</strong> = ¿estás ganando dinero? La responde el Estado de Resultados. Ingresos menos costos.<br>
+      <strong>Liquidez</strong> = ¿tienes dinero disponible ahora mismo? La responde el flujo de caja. Lo que te deben los clientes, lo que debes a proveedores, lo que tienes en caja.<br><br>
+      <strong>Puedes ganar y no tener. Puedes tener y no ganar.</strong> Son dos preguntas distintas y las dos importan.</p>
+    </div>
+
+    <h3 style="font-size: 15px; color: #003366; margin: 1.2rem 0 0.5rem; font-family: 'Lora', serif;">El valor real de un cliente no es solo lo que factura</h3>
+
+    <div class="story-box">
+      Supón que tienes dos clientes. El Cliente A te paga $5.000 al mes, siempre puntual, nunca genera incidentes fuera de lo acordado. El Cliente B te paga $8.000 al mes, pero paga a 90 días, renegocia el contrato cada renovación y genera el doble de trabajo operativo.<br><br>
+      ¿Cuál vale más? <strong>No siempre el que más factura.</strong> La Contabilidad Gerencial te permite calcular el valor real de cada cliente, considerando no solo el ingreso sino también el costo de atenderlo, el riesgo de cobro y la carga operativa que genera.
+    </div>
+  </div>
+
+  <!-- TEMA 3 -->
+  <div id="tab-tema3" class="tab-panel">
+    <h2 class="section-title">3. Lo que el Estado de Resultados muestra... y lo que no</h2>
+
+    <p style="font-size: 14.5px; line-height: 1.8;">El Estado de Resultados es el documento financiero más leído por los gerentes. Tiene sentido: resume si la empresa ganó o perdió dinero. Pero tiene <strong>limitaciones estructurales importantes</strong> que, si no se conocen, llevan a conclusiones equivocadas.</p>
+
+    <div class="concept-box">
+      <div class="concept-title">¿Qué es el Estado de Resultados?</div>
+      <p>Es un documento contable que muestra, para un período de tiempo determinado (un mes, un trimestre, un año), cuántos ingresos tuvo la empresa y cuánto le costó generar esos ingresos. La diferencia entre ambos es la utilidad (o pérdida). Nada más, nada menos.</p>
+    </div>
+
+    <h3 style="font-size: 15px; color: #003366; margin: 1.2rem 0 0.5rem; font-family: 'Lora', serif;">Ejemplo: Estado de Resultados de "Seguridad Integral S.A." — 1.er trimestre</h3>
+
+    <div class="excel-sim">
+      <table>
+        <thead>
+          <tr>
+            <th style="text-align: left; width: 55%;">Concepto</th>
+            <th>Trim. 1 ($)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="label">INGRESOS</td><td></td></tr>
+          <tr><td style="padding-left: 20px;">Servicio de Guardias Físicos</td><td>61.200</td></tr>
+          <tr><td style="padding-left: 20px;">Servicio de Monitoreo por Cámaras</td><td>18.600</td></tr>
+          <tr><td style="padding-left: 20px;">Servicio de Escolta Ejecutiva</td><td>7.600</td></tr>
+          <tr><td class="label formula">TOTAL INGRESOS</td><td class="formula">87.400</td></tr>
+          <tr><td class="label">COSTOS DIRECTOS</td><td></td></tr>
+          <tr><td style="padding-left: 20px;">Sueldos y beneficios del personal operativo</td><td>48.200</td></tr>
+          <tr><td style="padding-left: 20px;">Equipos, uniformes e insumos</td><td>6.800</td></tr>
+          <tr><td class="label formula">TOTAL COSTOS DIRECTOS</td><td class="formula">55.000</td></tr>
+          <tr><td class="label formula">UTILIDAD BRUTA</td><td class="formula positive">32.400</td></tr>
+          <tr><td class="label">GASTOS OPERATIVOS</td><td></td></tr>
+          <tr><td style="padding-left: 20px;">Gastos administrativos</td><td>21.300</td></tr>
+          <tr><td style="padding-left: 20px;">Gastos financieros</td><td>1.200</td></tr>
+          <tr><td class="label formula">TOTAL GASTOS</td><td class="formula">22.500</td></tr>
+          <tr><td class="label formula" style="font-size: 13px;">UTILIDAD NETA</td><td class="formula positive" style="font-size: 14px;">9.900</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="font-size: 15px; color: #003366; margin: 1.2rem 0 0.5rem; font-family: 'Lora', serif;">Cinco preguntas que este estado NO puede responder</h3>
+
+    <div id="limites-container">
+      <div class="excel-step">
+        <div class="excel-step-header"><div class="excel-step-num">1</div>¿Cuál de las tres líneas de servicio es la más rentable?</div>
+        <div class="excel-step-body">El Estado de Resultados agrupa todos los ingresos y todos los costos. No separa cuánto costó específicamente el servicio de guardias versus el de monitoreo. Podrías estar ganando mucho en guardias y perdiendo dinero en escolta — y no saberlo.</div>
+      </div>
+      <div class="excel-step">
+        <div class="excel-step-header"><div class="excel-step-num">2</div>¿Tienes $9.900 en tu cuenta bancaria ahora mismo?</div>
+        <div class="excel-step-body">No necesariamente. El Estado de Resultados usa el principio del devengado: registra ingresos cuando se facturan, no cuando el cliente paga. Si el 40% de tus ingresos están por cobrar, solo recibiste $52.440 en efectivo — no $87.400.</div>
+      </div>
+      <div class="excel-step">
+        <div class="excel-step-header"><div class="excel-step-num">3</div>¿Están incluidos todos los costos reales?</div>
+        <div class="excel-step-body">¿Se depreció el equipo de monitoreo? ¿Se provisionó la cartera de difícil cobro? ¿Está incluida la parte proporcional del seguro anual? Muchos costos reales se omiten, especialmente en empresas medianas, sobreestimando la utilidad.</div>
+      </div>
+      <div class="excel-step">
+        <div class="excel-step-header"><div class="excel-step-num">4</div>¿Conviene aceptar un contrato nuevo a precio reducido?</div>
+        <div class="excel-step-body">Para responder esto necesitas saber cuánto te cuesta específicamente atender ese contrato. El Estado de Resultados solo muestra totales globales. No desglosa el costo marginal de agregar un contrato más.</div>
+      </div>
+      <div class="excel-step">
+        <div class="excel-step-header"><div class="excel-step-num">5</div>¿Qué pasará el próximo trimestre?</div>
+        <div class="excel-step-body">El Estado de Resultados mira hacia atrás. No te dice si hay contratos por vencer, si hay clientes en riesgo de no renovar, ni si hay costos que aumentarán. No sirve para planificar el futuro.</div>
+      </div>
+    </div>
+
+    <div class="highlight-key" style="margin-top: 1rem;">
+      <strong>Conclusión clave:</strong> El Estado de Resultados no es un documento malo — es un documento incompleto si se usa solo. La Contabilidad Gerencial lo complementa con análisis por línea de servicio, por cliente, por zona, y con proyecciones hacia el futuro.
+    </div>
+  </div>
+
+  <!-- TEMA 4 EXCEL -->
+  <div id="tab-tema4" class="tab-panel">
+    <h2 class="section-title">4. Excel como herramienta de Contabilidad Gerencial</h2>
+
+    <div class="concept-box">
+      <div class="concept-title">¿Por qué Excel?</div>
+      <p>La Contabilidad Gerencial no necesita software costoso para comenzar a funcionar. Necesita claridad de pensamiento y una herramienta que permita organizar, calcular y visualizar información con rapidez. Excel cumple esa función de manera accesible. Lo más importante no es el software — es saber qué pregunta quieres responder antes de escribir cualquier fórmula.</p>
+    </div>
+
+    <h3 style="font-size: 15px; color: #003366; margin: 1.2rem 0 0.5rem; font-family: 'Lora', serif;">Antes de abrir Excel: la pregunta que define todo</h3>
+
+    <p style="font-size: 14px; line-height: 1.7; color: #1a1a2e;">El error más común es abrir Excel, escribir números y hacer sumas sin saber para qué. Una tabla mal estructurada puede hacer cálculos correctos pero responder la pregunta equivocada. <strong>Primero define qué quieres saber, luego construye la tabla.</strong></p>
+
+    <h3 style="font-size: 15px; color: #003366; margin: 1.2rem 0 0.5rem; font-family: 'Lora', serif;">Estructura de una tabla gerencial básica</h3>
+
+    <p style="font-size: 14px; line-height: 1.7;">Para una empresa de seguridad, la regla es simple: <strong>las filas son los contratos o líneas de servicio</strong> (las unidades que quieres analizar) <strong>y las columnas son los rubros de costo e ingreso</strong> (lo que quieres medir de cada una).</p>
+
+    <div class="excel-sim">
+      <table>
+        <thead>
+          <tr>
+            <th style="text-align: left;">Contrato / Línea</th>
+            <th>Ingresos ($)</th>
+            <th>Personal ($)</th>
+            <th>Equipos ($)</th>
+            <th>Supervisión ($)</th>
+            <th>Total Costos ($)</th>
+            <th>Margen ($)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="label">Univ. del Norte</td>
+            <td>7.200</td><td>5.408</td><td>120</td><td>340</td>
+            <td class="formula">5.868</td>
+            <td class="positive formula">1.332</td>
+          </tr>
+          <tr>
+            <td class="label">Centro Comerc. El Sol</td>
+            <td>5.800</td><td>3.640</td><td>90</td><td>240</td>
+            <td class="formula">3.970</td>
+            <td class="positive formula">1.830</td>
+          </tr>
+          <tr>
+            <td class="label">Bodega Industrial X</td>
+            <td>3.200</td><td>2.860</td><td>60</td><td>180</td>
+            <td class="formula">3.100</td>
+            <td class="positive formula">100</td>
+          </tr>
+          <tr>
+            <td class="label formula" style="font-size: 12px;">TOTALES</td>
+            <td class="formula">16.200</td><td class="formula">11.908</td><td class="formula">270</td><td class="formula">760</td>
+            <td class="formula">12.938</td>
+            <td class="positive formula">3.262</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="font-size: 15px; color: #003366; margin: 1.2rem 0 0.5rem; font-family: 'Lora', serif;">Las 4 funciones esenciales — explicadas desde cero</h3>
+
+    <div class="excel-step">
+      <div class="excel-step-header"><div class="excel-step-num">1</div>SUMA — sumar un rango de celdas</div>
+      <div class="excel-step-body">
+        Esta función suma todos los valores en un rango de celdas. Un rango es un conjunto de celdas seguidas, por ejemplo de B2 a B7.<br><br>
+        <span style="font-weight: 600; color: #003366;">Sintaxis:</span>
+        <div class="formula-box">=SUMA(B2:B7)</div>
+        Esto suma todos los valores que están en las celdas B2, B3, B4, B5, B6 y B7. El signo <code>:</code> significa "desde... hasta".<br><br>
+        <span style="font-weight: 600; color: #003366;">Ejemplo en tu empresa:</span> Si en las celdas B2 a B7 tienes el costo mensual de cada guardia, <code>=SUMA(B2:B7)</code> te da el costo total de todos los guardias.
+      </div>
+    </div>
+
+    <div class="excel-step">
+      <div class="excel-step-header"><div class="excel-step-num">2</div>PROMEDIO — calcular el promedio</div>
+      <div class="excel-step-body">
+        Calcula el promedio aritmético de un conjunto de valores. Sirve para comparar eficiencia.
+        <div class="formula-box">=PROMEDIO(B2:B13)</div>
+        <span style="font-weight: 600; color: #003366;">Ejemplo:</span> Si tienes el costo mensual de 12 guardias en B2 hasta B13, esta fórmula te da el costo promedio por guardia. Puedes compararlo con el presupuesto para saber si estás gastando más o menos de lo planeado.
+      </div>
+    </div>
+
+    <div class="excel-step">
+      <div class="excel-step-header"><div class="excel-step-num">3</div>SI — tomar decisiones automáticas</div>
+      <div class="excel-step-body">
+        Esta función evalúa una condición y devuelve un resultado diferente según si la condición es verdadera o falsa. Es la función que convierte Excel en un asistente que "piensa".
+        <div class="formula-box">=SI(condición, "resultado si es verdad", "resultado si es falso")</div>
+        <span style="font-weight: 600; color: #003366;">Ejemplo real:</span>
+        <div class="formula-box">=SI(G2&lt;0, "PÉRDIDA", "RENTABLE")</div>
+        Si el margen en la celda G2 es negativo (menor que cero), escribe "PÉRDIDA". Si es positivo, escribe "RENTABLE". Así puedes identificar visualmente qué contratos están en rojo sin leer cada número individualmente.
+      </div>
+    </div>
+
+    <div class="excel-step">
+      <div class="excel-step-header"><div class="excel-step-num">4</div>BUSCARV — encontrar datos sin buscarlos manualmente</div>
+      <div class="excel-step-body">
+        Esta función busca un valor en la primera columna de una tabla y devuelve el dato de otra columna de la misma fila. Imagina tener 30 contratos y necesitar encontrar el costo de uno específico — BUSCARV lo hace en un segundo.
+        <div class="formula-box">=BUSCARV("Universidad Norte", A2:C20, 3, 0)</div>
+        Esto busca "Universidad Norte" en la columna A, dentro del rango A2:C20, y devuelve el valor de la columna 3 (columna C) de esa misma fila. El <code>0</code> al final significa "búsqueda exacta" — siempre usa 0 para evitar errores.<br><br>
+        <span style="color: #c0392b; font-size: 13px;"><strong>Atención:</strong> Si ves el error #N/A, significa que el valor buscado no existe exactamente en la columna A. Verifica que no haya espacios extras o diferencias de mayúsculas/minúsculas.</span>
+      </div>
+    </div>
+
+    <h3 style="font-size: 15px; color: #003366; margin: 1.2rem 0 0.5rem; font-family: 'Lora', serif;">Practica aquí — Calcula el margen de un contrato</h3>
+    <div style="background: #f5f9ff; border: 1px solid #bde0f5; border-radius: 10px; padding: 1rem; margin: 1rem 0;">
+      <p style="font-size: 14px; color: #1a1a2e; margin-bottom: 10px;">Ingresa los datos del contrato y calcula el margen:</p>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+        <div>
+          <label style="font-size: 13px; color: #555; display: block; margin-bottom: 3px;">Ingreso mensual ($)</label>
+          <input type="number" id="ing" value="7200" style="width: 100%; padding: 6px 8px; border: 1px solid #bde0f5; border-radius: 6px; font-size: 14px;" oninput="calcMargen()">
+        </div>
+        <div>
+          <label style="font-size: 13px; color: #555; display: block; margin-bottom: 3px;">Costo de personal ($)</label>
+          <input type="number" id="personal" value="5408" style="width: 100%; padding: 6px 8px; border: 1px solid #bde0f5; border-radius: 6px; font-size: 14px;" oninput="calcMargen()">
+        </div>
+        <div>
+          <label style="font-size: 13px; color: #555; display: block; margin-bottom: 3px;">Costo de equipos ($)</label>
+          <input type="number" id="equipos" value="120" style="width: 100%; padding: 6px 8px; border: 1px solid #bde0f5; border-radius: 6px; font-size: 14px;" oninput="calcMargen()">
+        </div>
+        <div>
+          <label style="font-size: 13px; color: #555; display: block; margin-bottom: 3px;">Supervisión ($)</label>
+          <input type="number" id="superv" value="340" style="width: 100%; padding: 6px 8px; border: 1px solid #bde0f5; border-radius: 6px; font-size: 14px;" oninput="calcMargen()">
+        </div>
+      </div>
+      <div id="resultado-margen" style="background: #003366; color: #fff; border-radius: 8px; padding: 12px; text-align: center; font-size: 15px;"></div>
+    </div>
+  </div>
+
+  <!-- PROMPT IA -->
+  <div id="tab-prompt" class="tab-panel">
+    <h2 class="section-title">5. Actividad con Inteligencia Artificial</h2>
+
+    <div class="concept-box">
+      <div class="concept-title">¿Para qué usamos IA en esta materia?</div>
+      <p>La IA no es una máquina de respuestas automáticas. Usada correctamente, es un asistente con quien puedes explorar conceptos, generar ideas y obtener explicaciones desde distintos ángulos. Pero la IA puede equivocarse. Por eso, tu tarea no es copiar su respuesta — es <strong>analizarla, compararla con lo que aprendiste y mejorarla</strong>. Aventurarte a usarla es el ejercicio; lo que hagas con su respuesta es la evaluación.</p>
+    </div>
+
+    <h3 style="font-size: 15px; color: #003366; margin: 1.2rem 0 0.5rem; font-family: 'Lora', serif;">Prompt 1 — Sesión del lunes (actividad evaluable)</h3>
+
+    <div class="prompt-box">
+      <div class="prompt-label">Copia este prompt exactamente y pégalo en ChatGPT, Copilot o cualquier IA que tengas disponible</div>
+      <div class="prompt-text">
+        "Soy estudiante de Contabilidad Gerencial. Tengo una empresa de servicios de seguridad privada en Ecuador. Explícame, con ejemplos concretos de ese tipo de empresa, cuál es la diferencia entre un contador financiero y un contador gerencial, y qué tipo de preguntas puede responder cada uno."
+      </div>
+      <div class="prompt-instruction">
+        <strong style="color: #7ec8e3;">¿Qué hacer con la respuesta?</strong><br>
+        1. Lee la respuesta completa de la IA.<br>
+        2. Compárala con lo que aprendiste en la pestaña "1. Dos tipos de contador".<br>
+        3. Escribe en tu cuaderno o Word: <strong>dos coincidencias</strong> entre la respuesta de la IA y lo que estudias aquí, y <strong>una diferencia o error</strong> que encuentres en la respuesta de la IA. Explica por qué consideras que es un error o una imprecisión.
+      </div>
+    </div>
+
+    <h3 style="font-size: 15px; color: #003366; margin: 1.2rem 0 0.5rem; font-family: 'Lora', serif;">Prompt 2 — Sesión del viernes (actividad evaluable)</h3>
+
+    <div class="prompt-box">
+      <div class="prompt-label">Segundo prompt de la semana — úsalo después de estudiar el Estado de Resultados</div>
+      <div class="prompt-text">
+        "Tengo una empresa de seguridad privada en Ecuador con tres líneas de servicio: guardias físicos, monitoreo por cámaras y escolta ejecutiva. El Estado de Resultados del último trimestre muestra utilidad neta de $9.900. Dime cinco preguntas importantes para la gerencia que este Estado de Resultados NO puede responder por sí solo, y explica brevemente por qué no puede responderlas."
+      </div>
+      <div class="prompt-instruction">
+        <strong style="color: #7ec8e3;">¿Qué hacer con la respuesta?</strong><br>
+        1. Lee las cinco preguntas que propone la IA.<br>
+        2. Compáralas con las cinco limitaciones del Estado de Resultados que estudiaste en la pestaña "3. Límites del Estado de Resultados".<br>
+        3. Escribe: ¿coinciden? ¿La IA encontró alguna limitación que el material no menciona? ¿Hay alguna limitación del material que la IA no menciona? Registra tus observaciones.
+      </div>
+    </div>
+
+    <div class="sig-box" style="margin-top: 1.5rem;">
+      <strong>Consejo para el futuro:</strong> Cada vez que uses IA para estudiar, recuerda que la IA responde con rapidez pero no siempre con precisión en contextos específicos como el Ecuador, la legislación ecuatoriana o el sector de seguridad privada. Tu criterio, formado por el estudio de este material, es el filtro que convierte la respuesta de la IA en conocimiento real.
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="tab-quiz" class="tab-panel">
+    <h2 class="section-title">6. Cuestionario de la Semana 1</h2>
+    <p style="font-size: 14px; color: #555; margin-bottom: 1.2rem;">Responde cada pregunta. Recibirás retroalimentación inmediata. Estas preguntas son la base de lo que se evaluará en el Primer Parcial.</p>
+
+    <div id="quiz-container"></div>
+
+    <div class="score-bar" id="score-bar" style="display: none;">
+      <div class="score-num" id="score-num">0/6</div>
+      <div class="score-label" id="score-label">Puedes revisar las pestañas de contenido y volver a intentarlo.</div>
+    </div>
+
+    <button id="reset-btn" style="display: none; margin: 1rem auto; background: #003366; color: #fff; border: none; border-radius: 8px; padding: 10px 24px; font-size: 14px; cursor: pointer; display: block;" onclick="resetQuiz()">Reiniciar cuestionario</button>
+  </div>
+</div>
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function calcMargen() {
+  var ing = parseFloat(document.getElementById('ing').value) || 0;
+  var personal = parseFloat(document.getElementById('personal').value) || 0;
+  var equipos = parseFloat(document.getElementById('equipos').value) || 0;
+  var superv = parseFloat(document.getElementById('superv').value) || 0;
+  var totalCostos = personal + equipos + superv;
+  var margen = ing - totalCostos;
+  var pct = ing > 0 ? ((margen / ing) * 100).toFixed(1) : 0;
+  var color = margen >= 0 ? '#27ae60' : '#e74c3c';
+  var estado = margen >= 0 ? 'RENTABLE' : 'PÉRDIDA';
+  document.getElementById('resultado-margen').innerHTML =
+    'Total costos: <strong>$' + totalCostos.toFixed(2) + '</strong> &nbsp;|&nbsp; ' +
+    'Margen: <strong style="color:' + color + '">$' + margen.toFixed(2) + '</strong> &nbsp;|&nbsp; ' +
+    'Margen %: <strong>' + pct + '%</strong> &nbsp;|&nbsp; ' +
+    '<span style="background:' + color + '; padding: 2px 10px; border-radius: 4px; font-size: 13px;">' + estado + '</span>';
+}
+calcMargen();
+
+var questions = [
+  {
+    q: "Una empresa de seguridad privada tiene su Estado de Resultados perfectamente elaborado y al día para el SRI. ¿Qué tipo de contabilidad está practicando?",
+    opts: [
+      "Contabilidad Gerencial, porque implica análisis detallado de costos",
+      "Contabilidad Financiera, porque produce información estandarizada para externos",
+      "Contabilidad de Costos, porque calcula cuánto cuesta cada servicio",
+      "Las tres a la vez, porque todos los sistemas están integrados en el mismo documento"
+    ],
+    correct: 1,
+    fb: "Correcto. El Estado de Resultados para el SRI es el producto típico de la Contabilidad Financiera: estandarizado, para externos, siguiendo normas NIIF. La Contabilidad Gerencial produce información interna y adaptada a las decisiones del negocio."
+  },
+  {
+    q: "El gerente de 'Seguridad Total S.A.' dice: 'Con ver el Estado de Resultados tengo todo lo que necesito para decidir'. ¿Cuál es el problema principal con esa afirmación?",
+    opts: [
+      "No hay problema — el Estado de Resultados es suficiente para tomar cualquier decisión gerencial",
+      "El Estado de Resultados solo muestra el pasado y no separa la rentabilidad por línea de servicio o contrato",
+      "El Estado de Resultados es un documento muy complejo para que un gerente lo entienda",
+      "El problema es que el Estado de Resultados solo muestra información mensual, no anual"
+    ],
+    correct: 1,
+    fb: "Correcto. El Estado de Resultados muestra resultados globales y mira al pasado. No distingue cuál línea de servicio genera utilidad, no revela el flujo real de efectivo, ni sirve para evaluar contratos futuros. Es un documento valioso pero incompleto para la gestión."
+  },
+  {
+    q: "La empresa 'Guardias del Sur' tiene utilidad neta de $12.000 en su Estado de Resultados. Al revisar la cuenta bancaria hay solo $1.500. ¿Cuál es la explicación más probable?",
+    opts: [
+      "El contador cometió un error en el Estado de Resultados",
+      "La empresa tiene sus inversiones en otros activos que no son efectivo",
+      "El Estado de Resultados registra ingresos cuando se facturan, no cuando el cliente paga — hay cuentas por cobrar pendientes",
+      "El banco bloqueó la cuenta por problemas legales no relacionados con la contabilidad"
+    ],
+    correct: 2,
+    fb: "Correcto. Esta es una de las limitaciones más importantes del Estado de Resultados: usa el principio del devengado. Registra ingresos cuando se presta el servicio y se emite la factura, aunque el cliente no haya pagado todavía. La diferencia entre utilidad contable y efectivo disponible puede ser muy grande."
+  },
+  {
+    q: "¿Cuál de los siguientes es el MEJOR ejemplo de información 'relevante' para decidir si aceptar un contrato nuevo de 3 guardias a $2.700/mes?",
+    opts: [
+      "El total de ingresos anuales de la empresa durante los últimos tres años",
+      "El costo marginal de contratar 3 guardias adicionales y los ingresos que generaría ese contrato",
+      "El Estado de Resultados consolidado del último trimestre",
+      "La utilidad promedio de todos los contratos activos durante el año"
+    ],
+    correct: 1,
+    fb: "Correcto. Información relevante es la que cambia según la decisión específica. Para decidir si acepto ese contrato, lo que importa es cuánto me costará atenderlo (costo marginal) versus cuánto generará. El historial de otros contratos o los totales anuales no cambian esa decisión."
+  },
+  {
+    q: "En Excel, escribe la fórmula correcta para sumar los costos de personal de los contratos 1 al 5, si están en las celdas C2 a C6:",
+    opts: [
+      "=SUMA(C2, C3, C4, C5, C6)",
+      "=TOTAL(C2:C6)",
+      "=SUMA(C2:C6)",
+      "=SUMAR(C2-C6)"
+    ],
+    correct: 2,
+    fb: "Correcto. =SUMA(C2:C6) es la sintaxis correcta. El dos puntos (:) indica 'desde C2 hasta C6'. Aunque =SUMA(C2, C3, C4, C5, C6) también funciona, usar el rango con dos puntos es más eficiente, especialmente si tienes muchas filas."
+  },
+  {
+    q: "Un contador calcula que el costo de un contrato es $3.200 cuando en realidad es $3.350. Esto produce una diferencia de $150. ¿Esta imprecisión afecta la decisión gerencial?",
+    opts: [
+      "Siempre afecta — la información gerencial debe ser exacta al centavo sin excepciones",
+      "Depende: si la diferencia cambia si el contrato es rentable o no, sí afecta; si no cambia la conclusión, es tolerable",
+      "Nunca afecta — las pequeñas diferencias no son importantes en la gestión empresarial",
+      "Solo afecta si el gerente es contador de profesión y entiende los números con detalle"
+    ],
+    correct: 1,
+    fb: "Correcto. La información gerencial debe ser 'suficientemente precisa', no necesariamente exacta al centavo. Si la imprecisión de $150 no cambia la decisión (el contrato sigue siendo rentable en ambos casos), es tolerable. Pero si esa diferencia convierte un contrato aparentemente rentable en deficitario, sí es crítica."
+  }
+];
+
+var answered = 0;
+var correctCount = 0;
+
+function buildQuiz() {
+  var container = document.getElementById('quiz-container');
+  container.innerHTML = '';
+  questions.forEach(function(q, i) {
+    var block = document.createElement('div');
+    block.className = 'q-block';
+    block.id = 'q-' + i;
+    var optsHtml = q.opts.map(function(o, j) {
+      return '<button class="opt-btn" onclick="answer(' + i + ',' + j + ')" id="opt-' + i + '-' + j + '">' +
+        String.fromCharCode(65 + j) + ') ' + o + '</button>';
+    }).join('');
+    block.innerHTML = '<div class="q-header">Pregunta ' + (i + 1) + ' de ' + questions.length + '</div>' +
+      '<div class="q-body"><div class="q-stem">' + q.q + '</div>' + optsHtml +
+      '<div class="feedback-box" id="fb-' + i + '"></div></div>';
+    container.appendChild(block);
+  });
+}
+
+function answer(qi, oi) {
+  var q = questions[qi];
+  var btns = document.querySelectorAll('[id^="opt-' + qi + '-"]');
+  btns.forEach(function(b) { b.disabled = true; });
+  var selected = document.getElementById('opt-' + qi + '-' + oi);
+  var fb = document.getElementById('fb-' + qi);
+  if (oi === q.correct) {
+    selected.classList.add('correct');
+    fb.className = 'feedback-box show feedback-correct';
+    fb.innerHTML = '<strong>Correcto.</strong> ' + q.fb;
+    correctCount++;
+  } else {
+    selected.classList.add('wrong');
+    document.getElementById('opt-' + qi + '-' + q.correct).classList.add('correct');
+    fb.className = 'feedback-box show feedback-wrong';
+    fb.innerHTML = '<strong>Respuesta incorrecta.</strong> La opción correcta era la ' +
+      String.fromCharCode(65 + q.correct) + '. ' + q.fb;
+  }
+  answered++;
+  if (answered === questions.length) {
+    var bar = document.getElementById('score-bar');
+    bar.style.display = 'block';
+    document.getElementById('score-num').textContent = correctCount + '/' + questions.length;
+    var pct = Math.round((correctCount / questions.length) * 100);
+    var msg = pct === 100 ? '¡Excelente! Dominas todos los conceptos de la Semana 1.' :
+      pct >= 67 ? 'Bien. Repasa las pestañas de los conceptos donde tuviste error.' :
+      'Dedica tiempo a releer el material antes de continuar con la Semana 2.';
+    document.getElementById('score-label').textContent = pct + '% — ' + msg;
+    document.getElementById('reset-btn').style.display = 'block';
+  }
+}
+
+function resetQuiz() {
+  answered = 0; correctCount = 0;
+  document.getElementById('score-bar').style.display = 'none';
+  document.getElementById('reset-btn').style.display = 'none';
+  buildQuiz();
+}
+
+buildQuiz();
+</script>

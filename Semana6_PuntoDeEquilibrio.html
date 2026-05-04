@@ -1,0 +1,1667 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semana 6 – Punto de Equilibrio | Contabilidad Gerencial</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ===== RESET & BASE ===== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; }
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: #f0f4f8;
+    color: #1a1a2e;
+    min-height: 100vh;
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    background: #003366;
+    color: #fff;
+    padding: 18px 28px 14px;
+  }
+  .header-top {
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    opacity: 0.82;
+    margin-bottom: 6px;
+  }
+  .header-title {
+    font-family: 'Lora', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+  .header-meta {
+    display: flex;
+    gap: 20px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+  }
+  .badge {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 20px;
+    padding: 3px 12px;
+    font-size: 0.78rem;
+    color: #fff;
+  }
+
+  /* ===== TAB NAV ===== */
+  .tab-nav-wrapper {
+    background: #87CEEB;
+    overflow-x: auto;
+    white-space: nowrap;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    scrollbar-width: thin;
+    scrollbar-color: #003366 #87CEEB;
+  }
+  .tab-nav-wrapper::-webkit-scrollbar { height: 4px; }
+  .tab-nav-wrapper::-webkit-scrollbar-track { background: #87CEEB; }
+  .tab-nav-wrapper::-webkit-scrollbar-thumb { background: #003366; border-radius: 4px; }
+  .tab-nav {
+    display: inline-flex;
+    padding: 0 8px;
+    min-width: 100%;
+  }
+  .tab-btn {
+    background: transparent;
+    border: none;
+    padding: 13px 16px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.83rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .tab-btn:hover { background: rgba(0,51,102,0.1); }
+  .tab-btn.active {
+    background: #fff;
+    color: #003366;
+    font-weight: 700;
+    border-bottom: 3px solid #003366;
+  }
+
+  /* ===== CONTENT AREA ===== */
+  .content-area {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 28px 20px 60px;
+  }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ===== TYPOGRAPHY ===== */
+  h2 {
+    font-family: 'Lora', serif;
+    color: #003366;
+    font-size: 1.45rem;
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #87CEEB;
+  }
+  h3 {
+    font-family: 'Lora', serif;
+    color: #003366;
+    font-size: 1.1rem;
+    margin: 22px 0 10px;
+  }
+  p { line-height: 1.75; margin-bottom: 14px; font-size: 0.97rem; }
+  ul, ol { padding-left: 22px; margin-bottom: 14px; }
+  li { line-height: 1.7; margin-bottom: 5px; font-size: 0.96rem; }
+
+  /* ===== BOXES ===== */
+  .box-concept {
+    border-left: 5px solid #003366;
+    background: #f7f9fc;
+    padding: 16px 20px;
+    margin: 18px 0;
+    border-radius: 0 8px 8px 0;
+  }
+  .box-concept strong { color: #003366; }
+
+  .box-example {
+    background: #dbeeff;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 18px 0;
+    border: 1px solid #b3d4f5;
+  }
+  .box-example .ex-label {
+    font-weight: 700;
+    color: #003366;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+  }
+
+  .box-key {
+    background: #003366;
+    color: #fff;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 22px 0;
+  }
+  .box-key strong { color: #87CEEB; }
+
+  .box-warning {
+    background: #fff8e1;
+    border-left: 5px solid #f5a623;
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin: 16px 0;
+  }
+
+  .box-formula {
+    background: #e8f4fd;
+    border: 2px dashed #003366;
+    border-radius: 8px;
+    padding: 18px 22px;
+    margin: 20px 0;
+    text-align: center;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #003366;
+    font-family: 'Lora', serif;
+  }
+  .box-formula .formula-title {
+    font-size: 0.8rem;
+    color: #555;
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 400;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* ===== TABLES ===== */
+  .tbl-wrap { overflow-x: auto; margin: 18px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+  th {
+    background: #003366;
+    color: #fff;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+  }
+  td { padding: 9px 14px; border-bottom: 1px solid #dde3ec; }
+  tr:nth-child(even) td { background: #f4f7fb; }
+  tr:hover td { background: #e8effa; }
+
+  /* ===== STEP CARDS ===== */
+  .steps { display: flex; flex-direction: column; gap: 14px; margin: 18px 0; }
+  .step-card {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    background: #fff;
+    border-radius: 8px;
+    padding: 14px 18px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  .step-num {
+    background: #003366;
+    color: #fff;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+
+  /* ===== REPASO CARDS ===== */
+  .repaso-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 18px 0; }
+  @media(max-width:600px){ .repaso-grid { grid-template-columns: 1fr; } }
+  .repaso-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 14px 16px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.09);
+    border-top: 3px solid #87CEEB;
+  }
+  .repaso-card .sem-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #003366;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 6px;
+  }
+  .repaso-card p { font-size: 0.88rem; margin-bottom: 0; color: #333; }
+
+  /* ===== HIGHLIGHT TEXT ===== */
+  .hl { color: #003366; font-weight: 700; }
+  .hl-gold { color: #b8860b; font-weight: 700; }
+
+  /* ===== INTERACTIVE / QUIZ ===== */
+  .exercise-wrap { margin-top: 10px; }
+  .q-item {
+    background: #fff;
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.08);
+    border-left: 4px solid #87CEEB;
+  }
+  .q-item.correct { border-left-color: #2e7d32; background: #f1faf1; }
+  .q-item.incorrect { border-left-color: #c62828; background: #fdf1f1; }
+  .q-num { font-size: 0.78rem; font-weight: 700; color: #003366; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+  .q-text { font-weight: 600; margin-bottom: 12px; line-height: 1.55; }
+  .options { display: flex; flex-direction: column; gap: 8px; }
+  .option-btn {
+    background: #f4f7fb;
+    border: 2px solid #dde3ec;
+    border-radius: 6px;
+    padding: 10px 14px;
+    cursor: pointer;
+    text-align: left;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.93rem;
+    transition: all 0.18s;
+  }
+  .option-btn:hover { background: #dbeeff; border-color: #87CEEB; }
+  .option-btn.selected { background: #dbeeff; border-color: #003366; font-weight: 600; }
+  .option-btn.right { background: #e8f5e9; border-color: #2e7d32; color: #1b5e20; }
+  .option-btn.wrong { background: #ffebee; border-color: #c62828; color: #b71c1c; }
+  .feedback-box {
+    display: none;
+    margin-top: 10px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 0.88rem;
+    line-height: 1.55;
+  }
+  .feedback-box.show { display: block; }
+  .feedback-box.ok { background: #e8f5e9; color: #1b5e20; border-left: 3px solid #2e7d32; }
+  .feedback-box.fail { background: #ffebee; color: #b71c1c; border-left: 3px solid #c62828; }
+
+  /* classify / match items */
+  .classify-item {
+    background: #f4f7fb;
+    border: 2px solid #dde3ec;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin-bottom: 10px;
+  }
+  .classify-item .ci-text { font-weight: 600; margin-bottom: 8px; }
+  .ci-options { display: flex; gap: 8px; flex-wrap: wrap; }
+  .ci-opt {
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 2px solid #dde3ec;
+    background: #fff;
+    cursor: pointer;
+    font-size: 0.88rem;
+    transition: all 0.18s;
+  }
+  .ci-opt:hover { border-color: #87CEEB; background: #dbeeff; }
+  .ci-opt.selected { background: #dbeeff; border-color: #003366; font-weight: 700; }
+  .ci-opt.right { background: #e8f5e9; border-color: #2e7d32; color: #1b5e20; font-weight: 700; }
+  .ci-opt.wrong { background: #ffebee; border-color: #c62828; color: #b71c1c; }
+
+  /* Score */
+  .score-box {
+    display: none;
+    background: #fff;
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin-top: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    text-align: center;
+  }
+  .score-box.show { display: block; }
+  .score-big { font-family: 'Lora', serif; font-size: 2.4rem; font-weight: 700; color: #003366; }
+  .score-pct { font-size: 1.2rem; color: #555; margin: 4px 0 14px; }
+  .score-bar-wrap { background: #e0e0e0; border-radius: 20px; height: 16px; overflow: hidden; margin: 12px 0 16px; }
+  .score-bar { height: 16px; border-radius: 20px; transition: width 1s ease; background: #003366; }
+  .score-msg { font-size: 1.05rem; font-weight: 600; }
+  .score-emoji { font-size: 2.2rem; margin-bottom: 8px; }
+
+  /* Buttons */
+  .btn-primary {
+    background: #003366;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 12px 28px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.97rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.18s;
+    margin-top: 14px;
+  }
+  .btn-primary:hover { background: #004a99; }
+  .btn-secondary {
+    background: #fff;
+    color: #003366;
+    border: 2px solid #003366;
+    border-radius: 6px;
+    padding: 10px 24px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.93rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.18s;
+    margin-top: 10px;
+    margin-left: 10px;
+  }
+  .btn-secondary:hover { background: #dbeeff; }
+
+  /* Badge type */
+  .badge-type {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+  }
+  .badge-teorica { background: #003366; color: #fff; }
+  .badge-analisis { background: #b8860b; color: #fff; }
+
+  /* IA Activity */
+  .ia-prompt-box {
+    background: #1a1a2e;
+    color: #e0e8ff;
+    border-radius: 8px;
+    padding: 18px 22px;
+    font-family: 'Source Sans 3', monospace;
+    font-size: 0.91rem;
+    line-height: 1.7;
+    margin: 16px 0;
+    white-space: pre-wrap;
+  }
+  .ia-step {
+    background: #fff;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    border-left: 4px solid #87CEEB;
+  }
+  .ia-step-num {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #003366;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 5px;
+  }
+
+  /* Reflexion */
+  .reflexion-card {
+    background: linear-gradient(135deg, #f7f9fc 0%, #dbeeff 100%);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+    border: 1px solid #b3d4f5;
+    position: relative;
+  }
+  .reflexion-icon { font-size: 1.6rem; margin-bottom: 8px; }
+  .reflexion-card p { margin-bottom: 0; font-size: 0.95rem; line-height: 1.75; }
+
+  /* Biblio */
+  .biblio-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 14px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    border-left: 4px solid #003366;
+  }
+  .biblio-card .bib-num { font-size: 0.78rem; font-weight: 700; color: #003366; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+  .biblio-card p { margin-bottom: 0; font-size: 0.9rem; line-height: 1.6; }
+  .biblio-card em { color: #003366; }
+  .biblio-note { background: #fff8e1; border-radius: 6px; padding: 12px 16px; margin-top: 18px; font-size: 0.88rem; color: #555; border-left: 4px solid #f5a623; }
+
+  /* Responsive */
+  @media(max-width:600px){
+    .header-title { font-size: 1.15rem; }
+    .content-area { padding: 18px 14px 50px; }
+    h2 { font-size: 1.2rem; }
+  }
+
+  /* Grafico PE */
+  .chart-container {
+    background: #fff;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.08);
+    margin: 18px 0;
+    overflow-x: auto;
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<div class="header">
+  <div class="header-top">Universidad de Guayaquil &nbsp;|&nbsp; Facultad de Ciencias Administrativas &nbsp;|&nbsp; Carrera en Contabilidad y Auditoría</div>
+  <div class="header-title">Contabilidad Gerencial &nbsp;— &nbsp;Semana 6</div>
+  <div class="header-meta">
+    <span class="badge">Unidad 2: Costos para la Toma de Decisiones</span>
+    <span class="badge">CPA Semestral · 5.º Semestre</span>
+    <span class="badge">Punto de Equilibrio</span>
+  </div>
+</div>
+
+<!-- ===== TAB NAV ===== -->
+<div class="tab-nav-wrapper">
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="showTab('repaso',this)">📋 Repaso</button>
+    <button class="tab-btn" onclick="showTab('t1',this)">1. ¿Qué es el PE?</button>
+    <button class="tab-btn" onclick="showTab('t2',this)">2. PE en Unidades</button>
+    <button class="tab-btn" onclick="showTab('t3',this)">3. PE en Dólares</button>
+    <button class="tab-btn" onclick="showTab('t4',this)">4. Margen y Razón de Contribución</button>
+    <button class="tab-btn" onclick="showTab('t5',this)">5. Interpretación Gerencial</button>
+    <button class="tab-btn" onclick="showTab('ejercicio',this)">6. Ejercicio Interactivo</button>
+    <button class="tab-btn" onclick="showTab('cuestionario',this)">7. Cuestionario</button>
+    <button class="tab-btn" onclick="showTab('ia',this)">8. Actividad con IA</button>
+    <button class="tab-btn" onclick="showTab('reflexion',this)">9. Preguntas Reflexivas</button>
+    <button class="tab-btn" onclick="showTab('biblio',this)">10. Bibliografía</button>
+  </div>
+</div>
+
+<!-- ===== CONTENT AREA ===== -->
+<div class="content-area">
+
+  <!-- ===== REPASO ===== -->
+  <div id="repaso" class="tab-panel active">
+    <h2>📋 Repaso de Semanas Anteriores</h2>
+    <p>Este widget es completamente autónomo. Antes de avanzar, recorramos el camino que hemos recorrido juntos, porque el tema de hoy —el <strong>punto de equilibrio</strong>— es la síntesis natural de todo lo que hemos construido semana a semana.</p>
+
+    <div class="repaso-grid">
+      <div class="repaso-card">
+        <div class="sem-label">Semana 1 — El Contador Gerencial</div>
+        <p>Distinguimos al contador financiero del contador gerencial: mientras el primero reporta hacia afuera (bancos, SRI, socios), el segundo <strong>apoya las decisiones internas</strong>. Vimos que los estados financieros tradicionales son útiles pero insuficientes para gestionar; el gerente necesita información adicional, oportuna y desagregada.</p>
+      </div>
+      <div class="repaso-card">
+        <div class="sem-label">Semana 2 — Excel como Herramienta Gerencial</div>
+        <p>Aprendimos a clasificar costos en hojas de trabajo de Excel y a construir tablas de análisis. Esta base nos permite hoy modelar matemáticamente el comportamiento del costo y el ingreso.</p>
+      </div>
+      <div class="repaso-card">
+        <div class="sem-label">Semana 3 — Sistemas de Información Gerencial</div>
+        <p>Comprendimos que el <strong>dato operativo</strong> (horas trabajadas, servicios prestados, contratos activos) es la materia prima de la decisión gerencial. El punto de equilibrio convierte esos datos en señales de alerta o acción.</p>
+      </div>
+      <div class="repaso-card">
+        <div class="sem-label">Semana 4 — Ética del Contador</div>
+        <p>Revisamos el Código de Ética del Contador Ecuatoriano (CECE). Calcular un punto de equilibrio falso o manipular supuestos de costos fijos para justificar decisiones erróneas es una violación ética concreta que afecta a la empresa y sus trabajadores.</p>
+      </div>
+      <div class="repaso-card" style="grid-column: 1 / -1;">
+        <div class="sem-label">Semana 5 — Clasificación de Costos ⭐ Clave para hoy</div>
+        <p>Esta es la semana más directamente relacionada con el tema de hoy. Diferenciamos los <strong>costos fijos</strong> (no cambian con el volumen: sueldo del guardia fijo, renta de oficinas) de los <strong>costos variables</strong> (cambian proporcionalmente: combustible por km, uniformes por guardia). Esta distinción es la base matemática del punto de equilibrio. Sin entender esta semana, no se puede calcular ni interpretar el PE.</p>
+      </div>
+    </div>
+
+    <div class="box-key">
+      <strong>¿Por qué el punto de equilibrio es la cumbre de la Unidad 2?</strong>
+      <p style="margin-top:8px; margin-bottom:0; color:#e0e8ff;">El PE integra costos fijos, costos variables, precio de venta y volumen en una sola pregunta gerencial poderosa: <em>"¿Cuánto tengo que vender para no perder?"</em> Es la primera herramienta de decisión real que une contabilidad con estrategia empresarial.</p>
+    </div>
+  </div>
+
+  <!-- ===== TEMA 1: ¿QUÉ ES EL PUNTO DE EQUILIBRIO? ===== -->
+  <div id="t1" class="tab-panel">
+    <h2>1. ¿Qué es el Punto de Equilibrio?</h2>
+
+    <div class="box-concept">
+      <strong>Definición precisa:</strong> El <strong>Punto de Equilibrio (PE)</strong> —también llamado umbral de rentabilidad o break-even point— es el nivel de ventas (en unidades o en dinero) en el que los ingresos totales son exactamente iguales a los costos totales. En ese punto, la empresa <strong>no gana ni pierde</strong>: su utilidad es cero.
+    </div>
+
+    <p>Para entender realmente qué significa esto, debemos partir de una verdad fundamental: <strong>toda empresa tiene dos tipos de costos</strong> que conviven al mismo tiempo y que se comportan de manera completamente diferente:</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <tr>
+          <th>Tipo de Costo</th>
+          <th>Comportamiento</th>
+          <th>Ejemplo en empresa de seguridad</th>
+          <th>¿Cambia con el volumen?</th>
+        </tr>
+        <tr>
+          <td><strong>Costo Fijo (CF)</strong></td>
+          <td>Permanece constante sin importar cuánto se produce o vende</td>
+          <td>Renta de oficinas, sueldos administrativos, pólizas de seguro corporativo</td>
+          <td>❌ No cambia</td>
+        </tr>
+        <tr>
+          <td><strong>Costo Variable (CV)</strong></td>
+          <td>Aumenta o disminuye proporcionalmente al volumen</td>
+          <td>Uniformes por guardia contratado, combustible por servicio, materiales de dotación</td>
+          <td>✅ Sí cambia</td>
+        </tr>
+      </table>
+    </div>
+
+    <p>Ahora imagina que graficas dos líneas en un plano: una que sube (Ingresos Totales) y otra que también sube pero desde un punto más alto (Costos Totales = CF + CV). Estas dos líneas se cruzan en un punto exacto. <strong>Ese cruce es el Punto de Equilibrio.</strong></p>
+
+    <div class="chart-container">
+      <canvas id="peChart" width="700" height="350" style="max-width:100%;"></canvas>
+    </div>
+
+    <h3>¿Por qué es importante para la gerencia?</h3>
+    <p>El punto de equilibrio responde preguntas críticas que ningún estado financiero tradicional puede responder directamente:</p>
+    <ul>
+      <li>¿Cuántos contratos de seguridad mensuales necesito para que la empresa no pierda dinero?</li>
+      <li>Si bajo el precio para conseguir más clientes, ¿cómo afecta eso a mi punto de equilibrio?</li>
+      <li>Si arriendo una nueva oficina (más costos fijos), ¿cuántos servicios adicionales debo vender para justificar ese gasto?</li>
+      <li>¿En qué mes del año espero salir del "valle" de pérdidas para entrar en ganancias?</li>
+    </ul>
+
+    <div class="box-example">
+      <div class="ex-label">🏢 Contexto: Empresa de Seguridad Privada en Guayaquil</div>
+      <p>Imagina que gestionas una empresa de seguridad privada que ofrece servicios de vigilancia mensual a locales comerciales. Cada mes tiene <strong>costos fijos de $8.000</strong> (sueldos administrativos, renta de oficina, permisos de funcionamiento, cuotas de IESS patronal de trabajadores administrativos). Además, por cada guardia activo en campo, incurre en <strong>costos variables de $420 por guardia/mes</strong> (salario básico + beneficios de ley proporcionales + dotación). El precio que cobra al cliente por cada guardia activo es de <strong>$700 al mes</strong>.</p>
+      <p>La pregunta gerencial es: ¿Cuántos guardias (contratos) necesito activar cada mes para que la empresa no pierda dinero? La respuesta es el <strong>punto de equilibrio</strong>, y aprenderás a calcularlo en las siguientes pestañas.</p>
+    </div>
+
+    <div class="box-key">
+      <strong>💡 Idea Clave</strong>
+      <p style="color:#e0e8ff; margin-top:8px; margin-bottom:0;">El punto de equilibrio no es solo un número matemático. Es un <strong>indicador de supervivencia empresarial</strong>. Si vendes por encima de él, generas utilidad. Si vendes por debajo, acumulas pérdidas. Conocerlo es el primer paso para tomar decisiones basadas en hechos, no en suposiciones.</p>
+    </div>
+  </div>
+
+  <!-- ===== TEMA 2: PE EN UNIDADES ===== -->
+  <div id="t2" class="tab-panel">
+    <h2>2. Punto de Equilibrio en Unidades Físicas</h2>
+
+    <p>El <strong>punto de equilibrio en unidades</strong> responde a la pregunta: <em>"¿Cuántas unidades debo vender (o servicios debo prestar) para que mis ingresos cubran exactamente todos mis costos?"</em></p>
+
+    <p>Para calcularlo, necesitamos primero entender un concepto intermedio llamado <strong>Margen de Contribución Unitario (MCu)</strong> —que estudiarás en profundidad en la pestaña 4—, pero aquí lo presentamos como herramienta de cálculo:</p>
+
+    <div class="box-concept">
+      <strong>Margen de Contribución Unitario (MCu)</strong> = Precio de Venta Unitario (PVU) − Costo Variable Unitario (CVu)<br><br>
+      Representa cuánto contribuye <em>cada unidad vendida</em> a cubrir los costos fijos. Solo cuando los CF están completamente cubiertos, la empresa comienza a generar utilidad real.
+    </div>
+
+    <div class="box-formula">
+      <div class="formula-title">Fórmula: Punto de Equilibrio en Unidades</div>
+      PE (unidades) = Costos Fijos Totales ÷ Margen de Contribución Unitario<br>
+      <span style="font-size:0.85rem; font-weight:400; font-family:'Source Sans 3',sans-serif;">PE(u) = CF ÷ (PVU − CVu)</span>
+    </div>
+
+    <h3>Derivación lógica de la fórmula</h3>
+    <p>La fórmula no debe memorizarse ciegamente. Proviene de una igualdad simple: en el punto de equilibrio, Ingresos = Costos Totales.</p>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <div><strong>Planteamos la igualdad:</strong><br>Ingresos Totales = Costos Fijos + Costos Variables Totales<br>PVU × Q = CF + (CVu × Q)</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <div><strong>Despejamos Q (cantidad):</strong><br>PVU × Q − CVu × Q = CF<br>Q × (PVU − CVu) = CF</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <div><strong>Resultado final:</strong><br>Q = CF ÷ (PVU − CVu) → Q = CF ÷ MCu</div>
+      </div>
+    </div>
+
+    <div class="box-example">
+      <div class="ex-label">📊 Caso: Empresa de Seguridad Privada — Cálculo paso a paso</div>
+      <p><strong>Datos:</strong></p>
+      <ul>
+        <li>Costos Fijos Totales (CF) = <strong>$8.000 / mes</strong></li>
+        <li>Precio de Venta Unitario (PVU) = <strong>$700 / guardia-mes</strong></li>
+        <li>Costo Variable Unitario (CVu) = <strong>$420 / guardia-mes</strong></li>
+      </ul>
+      <p><strong>Paso 1 — Calcular el MCu:</strong><br>
+      MCu = $700 − $420 = <strong>$280 por guardia-mes</strong></p>
+      <p>Esto significa que por cada guardia activo facturado, la empresa "gana" $280 que van destinados primero a pagar los $8.000 de costos fijos.</p>
+      <p><strong>Paso 2 — Calcular el PE en unidades:</strong><br>
+      PE(u) = $8.000 ÷ $280 = <strong>28,57 guardias</strong></p>
+      <p><strong>Interpretación:</strong> Como no se puede tener 0,57 de un guardia, la empresa debe tener <strong>mínimo 29 guardias activos y facturados por mes</strong> para no incurrir en pérdidas. Con 28 guardias, todavía opera en zona de pérdida (le faltan $0,57 × $280 = $160 para cubrir costos fijos). Con 29, entra en zona de ganancia.</p>
+    </div>
+
+    <div class="box-warning">
+      <strong>⚠️ Redondeo siempre hacia arriba:</strong> Cuando el PE en unidades no es un número entero, <strong>siempre se redondea hacia arriba (al entero inmediato superior)</strong>. Si vendes menos del PE, pierdes dinero. Nunca redondear hacia abajo en este cálculo.
+    </div>
+
+    <h3>¿Qué pasa si cambian las variables?</h3>
+    <div class="tbl-wrap">
+      <table>
+        <tr>
+          <th>Cambio</th>
+          <th>Efecto en el PE</th>
+          <th>Decisión gerencial relacionada</th>
+        </tr>
+        <tr>
+          <td>⬆️ Suben los costos fijos</td>
+          <td>PE sube — se necesitan más ventas para equilibrarse</td>
+          <td>¿Vale la pena abrir esa nueva sucursal?</td>
+        </tr>
+        <tr>
+          <td>⬆️ Sube el precio de venta</td>
+          <td>PE baja — se necesitan menos ventas para equilibrarse</td>
+          <td>¿Puedo aumentar precio sin perder clientes?</td>
+        </tr>
+        <tr>
+          <td>⬆️ Sube el costo variable</td>
+          <td>PE sube — el MCu se reduce, se necesitan más ventas</td>
+          <td>¿Cómo controlo el costo operativo por guardia?</td>
+        </tr>
+        <tr>
+          <td>⬇️ Bajan los costos fijos</td>
+          <td>PE baja — más margen de seguridad</td>
+          <td>¿Vale la pena renegociar el contrato de arriendo?</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="box-key">
+      <strong>💡 Idea Clave</strong>
+      <p style="color:#e0e8ff; margin-top:8px; margin-bottom:0;">El PE en unidades físicas es la medida más operativa del equilibrio. Le dice al gerente cuántos productos debe vender, cuántos servicios debe prestar o cuántos contratos debe activar para que la empresa sobreviva financieramente. Es el número mínimo de operación viable.</p>
+    </div>
+  </div>
+
+  <!-- ===== TEMA 3: PE EN DÓLARES ===== -->
+  <div id="t3" class="tab-panel">
+    <h2>3. Punto de Equilibrio en Dólares (en Ventas)</h2>
+
+    <p>El <strong>punto de equilibrio en dólares</strong> responde a la pregunta: <em>"¿Cuánto dinero en ventas necesito generar para cubrir todos mis costos?"</em> A diferencia del PE en unidades (que depende de saber cuántas unidades se venden), el PE en dólares es especialmente útil cuando:</p>
+    <ul>
+      <li>La empresa vende <strong>múltiples productos o servicios</strong> con distintos precios.</li>
+      <li>Es difícil definir una "unidad" estándar (ej: una empresa que presta múltiples tipos de contratos de seguridad).</li>
+      <li>Se quiere comparar el PE con las ventas proyectadas directamente en reportes financieros.</li>
+    </ul>
+
+    <div class="box-concept">
+      <strong>Razón de Contribución (RC)</strong> —también llamada Índice de Contribución o Relación Costo-Volumen-Utilidad— es el porcentaje de cada dólar de venta que queda disponible para cubrir costos fijos y generar utilidad.<br><br>
+      RC = MCu ÷ PVU &nbsp; (o equivalente: RC = Margen de Contribución Total ÷ Ventas Totales)
+    </div>
+
+    <div class="box-formula">
+      <div class="formula-title">Fórmula: Punto de Equilibrio en Dólares</div>
+      PE ($) = Costos Fijos Totales ÷ Razón de Contribución<br>
+      <span style="font-size:0.85rem; font-weight:400; font-family:'Source Sans 3',sans-serif;">PE($) = CF ÷ RC &nbsp;|&nbsp; donde RC = MCu ÷ PVU</span>
+    </div>
+
+    <h3>Dos vías para llegar al mismo resultado</h3>
+    <div class="tbl-wrap">
+      <table>
+        <tr>
+          <th>Vía</th>
+          <th>Cálculo</th>
+          <th>Cuándo usarla</th>
+        </tr>
+        <tr>
+          <td><strong>Vía 1 — Desde el PE en unidades</strong></td>
+          <td>PE($) = PE(u) × PVU</td>
+          <td>Cuando ya calculaste el PE en unidades y conoces el precio</td>
+        </tr>
+        <tr>
+          <td><strong>Vía 2 — Directa con RC</strong></td>
+          <td>PE($) = CF ÷ RC</td>
+          <td>Cuando hay múltiples productos o no conoces el PE en unidades</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="box-example">
+      <div class="ex-label">📊 Caso: Empresa de Seguridad Privada — PE en Dólares</div>
+      <p><strong>Datos del mismo caso:</strong></p>
+      <ul>
+        <li>CF = $8.000 | PVU = $700 | CVu = $420 | MCu = $280</li>
+      </ul>
+      <p><strong>Paso 1 — Calcular la Razón de Contribución:</strong><br>
+      RC = $280 ÷ $700 = <strong>0,40 = 40%</strong></p>
+      <p>Interpretación de la RC: De cada dólar que factura la empresa, <strong>40 centavos quedan disponibles</strong> para cubrir costos fijos y generar utilidad. Los otros 60 centavos se "consumen" en los costos variables de operar ese guardia.</p>
+      <p><strong>Paso 2 — Calcular el PE en dólares:</strong><br>
+      PE($) = $8.000 ÷ 0,40 = <strong>$20.000 en ventas mensuales</strong></p>
+      <p><strong>Verificación con Vía 1:</strong><br>
+      PE(u) = 28,57 → redondeado a 29 × $700 = $20.300 (con 29 guardias la empresa ya entra en zona de utilidad mínima, porque $20.300 > $20.000)</p>
+      <p>Con exactamente $20.000 en ventas (28,57 guardias exactos), la empresa está en equilibrio perfecto: utilidad = $0.</p>
+    </div>
+
+    <h3>El PE en dólares en empresas con múltiples servicios</h3>
+    <p>Supongamos que la misma empresa también ofrece dos tipos de servicio:</p>
+    <div class="tbl-wrap">
+      <table>
+        <tr>
+          <th>Servicio</th>
+          <th>PVU</th>
+          <th>CVu</th>
+          <th>MCu</th>
+          <th>Mezcla de ventas</th>
+          <th>MC ponderado</th>
+        </tr>
+        <tr>
+          <td>Guardia diurno</td>
+          <td>$600</td>
+          <td>$380</td>
+          <td>$220</td>
+          <td>60%</td>
+          <td>$132</td>
+        </tr>
+        <tr>
+          <td>Guardia nocturno</td>
+          <td>$800</td>
+          <td>$460</td>
+          <td>$340</td>
+          <td>40%</td>
+          <td>$136</td>
+        </tr>
+        <tr>
+          <td colspan="5"><strong>MCu promedio ponderado</strong></td>
+          <td><strong>$268</strong></td>
+        </tr>
+      </table>
+    </div>
+    <p>Con este MCu ponderado: RC = $268 ÷ (0,6×$600 + 0,4×$800) = $268 ÷ $680 = <strong>39,4%</strong>. El PE($) = $8.000 ÷ 0,394 = <strong>$20.305 en ventas mensuales</strong>. La mezcla de productos afecta el PE.</p>
+
+    <div class="box-key">
+      <strong>💡 Idea Clave</strong>
+      <p style="color:#e0e8ff; margin-top:8px; margin-bottom:0;">El PE en dólares es la herramienta preferida del gerente financiero cuando presenta resultados al directorio, porque habla el idioma del negocio: dinero. "Necesitamos $20.000 en ventas mensuales para no perder" es más comprensible en una junta directiva que "necesitamos 28,57 guardias contratados".</p>
+    </div>
+  </div>
+
+  <!-- ===== TEMA 4: MARGEN Y RAZÓN DE CONTRIBUCIÓN ===== -->
+  <div id="t4" class="tab-panel">
+    <h2>4. Margen de Contribución y Razón de Contribución</h2>
+
+    <p>El <strong>Margen de Contribución</strong> es uno de los conceptos más poderosos —y a veces más malentendidos— de la contabilidad gerencial. No es sinónimo de "ganancia" ni de "rentabilidad". Es algo más específico y más útil para la decisión operativa.</p>
+
+    <div class="box-concept">
+      <strong>Margen de Contribución (MC):</strong> Es la diferencia entre los ingresos por ventas y los costos variables. Representa el monto disponible para cubrir los costos fijos y, una vez cubiertos estos, para generar utilidad neta.<br><br>
+      <strong>Tres niveles de cálculo:</strong><br>
+      • <strong>Unitario (MCu):</strong> PVU − CVu (por cada unidad)<br>
+      • <strong>Total (MCT):</strong> Ventas Totales − Costos Variables Totales (para toda la producción/ventas)<br>
+      • <strong>Razón (RC):</strong> MCu ÷ PVU (expresado como porcentaje o decimal)
+    </div>
+
+    <h3>¿Por qué se llama "de contribución"?</h3>
+    <p>Porque cada unidad vendida <strong>contribuye</strong> una cierta cantidad al fondo común destinado a pagar los costos fijos. Solo cuando ese fondo supera los CF totales, la empresa "cruza" el punto de equilibrio y empieza a acumular utilidad real. Antes de ese cruce, aunque la empresa venda, no ha generado ni un dólar de ganancia neta.</p>
+
+    <div class="box-example">
+      <div class="ex-label">📊 Estado de Resultados por Contribución — Empresa de Seguridad (30 guardias activos)</div>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Concepto</th><th>Por Guardia</th><th>Total (30 guardias)</th></tr>
+          <tr><td>Ventas (Ingresos)</td><td>$700</td><td>$21.000</td></tr>
+          <tr><td>(-) Costos Variables</td><td>$420</td><td>$12.600</td></tr>
+          <tr><td><strong>= Margen de Contribución</strong></td><td><strong>$280</strong></td><td><strong>$8.400</strong></td></tr>
+          <tr><td>(-) Costos Fijos</td><td>—</td><td>$8.000</td></tr>
+          <tr><td><strong>= Utilidad Operativa</strong></td><td>—</td><td><strong>$400</strong></td></tr>
+        </table>
+      </div>
+      <p>Con 30 guardias, la empresa superó el PE de 28,57. El MC total de $8.400 cubrió los CF de $8.000 y sobró $400 de utilidad. Si hubiera activado solo 28 guardias: MC = 28×$280 = $7.840 − $8.000 CF = <strong>−$160 de pérdida</strong>.</p>
+    </div>
+
+    <h3>La Razón de Contribución como indicador estratégico</h3>
+    <p>La RC (también llamada <em>contribution margin ratio</em> o <em>índice de contribución</em>) indica qué tan eficientemente cada dólar de venta cubre los costos fijos:</p>
+    <div class="tbl-wrap">
+      <table>
+        <tr><th>RC</th><th>Interpretación</th><th>Estrategia gerencial</th></tr>
+        <tr><td><strong>RC alta (≥ 60%)</strong></td><td>De cada $1 vendido, más de $0,60 va a cubrir CF y generar utilidad</td><td>Favorable. Empresa puede soportar caídas en ventas sin perder.</td></tr>
+        <tr><td><strong>RC media (30%–60%)</strong></td><td>La empresa requiere un volumen razonable para ser viable</td><td>Monitorear de cerca el comportamiento de las ventas.</td></tr>
+        <tr><td><strong>RC baja (< 30%)</strong></td><td>Cada dólar vendido "aporta poco". Se necesita mucho volumen</td><td>Revisar estructura de costos variables o renegociar precios.</td></tr>
+      </table>
+    </div>
+
+    <p>En nuestro caso, RC = 40%. Esto significa que la empresa es moderadamente eficiente. Por cada $100 que factura, $60 se van a pagar costos variables del servicio (salarios de guardias en campo, dotación, etc.) y $40 se acumulan para pagar costos fijos y generar utilidad.</p>
+
+    <h3>Diferencia entre Margen de Contribución y Utilidad Bruta</h3>
+    <div class="box-warning">
+      <strong>Cuidado con la confusión:</strong> La <strong>Utilidad Bruta</strong> (de la contabilidad financiera) descuenta el costo de ventas (que puede incluir costos fijos de producción). El <strong>Margen de Contribución</strong> (contabilidad gerencial) solo descuenta costos <em>variables</em>. Por eso el MC siempre es mayor o igual a la Utilidad Bruta. <strong>No son lo mismo.</strong>
+    </div>
+
+    <h3>Cómo mejorar el Margen de Contribución</h3>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-num">A</div>
+        <div><strong>Aumentar el precio de venta</strong> — Si el mercado lo permite, subir el PVU aumenta directamente el MCu. En seguridad privada: especialización en servicios premium (seguridad electrónica, escoltas).</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">B</div>
+        <div><strong>Reducir los costos variables</strong> — Eficiencia operativa: mejores contratos de dotación, reducción de rotación de personal (menos costos de contratación y capacitación).</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">C</div>
+        <div><strong>Priorizar productos/servicios con mayor MC</strong> — Si tienes contratos de seguridad con distintas RC, enfocar la fuerza de ventas en los de mayor RC maximiza la utilidad total.</div>
+      </div>
+    </div>
+
+    <div class="box-key">
+      <strong>💡 Idea Clave</strong>
+      <p style="color:#e0e8ff; margin-top:8px; margin-bottom:0;">El Margen de Contribución es el "músculo" del negocio. Mientras más alto sea, más rápido la empresa llega al punto de equilibrio y más utilidad genera por cada unidad adicional vendida. Monitorear el MC mes a mes es tan importante como monitorear las ventas totales.</p>
+    </div>
+  </div>
+
+  <!-- ===== TEMA 5: INTERPRETACIÓN GERENCIAL ===== -->
+  <div id="t5" class="tab-panel">
+    <h2>5. Interpretación Gerencial del Punto de Equilibrio</h2>
+
+    <p>Calcular el PE es solo la mitad del trabajo. La habilidad gerencial real está en <strong>interpretar, comunicar y actuar</strong> a partir de ese número. Esta pestaña desarrolla las herramientas de análisis que convierten el PE en una herramienta de toma de decisiones.</p>
+
+    <h3>5.1 Margen de Seguridad</h3>
+    <div class="box-concept">
+      <strong>Margen de Seguridad (MS):</strong> Diferencia entre las ventas reales (o proyectadas) y el punto de equilibrio. Indica cuánto pueden caer las ventas antes de que la empresa entre en pérdida.<br><br>
+      MS (unidades) = Ventas Actuales − PE(u)<br>
+      MS ($) = Ventas Actuales ($) − PE($)<br>
+      MS (%) = [MS($) ÷ Ventas Actuales($)] × 100
+    </div>
+
+    <div class="box-example">
+      <div class="ex-label">📊 Caso: La empresa tiene 35 guardias activos este mes</div>
+      <p>PE(u) = 29 guardias | Ventas actuales = 35 guardias</p>
+      <p><strong>MS(u)</strong> = 35 − 29 = <strong>6 guardias</strong></p>
+      <p><strong>MS($)</strong> = (35 × $700) − $20.000 = $24.500 − $20.000 = <strong>$4.500</strong></p>
+      <p><strong>MS(%)</strong> = ($4.500 ÷ $24.500) × 100 = <strong>18,37%</strong></p>
+      <p><strong>Interpretación gerencial:</strong> La empresa puede perder hasta 6 contratos de guardia (o que sus ventas caigan un 18,37%) antes de entrar en zona de pérdida. Si la empresa tiene un historial de perder 3-4 contratos por mes (por rotación de clientes), el margen de seguridad es adecuado. Si pierde 8 habitualmente, debe preocuparse.</p>
+    </div>
+
+    <h3>5.2 Apalancamiento Operativo</h3>
+    <p>El <strong>Grado de Apalancamiento Operativo (GAO)</strong> mide cuánto amplifica la estructura de costos fijos el efecto de un cambio en ventas sobre la utilidad operativa.</p>
+    <div class="box-formula">
+      <div class="formula-title">Grado de Apalancamiento Operativo</div>
+      GAO = Margen de Contribución Total ÷ Utilidad Operativa
+    </div>
+    <div class="box-example">
+      <div class="ex-label">📊 Con 35 guardias activos</div>
+      <p>MCT = 35 × $280 = $9.800 | Utilidad = $9.800 − $8.000 = $1.800</p>
+      <p>GAO = $9.800 ÷ $1.800 = <strong>5,44</strong></p>
+      <p><strong>Interpretación:</strong> Un aumento del 10% en ventas generará un aumento del 54,4% en utilidad operativa (10% × 5,44). Pero también funciona al revés: una caída del 10% en ventas causará una caída del 54,4% en utilidad. Las empresas con muchos costos fijos (alto GAO) son más sensibles a los cambios de volumen.</p>
+    </div>
+
+    <h3>5.3 El PE como Herramienta de Planeación</h3>
+    <div class="tbl-wrap">
+      <table>
+        <tr><th>Decisión Gerencial</th><th>Pregunta que responde el PE</th><th>Cómo se usa</th></tr>
+        <tr>
+          <td>Contratar nuevo personal administrativo</td>
+          <td>¿Cuántos contratos adicionales necesito para cubrir ese nuevo CF?</td>
+          <td>Nuevos CF ÷ MCu = contratos adicionales necesarios</td>
+        </tr>
+        <tr>
+          <td>Abrir nueva sucursal</td>
+          <td>¿A qué nivel de ventas se justifica la inversión?</td>
+          <td>Calcular PE con los nuevos CF de la sucursal</td>
+        </tr>
+        <tr>
+          <td>Bajar precios para competir</td>
+          <td>¿Cuántos contratos más necesito ganar para mantener la utilidad?</td>
+          <td>Recalcular MCu con nuevo precio → nuevo PE</td>
+        </tr>
+        <tr>
+          <td>Fijar meta de utilidad</td>
+          <td>¿Cuánto debo vender para ganar $X?</td>
+          <td>(CF + Utilidad deseada) ÷ MCu</td>
+        </tr>
+      </table>
+    </div>
+
+    <h3>5.4 PE con Utilidad Objetivo</h3>
+    <p>El PE básico busca utilidad = $0. Pero el gerente normalmente quiere planificar para ganar una utilidad específica. La fórmula se extiende fácilmente:</p>
+    <div class="box-formula">
+      <div class="formula-title">Ventas necesarias para una Utilidad Objetivo</div>
+      Q objetivo = (Costos Fijos + Utilidad Deseada) ÷ MCu<br>
+      <span style="font-size:0.85rem; font-weight:400; font-family:'Source Sans 3',sans-serif;">Ventas($) objetivo = (CF + Utilidad Deseada) ÷ RC</span>
+    </div>
+
+    <div class="box-example">
+      <div class="ex-label">📊 Meta: Ganar $3.000 de utilidad mensual</div>
+      <p>Q objetivo = ($8.000 + $3.000) ÷ $280 = $11.000 ÷ $280 = <strong>39,3 → 40 guardias activos</strong></p>
+      <p>Ventas($) = $8.000 + $3.000) ÷ 0,40 = <strong>$27.500 en facturación mensual</strong></p>
+      <p>Para ganar $3.000 de utilidad operativa mensual, la empresa debe tener al menos 40 guardias activos, generando $28.000 en facturación (40 × $700).</p>
+    </div>
+
+    <div class="box-key">
+      <strong>💡 Idea Clave</strong>
+      <p style="color:#e0e8ff; margin-top:8px; margin-bottom:0;">Un gerente que domina el análisis del punto de equilibrio no solo sabe si su empresa está ganando o perdiendo: sabe <em>cuánto puede perder</em> (margen de seguridad), <em>cómo reacciona ante cambios</em> (apalancamiento operativo) y <em>qué tiene que vender</em> para lograr una meta específica. El PE es el corazón de la planeación financiera a corto plazo.</p>
+    </div>
+  </div>
+
+  <!-- ===== EJERCICIO INTERACTIVO ===== -->
+  <div id="ejercicio" class="tab-panel">
+    <h2>6. Ejercicio Interactivo — Clasificación y Análisis</h2>
+    <p>Lee cada situación o afirmación y selecciona la opción correcta. Cuando hayas respondido <strong>todos los ítems</strong>, presiona <strong>"Verificar respuestas"</strong>. El resultado aparecerá solo al final.</p>
+
+    <div class="exercise-wrap" id="exWrap">
+
+      <!-- Ítem 1 -->
+      <div class="classify-item" id="ex1">
+        <div class="q-num">Ítem 1</div>
+        <div class="ci-text">Una empresa de seguridad tiene CF = $6.000, PVU = $500, CVu = $350. ¿Cuál es el Margen de Contribución Unitario?</div>
+        <div class="ci-options">
+          <div class="ci-opt" data-item="1" data-val="A" onclick="selectCI(this)">A) $150</div>
+          <div class="ci-opt" data-item="1" data-val="B" onclick="selectCI(this)">B) $350</div>
+          <div class="ci-opt" data-item="1" data-val="C" onclick="selectCI(this)">C) $500</div>
+          <div class="ci-opt" data-item="1" data-val="D" onclick="selectCI(this)">D) $6.000</div>
+        </div>
+        <div class="feedback-box" id="fb1"></div>
+      </div>
+
+      <!-- Ítem 2 -->
+      <div class="classify-item" id="ex2">
+        <div class="q-num">Ítem 2</div>
+        <div class="ci-text">Con los datos del ítem 1, ¿cuál es el Punto de Equilibrio en unidades (exacto, sin redondear)?</div>
+        <div class="ci-options">
+          <div class="ci-opt" data-item="2" data-val="A" onclick="selectCI(this)">A) 17,14 unidades</div>
+          <div class="ci-opt" data-item="2" data-val="B" onclick="selectCI(this)">B) 40 unidades</div>
+          <div class="ci-opt" data-item="2" data-val="C" onclick="selectCI(this)">C) 12 unidades</div>
+          <div class="ci-opt" data-item="2" data-val="D" onclick="selectCI(this)">D) 30 unidades</div>
+        </div>
+        <div class="feedback-box" id="fb2"></div>
+      </div>
+
+      <!-- Ítem 3 -->
+      <div class="classify-item" id="ex3">
+        <div class="q-num">Ítem 3</div>
+        <div class="ci-text">Con los mismos datos, ¿cuál es la Razón de Contribución (RC)?</div>
+        <div class="ci-options">
+          <div class="ci-opt" data-item="3" data-val="A" onclick="selectCI(this)">A) 70%</div>
+          <div class="ci-opt" data-item="3" data-val="B" onclick="selectCI(this)">B) 50%</div>
+          <div class="ci-opt" data-item="3" data-val="C" onclick="selectCI(this)">C) 30%</div>
+          <div class="ci-opt" data-item="3" data-val="D" onclick="selectCI(this)">D) 40%</div>
+        </div>
+        <div class="feedback-box" id="fb3"></div>
+      </div>
+
+      <!-- Ítem 4 -->
+      <div class="classify-item" id="ex4">
+        <div class="q-num">Ítem 4</div>
+        <div class="ci-text">La empresa vende 45 unidades. ¿Cuál es la utilidad operativa?</div>
+        <div class="ci-options">
+          <div class="ci-opt" data-item="4" data-val="A" onclick="selectCI(this)">A) $750</div>
+          <div class="ci-opt" data-item="4" data-val="B" onclick="selectCI(this)">B) $1.500</div>
+          <div class="ci-opt" data-item="4" data-val="C" onclick="selectCI(this)">C) $22.500</div>
+          <div class="ci-opt" data-item="4" data-val="D" onclick="selectCI(this)">D) −$600</div>
+        </div>
+        <div class="feedback-box" id="fb4"></div>
+      </div>
+
+      <!-- Ítem 5 -->
+      <div class="classify-item" id="ex5">
+        <div class="q-num">Ítem 5</div>
+        <div class="ci-text">Si la empresa quiere ganar $3.000 de utilidad, ¿cuántas unidades debe vender?</div>
+        <div class="ci-options">
+          <div class="ci-opt" data-item="5" data-val="A" onclick="selectCI(this)">A) 20 unidades</div>
+          <div class="ci-opt" data-item="5" data-val="B" onclick="selectCI(this)">C) 60 unidades</div>
+          <div class="ci-opt" data-item="5" data-val="C" onclick="selectCI(this)">B) 40 unidades</div>
+          <div class="ci-opt" data-item="5" data-val="D" onclick="selectCI(this)">D) 35 unidades</div>
+        </div>
+        <div class="feedback-box" id="fb5"></div>
+      </div>
+
+      <!-- Ítem 6 -->
+      <div class="classify-item" id="ex6">
+        <div class="q-num">Ítem 6</div>
+        <div class="ci-text">La empresa sube los costos fijos de $6.000 a $9.000 (abre nueva sucursal). ¿Qué pasa con el Punto de Equilibrio?</div>
+        <div class="ci-options">
+          <div class="ci-opt" data-item="6" data-val="A" onclick="selectCI(this)">A) Sube, porque necesita más ventas para cubrir más CF</div>
+          <div class="ci-opt" data-item="6" data-val="B" onclick="selectCI(this)">B) Baja, porque tiene más operaciones</div>
+          <div class="ci-opt" data-item="6" data-val="C" onclick="selectCI(this)">C) Se mantiene igual, los CF no afectan el PE</div>
+          <div class="ci-opt" data-item="6" data-val="D" onclick="selectCI(this)">D) Depende únicamente del precio de venta</div>
+        </div>
+        <div class="feedback-box" id="fb6"></div>
+      </div>
+
+      <!-- Ítem 7 -->
+      <div class="classify-item" id="ex7">
+        <div class="q-num">Ítem 7</div>
+        <div class="ci-text">El PE en dólares, con CF=$6.000 y RC=30%, es:</div>
+        <div class="ci-options">
+          <div class="ci-opt" data-item="7" data-val="A" onclick="selectCI(this)">A) $20.000</div>
+          <div class="ci-opt" data-item="7" data-val="B" onclick="selectCI(this)">B) $18.000</div>
+          <div class="ci-opt" data-item="7" data-val="C" onclick="selectCI(this)">C) $1.800</div>
+          <div class="ci-opt" data-item="7" data-val="D" onclick="selectCI(this)">D) $2.000</div>
+        </div>
+        <div class="feedback-box" id="fb7"></div>
+      </div>
+
+      <!-- Ítem 8 -->
+      <div class="classify-item" id="ex8">
+        <div class="q-num">Ítem 8</div>
+        <div class="ci-text">La empresa vende actualmente 50 unidades. El PE es 40 unidades. ¿Cuál es el Margen de Seguridad en unidades?</div>
+        <div class="ci-options">
+          <div class="ci-opt" data-item="8" data-val="A" onclick="selectCI(this)">A) 90 unidades</div>
+          <div class="ci-opt" data-item="8" data-val="B" onclick="selectCI(this)">B) 10 unidades</div>
+          <div class="ci-opt" data-item="8" data-val="C" onclick="selectCI(this)">C) 40 unidades</div>
+          <div class="ci-opt" data-item="8" data-val="D" onclick="selectCI(this)">D) 50 unidades</div>
+        </div>
+        <div class="feedback-box" id="fb8"></div>
+      </div>
+
+    </div><!-- /exercise-wrap -->
+
+    <div style="margin-top:20px;">
+      <button class="btn-primary" onclick="verifyEx()">✅ Verificar respuestas</button>
+      <button class="btn-secondary" onclick="resetEx()">🔄 Reiniciar</button>
+    </div>
+
+    <div class="score-box" id="exScore">
+      <div class="score-emoji" id="exEmoji"></div>
+      <div class="score-big" id="exBig"></div>
+      <div class="score-pct" id="exPct"></div>
+      <div class="score-bar-wrap"><div class="score-bar" id="exBar" style="width:0%"></div></div>
+      <div class="score-msg" id="exMsg"></div>
+    </div>
+  </div>
+
+  <!-- ===== CUESTIONARIO ===== -->
+  <div id="cuestionario" class="tab-panel">
+    <h2>7. Cuestionario — 10 Preguntas</h2>
+    <p>Responde <strong>todas las preguntas</strong> antes de presionar "Verificar". El sistema mostrará tus resultados ítem por ítem solo al final.</p>
+
+    <div id="quizWrap">
+
+      <!-- P1 -->
+      <div class="q-item" id="q1">
+        <div class="badge-type badge-teorica">Teórica</div>
+        <div class="q-num">Pregunta 1 de 10</div>
+        <div class="q-text">¿Qué representa el Punto de Equilibrio en una empresa?</div>
+        <div class="options">
+          <button class="option-btn" data-q="1" data-val="A" onclick="selectQ(this)">A) El nivel de ventas en que la utilidad es máxima</button>
+          <button class="option-btn" data-q="1" data-val="B" onclick="selectQ(this)">B) El nivel de ventas en que los ingresos igualan exactamente a los costos totales</button>
+          <button class="option-btn" data-q="1" data-val="C" onclick="selectQ(this)">C) El momento en que la empresa paga todos sus impuestos</button>
+          <button class="option-btn" data-q="1" data-val="D" onclick="selectQ(this)">D) El nivel de ventas a partir del cual se puede repartir dividendos</button>
+        </div>
+        <div class="feedback-box" id="qfb1"></div>
+      </div>
+
+      <!-- P2 -->
+      <div class="q-item" id="q2">
+        <div class="badge-type badge-teorica">Teórica</div>
+        <div class="q-num">Pregunta 2 de 10</div>
+        <div class="q-text">¿Cuál es la fórmula correcta del Punto de Equilibrio en unidades?</div>
+        <div class="options">
+          <button class="option-btn" data-q="2" data-val="A" onclick="selectQ(this)">A) PE = Costos Variables ÷ Margen de Contribución Unitario</button>
+          <button class="option-btn" data-q="2" data-val="B" onclick="selectQ(this)">B) PE = Costos Fijos ÷ (Precio de Venta + Costo Variable)</button>
+          <button class="option-btn" data-q="2" data-val="C" onclick="selectQ(this)">C) PE = Costos Fijos ÷ Margen de Contribución Unitario</button>
+          <button class="option-btn" data-q="2" data-val="D" onclick="selectQ(this)">D) PE = Precio de Venta ÷ Costo Variable Unitario</button>
+        </div>
+        <div class="feedback-box" id="qfb2"></div>
+      </div>
+
+      <!-- P3 -->
+      <div class="q-item" id="q3">
+        <div class="badge-type badge-teorica">Teórica</div>
+        <div class="q-num">Pregunta 3 de 10</div>
+        <div class="q-text">La Razón de Contribución (RC) se interpreta como:</div>
+        <div class="options">
+          <button class="option-btn" data-q="3" data-val="A" onclick="selectQ(this)">A) El porcentaje de utilidad neta sobre ventas</button>
+          <button class="option-btn" data-q="3" data-val="B" onclick="selectQ(this)">B) La proporción de cada dólar de venta disponible para cubrir costos fijos y generar utilidad</button>
+          <button class="option-btn" data-q="3" data-val="C" onclick="selectQ(this)">C) El porcentaje de costos variables sobre las ventas totales</button>
+          <button class="option-btn" data-q="3" data-val="D" onclick="selectQ(this)">D) La diferencia entre ingresos y gastos operativos</button>
+        </div>
+        <div class="feedback-box" id="qfb3"></div>
+      </div>
+
+      <!-- P4 -->
+      <div class="q-item" id="q4">
+        <div class="badge-type badge-teorica">Teórica</div>
+        <div class="q-num">Pregunta 4 de 10</div>
+        <div class="q-text">¿Qué sucede con el Punto de Equilibrio si se reduce el costo variable unitario, manteniendo todo lo demás constante?</div>
+        <div class="options">
+          <button class="option-btn" data-q="4" data-val="A" onclick="selectQ(this)">A) El PE sube porque el margen de contribución baja</button>
+          <button class="option-btn" data-q="4" data-val="B" onclick="selectQ(this)">B) El PE no cambia porque los costos fijos son los mismos</button>
+          <button class="option-btn" data-q="4" data-val="C" onclick="selectQ(this)">C) El PE baja porque el margen de contribución unitario sube</button>
+          <button class="option-btn" data-q="4" data-val="D" onclick="selectQ(this)">D) El PE sube porque la empresa tiene más gastos totales</button>
+        </div>
+        <div class="feedback-box" id="qfb4"></div>
+      </div>
+
+      <!-- P5 -->
+      <div class="q-item" id="q5">
+        <div class="badge-type badge-teorica">Teórica</div>
+        <div class="q-num">Pregunta 5 de 10</div>
+        <div class="q-text">El Margen de Seguridad indica:</div>
+        <div class="options">
+          <button class="option-btn" data-q="5" data-val="A" onclick="selectQ(this)">A) Cuánto puede caer la utilidad antes de quebrar</button>
+          <button class="option-btn" data-q="5" data-val="B" onclick="selectQ(this)">B) Cuánto pueden caer las ventas antes de que la empresa entre en zona de pérdida</button>
+          <button class="option-btn" data-q="5" data-val="C" onclick="selectQ(this)">C) El porcentaje de costos fijos sobre ventas totales</button>
+          <button class="option-btn" data-q="5" data-val="D" onclick="selectQ(this)">D) El porcentaje mínimo de margen de contribución requerido por la ley</button>
+        </div>
+        <div class="feedback-box" id="qfb5"></div>
+      </div>
+
+      <!-- P6 -->
+      <div class="q-item" id="q6">
+        <div class="badge-type badge-teorica">Teórica</div>
+        <div class="q-num">Pregunta 6 de 10</div>
+        <div class="q-text">¿Cuándo es preferible usar el PE en dólares en lugar del PE en unidades?</div>
+        <div class="options">
+          <button class="option-btn" data-q="6" data-val="A" onclick="selectQ(this)">A) Cuando la empresa vende un solo tipo de producto a precio fijo</button>
+          <button class="option-btn" data-q="6" data-val="B" onclick="selectQ(this)">B) Cuando la empresa vende múltiples productos con distintos precios o la "unidad" es difícil de definir</button>
+          <button class="option-btn" data-q="6" data-val="C" onclick="selectQ(this)">C) Solo cuando los costos fijos son mayores que los variables</button>
+          <button class="option-btn" data-q="6" data-val="D" onclick="selectQ(this)">D) Cuando la empresa no tiene costos variables identificables</button>
+        </div>
+        <div class="feedback-box" id="qfb6"></div>
+      </div>
+
+      <!-- P7 -->
+      <div class="q-item" id="q7">
+        <div class="badge-type badge-teorica">Teórica</div>
+        <div class="q-num">Pregunta 7 de 10</div>
+        <div class="q-text">Para calcular las ventas necesarias que generan una utilidad objetivo de $5.000, con CF = $10.000 y RC = 40%, ¿cuál es el resultado?</div>
+        <div class="options">
+          <button class="option-btn" data-q="7" data-val="A" onclick="selectQ(this)">A) $25.000</button>
+          <button class="option-btn" data-q="7" data-val="B" onclick="selectQ(this)">B) $37.500</button>
+          <button class="option-btn" data-q="7" data-val="C" onclick="selectQ(this)">C) $12.500</button>
+          <button class="option-btn" data-q="7" data-val="D" onclick="selectQ(this)">D) $15.000</button>
+        </div>
+        <div class="feedback-box" id="qfb7"></div>
+      </div>
+
+      <!-- P8 - Análisis -->
+      <div class="q-item" id="q8">
+        <div class="badge-type badge-analisis">Análisis</div>
+        <div class="q-num">Pregunta 8 de 10</div>
+        <div class="q-text">Una panadería artesanal vende pan a $2,50 la unidad. Su costo variable es $1,00 y sus costos fijos mensuales son $1.800. La dueña planea bajar el precio a $2,00 para ganar más clientes. ¿Qué efecto tendrá esta decisión en el Punto de Equilibrio?</div>
+        <div class="options">
+          <button class="option-btn" data-q="8" data-val="A" onclick="selectQ(this)">A) El PE baja de 1.200 a 1.000 unidades porque se vende más barato</button>
+          <button class="option-btn" data-q="8" data-val="B" onclick="selectQ(this)">B) El PE sube de 1.200 a 1.800 unidades porque el margen de contribución baja de $1,50 a $1,00</button>
+          <button class="option-btn" data-q="8" data-val="C" onclick="selectQ(this)">C) El PE no cambia porque los costos fijos son los mismos</button>
+          <button class="option-btn" data-q="8" data-val="D" onclick="selectQ(this)">D) El PE desaparece porque no es posible calcularlo con precios bajos</button>
+        </div>
+        <div class="feedback-box" id="qfb8"></div>
+      </div>
+
+      <!-- P9 - Análisis -->
+      <div class="q-item" id="q9">
+        <div class="badge-type badge-analisis">Análisis</div>
+        <div class="q-num">Pregunta 9 de 10</div>
+        <div class="q-text">Una empresa de transporte tiene CF = $12.000, CVu = $8 por viaje, PVU = $15 por viaje. Actualmente realiza 2.000 viajes al mes. ¿Está en zona de utilidad o de pérdida?</div>
+        <div class="options">
+          <button class="option-btn" data-q="9" data-val="A" onclick="selectQ(this)">A) Zona de pérdida. PE = 2.400 viajes, y solo hace 2.000</button>
+          <button class="option-btn" data-q="9" data-val="B" onclick="selectQ(this)">B) Zona de utilidad. PE = 1.714 viajes, y hace 2.000 (supera el PE)</button>
+          <button class="option-btn" data-q="9" data-val="C" onclick="selectQ(this)">C) Zona de equilibrio exacto. PE = 2.000 viajes</button>
+          <button class="option-btn" data-q="9" data-val="D" onclick="selectQ(this)">D) No es posible determinarlo sin conocer los impuestos</button>
+        </div>
+        <div class="feedback-box" id="qfb9"></div>
+      </div>
+
+      <!-- P10 - Análisis -->
+      <div class="q-item" id="q10">
+        <div class="badge-type badge-analisis">Análisis</div>
+        <div class="q-num">Pregunta 10 de 10</div>
+        <div class="q-text">Una empresa tiene una RC del 25%. Sus costos fijos son $50.000. Un competidor quiere adquirirla y pide demostrar viabilidad. ¿Cuánto debe facturar mensualmente para mostrar una utilidad operativa de al menos $10.000?</div>
+        <div class="options">
+          <button class="option-btn" data-q="10" data-val="A" onclick="selectQ(this)">A) $200.000 en ventas mensuales</button>
+          <button class="option-btn" data-q="10" data-val="B" onclick="selectQ(this)">B) $240.000 en ventas mensuales</button>
+          <button class="option-btn" data-q="10" data-val="C" onclick="selectQ(this)">C) $160.000 en ventas mensuales</button>
+          <button class="option-btn" data-q="10" data-val="D" onclick="selectQ(this)">D) $100.000 en ventas mensuales</button>
+        </div>
+        <div class="feedback-box" id="qfb10"></div>
+      </div>
+
+    </div><!-- /quizWrap -->
+
+    <div style="margin-top:20px;">
+      <button class="btn-primary" onclick="verifyQuiz()">✅ Verificar respuestas</button>
+      <button class="btn-secondary" onclick="resetQuiz()">🔄 Reiniciar</button>
+    </div>
+
+    <div class="score-box" id="quizScore">
+      <div class="score-emoji" id="qEmoji"></div>
+      <div class="score-big" id="qBig"></div>
+      <div class="score-pct" id="qPct"></div>
+      <div class="score-bar-wrap"><div class="score-bar" id="qBar" style="width:0%"></div></div>
+      <div class="score-msg" id="qMsg"></div>
+    </div>
+  </div>
+
+  <!-- ===== ACTIVIDAD CON IA ===== -->
+  <div id="ia" class="tab-panel">
+    <h2>8. Actividad con Inteligencia Artificial</h2>
+
+    <div class="box-concept">
+      <strong>Objetivo de la actividad:</strong> Usar la IA como interlocutor crítico para diseñar, analizar y cuestionar un análisis de punto de equilibrio de una empresa real o ficticia de tu entorno. <strong>No se trata de copiar la respuesta</strong>: se trata de usar la IA para pensar más profundamente.
+    </div>
+
+    <h3>Herramienta recomendada</h3>
+    <div class="ia-step">
+      <div class="ia-step-num">Herramienta principal</div>
+      <p style="margin:0;">Usa <strong>Claude en claude.ai</strong> (gratuito, sin registro avanzado requerido). Alternativas: ChatGPT versión gratuita o Gemini de Google. Claude es especialmente útil para este tipo de análisis porque puede mantener contexto durante toda la conversación y hacer preguntas de seguimiento pertinentes.</p>
+    </div>
+
+    <h3>La Actividad: "Diseña el PE de tu empresa"</h3>
+    <p>Vas a pedirle a la IA que te ayude a construir y analizar el punto de equilibrio de la empresa de seguridad del estudiante (o cualquier empresa de tu entorno inmediato). Luego tendrás que <strong>cuestionar, comparar y enriquecer</strong> la respuesta con tu propio criterio.</p>
+
+    <div class="ia-step">
+      <div class="ia-step-num">Paso 1 — Copia este prompt exacto en Claude (claude.ai)</div>
+    </div>
+
+    <div class="ia-prompt-box">Actúa como un consultor de contabilidad gerencial especializado en pequeñas y medianas empresas de servicios en Ecuador. 
+
+Voy a describir mi empresa y necesito que me ayudes a:
+1. Identificar cuáles de mis costos son fijos y cuáles son variables.
+2. Calcular mi Punto de Equilibrio en unidades y en dólares.
+3. Calcular el Margen de Contribución unitario y la Razón de Contribución.
+4. Calcular cuánto debo vender para ganar $2.500 de utilidad mensual.
+5. Identificar al menos 3 riesgos o debilidades en mi estructura de costos.
+
+Mi empresa: [DESCRIBE AQUÍ tu empresa o usa este ejemplo: empresa de seguridad privada en Guayaquil con 1 sede administrativa]
+
+Datos financieros mensuales:
+- Renta de oficina: $800
+- Sueldos administrativos (gerente + asistente): $2.200
+- Permisos y seguros corporativos: $400
+- IESS patronal administrativo: $267
+- Salario guardia activo + beneficios + dotación: $450 por guardia
+- Precio cobrado al cliente por guardia: $720 por guardia/mes
+
+Por favor, muestra todos los cálculos paso a paso y explica cada resultado con palabras simples para que yo pueda entenderlo y cuestionarlo.</div>
+
+    <div class="ia-step">
+      <div class="ia-step-num">Paso 2 — ¿Qué hacer con la respuesta de la IA?</div>
+      <p style="margin:0;">NO copies y pegues la respuesta. Haz lo siguiente:</p>
+      <ul style="margin-top:8px;">
+        <li>Lee cuidadosamente cada cálculo. ¿Coincide con lo que aprendiste en este widget? Si hay diferencias, ¿a qué se deben?</li>
+        <li>Identifica si la IA clasificó correctamente los costos fijos y variables. ¿Cambiarías algo?</li>
+        <li>Pregúntale a la IA: <em>"¿Qué pasaría si aumento el precio a $750 por guardia? ¿Baja el PE?"</em> y verifica el cálculo manualmente.</li>
+        <li>Pregúntale: <em>"Si pierdo 5 contratos el próximo mes, ¿seguiré en zona de utilidad?"</em></li>
+      </ul>
+    </div>
+
+    <div class="ia-step">
+      <div class="ia-step-num">Paso 3 — Escribe tu Análisis Crítico (mínimo 200 palabras)</div>
+      <p style="margin:0;">Redacta un párrafo respondiendo:</p>
+      <ul style="margin-top:8px;">
+        <li>¿Qué calculó bien la IA? ¿Qué tuviste que corregir o cuestionar?</li>
+        <li>¿Cuáles son los 2 riesgos más importantes que identificaste en la estructura de costos?</li>
+        <li>¿Qué decisión gerencial concreta tomarías basándote en el PE calculado?</li>
+        <li>¿En qué se diferencia trabajar con la IA versus solo leer un libro de texto?</li>
+      </ul>
+    </div>
+
+    <h3>Criterio de evaluación</h3>
+    <div class="tbl-wrap">
+      <table>
+        <tr><th>Nivel</th><th>Descripción</th></tr>
+        <tr>
+          <td><strong>🏆 Excelente</strong></td>
+          <td>El estudiante cuestiona al menos un dato de la IA, verifica un cálculo manualmente, propone una variación de escenario y toma una decisión gerencial justificada.</td>
+        </tr>
+        <tr>
+          <td><strong>🎯 Bueno</strong></td>
+          <td>El estudiante usa la respuesta de la IA, la comprende y redacta un análisis que muestra entendimiento del PE, aunque sin cuestionar profundamente.</td>
+        </tr>
+        <tr>
+          <td><strong>📘 Básico</strong></td>
+          <td>El estudiante copia la respuesta de la IA con mínima elaboración propia. Se identifica como trabajo mecánico, no reflexivo.</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="box-key">
+      <strong>💡 Recuerda:</strong>
+      <p style="color:#e0e8ff; margin-top:8px; margin-bottom:0;">La IA comete errores. La IA no conoce tu empresa. La IA no tiene tu criterio gerencial. Tú sí. El valor de esta actividad está en <strong>usar la IA para pensar mejor</strong>, no para pensar por ti.</p>
+    </div>
+  </div>
+
+  <!-- ===== REFLEXIÓN ===== -->
+  <div id="reflexion" class="tab-panel">
+    <h2>9. Preguntas Reflexivas</h2>
+    <p style="margin-bottom:22px;">No hay respuestas correctas ni incorrectas aquí. Estas preguntas buscan conectar lo que aprendiste hoy con tu vida real, tus decisiones cotidianas y tu mundo interior. Tómate el tiempo de pensar con calma.</p>
+
+    <div class="reflexion-card">
+      <div class="reflexion-icon">⚖️</div>
+      <p><strong>Tu equilibrio personal.</strong> El punto de equilibrio empresarial es el momento en que los ingresos cubren exactamente los costos. ¿Puedes identificar un "punto de equilibrio emocional" en tu propia vida? ¿Cuáles son los "costos fijos" emocionales que debes cubrir cada día (descanso, conexión humana, propósito) para simplemente no "operar en pérdida" emocionalmente? ¿Qué te aporta "margen de contribución" emocional positivo?</p>
+    </div>
+
+    <div class="reflexion-card">
+      <div class="reflexion-icon">💰</div>
+      <p><strong>Tus finanzas personales y el PE.</strong> Aplica el concepto de punto de equilibrio a tu economía doméstica: ¿cuáles son tus "costos fijos" mensuales inamovibles (arriendo, alimentación, servicios básicos, transporte)? ¿Cuáles son tus "ingresos"? ¿Vives por encima, en, o por debajo de tu punto de equilibrio personal? ¿Qué ajustes harías si fueras el "gerente" de tu propio presupuesto?</p>
+    </div>
+
+    <div class="reflexion-card">
+      <div class="reflexion-icon">🎯</div>
+      <p><strong>El margen de seguridad en tus metas.</strong> En los negocios, el margen de seguridad es la distancia entre lo que vendes y lo que necesitas vender para sobrevivir. En tu vida, ¿cuánto "margen de seguridad" tienes en tus metas académicas, profesionales o personales? ¿Vas justo al límite o construyes colchones de seguridad? ¿Qué podrías hacer esta semana para ampliar ese margen?</p>
+    </div>
+
+    <div class="reflexion-card">
+      <div class="reflexion-icon">🔁</div>
+      <p><strong>Apalancamiento y esfuerzo.</strong> El apalancamiento operativo muestra que un pequeño cambio en ventas produce un gran cambio en utilidad. ¿Puedes identificar en tu vida áreas donde un pequeño esfuerzo adicional (consistencia en el estudio, una conversación honesta, un hábito nuevo) produce resultados desproporcionadamente grandes? ¿Y al contrario: áreas donde un pequeño descuido genera pérdidas grandes?</p>
+    </div>
+
+    <div class="reflexion-card">
+      <div class="reflexion-icon">🧠</div>
+      <p><strong>Costos fijos del alma.</strong> En contabilidad, los costos fijos existen aunque no produzcas nada. En la vida espiritual y emocional: ¿cuáles son tus "costos fijos" internos que sigues cargando aunque no estés activo ni productivo? ¿Culpas del pasado, miedos habituales, creencias limitantes? ¿Qué pasaría si pudieras "renegociar" o reducir esos costos fijos internos, igual que un gerente busca reducir sus gastos fijos?</p>
+    </div>
+
+    <div class="reflexion-card">
+      <div class="reflexion-icon">🤝</div>
+      <p><strong>Contribución a los demás.</strong> El margen de contribución mide cuánto aporta cada unidad vendida al bien común de la empresa. En tus relaciones: ¿cuánto "contribuyes" a las personas que te rodean? ¿Eres alguien que genera "margen positivo" en la vida de quienes te conocen, o alguien que consume más de lo que aporta? ¿Cómo podrías aumentar tu "razón de contribución" en tu familia, tu trabajo, tu comunidad?</p>
+    </div>
+
+    <div class="box-key" style="margin-top:24px;">
+      <strong>💡 Para cerrar la reflexión:</strong>
+      <p style="color:#e0e8ff; margin-top:8px; margin-bottom:0;">La Contabilidad Gerencial no es solo una materia de números. Es una forma de pensar con claridad sobre los recursos, los límites y las metas. Esa forma de pensar, cuando la internalizas, te ayuda a gestionar mejor no solo empresas, sino también tu propio tiempo, energía y vida. Un profesional íntegro es aquel que aplica el mismo rigor que usa en su trabajo a la gestión de su vida.</p>
+    </div>
+  </div>
+
+  <!-- ===== BIBLIOGRAFÍA ===== -->
+  <div id="biblio" class="tab-panel">
+    <h2>10. Bibliografía</h2>
+    <p>Referencias utilizadas y recomendadas para profundizar en los temas de esta semana. Todas en formato APA 7.ª edición.</p>
+
+    <div class="biblio-card">
+      <div class="bib-num">Referencia 1</div>
+      <p>Horngren, C. T., Datar, S. M., &amp; Rajan, M. V. (2012). <em>Contabilidad de costos: Un enfoque gerencial</em> (14.ª ed.). Pearson Educación.</p>
+    </div>
+
+    <div class="biblio-card">
+      <div class="bib-num">Referencia 2</div>
+      <p>Hansen, D. R., &amp; Mowen, M. M. (2007). <em>Administración de costos: Contabilidad y control</em> (5.ª ed.). Cengage Learning.</p>
+    </div>
+
+    <div class="biblio-card">
+      <div class="bib-num">Referencia 3</div>
+      <p>Ramírez Padilla, D. N. (2013). <em>Contabilidad administrativa</em> (9.ª ed.). McGraw-Hill Interamericana.</p>
+    </div>
+
+    <div class="biblio-card">
+      <div class="bib-num">Referencia 4</div>
+      <p>Garrison, R. H., Noreen, E. W., &amp; Brewer, P. C. (2017). <em>Managerial accounting</em> (16.ª ed.). McGraw-Hill Education.</p>
+    </div>
+
+    <div class="biblio-card">
+      <div class="bib-num">Referencia 5</div>
+      <p>Polimeni, R. S., Fabozzi, F. J., Adelberg, A. H., &amp; Kole, M. A. (1997). <em>Contabilidad de costos: Conceptos y aplicaciones para la toma de decisiones gerenciales</em> (3.ª ed.). McGraw-Hill.</p>
+    </div>
+
+    <div class="biblio-card">
+      <div class="bib-num">Referencia 6</div>
+      <p>Cuevas Villegas, C. F. (2010). <em>Contabilidad de costos: Enfoque gerencial y de gestión</em> (3.ª ed.). Pearson Educación.</p>
+    </div>
+
+    <div class="biblio-card">
+      <div class="bib-num">Referencia 7</div>
+      <p>Servicio de Rentas Internas del Ecuador (SRI). (2024). <em>Guía de obligaciones tributarias para empresas de servicios</em>. Recuperado de https://www.sri.gob.ec</p>
+    </div>
+
+    <div class="biblio-note">
+      📌 <strong>Nota:</strong> Se recomienda verificar cada referencia en Google Scholar (<a href="https://scholar.google.com" target="_blank">scholar.google.com</a>) o en el repositorio institucional de la Universidad de Guayaquil antes de citar en trabajos académicos.
+    </div>
+  </div>
+
+</div><!-- /content-area -->
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+// ===== TAB NAVIGATION =====
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ===== CANVAS GRAPH =====
+window.addEventListener('load', function() {
+  const canvas = document.getElementById('peChart');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const pad = { top: 30, right: 30, bottom: 50, left: 70 };
+  const gW = W - pad.left - pad.right;
+  const gH = H - pad.top - pad.bottom;
+
+  // Data: 0 to 50 guardias
+  const maxQ = 50, maxVal = 35000;
+  const CF = 8000, PVU = 700, CVu = 420;
+
+  function xPos(q) { return pad.left + (q / maxQ) * gW; }
+  function yPos(v) { return pad.top + gH - (v / maxVal) * gH; }
+
+  // Background
+  ctx.fillStyle = '#fff'; ctx.fillRect(0,0,W,H);
+
+  // Grid
+  ctx.strokeStyle = '#e0e8f0'; ctx.lineWidth = 1;
+  for (let i=0; i<=5; i++) {
+    const y = pad.top + (i/5)*gH;
+    ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(pad.left+gW, y); ctx.stroke();
+    const v = maxVal - (i/5)*maxVal;
+    ctx.fillStyle = '#666'; ctx.font = '11px Source Sans 3, sans-serif';
+    ctx.textAlign = 'right'; ctx.fillText('$'+v.toLocaleString(), pad.left-8, y+4);
+  }
+  for (let i=0; i<=5; i++) {
+    const x = pad.left + (i/5)*gW;
+    ctx.beginPath(); ctx.moveTo(x, pad.top); ctx.lineTo(x, pad.top+gH); ctx.stroke();
+    ctx.fillStyle = '#666'; ctx.textAlign = 'center';
+    ctx.fillText((i/5*maxQ).toFixed(0), x, pad.top+gH+18);
+  }
+
+  // Axes
+  ctx.strokeStyle = '#333'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(pad.left, pad.top); ctx.lineTo(pad.left, pad.top+gH); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(pad.left, pad.top+gH); ctx.lineTo(pad.left+gW, pad.top+gH); ctx.stroke();
+
+  // Axis labels
+  ctx.fillStyle = '#003366'; ctx.font = 'bold 12px Source Sans 3, sans-serif';
+  ctx.textAlign = 'center'; ctx.fillText('Unidades (guardias/mes)', pad.left + gW/2, H-6);
+  ctx.save(); ctx.translate(14, pad.top + gH/2); ctx.rotate(-Math.PI/2);
+  ctx.fillText('Monto ($)', 0, 0); ctx.restore();
+
+  // CF line (horizontal)
+  ctx.strokeStyle = '#e74c3c'; ctx.lineWidth = 2; ctx.setLineDash([6,4]);
+  ctx.beginPath(); ctx.moveTo(xPos(0), yPos(CF)); ctx.lineTo(xPos(maxQ), yPos(CF)); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#e74c3c'; ctx.font = '11px Source Sans 3'; ctx.textAlign = 'left';
+  ctx.fillText('Costos Fijos $8.000', xPos(1), yPos(CF)-6);
+
+  // Total cost line
+  ctx.strokeStyle = '#e67e22'; ctx.lineWidth = 2.5;
+  ctx.beginPath(); ctx.moveTo(xPos(0), yPos(CF));
+  ctx.lineTo(xPos(maxQ), yPos(CF + CVu*maxQ)); ctx.stroke();
+  ctx.fillStyle = '#e67e22'; ctx.textAlign = 'left';
+  ctx.fillText('Costos Totales', xPos(38), yPos(CF+CVu*38)-8);
+
+  // Revenue line
+  ctx.strokeStyle = '#27ae60'; ctx.lineWidth = 2.5;
+  ctx.beginPath(); ctx.moveTo(xPos(0), yPos(0));
+  ctx.lineTo(xPos(maxQ), yPos(PVU*maxQ)); ctx.stroke();
+  ctx.fillStyle = '#27ae60'; ctx.textAlign = 'left';
+  ctx.fillText('Ingresos', xPos(40), yPos(PVU*40)-8);
+
+  // PE point
+  const peQ = CF/(PVU-CVu); // 28.57
+  const peVal = PVU*peQ;
+  ctx.strokeStyle = '#003366'; ctx.lineWidth = 1; ctx.setLineDash([4,3]);
+  ctx.beginPath(); ctx.moveTo(xPos(peQ), yPos(0)); ctx.lineTo(xPos(peQ), yPos(peVal)); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(xPos(0), yPos(peVal)); ctx.lineTo(xPos(peQ), yPos(peVal)); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // PE dot
+  ctx.fillStyle = '#003366';
+  ctx.beginPath(); ctx.arc(xPos(peQ), yPos(peVal), 7, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#fff';
+  ctx.beginPath(); ctx.arc(xPos(peQ), yPos(peVal), 3, 0, Math.PI*2); ctx.fill();
+
+  ctx.fillStyle = '#003366'; ctx.font = 'bold 12px Source Sans 3'; ctx.textAlign = 'center';
+  ctx.fillText('PE ≈ 29 guardias', xPos(peQ), yPos(peVal)-14);
+  ctx.font = '11px Source Sans 3';
+  ctx.fillText('$20.000', xPos(peQ), yPos(peVal)-3);
+
+  // Zones
+  ctx.globalAlpha = 0.07;
+  ctx.fillStyle = '#e74c3c';
+  ctx.beginPath(); ctx.moveTo(xPos(0),yPos(0)); ctx.lineTo(xPos(peQ),yPos(0));
+  ctx.lineTo(xPos(peQ),yPos(peVal)); ctx.lineTo(xPos(0),yPos(CF)); ctx.closePath(); ctx.fill();
+  ctx.fillStyle = '#27ae60';
+  ctx.beginPath(); ctx.moveTo(xPos(peQ),yPos(peVal)); ctx.lineTo(xPos(maxQ),yPos(PVU*maxQ));
+  ctx.lineTo(xPos(maxQ),yPos(CF+CVu*maxQ)); ctx.closePath(); ctx.fill();
+  ctx.globalAlpha = 1;
+
+  ctx.fillStyle = '#c0392b'; ctx.font = 'bold 11px Source Sans 3'; ctx.textAlign = 'center';
+  ctx.fillText('PÉRDIDA', xPos(14), yPos(3000));
+  ctx.fillStyle = '#1a7a40';
+  ctx.fillText('UTILIDAD', xPos(42), yPos(26000));
+
+  // Title
+  ctx.fillStyle = '#003366'; ctx.font = 'bold 13px Lora, serif'; ctx.textAlign = 'center';
+  ctx.fillText('Gráfico del Punto de Equilibrio — Empresa de Seguridad Privada', W/2, 18);
+});
+
+// ===== EXERCISE INTERACTIVE =====
+const exAnswers = { 1:'A', 2:'A', 3:'C', 4:'A', 5:'B', 6:'A', 7:'A', 8:'B' };
+const exFeedbacks = {
+  1: { ok: '✅ Correcto. MCu = PVU − CVu = $500 − $350 = $150. Este es el aporte de cada unidad vendida para cubrir los costos fijos.', fail: '❌ Incorrecto. MCu = PVU − CVu = $500 − $350 = $150. No confundas el MCu con el costo variable ni con el precio.' },
+  2: { ok: '✅ Correcto. PE = CF ÷ MCu = $6.000 ÷ $150 = 40 unidades.', fail: '❌ Incorrecto. PE = $6.000 ÷ $150 = 40 unidades exactas. Revisa la fórmula: CF ÷ MCu.' },
+  3: { ok: '✅ Correcto. RC = MCu ÷ PVU = $150 ÷ $500 = 0,30 = 30%. Significa que de cada dólar vendido, $0,30 cubre CF y genera utilidad.', fail: '❌ Incorrecto. RC = $150 ÷ $500 = 30%. No es el porcentaje de CV sino del MC sobre el precio.' },
+  4: { ok: '✅ Correcto. MCT = 45 × $150 = $6.750. Utilidad = $6.750 − $6.000 CF = $750. La empresa está en zona de utilidad porque superó el PE de 40 unidades.', fail: '❌ Incorrecto. Utilidad = (45 × $150) − $6.000 = $6.750 − $6.000 = $750. Recuerda: Utilidad = MCT − CF.' },
+  5: { ok: '✅ Correcto. Q objetivo = (CF + Utilidad) ÷ MCu = ($6.000 + $3.000) ÷ $150 = $9.000 ÷ $150 = 60 unidades.', fail: '❌ Incorrecto. Q objetivo = ($6.000 + $3.000) ÷ $150 = 60 unidades. La fórmula es (CF + Utilidad deseada) ÷ MCu.' },
+  6: { ok: '✅ Correcto. Si los CF suben de $6.000 a $9.000, el PE sube: PE = $9.000 ÷ $150 = 60 unidades (antes era 40). Más costos fijos = más ventas necesarias para equilibrar.', fail: '❌ Incorrecto. Los CF sí afectan directamente el PE. Si CF sube, PE sube. Nuevo PE = $9.000 ÷ $150 = 60 unidades.' },
+  7: { ok: '✅ Correcto. PE($) = CF ÷ RC = $6.000 ÷ 0,30 = $20.000 en ventas.', fail: '❌ Incorrecto. PE($) = $6.000 ÷ 0,30 = $20.000. La fórmula directa es CF ÷ RC.' },
+  8: { ok: '✅ Correcto. MS = Ventas actuales − PE = 50 − 40 = 10 unidades. La empresa puede perder 10 unidades de venta antes de entrar en pérdida.', fail: '❌ Incorrecto. MS = 50 − 40 = 10 unidades. El margen de seguridad es simplemente la diferencia entre ventas actuales y el PE.' }
+};
+const exSelected = {};
+
+function selectCI(el) {
+  const item = el.dataset.item;
+  document.querySelectorAll(`.ci-opt[data-item="${item}"]`).forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  exSelected[item] = el.dataset.val;
+}
+
+function verifyEx() {
+  const total = 8;
+  for (let i = 1; i <= total; i++) {
+    if (!exSelected[i]) { alert('Por favor responde todos los ítems antes de verificar.'); return; }
+  }
+  let score = 0;
+  for (let i = 1; i <= total; i++) {
+    const correct = exAnswers[i];
+    const chosen = exSelected[i];
+    const fb = document.getElementById('fb' + i);
+    document.querySelectorAll(`.ci-opt[data-item="${i}"]`).forEach(o => {
+      o.style.pointerEvents = 'none';
+      if (o.dataset.val === correct) o.classList.add('right');
+      else if (o.dataset.val === chosen && chosen !== correct) o.classList.add('wrong');
+    });
+    fb.className = 'feedback-box show ' + (chosen === correct ? 'ok' : 'fail');
+    fb.innerHTML = chosen === correct ? exFeedbacks[i].ok : exFeedbacks[i].fail;
+    if (chosen === correct) score++;
+  }
+  const pct = Math.round((score/total)*100);
+  const scoreBox = document.getElementById('exScore');
+  scoreBox.classList.add('show');
+  document.getElementById('exBig').textContent = score + ' / ' + total;
+  document.getElementById('exPct').textContent = pct + '% de respuestas correctas';
+  setTimeout(() => { document.getElementById('exBar').style.width = pct + '%'; }, 100);
+  const msgs = [
+    [100, '🏆', '¡Perfecto! Dominas el punto de equilibrio por completo.'],
+    [80,  '🎯', '¡Muy bien! Tienes una comprensión sólida del tema.'],
+    [60,  '📘', 'Vas bien, pero repasa los ítems incorrectos con calma.'],
+    [40,  '⚠️', 'Necesitas reforzar los conceptos. Relee las pestañas de contenido.'],
+    [0,   '📖', 'Te recomiendo repasar todo el material antes de intentarlo nuevamente.']
+  ];
+  for (const [min, emoji, msg] of msgs) {
+    if (pct >= min) {
+      document.getElementById('exEmoji').textContent = emoji;
+      document.getElementById('exMsg').textContent = msg;
+      break;
+    }
+  }
+  scoreBox.scrollIntoView({ behavior: 'smooth' });
+}
+
+function resetEx() {
+  for (let i = 1; i <= 8; i++) {
+    delete exSelected[i];
+    document.querySelectorAll(`.ci-opt[data-item="${i}"]`).forEach(o => {
+      o.className = 'ci-opt';
+      o.style.pointerEvents = '';
+    });
+    const fb = document.getElementById('fb' + i);
+    fb.className = 'feedback-box';
+    fb.innerHTML = '';
+  }
+  document.getElementById('exScore').classList.remove('show');
+  document.getElementById('exBar').style.width = '0%';
+}
+
+// ===== QUIZ =====
+const qAnswers = { 1:'B', 2:'C', 3:'B', 4:'C', 5:'B', 6:'B', 7:'B', 8:'B', 9:'B', 10:'B' };
+const qFeedbacks = {
+  1: { ok: '✅ El PE es el nivel donde Ingresos = Costos Totales, resultando en Utilidad = $0.', fail: '❌ El PE no es el máximo de utilidad ni el punto de impuestos. Es donde los ingresos cubren exactamente todos los costos (utilidad = cero).' },
+  2: { ok: '✅ PE(u) = CF ÷ MCu. Esta es la fórmula fundamental derivada de la igualdad Ingresos = Costos Totales.', fail: '❌ La fórmula correcta es PE = CF ÷ (PVU − CVu) = CF ÷ MCu. Los CF se dividen entre el margen de contribución, no entre otras combinaciones.' },
+  3: { ok: '✅ La RC indica qué fracción de cada dólar de venta queda para cubrir CF y generar utilidad. Es el MCu expresado como porcentaje del PVU.', fail: '❌ La RC no es la utilidad neta ni el porcentaje de CV. Es el porcentaje del precio de venta que representa el Margen de Contribución (MCu ÷ PVU).' },
+  4: { ok: '✅ Si CVu baja, el MCu = PVU − CVu sube. Si el MCu sube, el PE = CF ÷ MCu baja. Se necesitan menos ventas para cubrir los CF.', fail: '❌ Si el CVu baja, el MCu sube (cada unidad contribuye más). Por lo tanto, el PE baja: se necesitan menos unidades para cubrir los CF.' },
+  5: { ok: '✅ El Margen de Seguridad = Ventas Actuales − PE. Indica cuánto pueden caer las ventas antes de entrar en pérdida.', fail: '❌ El Margen de Seguridad mide la caída en ventas tolerable antes de la pérdida. No es sobre la utilidad ni sobre costos fijos.' },
+  6: { ok: '✅ El PE en dólares es ideal cuando hay múltiples productos con distintos precios, porque usa la RC ponderada y habla en términos monetarios directamente comparables.', fail: '❌ El PE en dólares se prefiere con múltiples productos o cuando la "unidad" es difícil de definir. Con un solo producto a precio fijo, ambas formas son igualmente válidas.' },
+  7: { ok: '✅ Ventas($) = (CF + Utilidad) ÷ RC = ($10.000 + $5.000) ÷ 0,40 = $15.000 ÷ 0,40 = $37.500.', fail: '❌ La fórmula es (CF + Utilidad deseada) ÷ RC = ($10.000 + $5.000) ÷ 0,40 = $37.500. No olvides sumar la utilidad deseada a los CF.' },
+  8: { ok: '✅ Con precio $2,50: MCu = $2,50−$1,00 = $1,50 → PE = $1.800÷$1,50 = 1.200 unidades. Con precio $2,00: MCu = $2,00−$1,00 = $1,00 → PE = $1.800÷$1,00 = 1.800 unidades. El PE sube 50%.', fail: '❌ Al bajar el precio de $2,50 a $2,00, el MCu cae de $1,50 a $1,00. El PE sube de 1.200 a 1.800 unidades. La empresa necesita vender 600 unidades más solo para equilibrarse.' },
+  9: { ok: '✅ MCu = $15−$8 = $7. PE = $12.000÷$7 = 1.714,3 viajes. La empresa hace 2.000 > 1.714, entonces está en zona de utilidad. Utilidad = (2.000−1.714)×$7 = aprox. $2.000.', fail: '❌ MCu=$7, PE=$12.000÷$7=1.714 viajes. Con 2.000 viajes supera el PE, por lo tanto está en zona de utilidad, no de pérdida.' },
+  10: { ok: '✅ Ventas = (CF + Utilidad) ÷ RC = ($50.000 + $10.000) ÷ 0,25 = $60.000 ÷ 0,25 = $240.000 en ventas mensuales.', fail: '❌ Ventas necesarias = ($50.000 + $10.000) ÷ 0,25 = $240.000. Recuerda incluir tanto los CF como la utilidad deseada en el numerador.' }
+};
+const qSelected = {};
+
+function selectQ(btn) {
+  const q = btn.dataset.q;
+  document.querySelectorAll(`.option-btn[data-q="${q}"]`).forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  qSelected[q] = btn.dataset.val;
+}
+
+function verifyQuiz() {
+  for (let i = 1; i <= 10; i++) {
+    if (!qSelected[i]) { alert('Por favor responde todas las preguntas antes de verificar.'); return; }
+  }
+  let score = 0;
+  for (let i = 1; i <= 10; i++) {
+    const correct = qAnswers[i];
+    const chosen = qSelected[i];
+    const fb = document.getElementById('qfb' + i);
+    document.querySelectorAll(`.option-btn[data-q="${i}"]`).forEach(b => {
+      b.style.pointerEvents = 'none';
+      if (b.dataset.val === correct) b.classList.add('right');
+      else if (b.dataset.val === chosen && chosen !== correct) b.classList.add('wrong');
+    });
+    fb.className = 'feedback-box show ' + (chosen === correct ? 'ok' : 'fail');
+    fb.innerHTML = chosen === correct ? qFeedbacks[i].ok : qFeedbacks[i].fail;
+    if (chosen === correct) score++;
+  }
+  const pct = Math.round((score/10)*100);
+  document.getElementById('quizScore').classList.add('show');
+  document.getElementById('qBig').textContent = score + ' / 10';
+  document.getElementById('qPct').textContent = pct + '%';
+  setTimeout(() => { document.getElementById('qBar').style.width = pct + '%'; }, 100);
+  const msgs = [
+    [100, '🏆', '¡Perfecto! 10/10. Dominas completamente el tema de esta semana.'],
+    [80,  '🎯', '¡Excelente! Comprensión sólida. Revisa los errores para perfeccionar.'],
+    [60,  '📘', 'Buen esfuerzo. Repasa los conceptos donde fallaste y vuelve a intentarlo.'],
+    [40,  '⚠️', 'Necesitas reforzar el material. Relee las pestañas de contenido con calma.'],
+    [0,   '📖', 'Te recomiendo repasar todo el widget antes de intentarlo nuevamente. ¡Tú puedes!']
+  ];
+  for (const [min, emoji, msg] of msgs) {
+    if (pct >= min) {
+      document.getElementById('qEmoji').textContent = emoji;
+      document.getElementById('qMsg').textContent = msg;
+      break;
+    }
+  }
+  document.getElementById('quizScore').scrollIntoView({ behavior: 'smooth' });
+}
+
+function resetQuiz() {
+  for (let i = 1; i <= 10; i++) {
+    delete qSelected[i];
+    document.querySelectorAll(`.option-btn[data-q="${i}"]`).forEach(b => {
+      b.className = 'option-btn';
+      b.style.pointerEvents = '';
+    });
+    const fb = document.getElementById('qfb' + i);
+    fb.className = 'feedback-box';
+    fb.innerHTML = '';
+  }
+  document.getElementById('quizScore').classList.remove('show');
+  document.getElementById('qBar').style.width = '0%';
+}
+</script>
+</body>
+</html>

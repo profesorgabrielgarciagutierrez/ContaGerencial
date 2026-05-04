@@ -1,0 +1,629 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Source+Sans+3:wght@300;400;600&display=swap');
+
+  .w2 { font-family: 'Source Sans 3', sans-serif; color: #1a1a2e; background: #fff; }
+  .w2 h1, .w2 h2, .w2 h3 { font-family: 'Lora', serif; }
+
+  .w2-header { background: #003366; color: #fff; padding: 1.5rem 1.5rem 1rem; border-radius: 12px 12px 0 0; }
+  .w2-header .inst { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: #7ec8e3; margin-bottom: 4px; }
+  .w2-header h1 { font-size: 18px; color: #fff; margin: 0 0 2px; font-weight: 600; }
+  .w2-header .sub { font-size: 13px; color: #b3d4ec; margin: 0; }
+
+  .tab-bar { background: #003366; padding: 0 1rem 8px; display: flex; flex-wrap: wrap; gap: 4px; }
+  .tab-btn { background: rgba(255,255,255,0.1); color: #b3d4ec; border: 1px solid rgba(255,255,255,0.2); border-radius: 6px 6px 0 0; padding: 6px 10px; font-size: 11.5px; cursor: pointer; font-family: 'Source Sans 3', sans-serif; transition: background 0.2s; white-space: nowrap; }
+  .tab-btn:hover { background: rgba(255,255,255,0.2); color: #fff; }
+  .tab-btn.active { background: #fff; color: #003366; font-weight: 600; border-color: #fff; }
+
+  .tab-panel { display: none; padding: 1.5rem; }
+  .tab-panel.active { display: block; }
+
+  .section-title { font-size: 16px; color: #003366; border-bottom: 2px solid #0099cc; padding-bottom: 4px; margin: 1.5rem 0 0.8rem; font-family: 'Lora', serif; }
+
+  .concept-box { background: #e8f4fd; border-left: 4px solid #0077b6; border-radius: 0 8px 8px 0; padding: 1rem 1.2rem; margin: 1rem 0; }
+  .concept-box .concept-title { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #0077b6; font-weight: 600; margin-bottom: 4px; }
+  .concept-box p { margin: 0; font-size: 14.5px; line-height: 1.7; color: #1a1a2e; }
+
+  .story-box { background: #f0f9ff; border: 1px solid #bde0f5; border-radius: 10px; padding: 1.2rem; margin: 1rem 0; font-size: 14.5px; line-height: 1.8; color: #1a1a2e; font-style: italic; }
+  .story-box strong { font-style: normal; color: #003366; }
+
+  .highlight-key { background: #e8f4fd; border-radius: 8px; padding: 0.8rem 1rem; margin: 0.8rem 0; font-size: 14px; line-height: 1.7; color: #1a1a2e; }
+  .highlight-key strong { color: #003366; }
+
+  .repaso-card { background: #fff; border: 1px solid #bde0f5; border-radius: 10px; padding: 1rem; margin-bottom: 10px; }
+  .repaso-card .rc-title { font-size: 13px; font-weight: 600; color: #003366; margin-bottom: 5px; }
+  .repaso-card .rc-body { font-size: 13.5px; line-height: 1.6; color: #1a1a2e; }
+
+  .excel-step { background: #fff; border: 1px solid #bde0f5; border-radius: 8px; margin: 0.8rem 0; overflow: hidden; }
+  .excel-step-header { background: #0077b6; color: #fff; padding: 8px 12px; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+  .excel-step-num { background: rgba(255,255,255,0.25); width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+  .excel-step-body { padding: 10px 12px; font-size: 13.5px; line-height: 1.6; color: #1a1a2e; }
+  .excel-step-body code { background: #e8f4fd; border: 1px solid #bde0f5; border-radius: 4px; padding: 1px 6px; font-family: 'Courier New', monospace; font-size: 12.5px; color: #003366; }
+
+  .formula-box { background: #1a1a2e; color: #7ec8e3; border-radius: 6px; padding: 8px 12px; font-family: 'Courier New', monospace; font-size: 13px; margin: 6px 0; display: block; width: 100%; box-sizing: border-box; }
+
+  .excel-sim { background: #f5f9ff; border: 1px solid #bde0f5; border-radius: 8px; padding: 1rem; margin: 1rem 0; overflow-x: auto; }
+  .excel-sim table { border-collapse: collapse; min-width: 540px; font-size: 12px; width: 100%; }
+  .excel-sim th { background: #217346; color: #fff; padding: 5px 10px; text-align: center; font-size: 12px; }
+  .excel-sim td { border: 1px solid #c8dfc8; padding: 5px 10px; text-align: right; }
+  .excel-sim td.label { text-align: left; background: #e8f0e8; font-weight: 600; color: #1a1a2e; }
+  .excel-sim td.formula { color: #0077b6; font-weight: 600; }
+  .excel-sim td.formula-text { color: #888; font-style: italic; font-size: 11px; text-align: left; }
+  .excel-sim td.negative { color: #c0392b; font-weight: 600; }
+  .excel-sim td.positive { color: #217346; font-weight: 600; }
+  .excel-sim td.header-col { background: #c6efce; font-weight: 600; color: #1a1a2e; text-align: center; }
+
+  .prompt-box { background: #003366; color: #fff; border-radius: 10px; padding: 1.2rem; margin: 1rem 0; }
+  .prompt-box .prompt-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: #7ec8e3; margin-bottom: 8px; }
+  .prompt-box .prompt-text { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 10px 12px; font-size: 13.5px; line-height: 1.7; color: #e8f4fd; font-style: italic; margin-bottom: 10px; }
+  .prompt-box .prompt-instruction { font-size: 13px; color: #b3d4ec; line-height: 1.6; }
+
+  .q-block { margin: 1rem 0; border: 1px solid #bde0f5; border-radius: 10px; overflow: hidden; }
+  .q-header { background: #003366; color: #fff; padding: 10px 14px; font-size: 14px; font-weight: 600; }
+  .q-body { padding: 12px 14px; }
+  .q-stem { font-size: 14px; line-height: 1.7; color: #1a1a2e; margin-bottom: 10px; font-family: 'Lora', serif; }
+  .opt-btn { display: block; width: 100%; text-align: left; background: #f5f9ff; border: 1px solid #bde0f5; border-radius: 6px; padding: 8px 12px; margin-bottom: 6px; cursor: pointer; font-size: 13.5px; color: #1a1a2e; font-family: 'Source Sans 3', sans-serif; transition: background 0.15s; line-height: 1.5; }
+  .opt-btn:hover { background: #e0f0f8; }
+  .opt-btn.correct { background: #d4edda; border-color: #28a745; color: #155724; }
+  .opt-btn.wrong { background: #f8d7da; border-color: #dc3545; color: #721c24; }
+  .opt-btn:disabled { cursor: default; }
+  .feedback-box { display: none; border-radius: 6px; padding: 10px 12px; font-size: 13.5px; line-height: 1.6; margin-top: 8px; }
+  .feedback-box.show { display: block; }
+  .feedback-correct { background: #d4edda; color: #155724; border: 1px solid #28a745; }
+  .feedback-wrong { background: #f8d7da; color: #721c24; border: 1px solid #dc3545; }
+  .score-bar { background: #e0eaf5; border-radius: 8px; padding: 1rem; text-align: center; margin-top: 1rem; }
+  .score-bar .score-num { font-size: 32px; font-weight: 700; color: #003366; font-family: 'Lora', serif; }
+  .score-bar .score-label { font-size: 13px; color: #555; margin-top: 4px; }
+
+  .sim-label { font-size: 13px; color: #555; display: block; margin-bottom: 3px; }
+  .sim-input { width: 100%; padding: 6px 8px; border: 1px solid #bde0f5; border-radius: 6px; font-size: 14px; box-sizing: border-box; }
+  .resultado-box { background: #003366; color: #fff; border-radius: 8px; padding: 12px; text-align: center; font-size: 14px; margin-top: 10px; }
+
+  .warning-box { background: #fff3cd; border: 1px solid #f0c050; border-radius: 8px; padding: 0.9rem 1rem; margin: 0.8rem 0; font-size: 13.5px; line-height: 1.6; color: #856404; }
+
+  .table-resp { width: 100%; border-collapse: collapse; font-size: 13px; margin: 1rem 0; }
+  .table-resp th { background: #003366; color: #fff; padding: 8px 10px; text-align: left; font-weight: 600; font-size: 12px; }
+  .table-resp td { padding: 8px 10px; border-bottom: 1px solid #e0eaf5; vertical-align: top; line-height: 1.5; }
+  .table-resp tr:nth-child(even) td { background: #f5f9ff; }
+  .table-resp td:first-child { font-weight: 600; color: #003366; }
+</style>
+
+<div class="w2">
+  <div class="w2-header">
+    <div class="inst">Universidad de Guayaquil &nbsp;|&nbsp; Facultad de Ciencias Administrativas &nbsp;|&nbsp; CPA — 5.° Semestre</div>
+    <h1>Semana 2 — Excel Gerencial y la Hoja de Trabajo</h1>
+    <p class="sub">Contabilidad Gerencial &nbsp;·&nbsp; Unidad 1 &nbsp;·&nbsp; 6 al 10 de abril de 2026</p>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="showTab2('repaso')">Repaso Semana 1</button>
+    <button class="tab-btn" onclick="showTab2('tema1')">1. Por qué Excel</button>
+    <button class="tab-btn" onclick="showTab2('tema2')">2. Estructura de la tabla</button>
+    <button class="tab-btn" onclick="showTab2('tema3')">3. Funciones avanzadas</button>
+    <button class="tab-btn" onclick="showTab2('tema4')">4. Hoja de trabajo gerencial</button>
+    <button class="tab-btn" onclick="showTab2('simulador')">5. Simulador de tabla</button>
+    <button class="tab-btn" onclick="showTab2('prompt')">6. Actividad con IA</button>
+    <button class="tab-btn" onclick="showTab2('quiz')">7. Cuestionario</button>
+  </div>
+
+  <!-- REPASO -->
+  <div id="tab2-repaso" class="tab-panel active">
+    <h2 class="section-title">Repaso — Lo esencial de la Semana 1</h2>
+    <p style="font-size: 14px; color: #555; margin-bottom: 1rem;">Antes de avanzar, verifica que tienes claro lo siguiente. Si algo no te suena, regresa al Widget de la Semana 1.</p>
+
+    <div class="repaso-card">
+      <div class="rc-title">Contabilidad Financiera vs. Contabilidad Gerencial</div>
+      <div class="rc-body">La <strong>Contabilidad Financiera</strong> produce información para externos (SRI, bancos, socios), sigue normas NIIF y mira al pasado. La <strong>Contabilidad Gerencial</strong> produce información para los directivos de la empresa, no tiene normas externas y mira al futuro para apoyar decisiones. La <strong>Contabilidad de Costos</strong> es el puente que alimenta a las dos.</div>
+    </div>
+    <div class="repaso-card">
+      <div class="rc-title">Los 4 atributos de la información gerencial útil</div>
+      <div class="rc-body"><strong>Relevante</strong> (solo lo que cambia con la decisión) · <strong>Oportuna</strong> (llega a tiempo) · <strong>Suficientemente precisa</strong> (no necesita ser exacta al centavo) · <strong>Comprensible</strong> (quien decide puede interpretarla sin ser contador).</div>
+    </div>
+    <div class="repaso-card">
+      <div class="rc-title">Las 5 limitaciones del Estado de Resultados</div>
+      <div class="rc-body">1) No separa rentabilidad por línea de servicio · 2) No muestra el efectivo real disponible · 3) Puede omitir costos reales (depreciación, provisiones) · 4) No permite evaluar contratos futuros · 5) Solo mira el pasado, no proyecta el futuro.</div>
+    </div>
+    <div class="repaso-card">
+      <div class="rc-title">Las 4 funciones básicas de Excel</div>
+      <div class="rc-body"><code style="background:#e8f4fd; padding: 1px 5px; border-radius:3px; font-family: monospace;">=SUMA()</code> suma rangos · <code style="background:#e8f4fd; padding: 1px 5px; border-radius:3px; font-family: monospace;">=PROMEDIO()</code> calcula promedios · <code style="background:#e8f4fd; padding: 1px 5px; border-radius:3px; font-family: monospace;">=SI()</code> toma decisiones automáticas · <code style="background:#e8f4fd; padding: 1px 5px; border-radius:3px; font-family: monospace;">=BUSCARV()</code> busca datos sin hacerlo manualmente.</div>
+    </div>
+
+    <div class="highlight-key" style="margin-top: 1.2rem;">
+      <strong>Esta semana construimos sobre eso:</strong> Ahora vamos a dominar cómo estructurar correctamente una tabla de costos gerencial en Excel, agregar funciones más avanzadas, y construir la primera versión de la Hoja de Trabajo Gerencial — el documento central del análisis de tu empresa.
+    </div>
+  </div>
+
+  <!-- TEMA 1 -->
+  <div id="tab2-tema1" class="tab-panel">
+    <h2 class="section-title">1. Por qué Excel es la herramienta central de la Contabilidad Gerencial</h2>
+
+    <p style="font-size: 14.5px; line-height: 1.8;">Muchas empresas piensan que necesitan software especializado y costoso para hacer análisis gerencial. La realidad es otra: <strong>Excel bien usado supera a muchos sistemas costosos</strong> porque permite construir exactamente el análisis que el negocio necesita, sin pagar licencias, sin depender de un proveedor, y sin necesitar un técnico para cada modificación.</p>
+
+    <div class="story-box">
+      <strong>El error más común al usar Excel:</strong> Abrir el programa, escribir números, hacer sumas y guardar el archivo. Esto convierte a Excel en una calculadora cara. El verdadero poder de Excel está en construir modelos que respondan preguntas del tipo <strong>"¿qué pasaría si...?"</strong>:<br><br>
+      ¿Qué pasaría con mi utilidad si el costo de personal sube un 8%?<br>
+      ¿Cuántos contratos necesito para cubrir mis costos fijos?<br>
+      ¿Qué margen me deja si acepto ese contrato nuevo a precio reducido?<br><br>
+      Para llegar ahí, primero necesitas dominar la estructura correcta de una tabla y las funciones esenciales.
+    </div>
+
+    <h3 style="font-size: 15px; color: #003366; margin: 1.2rem 0 0.5rem; font-family: 'Lora', serif;">La pregunta que define todo antes de abrir Excel</h3>
+
+    <div class="concept-box">
+      <div class="concept-title">Antes de escribir cualquier fórmula, pregúntate:</div>
+      <p><strong>¿Qué quiero saber con este análisis?</strong> Una tabla mal estructurada puede hacer cálculos perfectamente correctos pero responder la pregunta equivocada. La estructura de tu tabla depende de lo que quieres descubrir. Definir la pregunta primero ahorra horas de trabajo y errores.</p>
+    </div>
+
+    <h3 style="font-size: 15px; color: #003366; margin: 1.2rem 0 0.5rem; font-family: 'Lora', serif;">Referencia absoluta vs. referencia relativa — una distinción crucial</h3>
+
+    <p style="font-size: 14px; line-height: 1.7; color: #1a1a2e;">Cuando escribes una fórmula en Excel y la copias a otras celdas, las referencias de celda pueden comportarse de dos formas distintas. Entender esto evita errores graves:</p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 1rem 0;">
+      <div style="background: #fff3cd; border: 1px solid #f0c050; border-radius: 8px; padding: 1rem;">
+        <div style="font-size: 13px; font-weight: 700; color: #856404; margin-bottom: 6px;">REFERENCIA RELATIVA (sin $)</div>
+        <div class="formula-box" style="font-size: 12px;">=B2-C2</div>
+        <p style="font-size: 13px; color: #1a1a2e; margin: 8px 0 0; line-height: 1.6;">Cuando copias esta fórmula hacia abajo, cambia automáticamente: en la fila 3 se convierte en =B3-C3, en la fila 4 en =B4-C4, etc. Útil cuando quieres aplicar la misma operación a cada fila.</p>
+      </div>
+      <div style="background: #d1ecf1; border: 1px solid #0077b6; border-radius: 8px; padding: 1rem;">
+        <div style="font-size: 13px; font-weight: 700; color: #003366; margin-bottom: 6px;">REFERENCIA ABSOLUTA (con $)</div>
+        <div class="formula-box" style="font-size: 12px;">=B2/$B$10</div>
+        <p style="font-size: 13px; color: #1a1a2e; margin: 8px 0 0; line-height: 1.6;">El signo $ "congela" la celda. Cuando copias esta fórmula, B2 cambia (referencia relativa) pero $B$10 siempre apunta a la misma celda. Útil cuando todos los cálculos deben dividirse entre el mismo total.</p>
+      </div>
+    </div>
+
+    <div class="excel-step">
+      <div class="excel-step-header"><div class="excel-step-num">!</div>Ejemplo práctico de referencia absoluta en empresa de seguridad</div>
+      <div class="excel-step-body">
+        Tienes 5 contratos. Quieres calcular qué porcentaje del ingreso total representa cada uno. El ingreso total está en la celda B8.<br><br>
+        En la celda C2 escribes: <code>=B2/$B$8</code> (el ingreso del contrato 1 dividido entre el total en B8)<br>
+        Al copiar esa fórmula hacia abajo (C3, C4, C5, C6), B2 cambia a B3, B4... pero $B$8 siempre queda en B8.<br><br>
+        <span style="color: #c0392b;"><strong>Si no usas $:</strong></span> al copiar la fórmula hacia abajo, B8 también cambia a B9, B10... y el resultado es incorrecto.
+      </div>
+    </div>
+  </div>
+
+  <!-- TEMA 2 -->
+  <div id="tab2-tema2" class="tab-panel">
+    <h2 class="section-title">2. Estructura correcta de una tabla de costos gerencial</h2>
+
+    <p style="font-size: 14.5px; line-height: 1.8;">Para una empresa de servicios de seguridad, la regla de estructura es esta: <strong>las filas representan lo que quieres analizar</strong> (contratos, clientes, líneas de servicio) y <strong>las columnas representan lo que quieres medir</strong> de cada uno (ingresos, costos por tipo, margen).</p>
+
+    <h3 style="font-size: 15px; color: #003366; margin: 1.2rem 0 0.5rem; font-family: 'Lora', serif;">Tabla de costos completa — Ejercicio resuelto</h3>
+    <p style="font-size: 13.5px; color: #555; margin-bottom: 8px;">Esta tabla representa los costos mensuales de tres contratos. Observa la estructura, los cálculos y las fórmulas que usarías en Excel.</p>
+
+    <div class="excel-sim">
+      <table>
+        <thead>
+          <tr>
+            <th style="text-align: left; width: 22%;">Contrato</th>
+            <th>Ingresos</th>
+            <th>Personal</th>
+            <th>Equipos</th>
+            <th>Supervisión</th>
+            <th>Deprec.</th>
+            <th>Total Costos</th>
+            <th>Margen $</th>
+            <th>Margen %</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="label">Univ. del Norte</td>
+            <td>7.200</td><td>5.408</td><td>120</td><td>340</td><td>80</td>
+            <td class="formula">5.948</td>
+            <td class="positive formula">1.252</td>
+            <td class="positive formula">17,4%</td>
+          </tr>
+          <tr>
+            <td class="label">C.C. El Sol</td>
+            <td>5.800</td><td>3.640</td><td>90</td><td>240</td><td>60</td>
+            <td class="formula">4.030</td>
+            <td class="positive formula">1.770</td>
+            <td class="positive formula">30,5%</td>
+          </tr>
+          <tr>
+            <td class="label">Bodega Ind. X</td>
+            <td>3.200</td><td>2.860</td><td>60</td><td>180</td><td>50</td>
+            <td class="formula">3.150</td>
+            <td class="positive formula">50</td>
+            <td class="positive formula">1,6%</td>
+          </tr>
+          <tr>
+            <td class="label formula" style="font-size: 11px;">TOTALES</td>
+            <td class="formula">16.200</td><td class="formula">11.908</td><td class="formula">270</td><td class="formula">760</td><td class="formula">190</td>
+            <td class="formula">13.128</td>
+            <td class="positive formula">3.072</td>
+            <td class="positive formula">19,0%</td>
+          </tr>
+          <tr>
+            <td class="label formula-text">Fórmula Excel:</td>
+            <td class="formula-text">=SUMA(B2:B4)</td>
+            <td class="formula-text">=SUMA(C2:C4)</td>
+            <td colspan="2" class="formula-text">=SUMA(D2:D4)</td>
+            <td class="formula-text"></td>
+            <td class="formula-text">=SUMA(C5:G5)</td>
+            <td class="formula-text">=B5-H5</td>
+            <td class="formula-text">=I5/B5</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="font-size: 15px; color: #003366; margin: 1.2rem 0 0.5rem; font-family: 'Lora', serif;">¿Qué te dice esta tabla que el Estado de Resultados no te dice?</h3>
+
+    <div class="excel-step">
+      <div class="excel-step-header"><div class="excel-step-num">1</div>El contrato más rentable en margen porcentual no es el que más factura</div>
+      <div class="excel-step-body">El C.C. El Sol factura menos ($5.800) que la Univ. del Norte ($7.200), pero tiene un margen del 30,5% versus 17,4%. Si quisieras saber dónde enfocar tu crecimiento, esta tabla te lo dice claramente. El Estado de Resultados global no te permite ver esta diferencia.</div>
+    </div>
+    <div class="excel-step">
+      <div class="excel-step-header"><div class="excel-step-num">2</div>La Bodega Industrial X está casi en punto de quiebre</div>
+      <div class="excel-step-body">Con solo $50 de margen mensual (1,6%), cualquier aumento de costo — un guardia enfermo, una hora extra no prevista, un equipo que se daña — puede convertir ese contrato en una pérdida. Esta información permite actuar antes de que ocurra.</div>
+    </div>
+
+    <div class="concept-box" style="margin-top: 1rem;">
+      <div class="concept-title">¿Por qué incluir depreciación?</div>
+      <p>La depreciación no es un pago de efectivo que sale de tu cuenta bancaria. Es el desgaste del valor de tus equipos con el tiempo. Si tienes un equipo de monitoreo que costó $6.000 y dura 5 años, se deprecia $100 por mes ($6.000 ÷ 60 meses). Si no incluyes ese costo en tus análisis, estás sobreestimando tu margen real. El costo existe aunque no lo "sientas" como un pago mensual.</p>
+    </div>
+  </div>
+
+  <!-- TEMA 3 -->
+  <div id="tab2-tema3" class="tab-panel">
+    <h2 class="section-title">3. Funciones de Excel para análisis avanzado</h2>
+
+    <p style="font-size: 14.5px; line-height: 1.8;">Con las 4 funciones básicas de la Semana 1 más las siguientes, tendrás el 95% de lo que necesitas para construir análisis gerenciales completos en Excel.</p>
+
+    <div class="excel-step">
+      <div class="excel-step-header"><div class="excel-step-num">5</div>SUMAR.SI — sumar solo los valores que cumplen una condición</div>
+      <div class="excel-step-body">
+        A diferencia de SUMA que suma todo, SUMAR.SI suma solo los valores que cumplen una condición específica.
+        <div class="formula-box">=SUMAR.SI(rango_criterio, criterio, rango_suma)</div>
+        <strong style="color: #003366;">Ejemplo:</strong> Tienes una lista de 20 contratos con su tipo (Guardias / Monitoreo / Escolta) en la columna A y sus ingresos en la columna B. Para saber el total de ingresos solo del tipo "Guardias":
+        <div class="formula-box">=SUMAR.SI(A2:A21, "Guardias", B2:B21)</div>
+        Esto recorre la columna A buscando celdas que digan exactamente "Guardias" y suma los valores correspondientes de la columna B.
+      </div>
+    </div>
+
+    <div class="excel-step">
+      <div class="excel-step-header"><div class="excel-step-num">6</div>MAX y MIN — encontrar el valor más alto y más bajo</div>
+      <div class="excel-step-body">
+        <div class="formula-box">=MAX(rango) &nbsp;&nbsp; &nbsp;&nbsp; =MIN(rango)</div>
+        <strong style="color: #003366;">Ejemplo práctico:</strong> Tienes los márgenes mensuales de 12 contratos en la columna I (I2:I13).<br>
+        <code>=MAX(I2:I13)</code> te dice cuál es el contrato más rentable del mes.<br>
+        <code>=MIN(I2:I13)</code> te dice cuál es el contrato con menor margen — el que más atención necesita.<br><br>
+        Combinada con BUSCARV, puedes saber no solo el número sino el nombre del contrato.
+      </div>
+    </div>
+
+    <div class="excel-step">
+      <div class="excel-step-header"><div class="excel-step-num">7</div>CONTAR.SI — contar cuántas veces aparece un valor</div>
+      <div class="excel-step-body">
+        <div class="formula-box">=CONTAR.SI(rango, criterio)</div>
+        <strong style="color: #003366;">Ejemplo:</strong> Tienes una columna con el estado de cada contrato ("Activo" / "Vencido" / "En negociación"). Para saber cuántos contratos están vencidos:
+        <div class="formula-box">=CONTAR.SI(D2:D30, "Vencido")</div>
+        Esto cuenta cuántas celdas en el rango D2:D30 contienen exactamente la palabra "Vencido".
+      </div>
+    </div>
+
+    <div class="excel-step">
+      <div class="excel-step-header"><div class="excel-step-num">8</div>Formato condicional — el semáforo automático</div>
+      <div class="excel-step-body">
+        El Formato Condicional no es una fórmula — es una herramienta visual de Excel que cambia el color de una celda automáticamente según su valor. Es lo que hace que un margen negativo aparezca en rojo sin que tengas que hacerlo manualmente.<br><br>
+        <strong style="color: #003366;">Cómo aplicarlo:</strong><br>
+        1. Selecciona el rango de márgenes (por ejemplo, I2:I13).<br>
+        2. Ve a Inicio → Formato condicional → Escalas de color, o crea una regla personalizada.<br>
+        3. Define: si el valor es menor que 0, color rojo; si es mayor que 0, color verde.<br><br>
+        <strong style="color: #003366;">Resultado:</strong> Tu tabla tiene un "semáforo" automático. Cualquier contrato que entre en pérdida se resalta en rojo inmediatamente, sin que tengas que revisar cada número.
+      </div>
+    </div>
+
+    <div class="warning-box">
+      <strong>Evita este error frecuente con BUSCARV:</strong> La función busca en la primera columna del rango. Si el valor que buscas tiene un espacio al inicio o al final (espacio invisible), devolverá el error #N/A aunque el nombre parezca correcto. Puedes eliminar espacios usando <code style="font-family: monospace; background: #fff3e0; padding: 1px 4px; border-radius: 3px;">=ESPACIOS(celda)</code> antes de buscar.
+    </div>
+  </div>
+
+  <!-- TEMA 4 - HOJA DE TRABAJO -->
+  <div id="tab2-tema4" class="tab-panel">
+    <h2 class="section-title">4. La Hoja de Trabajo Gerencial — estructura mínima funcional</h2>
+
+    <div class="concept-box">
+      <div class="concept-title">¿Qué es la Hoja de Trabajo Gerencial?</div>
+      <p>Es un archivo Excel con varias hojas integradas que, juntas, forman un sistema básico de información gerencial. No requiere software costoso ni conocimientos avanzados de programación. Requiere disciplina para mantenerla actualizada y claridad sobre qué preguntas debe responder. Es el primer paso para dejar de gestionar con intuición y empezar a hacerlo con datos.</p>
+    </div>
+
+    <h3 style="font-size: 15px; color: #003366; margin: 1.2rem 0 0.5rem; font-family: 'Lora', serif;">Estructura recomendada: tres hojas integradas</h3>
+
+    <div class="excel-step">
+      <div class="excel-step-header"><div class="excel-step-num">Hoja 1</div>Contratos activos e ingresos</div>
+      <div class="excel-step-body">
+        Contiene todos los contratos activos con su información básica: nombre del cliente, tipo de servicio, fecha de inicio, fecha de vencimiento, ingreso mensual pactado, y estado de cobro.<br><br>
+        <strong style="color: #003366;">Columnas mínimas:</strong> Contrato | Tipo de servicio | Ingreso mensual | Fecha de vencimiento | Estado (Activo/Vencido) | Días hasta vencimiento<br><br>
+        <strong style="color: #003366;">Fórmula útil para "Días hasta vencimiento":</strong>
+        <div class="formula-box">=F2-HOY()</div>
+        Donde F2 tiene la fecha de vencimiento. HOY() devuelve la fecha actual automáticamente. Si el resultado es negativo, el contrato ya venció.
+      </div>
+    </div>
+
+    <div class="excel-step">
+      <div class="excel-step-header"><div class="excel-step-num">Hoja 2</div>Costos fijos mensuales</div>
+      <div class="excel-step-body">
+        Lista todos los costos que la empresa tiene cada mes independientemente de cuántos contratos tenga: arriendo de oficina, sueldos del personal administrativo, servicios básicos, cuotas de préstamos, seguros.<br><br>
+        <strong style="color: #003366;">Por qué en hoja separada:</strong> Porque estos costos deben distribuirse entre los contratos para calcular la rentabilidad real de cada uno. Tener los costos fijos centralizados en una sola hoja facilita esa distribución.
+      </div>
+    </div>
+
+    <div class="excel-step">
+      <div class="excel-step-header"><div class="excel-step-num">Hoja 3</div>Margen por contrato — la hoja de decisiones</div>
+      <div class="excel-step-body">
+        Integra las dos hojas anteriores. Para cada contrato muestra: ingreso (traído de Hoja 1), costos directos, proporción de costos fijos asignada, margen neto y margen porcentual.<br><br>
+        <strong style="color: #003366;">Fórmula para traer el ingreso desde Hoja 1:</strong>
+        <div class="formula-box">=BUSCARV(A2, Contratos!A:F, 3, 0)</div>
+        Esto busca el nombre del contrato (celda A2) en la hoja llamada "Contratos", en el rango A:F, y trae el valor de la columna 3 (ingresos).<br><br>
+        <strong style="color: #003366;">Con esta hoja puedes responder cada mes:</strong><br>
+        ¿Qué contratos son rentables? ¿Cuáles están en riesgo? ¿Cuál es el margen global del negocio?
+      </div>
+    </div>
+
+    <div class="highlight-key">
+      <strong>El principio más importante de la hoja de trabajo gerencial:</strong> Actualízala mensualmente. Una hoja perfectamente diseñada que nunca se actualiza no sirve de nada. Una hoja simple pero actualizada cada mes te da información real para decidir.
+    </div>
+  </div>
+
+  <!-- SIMULADOR -->
+  <div id="tab2-simulador" class="tab-panel">
+    <h2 class="section-title">5. Simulador — Construye tu tabla de contratos</h2>
+    <p style="font-size: 14px; color: #555; margin-bottom: 1rem;">Ingresa los datos de hasta 3 contratos y el simulador calcula automáticamente los márgenes, como lo haría Excel. Practica aquí antes de construir tu tabla real.</p>
+
+    <div id="sim-form">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; align-items: center;">
+        <div style="font-weight: 600; font-size: 12.5px; color: #003366; background: #e8f4fd; padding: 5px 8px; border-radius: 4px;">Campo</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px;">
+          <div style="font-weight: 600; font-size: 12px; color: #003366; text-align: center; background: #e8f4fd; padding: 5px; border-radius: 4px;">Contrato 1</div>
+          <div style="font-weight: 600; font-size: 12px; color: #003366; text-align: center; background: #e8f4fd; padding: 5px; border-radius: 4px;">Contrato 2</div>
+          <div style="font-weight: 600; font-size: 12px; color: #003366; text-align: center; background: #e8f4fd; padding: 5px; border-radius: 4px;">Contrato 3</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="sim-inputs"></div>
+    <button onclick="calcSim()" style="background: #003366; color: #fff; border: none; border-radius: 8px; padding: 10px 24px; font-size: 14px; cursor: pointer; margin: 1rem 0;">Calcular márgenes</button>
+    <div id="sim-result" style="display:none;"></div>
+  </div>
+
+  <!-- PROMPT -->
+  <div id="tab2-prompt" class="tab-panel">
+    <h2 class="section-title">6. Actividad con Inteligencia Artificial</h2>
+    <p style="font-size: 14px; line-height: 1.7; color: #1a1a2e;">Esta semana usarás la IA para enriquecer tu tabla de análisis. Recuerda: el objetivo no es copiar la respuesta, sino evaluar qué tan aplicable es a tu realidad.</p>
+
+    <div class="prompt-box">
+      <div class="prompt-label">Prompt de la Semana 2 — Sesión del viernes (actividad evaluable)</div>
+      <div class="prompt-text">
+        "Soy estudiante de Contabilidad Gerencial y estoy aprendiendo a construir tablas de costos en Excel para una empresa de seguridad privada en Ecuador. Mi tabla actual tiene estas columnas: nombre del contrato, ingresos mensuales, costo de personal, costo de equipos, costo de supervisión, depreciación de equipos, total costos, margen en dólares y margen porcentual. ¿Qué otras columnas me recomiendas agregar para que esta tabla sea más útil para la gerencia? Explica con detalle para qué serviría cada columna adicional y cómo se calcularía."
+      </div>
+      <div class="prompt-instruction">
+        <strong style="color: #7ec8e3;">¿Qué hacer con la respuesta?</strong><br>
+        1. Lee todas las columnas que propone la IA.<br>
+        2. Selecciona al menos <strong>dos columnas</strong> que consideres útiles y aplicables a una empresa de seguridad real en Ecuador.<br>
+        3. Agrégalas a tu tabla en Excel o dibújalas en papel.<br>
+        4. Escribe en tu cuaderno o Word: ¿Por qué elegiste esas dos y no otras? ¿Hay alguna columna que la IA sugirió pero que no es aplicable a tu contexto? ¿Por qué?
+      </div>
+    </div>
+
+    <div class="concept-box" style="margin-top: 1rem;">
+      <div class="concept-title">¿Qué evalúa el docente?</div>
+      <p>No evalúa si la IA dio una buena respuesta. Evalúa tu capacidad de <strong>seleccionar, adaptar y justificar</strong>. Un estudiante que elige dos columnas y explica por qué las eligió muestra más aprendizaje que uno que copia las diez columnas sin analizar ninguna.</p>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="tab2-quiz" class="tab-panel">
+    <h2 class="section-title">7. Cuestionario de la Semana 2</h2>
+    <p style="font-size: 14px; color: #555; margin-bottom: 1.2rem;">Responde cada pregunta con calma. Lee todas las opciones antes de elegir — algunas son deliberadamente similares para que pienses con precisión.</p>
+    <div id="quiz2-container"></div>
+    <div class="score-bar" id="score2-bar" style="display: none;">
+      <div class="score-num" id="score2-num">0/6</div>
+      <div class="score-label" id="score2-label">Resultado pendiente.</div>
+    </div>
+    <button id="reset2-btn" style="display:none; margin: 1rem auto; background: #003366; color: #fff; border: none; border-radius: 8px; padding: 10px 24px; font-size: 14px; cursor: pointer;" onclick="resetQuiz2()">Reiniciar cuestionario</button>
+  </div>
+</div>
+
+<script>
+function showTab2(id) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab2-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+var fields = ['Ingreso mensual ($)', 'Costo de personal ($)', 'Costo de equipos ($)', 'Costo de supervisión ($)', 'Depreciación ($)'];
+var fieldIds = ['ing', 'personal', 'equipos', 'superv', 'deprec'];
+var defaults = [[7200,5408,120,340,80],[5800,3640,90,240,60],[3200,2860,60,180,50]];
+
+function buildSim() {
+  var c = document.getElementById('sim-inputs');
+  c.innerHTML = '';
+  fields.forEach(function(f, fi) {
+    var row = document.createElement('div');
+    row.style.cssText = 'display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:6px; align-items:center;';
+    var label = document.createElement('div');
+    label.style.cssText = 'font-size:13px; color:#1a1a2e; padding: 4px 8px;';
+    label.textContent = f;
+    var inputs = document.createElement('div');
+    inputs.style.cssText = 'display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px;';
+    for(var ci=0; ci<3; ci++) {
+      var inp = document.createElement('input');
+      inp.type = 'number';
+      inp.id = 'sim-' + fieldIds[fi] + '-' + ci;
+      inp.value = defaults[ci][fi];
+      inp.style.cssText = 'width:100%; padding:5px 6px; border:1px solid #bde0f5; border-radius:5px; font-size:13px; box-sizing:border-box;';
+      inputs.appendChild(inp);
+    }
+    row.appendChild(label);
+    row.appendChild(inputs);
+    c.appendChild(row);
+  });
+}
+buildSim();
+
+function calcSim() {
+  var results = [];
+  for(var ci=0; ci<3; ci++) {
+    var ing = parseFloat(document.getElementById('sim-ing-'+ci).value)||0;
+    var per = parseFloat(document.getElementById('sim-personal-'+ci).value)||0;
+    var eq = parseFloat(document.getElementById('sim-equipos-'+ci).value)||0;
+    var sup = parseFloat(document.getElementById('sim-superv-'+ci).value)||0;
+    var dep = parseFloat(document.getElementById('sim-deprec-'+ci).value)||0;
+    var total = per+eq+sup+dep;
+    var margen = ing-total;
+    var pct = ing>0 ? (margen/ing*100).toFixed(1) : '0.0';
+    results.push({ing,per,eq,sup,dep,total,margen,pct});
+  }
+  var totalIng = results.reduce(function(s,r){return s+r.ing;},0);
+  var totalCosto = results.reduce(function(s,r){return s+r.total;},0);
+  var totalMargen = results.reduce(function(s,r){return s+r.margen;},0);
+  var totalPct = totalIng>0?(totalMargen/totalIng*100).toFixed(1):'0.0';
+
+  var html = '<div class="excel-sim" style="margin-top:1rem;"><table><thead><tr>' +
+    '<th style="text-align:left">Contrato</th><th>Ingresos</th><th>Total Costos</th><th>Margen $</th><th>Margen %</th><th>Estado</th></tr></thead><tbody>';
+  results.forEach(function(r,i){
+    var color = r.margen>=0?'#155724':'#721c24';
+    var bg = r.margen>=0?'#d4edda':'#f8d7da';
+    var estado = r.margen>=0?'RENTABLE':'PÉRDIDA';
+    html += '<tr><td class="label">Contrato '+(i+1)+'</td><td>$'+r.ing.toFixed(2)+'</td><td>$'+r.total.toFixed(2)+'</td>' +
+      '<td style="color:'+color+'; font-weight:700;">$'+r.margen.toFixed(2)+'</td>' +
+      '<td style="color:'+color+'; font-weight:700;">'+r.pct+'%</td>' +
+      '<td style="background:'+bg+'; color:'+color+'; font-weight:700; border-radius:4px; text-align:center;">'+estado+'</td></tr>';
+  });
+  html += '<tr><td class="label formula" style="font-size:11px;">TOTALES</td>' +
+    '<td class="formula">$'+totalIng.toFixed(2)+'</td><td class="formula">$'+totalCosto.toFixed(2)+'</td>' +
+    '<td class="'+(totalMargen>=0?'positive':'negative')+' formula">$'+totalMargen.toFixed(2)+'</td>' +
+    '<td class="'+(totalMargen>=0?'positive':'negative')+' formula">'+totalPct+'%</td><td></td></tr>' +
+    '</tbody></table></div>';
+
+  var mejor = results.reduce(function(m,r,i){return parseFloat(r.pct)>parseFloat(results[m].pct)?i:m;},0);
+  var peor = results.reduce(function(m,r,i){return parseFloat(r.pct)<parseFloat(results[m].pct)?i:m;},0);
+  html += '<div style="background:#e8f4fd; border-radius:8px; padding:1rem; margin-top:10px; font-size:13.5px; line-height:1.7;">' +
+    '<strong style="color:#003366;">Interpretación gerencial:</strong><br>' +
+    'El contrato con mayor margen porcentual es el <strong>Contrato '+(mejor+1)+'</strong> ('+results[mejor].pct+'%). ' +
+    'El de menor margen es el <strong>Contrato '+(peor+1)+'</strong> ('+results[peor].pct+'%). ' +
+    (parseFloat(results[peor].pct)<5 ? 'Este último está muy cerca del punto de quiebre — cualquier aumento de costo puede convertirlo en pérdida. Se recomienda revisarlo.' : '') +
+    '</div>';
+
+  var rd = document.getElementById('sim-result');
+  rd.innerHTML = html;
+  rd.style.display = 'block';
+}
+
+var q2 = [
+  {
+    q: "Al copiar la fórmula =B2/$B$10 hacia abajo en Excel (fila 3, 4, 5...), ¿qué parte de la fórmula cambia y qué parte permanece igual?",
+    opts: [
+      "B2 permanece igual y $B$10 cambia a $B$11, $B$12, etc.",
+      "B2 cambia a B3, B4, B5... y $B$10 siempre apunta a la misma celda",
+      "Ambas referencias cambian porque están en la misma fórmula",
+      "Ninguna cambia porque la fórmula tiene el símbolo $ en alguna parte"
+    ],
+    correct: 1,
+    fb: "Correcto. El signo $ 'congela' la referencia. B2 es relativa y cambia con cada fila copiada. $B$10 es absoluta: siempre apunta exactamente a la celda B10 sin importar dónde copies la fórmula. Esto es esencial cuando quieres dividir varios valores entre un mismo total."
+  },
+  {
+    q: "¿Por qué es importante incluir la depreciación de equipos en la tabla de costos por contrato?",
+    opts: [
+      "No es importante incluirla — la depreciación es un tema de contabilidad financiera, no gerencial",
+      "Porque es un requisito del SRI para declarar impuestos correctamente",
+      "Porque es un costo real de usar los equipos aunque no genere un pago mensual de efectivo, y omitirla sobreestima el margen real",
+      "Solo es importante incluirla si los equipos cuestan más de $10.000"
+    ],
+    correct: 2,
+    fb: "Correcto. La depreciación no implica un pago mensual de efectivo, pero es un costo real: el desgaste de tus equipos con el tiempo. Si no la incluyes, el margen calculado es mayor al real. Cuando el equipo necesite reposición, no habrás 'acumulado' ese costo en tu análisis y la decisión de reemplazarlo parecerá más cara de lo que debería."
+  },
+  {
+    q: "Tienes los ingresos de 10 contratos en las celdas B2:B11. ¿Cuál es la fórmula correcta para calcular el porcentaje que representa el contrato 1 (B2) sobre el total?",
+    opts: [
+      "=B2/SUMA(B2:B11)*100",
+      "=B2/B11",
+      "=PROMEDIO(B2:B11)",
+      "=B2-SUMA(B3:B11)"
+    ],
+    correct: 0,
+    fb: "Correcto. =B2/SUMA(B2:B11)*100 divide el ingreso del contrato 1 entre la suma de todos los ingresos y multiplica por 100 para obtener el porcentaje. Si quieres mostrar el resultado directamente como porcentaje en Excel, puedes omitir el *100 y formatear la celda como porcentaje."
+  },
+  {
+    q: "La función SUMAR.SI sirve para:",
+    opts: [
+      "Sumar todos los valores de un rango sin ninguna condición",
+      "Sumar solo los valores de un rango que cumplen un criterio específico, como ser del tipo 'Guardias'",
+      "Contar cuántas celdas de un rango tienen un valor determinado",
+      "Sumar y verificar automáticamente si el resultado es correcto"
+    ],
+    correct: 1,
+    fb: "Correcto. SUMAR.SI evalúa una condición en un rango (por ejemplo, que el tipo de servicio sea 'Guardias') y suma los valores correspondientes en otro rango (los ingresos). Es la función que permite hacer análisis por categoría sin usar tablas dinámicas."
+  },
+  {
+    q: "La Hoja de Trabajo Gerencial recomendada tiene tres hojas integradas. ¿Cuál es el propósito específico de la Hoja 3?",
+    opts: [
+      "Registrar los datos básicos de todos los contratos activos con sus fechas e ingresos",
+      "Listar los costos fijos mensuales del negocio para distribuirlos luego",
+      "Integrar ingresos y costos por contrato para calcular el margen neto de cada uno y apoyar decisiones",
+      "Registrar los pagos recibidos de clientes y las cuentas por cobrar pendientes"
+    ],
+    correct: 2,
+    fb: "Correcto. La Hoja 3 es la hoja de decisiones: combina los ingresos de la Hoja 1 con los costos directos y la proporción de costos fijos de la Hoja 2, para mostrar el margen neto y porcentual de cada contrato. Es la que responde mensualmente: ¿cuáles contratos son rentables y cuáles están en riesgo?"
+  },
+  {
+    q: "Un contrato tiene ingresos de $4.200 mensuales y costos totales de $4.180. El margen es de $20 (0,5%). ¿Cuál es la implicación gerencial correcta?",
+    opts: [
+      "Es un buen contrato porque genera utilidad positiva — cualquier margen positivo es aceptable",
+      "El contrato está en zona de riesgo crítico: cualquier incremento de costo mínimo puede convertirlo en pérdida y debe revisarse urgentemente",
+      "El contrato debe eliminarse de inmediato porque el margen es demasiado bajo",
+      "No hay implicación gerencial — el margen porcentual no es relevante, solo importa el margen en dólares"
+    ],
+    correct: 1,
+    fb: "Correcto. Un margen de 0,5% no significa que el contrato sea rentable en la práctica. Si un guardia se enferma y hay que cubrir con horas extra, si hay un incidente que genere costos adicionales, o si el precio del combustible sube — ese contrato puede caer en pérdida. La acción gerencial correcta es revisarlo: renegociar el precio, reducir costos o decidir conscientemente si se mantiene por razones estratégicas."
+  }
+];
+
+var ans2=0, cor2=0;
+function buildQuiz2() {
+  var c = document.getElementById('quiz2-container');
+  c.innerHTML = '';
+  q2.forEach(function(q,i){
+    var b = document.createElement('div');
+    b.className = 'q-block';
+    b.id = 'q2-' + i;
+    var opts = q.opts.map(function(o,j){
+      return '<button class="opt-btn" onclick="answer2('+i+','+j+')" id="opt2-'+i+'-'+j+'">'+String.fromCharCode(65+j)+') '+o+'</button>';
+    }).join('');
+    b.innerHTML = '<div class="q-header">Pregunta '+(i+1)+' de '+q2.length+'</div>' +
+      '<div class="q-body"><div class="q-stem">'+q.q+'</div>'+opts+'<div class="feedback-box" id="fb2-'+i+'"></div></div>';
+    c.appendChild(b);
+  });
+}
+function answer2(qi,oi){
+  var q = q2[qi];
+  document.querySelectorAll('[id^="opt2-'+qi+'-"]').forEach(function(b){b.disabled=true;});
+  var sel = document.getElementById('opt2-'+qi+'-'+oi);
+  var fb = document.getElementById('fb2-'+qi);
+  if(oi===q.correct){
+    sel.classList.add('correct');
+    fb.className='feedback-box show feedback-correct';
+    fb.innerHTML='<strong>Correcto.</strong> '+q.fb;
+    cor2++;
+  } else {
+    sel.classList.add('wrong');
+    document.getElementById('opt2-'+qi+'-'+q.correct).classList.add('correct');
+    fb.className='feedback-box show feedback-wrong';
+    fb.innerHTML='<strong>Respuesta incorrecta.</strong> La opción correcta era la '+String.fromCharCode(65+q.correct)+'. '+q.fb;
+  }
+  ans2++;
+  if(ans2===q2.length){
+    document.getElementById('score2-bar').style.display='block';
+    document.getElementById('score2-num').textContent=cor2+'/'+q2.length;
+    var pct=Math.round(cor2/q2.length*100);
+    document.getElementById('score2-label').textContent=pct+'% — '+(pct===100?'Dominio completo de la Semana 2.':pct>=67?'Buen avance. Repasa los temas con error.':'Dedica tiempo a releer el material antes de continuar.');
+    document.getElementById('reset2-btn').style.display='block';
+  }
+}
+function resetQuiz2(){ans2=0;cor2=0;document.getElementById('score2-bar').style.display='none';document.getElementById('reset2-btn').style.display='none';buildQuiz2();}
+buildQuiz2();
+</script>
