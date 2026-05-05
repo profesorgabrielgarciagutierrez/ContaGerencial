@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Herramientas Financieras Gerenciales</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --azul-oscuro: #003366;
+    --celeste: #87CEEB;
+    --blanco: #ffffff;
+    --gris-claro: #f4f7fb;
+    --gris-borde: #dce3ee;
+    --verde: #1a7a3c;
+    --rojo: #b91c1c;
+    --amarillo: #b45309;
+    --texto: #1a2a3a;
+    --sombra: 0 2px 12px rgba(0,51,102,0.10);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--gris-claro);
+    color: var(--texto);
+    min-height: 100vh;
+  }
+
+  /* SELECTOR DE NEGOCIO */
+  #selector-section {
+    background: linear-gradient(135deg, #003366 60%, #1a5ca8 100%);
+    padding: 48px 20px 36px;
+    text-align: center;
+  }
+  #selector-section h1 {
+    font-family: 'Lora', serif;
+    color: #fff;
+    font-size: 2rem;
+    margin-bottom: 8px;
+    letter-spacing: 0.01em;
+  }
+  #selector-section p {
+    color: #c8ddf5;
+    font-size: 1.05rem;
+    margin-bottom: 32px;
+  }
+  .selector-cards {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .selector-card {
+    background: rgba(255,255,255,0.10);
+    border: 2px solid rgba(255,255,255,0.25);
+    border-radius: 16px;
+    padding: 28px 22px 22px;
+    cursor: pointer;
+    width: 230px;
+    transition: all 0.22s;
+    color: #fff;
+    text-align: center;
+  }
+  .selector-card:hover, .selector-card.activo {
+    background: rgba(255,255,255,0.22);
+    border-color: #87CEEB;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+  }
+  .selector-card.activo { border-color: #fff; background: rgba(255,255,255,0.28); }
+  .selector-card .icono { font-size: 2.6rem; margin-bottom: 10px; }
+  .selector-card h3 { font-family: 'Lora', serif; font-size: 1.05rem; margin-bottom: 6px; }
+  .selector-card p { font-size: 0.85rem; color: #c8ddf5; line-height: 1.4; }
+  .btn-ingresar {
+    margin-top: 28px;
+    background: #87CEEB;
+    color: #003366;
+    border: none;
+    padding: 13px 38px;
+    border-radius: 30px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Source Sans 3', sans-serif;
+    transition: background 0.18s, transform 0.15s;
+    display: none;
+  }
+  .btn-ingresar:hover { background: #fff; transform: scale(1.04); }
+
+  /* WIDGET PRINCIPAL */
+  #widget-principal { display: none; }
+
+  /* ENCABEZADO */
+  header {
+    background: var(--azul-oscuro);
+    color: white;
+    padding: 18px 28px 14px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .header-icono { font-size: 2.4rem; }
+  .header-info h2 { font-family: 'Lora', serif; font-size: 1.35rem; font-weight: 700; }
+  .header-info p { font-size: 0.88rem; color: #87CEEB; margin-top: 2px; }
+  .header-cambiar {
+    margin-left: auto;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #fff;
+    padding: 7px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-family: 'Source Sans 3', sans-serif;
+    transition: background 0.18s;
+  }
+  .header-cambiar:hover { background: rgba(255,255,255,0.22); }
+
+  /* TABS */
+  .tabs-wrapper {
+    background: var(--celeste);
+    overflow-x: auto;
+    white-space: nowrap;
+    border-bottom: 2px solid #5aaed4;
+  }
+  .tabs-wrapper::-webkit-scrollbar { height: 4px; }
+  .tabs-wrapper::-webkit-scrollbar-thumb { background: var(--azul-oscuro); border-radius: 2px; }
+  .tab-btn {
+    display: inline-block;
+    padding: 13px 22px;
+    cursor: pointer;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.92rem;
+    color: #1a2a3a;
+    border: none;
+    background: transparent;
+    border-bottom: 3px solid transparent;
+    transition: all 0.18s;
+    white-space: nowrap;
+  }
+  .tab-btn:hover { background: rgba(255,255,255,0.5); }
+  .tab-btn.activo {
+    background: var(--blanco);
+    color: var(--azul-oscuro);
+    font-weight: 700;
+    border-bottom: 3px solid var(--azul-oscuro);
+  }
+
+  /* CONTENIDO */
+  .tab-content { display: none; padding: 28px 24px 40px; max-width: 980px; margin: 0 auto; }
+  .tab-content.activo { display: block; }
+
+  /* COMPONENTES REUTILIZABLES */
+  .caja-concepto {
+    border-left: 5px solid var(--azul-oscuro);
+    background: #e8f0fb;
+    padding: 16px 18px;
+    margin: 18px 0;
+    border-radius: 0 8px 8px 0;
+  }
+  .caja-concepto h4 { font-family: 'Lora', serif; color: var(--azul-oscuro); margin-bottom: 6px; font-size: 1rem; }
+  .caja-concepto p { font-size: 0.95rem; line-height: 1.65; }
+  .caja-ejemplo {
+    background: #dbeafe;
+    border: 1px solid #93c5fd;
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin: 16px 0;
+  }
+  .caja-ejemplo h4 { color: #1e40af; font-family: 'Lora', serif; margin-bottom: 8px; }
+  .caja-clave {
+    background: linear-gradient(90deg, #003366 0%, #1a5ca8 100%);
+    color: white;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 20px 0;
+  }
+  .caja-clave h4 { font-family: 'Lora', serif; margin-bottom: 5px; font-size: 1rem; }
+  .caja-clave p { font-size: 0.93rem; line-height: 1.6; color: #c8ddf5; }
+  h3.subtitulo { font-family: 'Lora', serif; color: var(--azul-oscuro); font-size: 1.18rem; margin: 22px 0 10px; border-bottom: 1px solid var(--gris-borde); padding-bottom: 6px; }
+
+  /* CALCULADORAS */
+  .calc-container {
+    background: white;
+    border-radius: 14px;
+    box-shadow: var(--sombra);
+    padding: 26px 24px;
+    margin-top: 10px;
+  }
+  .calc-container h3 { font-family: 'Lora', serif; color: var(--azul-oscuro); font-size: 1.12rem; margin-bottom: 18px; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 18px; }
+  @media(max-width:600px){ .form-grid { grid-template-columns: 1fr; } }
+  .form-group label { display: block; font-size: 0.88rem; font-weight: 600; color: #334; margin-bottom: 5px; }
+  .form-group input, .form-group select {
+    width: 100%; padding: 9px 12px; border: 1.5px solid var(--gris-borde);
+    border-radius: 8px; font-size: 0.95rem; font-family: 'Source Sans 3', sans-serif;
+    transition: border 0.18s;
+  }
+  .form-group input:focus, .form-group select:focus { border-color: var(--azul-oscuro); outline: none; }
+  .form-group.full { grid-column: 1 / -1; }
+  .btn-calc {
+    background: var(--azul-oscuro); color: white; border: none;
+    padding: 11px 28px; border-radius: 25px; font-size: 0.97rem;
+    font-weight: 700; cursor: pointer; font-family: 'Source Sans 3', sans-serif;
+    transition: background 0.18s, transform 0.12s;
+  }
+  .btn-calc:hover { background: #1a5ca8; transform: scale(1.03); }
+  .btn-reset-calc {
+    background: #e2e8f0; color: #334; border: none;
+    padding: 11px 22px; border-radius: 25px; font-size: 0.92rem;
+    cursor: pointer; font-family: 'Source Sans 3', sans-serif; margin-left: 10px;
+    transition: background 0.18s;
+  }
+  .btn-reset-calc:hover { background: #cbd5e1; }
+  .resultado-box {
+    background: var(--gris-claro); border: 1.5px solid var(--gris-borde);
+    border-radius: 10px; padding: 18px 20px; margin-top: 18px; display: none;
+  }
+  .resultado-box.visible { display: block; }
+  .resultado-box h4 { font-family: 'Lora', serif; color: var(--azul-oscuro); margin-bottom: 12px; }
+  .kpi-row { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 14px; }
+  .kpi {
+    background: white; border-radius: 10px; padding: 14px 18px;
+    border: 1.5px solid var(--gris-borde); flex: 1; min-width: 140px; text-align: center;
+    box-shadow: 0 1px 5px rgba(0,51,102,0.07);
+  }
+  .kpi .kpi-valor { font-size: 1.5rem; font-weight: 700; color: var(--azul-oscuro); }
+  .kpi .kpi-label { font-size: 0.8rem; color: #667; margin-top: 2px; }
+  .tabla-amort { width: 100%; border-collapse: collapse; font-size: 0.86rem; margin-top: 10px; }
+  .tabla-amort th { background: var(--azul-oscuro); color: white; padding: 8px 10px; text-align: right; }
+  .tabla-amort th:first-child { text-align: center; }
+  .tabla-amort td { padding: 7px 10px; text-align: right; border-bottom: 1px solid #e2e8f0; }
+  .tabla-amort td:first-child { text-align: center; font-weight: 600; }
+  .tabla-amort tr:nth-child(even) td { background: #f0f5fb; }
+  .tabla-scroll { max-height: 320px; overflow-y: auto; border-radius: 8px; border: 1px solid #dce3ee; margin-top: 10px; }
+  .alerta-calc { color: var(--rojo); font-size: 0.88rem; margin-top: 8px; font-weight: 600; display: none; }
+  .tabs-calc { display: flex; gap: 0; margin-bottom: 20px; border-bottom: 2px solid var(--gris-borde); }
+  .tab-calc-btn {
+    padding: 9px 22px; cursor: pointer; border: none; background: transparent;
+    font-size: 0.9rem; color: #667; border-bottom: 3px solid transparent;
+    font-family: 'Source Sans 3', sans-serif; transition: all 0.15s;
+  }
+  .tab-calc-btn.activo { color: var(--azul-oscuro); font-weight: 700; border-bottom: 3px solid var(--azul-oscuro); }
+  .calc-panel { display: none; }
+  .calc-panel.activo { display: block; }
+  .info-formula {
+    background: #f0f5fb; border: 1px dashed #93c5fd; border-radius: 8px;
+    padding: 12px 16px; margin: 14px 0; font-size: 0.9rem; color: #1e3a5f;
+  }
+  .info-formula strong { color: var(--azul-oscuro); }
+  .grafico-barras { margin-top: 14px; }
+  .barra-fila { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 0.85rem; }
+  .barra-label { width: 110px; text-align: right; color: #445; flex-shrink: 0; }
+  .barra-track { flex: 1; background: #e2e8f0; border-radius: 4px; height: 18px; overflow: hidden; }
+  .barra-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
+  .barra-val { width: 90px; font-weight: 700; color: var(--azul-oscuro); flex-shrink: 0; }
+
+  /* PIE */
+  footer {
+    text-align: center; padding: 22px; background: var(--azul-oscuro); color: #87CEEB;
+    font-size: 0.82rem; margin-top: 30px;
+  }
+
+  /* MODO EDUCATIVO */
+  .modo-badge {
+    display: inline-block; background: #dbeafe; color: #1e40af;
+    border-radius: 20px; padding: 4px 14px; font-size: 0.8rem;
+    font-weight: 700; margin-left: 10px; vertical-align: middle;
+  }
+  .explicacion-toggle {
+    background: none; border: 1.5px solid var(--azul-oscuro); color: var(--azul-oscuro);
+    border-radius: 20px; padding: 5px 16px; font-size: 0.83rem; cursor: pointer;
+    font-family: 'Source Sans 3', sans-serif; margin-top: 8px;
+    transition: all 0.18s;
+  }
+  .explicacion-toggle:hover { background: var(--azul-oscuro); color: white; }
+  .explicacion-box { display: none; margin-top: 12px; }
+  .explicacion-box.visible { display: block; }
+
+  /* TABS CUOTAS */
+  .tabs-cuota { display: flex; border-bottom: 2px solid #dce3ee; margin-bottom: 18px; }
+  .tab-cuota-btn {
+    padding: 8px 20px; cursor: pointer; border: none; background: transparent;
+    font-size: 0.9rem; color: #667; border-bottom: 3px solid transparent;
+    font-family: 'Source Sans 3',sans-serif; transition: all 0.15s;
+  }
+  .tab-cuota-btn.activo { color: var(--azul-oscuro); font-weight: 700; border-bottom: 3px solid var(--azul-oscuro); }
+  .panel-cuota { display: none; }
+  .panel-cuota.activo { display: block; }
+
+  /* COSTOS TABLE */
+  .tabla-costos { width:100%; border-collapse:collapse; margin-top:14px; font-size:0.88rem; }
+  .tabla-costos th { background:var(--azul-oscuro); color:#fff; padding:8px 12px; text-align:left; }
+  .tabla-costos td { padding:8px 12px; border-bottom:1px solid #e2e8f0; }
+  .tabla-costos tr:nth-child(even) td { background:#f0f5fb; }
+  .tabla-costos .total-row td { font-weight:700; background:#e8f0fb; color:var(--azul-oscuro); }
+  .add-row-btn {
+    background: #e8f0fb; border: 1.5px solid var(--azul-oscuro); color: var(--azul-oscuro);
+    padding: 7px 18px; border-radius: 20px; cursor: pointer; font-size: 0.85rem;
+    font-family: 'Source Sans 3',sans-serif; margin-top: 10px; transition: all 0.15s;
+  }
+  .add-row-btn:hover { background: var(--azul-oscuro); color: #fff; }
+  .del-btn { background:none; border:none; color:var(--rojo); cursor:pointer; font-size:1.1rem; padding:0 6px; }
+  input.inline-input {
+    border:1px solid #dce3ee; border-radius:5px; padding:4px 8px;
+    font-size:0.87rem; font-family:'Source Sans 3',sans-serif; width:100%;
+  }
+</style>
+</head>
+<body>
+
+<!-- SELECTOR DE NEGOCIO -->
+<div id="selector-section">
+  <h1>🧮 Herramientas Financieras Gerenciales</h1>
+  <p>Selecciona el tipo de negocio para personalizar todas las calculadoras y ejemplos</p>
+  <div class="selector-cards">
+    <div class="selector-card" onclick="seleccionarNegocio('seguridad', this)">
+      <div class="icono">🛡️</div>
+      <h3>Empresa de Seguridad Privada</h3>
+      <p>Guardias, monitoreo de cámaras, seguridad perimetral, transporte de valores</p>
+    </div>
+    <div class="selector-card" onclick="seleccionarNegocio('almuerzos', this)">
+      <div class="icono">🍱</div>
+      <h3>Almuerzos a Domicilio</h3>
+      <p>Producción de almuerzos, entrega personalizada, servicio de catering</p>
+    </div>
+    <div class="selector-card" onclick="seleccionarNegocio('capacitacion', this)">
+      <div class="icono">📋</div>
+      <h3>Capacitación Empresarial</h3>
+      <p>Talleres, cursos corporativos, consultoría y formación profesional</p>
+    </div>
+  </div>
+  <button class="btn-ingresar" id="btn-ingresar" onclick="ingresarWidget()">Ingresar →</button>
+</div>
+
+<!-- WIDGET PRINCIPAL -->
+<div id="widget-principal">
+  <header>
+    <div class="header-icono" id="header-icono">🛡️</div>
+    <div class="header-info">
+      <h2 id="header-titulo">Empresa de Seguridad Privada</h2>
+      <p id="header-sub">Herramientas de Contabilidad Gerencial y Matemática Financiera</p>
+    </div>
+    <button class="header-cambiar" onclick="cambiarNegocio()">⇄ Cambiar negocio</button>
+  </header>
+
+  <div class="tabs-wrapper">
+    <button class="tab-btn activo" onclick="mostrarTab('tab-equilibrio', this)">📊 Punto de Equilibrio</button>
+    <button class="tab-btn" onclick="mostrarTab('tab-costos', this)">💰 Análisis de Costos</button>
+    <button class="tab-btn" onclick="mostrarTab('tab-credito', this)">🏦 Crédito y Cuotas</button>
+    <button class="tab-btn" onclick="mostrarTab('tab-margen', this)">📈 Margen y Rentabilidad</button>
+    <button class="tab-btn" onclick="mostrarTab('tab-flujo', this)">🔄 Flujo de Caja</button>
+  </div>
+
+  <!-- TAB 1: PUNTO DE EQUILIBRIO -->
+  <div class="tab-content activo" id="tab-equilibrio">
+    <h3 class="subtitulo">📊 Punto de Equilibrio <span class="modo-badge">Gerencial + Educativo</span></h3>
+    <div class="caja-concepto">
+      <h4>¿Qué es el Punto de Equilibrio?</h4>
+      <p>El <strong>Punto de Equilibrio (PE)</strong> es el nivel de ventas o producción en el que los ingresos totales son exactamente iguales a los costos totales: ni se gana ni se pierde. Es la frontera entre pérdida y ganancia. Todo lo que se venda <em>por encima</em> del PE genera utilidad; todo lo que quede <em>por debajo</em> representa pérdida.</p>
+    </div>
+    <button class="explicacion-toggle" onclick="toggleExplicacion('exp-pe')">📖 Ver explicación educativa completa</button>
+    <div class="explicacion-box" id="exp-pe">
+      <div class="caja-ejemplo">
+        <h4>📐 Fórmulas base</h4>
+        <p><strong>PE en unidades:</strong> Costos Fijos Totales ÷ (Precio de Venta Unitario − Costo Variable Unitario)</p>
+        <p style="margin-top:8px"><strong>PE en dólares:</strong> Costos Fijos Totales ÷ (1 − Costo Variable Total / Ventas Totales)</p>
+        <p style="margin-top:8px">La diferencia (Precio − Costo Variable Unitario) se llama <strong>Margen de Contribución Unitario</strong>: es lo que cada unidad vendida "aporta" para cubrir los costos fijos.</p>
+      </div>
+      <div class="caja-clave">
+        <h4>💡 Idea Clave</h4>
+        <p>No basta con saber cuánto se vende. Un negocio necesita saber cuánto debe vender mínimamente para no perder dinero. Ese mínimo es el Punto de Equilibrio.</p>
+      </div>
+    </div>
+
+    <div class="calc-container" style="margin-top:20px">
+      <h3>Calculadora de Punto de Equilibrio</h3>
+      <div class="info-formula">
+        <strong>PE Unidades</strong> = Costos Fijos ÷ (Precio Unitario − Costo Variable Unitario) &nbsp;|&nbsp;
+        <strong>PE Dólares</strong> = PE Unidades × Precio Unitario
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Costos Fijos Mensuales (USD)</label>
+          <input type="number" id="pe-fijos" placeholder="Ej: 4500" min="0" step="0.01">
+        </div>
+        <div class="form-group">
+          <label id="pe-precio-label">Precio de Venta Unitario (USD)</label>
+          <input type="number" id="pe-precio" placeholder="Ej: 380" min="0" step="0.01">
+        </div>
+        <div class="form-group">
+          <label id="pe-cv-label">Costo Variable Unitario (USD)</label>
+          <input type="number" id="pe-cv" placeholder="Ej: 210" min="0" step="0.01">
+        </div>
+        <div class="form-group">
+          <label>Unidades Vendidas Actualmente (opcional)</label>
+          <input type="number" id="pe-actual" placeholder="Para ver si estás en ganancia" min="0">
+        </div>
+      </div>
+      <div>
+        <button class="btn-calc" onclick="calcularPE()">Calcular Punto de Equilibrio</button>
+        <button class="btn-reset-calc" onclick="resetPE()">Limpiar</button>
+      </div>
+      <div class="alerta-calc" id="pe-alerta">⚠ Por favor completa los tres primeros campos con valores válidos.</div>
+      <div class="resultado-box" id="pe-resultado">
+        <h4>📊 Resultados del Análisis</h4>
+        <div class="kpi-row" id="pe-kpis"></div>
+        <div id="pe-grafico" class="grafico-barras"></div>
+        <div id="pe-interpretacion" style="margin-top:14px"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 2: ANÁLISIS DE COSTOS -->
+  <div class="tab-content" id="tab-costos">
+    <h3 class="subtitulo">💰 Análisis de Costos <span class="modo-badge">Gerencial + Educativo</span></h3>
+    <div class="caja-concepto">
+      <h4>Clasificación de Costos en la Empresa</h4>
+      <p>Los costos se clasifican según su <strong>comportamiento frente al volumen de producción o servicio</strong>. Esta clasificación es fundamental para tomar decisiones de precio, volumen y rentabilidad.</p>
+    </div>
+    <button class="explicacion-toggle" onclick="toggleExplicacion('exp-costos')">📖 Ver explicación educativa completa</button>
+    <div class="explicacion-box" id="exp-costos">
+      <div class="caja-ejemplo">
+        <h4>📌 Tipos de costos</h4>
+        <p><strong>Costos Fijos:</strong> No cambian sin importar cuánto se produzca o venda. Ejemplos: arriendo, sueldos administrativos, seguros.</p>
+        <p style="margin-top:6px"><strong>Costos Variables:</strong> Aumentan o disminuyen proporcionalmente con el nivel de actividad. Ejemplos: insumos, comisiones de venta, combustible por servicio.</p>
+        <p style="margin-top:6px"><strong>Costos Semivariables:</strong> Tienen una parte fija y otra variable. Ejemplo: servicio de telefonía con plan base + consumo extra.</p>
+      </div>
+      <div class="caja-clave">
+        <h4>💡 Idea Clave</h4>
+        <p>Conocer con precisión qué es fijo y qué es variable permite simular escenarios, negociar contratos de servicio con confianza y establecer precios que garanticen rentabilidad.</p>
+      </div>
+    </div>
+
+    <div class="calc-container" style="margin-top:20px">
+      <h3>Planilla Interactiva de Costos</h3>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px">
+        <button class="add-row-btn" onclick="agregarCosto('fijo')">+ Agregar Costo Fijo</button>
+        <button class="add-row-btn" onclick="agregarCosto('variable')">+ Agregar Costo Variable</button>
+        <button class="add-row-btn" onclick="agregarCosto('semivariable')">+ Agregar Semivariable</button>
+      </div>
+      <table class="tabla-costos" id="tabla-costos-body">
+        <thead>
+          <tr>
+            <th>Descripción del Costo</th>
+            <th>Tipo</th>
+            <th>Monto Mensual (USD)</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="costos-tbody"></tbody>
+        <tfoot>
+          <tr class="total-row">
+            <td>TOTAL COSTOS</td>
+            <td id="total-tipo"></td>
+            <td id="total-costos">$ 0.00</td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+      <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn-calc" onclick="analizarCostos()">Analizar Estructura de Costos</button>
+        <button class="btn-reset-calc" onclick="resetCostos()">Limpiar tabla</button>
+      </div>
+      <div class="resultado-box" id="costos-resultado">
+        <h4>📊 Estructura de Costos</h4>
+        <div class="kpi-row" id="costos-kpis"></div>
+        <div id="costos-grafico" class="grafico-barras"></div>
+        <div id="costos-interpretacion" style="margin-top:14px"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 3: CRÉDITO Y CUOTAS -->
+  <div class="tab-content" id="tab-credito">
+    <h3 class="subtitulo">🏦 Crédito y Cuotas <span class="modo-badge">Matemática Financiera</span></h3>
+    <div class="caja-concepto">
+      <h4>¿Qué es una cuota de crédito?</h4>
+      <p>Cuando una empresa solicita un crédito o financia equipos/activos, debe devolver el capital más los intereses en cuotas periódicas. La <strong>cuota</strong> es el pago periódico (mensual, trimestral, etc.) que cubre tanto intereses como abono a capital. Saber calcularla permite decidir si el crédito es viable o si el flujo de caja lo soporta.</p>
+    </div>
+    <button class="explicacion-toggle" onclick="toggleExplicacion('exp-credito')">📖 Ver explicación educativa completa</button>
+    <div class="explicacion-box" id="exp-credito">
+      <div class="caja-ejemplo">
+        <h4>📐 Fórmula de cuota fija (Sistema Francés)</h4>
+        <p><strong>C = P × [i(1+i)ⁿ] / [(1+i)ⁿ − 1]</strong></p>
+        <p style="margin-top:8px">Donde: <strong>P</strong> = capital prestado | <strong>i</strong> = tasa de interés mensual | <strong>n</strong> = número de cuotas</p>
+        <p style="margin-top:8px">Este es el sistema más común en bancos ecuatorianos (BanEcuador, Banco Pichincha, CFN). La cuota es constante pero la proporción de interés va disminuyendo mes a mes.</p>
+      </div>
+      <div class="caja-clave">
+        <h4>💡 Idea Clave</h4>
+        <p>Antes de endeudarse, simula la cuota. Compara ese valor con el flujo de caja mensual libre. Si la cuota supera el 35% del flujo libre, el crédito puede comprometer la operación.</p>
+      </div>
+    </div>
+
+    <div class="calc-container" style="margin-top:20px">
+      <h3>Calculadora de Crédito</h3>
+      <div class="tabs-cuota">
+        <button class="tab-cuota-btn activo" onclick="switchCuota('cuota-conocer', this)">Conocer mi cuota</button>
+        <button class="tab-cuota-btn" onclick="switchCuota('cuota-monto', this)">¿Cuánto puedo pedir?</button>
+      </div>
+
+      <!-- Panel A: Conocer cuota -->
+      <div class="panel-cuota activo" id="cuota-conocer">
+        <div class="info-formula">
+          <strong>Dado:</strong> Capital + Tasa + Plazo → <strong>Calcula:</strong> Cuota mensual y tabla de amortización
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Monto del Crédito (USD)</label>
+            <input type="number" id="cred-monto" placeholder="Ej: 25000" min="0">
+          </div>
+          <div class="form-group">
+            <label>Tasa de Interés Anual (%)</label>
+            <input type="number" id="cred-tasa" placeholder="Ej: 11.5" min="0" step="0.01">
+          </div>
+          <div class="form-group">
+            <label>Plazo (meses)</label>
+            <input type="number" id="cred-plazo" placeholder="Ej: 36" min="1" step="1">
+          </div>
+          <div class="form-group">
+            <label>Tipo de crédito (referencia)</label>
+            <select id="cred-tipo">
+              <option>Productivo PYME</option>
+              <option>Comercial ordinario</option>
+              <option>Microcrédito</option>
+              <option>Consumo</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn-calc" onclick="calcularCuota()">Calcular Cuota</button>
+        <button class="btn-reset-calc" onclick="resetCuota()">Limpiar</button>
+        <div class="alerta-calc" id="cuota-alerta">⚠ Completa todos los campos con valores válidos.</div>
+        <div class="resultado-box" id="cuota-resultado">
+          <h4>📊 Resultados del Crédito</h4>
+          <div class="kpi-row" id="cuota-kpis"></div>
+          <div style="margin-top:14px">
+            <strong style="color:var(--azul-oscuro);font-size:0.95rem">Tabla de Amortización</strong>
+            <div class="tabla-scroll" id="tabla-scroll">
+              <table class="tabla-amort">
+                <thead><tr><th>Mes</th><th>Cuota</th><th>Interés</th><th>Capital</th><th>Saldo</th></tr></thead>
+                <tbody id="amort-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel B: Cuánto puedo pedir -->
+      <div class="panel-cuota" id="cuota-monto">
+        <div class="info-formula">
+          <strong>Dado:</strong> Cuota máxima + Tasa + Plazo → <strong>Calcula:</strong> Monto máximo que puedes solicitar
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Cuota máxima que puedo pagar (USD/mes)</label>
+            <input type="number" id="inv-cuota" placeholder="Ej: 850" min="0">
+          </div>
+          <div class="form-group">
+            <label>Tasa de Interés Anual (%)</label>
+            <input type="number" id="inv-tasa" placeholder="Ej: 11.5" min="0" step="0.01">
+          </div>
+          <div class="form-group">
+            <label>Plazo (meses)</label>
+            <input type="number" id="inv-plazo" placeholder="Ej: 36" min="1">
+          </div>
+        </div>
+        <button class="btn-calc" onclick="calcularMonto()">Calcular Monto Máximo</button>
+        <button class="btn-reset-calc" onclick="resetMonto()">Limpiar</button>
+        <div class="alerta-calc" id="monto-alerta">⚠ Completa todos los campos con valores válidos.</div>
+        <div class="resultado-box" id="monto-resultado">
+          <h4>📊 Capacidad de Endeudamiento</h4>
+          <div class="kpi-row" id="monto-kpis"></div>
+          <div id="monto-interpretacion" style="margin-top:14px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 4: MARGEN Y RENTABILIDAD -->
+  <div class="tab-content" id="tab-margen">
+    <h3 class="subtitulo">📈 Margen y Rentabilidad <span class="modo-badge">Gerencial</span></h3>
+    <div class="caja-concepto">
+      <h4>Indicadores de Rentabilidad</h4>
+      <p>La <strong>rentabilidad</strong> mide la capacidad del negocio de generar utilidad con los recursos disponibles. No basta con tener ingresos altos: lo que importa es cuánto queda después de todos los costos. Estos indicadores son esenciales para evaluar si el negocio es <em>viable y sostenible</em>.</p>
+    </div>
+    <button class="explicacion-toggle" onclick="toggleExplicacion('exp-margen')">📖 Ver explicación educativa completa</button>
+    <div class="explicacion-box" id="exp-margen">
+      <div class="caja-ejemplo">
+        <h4>📐 Indicadores clave</h4>
+        <p><strong>Margen Bruto (%):</strong> (Ventas − Costo de Ventas) / Ventas × 100 → qué porcentaje queda después del costo directo</p>
+        <p style="margin-top:6px"><strong>Margen Operacional (%):</strong> (Utilidad Operacional / Ventas) × 100 → eficiencia de la operación</p>
+        <p style="margin-top:6px"><strong>Margen Neto (%):</strong> (Utilidad Neta / Ventas) × 100 → lo que realmente gana el dueño</p>
+        <p style="margin-top:6px"><strong>ROI (%):</strong> (Utilidad Neta / Inversión Total) × 100 → retorno sobre la inversión</p>
+      </div>
+      <div class="caja-clave">
+        <h4>💡 Idea Clave</h4>
+        <p>Un margen neto positivo no garantiza éxito si el ROI es bajo. Compare siempre la rentabilidad de su negocio con las tasas de interés bancarias: si el ROI es menor que un depósito a plazo fijo, el capital estaría mejor invertido en el banco.</p>
+      </div>
+    </div>
+
+    <div class="calc-container" style="margin-top:20px">
+      <h3>Calculadora de Márgenes y ROI</h3>
+      <div class="form-grid">
+        <div class="form-group">
+          <label id="mrg-ventas-label">Ingresos Totales del Período (USD)</label>
+          <input type="number" id="mrg-ventas" placeholder="Ej: 18000" min="0">
+        </div>
+        <div class="form-group">
+          <label>Costo de Ventas / Costo Directo del Servicio (USD)</label>
+          <input type="number" id="mrg-cventas" placeholder="Ej: 11000" min="0">
+        </div>
+        <div class="form-group">
+          <label>Gastos Operacionales (admin, ventas) (USD)</label>
+          <input type="number" id="mrg-gastos" placeholder="Ej: 3200" min="0">
+        </div>
+        <div class="form-group">
+          <label>Impuestos y otros descuentos (USD)</label>
+          <input type="number" id="mrg-imp" placeholder="Ej: 500" min="0" step="0.01">
+        </div>
+        <div class="form-group">
+          <label>Inversión Total del Negocio (USD)</label>
+          <input type="number" id="mrg-inversion" placeholder="Ej: 45000" min="0">
+        </div>
+      </div>
+      <button class="btn-calc" onclick="calcularMargen()">Calcular Indicadores</button>
+      <button class="btn-reset-calc" onclick="resetMargen()">Limpiar</button>
+      <div class="alerta-calc" id="mrg-alerta">⚠ Por favor completa los campos requeridos.</div>
+      <div class="resultado-box" id="mrg-resultado">
+        <h4>📊 Indicadores de Rentabilidad</h4>
+        <div class="kpi-row" id="mrg-kpis"></div>
+        <div id="mrg-grafico" class="grafico-barras"></div>
+        <div id="mrg-interpretacion" style="margin-top:14px"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 5: FLUJO DE CAJA -->
+  <div class="tab-content" id="tab-flujo">
+    <h3 class="subtitulo">🔄 Proyección de Flujo de Caja <span class="modo-badge">Gerencial</span></h3>
+    <div class="caja-concepto">
+      <h4>¿Qué es el Flujo de Caja?</h4>
+      <p>El <strong>Flujo de Caja (Cash Flow)</strong> muestra el movimiento real de efectivo: cuánto entra y cuánto sale en cada período. Es diferente de la utilidad contable: una empresa puede mostrar utilidades pero quedarse sin efectivo para operar (esto se llama <em>crisis de liquidez</em>). El flujo de caja es el "pulso" financiero del negocio.</p>
+    </div>
+    <button class="explicacion-toggle" onclick="toggleExplicacion('exp-flujo')">📖 Ver explicación educativa completa</button>
+    <div class="explicacion-box" id="exp-flujo">
+      <div class="caja-ejemplo">
+        <h4>📐 Componentes del Flujo de Caja</h4>
+        <p><strong>Entradas:</strong> Cobros a clientes, cobro de cuentas pendientes, aportes de socios, préstamos recibidos.</p>
+        <p style="margin-top:6px"><strong>Salidas:</strong> Pago a proveedores, sueldos, servicios, cuotas de crédito, impuestos, compra de activos.</p>
+        <p style="margin-top:6px"><strong>Flujo Neto:</strong> Entradas − Salidas. Si es positivo, hay superávit. Si es negativo, hay déficit: necesitas financiamiento o recortes.</p>
+      </div>
+      <div class="caja-clave">
+        <h4>💡 Idea Clave</h4>
+        <p>Proyectar el flujo de caja a 3–6 meses permite anticipar meses de déficit y tomar acciones preventivas: negociar plazos de pago, buscar financiamiento a tiempo, o ajustar la cobranza.</p>
+      </div>
+    </div>
+
+    <div class="calc-container" style="margin-top:20px">
+      <h3 id="flujo-titulo">Proyección de Flujo de Caja — 6 Meses</h3>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Saldo Inicial de Caja (USD)</label>
+          <input type="number" id="flujo-inicial" placeholder="Ej: 3000" min="0">
+        </div>
+        <div class="form-group">
+          <label id="flujo-ing-label">Ingreso Mensual Promedio (USD)</label>
+          <input type="number" id="flujo-ingreso" placeholder="Ej: 12000" min="0">
+        </div>
+        <div class="form-group">
+          <label>Costos Fijos Mensuales (USD)</label>
+          <input type="number" id="flujo-fijos" placeholder="Ej: 5000" min="0">
+        </div>
+        <div class="form-group">
+          <label id="flujo-var-label">Costos Variables Mensuales (USD)</label>
+          <input type="number" id="flujo-variables" placeholder="Ej: 3500" min="0">
+        </div>
+        <div class="form-group">
+          <label>Cuota de Crédito Mensual (USD, si aplica)</label>
+          <input type="number" id="flujo-cuota" placeholder="Ej: 850" min="0" step="0.01">
+        </div>
+        <div class="form-group">
+          <label>Crecimiento mensual de ingresos estimado (%)</label>
+          <input type="number" id="flujo-crecimiento" placeholder="Ej: 3" step="0.1">
+        </div>
+      </div>
+      <button class="btn-calc" onclick="calcularFlujo()">Proyectar Flujo de Caja</button>
+      <button class="btn-reset-calc" onclick="resetFlujo()">Limpiar</button>
+      <div class="alerta-calc" id="flujo-alerta">⚠ Completa los campos requeridos.</div>
+      <div class="resultado-box" id="flujo-resultado">
+        <h4>📊 Proyección a 6 Meses</h4>
+        <div class="kpi-row" id="flujo-kpis"></div>
+        <div class="tabla-scroll" style="margin-top:14px">
+          <table class="tabla-costos" id="tabla-flujo">
+            <thead><tr>
+              <th>Mes</th>
+              <th>Ingresos</th>
+              <th>Costos Fijos</th>
+              <th>Costos Variables</th>
+              <th>Cuota Crédito</th>
+              <th>Flujo Neto</th>
+              <th>Saldo Acumulado</th>
+            </tr></thead>
+            <tbody id="flujo-tbody"></tbody>
+          </table>
+        </div>
+        <div id="flujo-interpretacion" style="margin-top:14px"></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Herramienta de Contabilidad Gerencial y Matemática Financiera — Uso Gerencial y Educativo</p>
+    <p style="margin-top:4px;color:#5aaed4">Los cálculos son estimaciones orientativas. Consulta siempre con un contador certificado para decisiones definitivas.</p>
+  </footer>
+</div>
+
+<script>
+// ─── DATOS POR NEGOCIO ───────────────────────────────────────────
+const NEGOCIOS = {
+  seguridad: {
+    icono: '🛡️',
+    nombre: 'Empresa de Seguridad Privada',
+    sub: 'Guardias · Monitoreo CCTV · Transporte de Valores · Seguridad Perimetral',
+    unidad: 'puesto/mes',
+    precioEj: 380, cvEj: 210, fijosEj: 4500,
+    precioLabel: 'Precio por Puesto de Seguridad (USD/mes)',
+    cvLabel: 'Costo Variable por Puesto (USD/mes)',
+    ventasLabel: 'Ingresos Totales del Período (USD)',
+    ingresoLabel: 'Ingreso Mensual por Contratos (USD)',
+    varLabel: 'Costos Variables Mensuales (Insumos, combustible) (USD)',
+    flujoTitulo: 'Proyección de Flujo de Caja — Empresa de Seguridad',
+    costosPredefinidos: [
+      {desc:'Sueldos personal de seguridad', tipo:'fijo', monto:2800},
+      {desc:'Arriendo oficina y vigilancia', tipo:'fijo', monto:600},
+      {desc:'Seguros y licencias operativas', tipo:'fijo', monto:350},
+      {desc:'Uniformes y equipos (mensual)', tipo:'variable', monto:180},
+      {desc:'Combustible vehículos patrulla', tipo:'variable', monto:220},
+      {desc:'Telefonía y radios (plan base)', tipo:'semivariable', monto:140},
+    ]
+  },
+  almuerzos: {
+    icono: '🍱',
+    nombre: 'Almuerzos a Domicilio',
+    sub: 'Producción de Almuerzos · Entrega Personalizada · Catering Empresarial',
+    unidad: 'almuerzo',
+    precioEj: 4.50, cvEj: 2.10, fijosEj: 1200,
+    precioLabel: 'Precio de Venta por Almuerzo (USD)',
+    cvLabel: 'Costo Variable por Almuerzo (ingredientes + empaque) (USD)',
+    ventasLabel: 'Ingresos Totales del Período (USD)',
+    ingresoLabel: 'Ingreso Mensual por Ventas de Almuerzos (USD)',
+    varLabel: 'Costos Variables Mensuales (ingredientes, empaques, gas) (USD)',
+    flujoTitulo: 'Proyección de Flujo de Caja — Almuerzos a Domicilio',
+    costosPredefinidos: [
+      {desc:'Arriendo cocina y local', tipo:'fijo', monto:450},
+      {desc:'Sueldo cocinero/a', tipo:'fijo', monto:500},
+      {desc:'Sueldo repartidor', tipo:'fijo', monto:420},
+      {desc:'Ingredientes y alimentos', tipo:'variable', monto:620},
+      {desc:'Empaques desechables', tipo:'variable', monto:95},
+      {desc:'Gas licuado de petróleo', tipo:'semivariable', monto:60},
+    ]
+  },
+  capacitacion: {
+    icono: '📋',
+    nombre: 'Capacitación Empresarial',
+    sub: 'Talleres Corporativos · Consultoría · Formación Profesional · Coaching',
+    unidad: 'taller/evento',
+    precioEj: 1200, cvEj: 380, fijosEj: 2200,
+    precioLabel: 'Precio por Taller o Evento de Capacitación (USD)',
+    cvLabel: 'Costo Variable por Taller (materiales, facilitador externo) (USD)',
+    ventasLabel: 'Ingresos Totales del Período (USD)',
+    ingresoLabel: 'Ingreso Mensual por Contratos de Capacitación (USD)',
+    varLabel: 'Costos Variables Mensuales (materiales, viáticos) (USD)',
+    flujoTitulo: 'Proyección de Flujo de Caja — Capacitación Empresarial',
+    costosPredefinidos: [
+      {desc:'Sueldo coordinador académico', tipo:'fijo', monto:900},
+      {desc:'Arriendo sala/oficina', tipo:'fijo', monto:500},
+      {desc:'Plataformas digitales (LMS, Zoom)', tipo:'fijo', monto:180},
+      {desc:'Materiales didácticos por taller', tipo:'variable', monto:220},
+      {desc:'Facilitadores externos por evento', tipo:'variable', monto:450},
+      {desc:'Marketing digital y publicidad', tipo:'semivariable', monto:200},
+    ]
+  }
+};
+
+let negocioActivo = null;
+
+function seleccionarNegocio(tipo, el) {
+  negocioActivo = tipo;
+  document.querySelectorAll('.selector-card').forEach(c => c.classList.remove('activo'));
+  el.classList.add('activo');
+  document.getElementById('btn-ingresar').style.display = 'inline-block';
+}
+
+function ingresarWidget() {
+  if (!negocioActivo) return;
+  const n = NEGOCIOS[negocioActivo];
+  document.getElementById('selector-section').style.display = 'none';
+  document.getElementById('widget-principal').style.display = 'block';
+  document.getElementById('header-icono').textContent = n.icono;
+  document.getElementById('header-titulo').textContent = n.nombre;
+  document.getElementById('header-sub').textContent = n.sub;
+  // Labels
+  document.getElementById('pe-precio-label').textContent = n.precioLabel;
+  document.getElementById('pe-cv-label').textContent = n.cvLabel;
+  document.getElementById('pe-precio').placeholder = 'Ej: ' + n.precioEj;
+  document.getElementById('pe-cv').placeholder = 'Ej: ' + n.cvEj;
+  document.getElementById('pe-fijos').placeholder = 'Ej: ' + n.fijosEj;
+  document.getElementById('mrg-ventas-label').textContent = n.ventasLabel;
+  document.getElementById('flujo-ing-label').textContent = n.ingresoLabel;
+  document.getElementById('flujo-var-label').textContent = n.varLabel;
+  document.getElementById('flujo-titulo').textContent = n.flujoTitulo;
+  // Costos predefinidos
+  inicializarCostos();
+}
+
+function cambiarNegocio() {
+  document.getElementById('selector-section').style.display = 'block';
+  document.getElementById('widget-principal').style.display = 'none';
+  document.querySelectorAll('.selector-card').forEach(c => c.classList.remove('activo'));
+  document.getElementById('btn-ingresar').style.display = 'none';
+  negocioActivo = null;
+}
+
+// ─── TABS ────────────────────────────────────────────────────────
+function mostrarTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('activo'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('activo'));
+  document.getElementById(id).classList.add('activo');
+  btn.classList.add('activo');
+}
+
+function toggleExplicacion(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('visible');
+}
+
+// ─── HELPERS ─────────────────────────────────────────────────────
+const fmt = v => '$' + Number(v).toLocaleString('es-EC', {minimumFractionDigits:2, maximumFractionDigits:2});
+const fmtNum = v => Number(v).toLocaleString('es-EC', {minimumFractionDigits:2, maximumFractionDigits:2});
+const pct = v => Number(v).toFixed(1) + '%';
+
+function kpiCard(label, valor, color) {
+  return `<div class="kpi"><div class="kpi-valor" style="color:${color||'var(--azul-oscuro)'}">${valor}</div><div class="kpi-label">${label}</div></div>`;
+}
+
+function barraGrafico(items) {
+  // items: [{label, val, max, color}]
+  const maxVal = Math.max(...items.map(i=>i.val), 1);
+  return items.map(i=>`
+    <div class="barra-fila">
+      <span class="barra-label">${i.label}</span>
+      <div class="barra-track"><div class="barra-fill" style="width:${Math.min(100,i.val/maxVal*100)}%;background:${i.color||'var(--azul-oscuro)'}"></div></div>
+      <span class="barra-val">${fmt(i.val)}</span>
+    </div>`).join('');
+}
+
+function cajaInfo(tipo, texto) {
+  const colores = {ok:'#1a7a3c', warn:'#b45309', error:'#b91c1c', info:'var(--azul-oscuro)'};
+  const iconos = {ok:'✅', warn:'⚠️', error:'❌', info:'ℹ️'};
+  return `<div style="background:#f0f5fb;border-left:4px solid ${colores[tipo]};padding:12px 16px;border-radius:0 8px 8px 0;font-size:0.93rem;line-height:1.6">${iconos[tipo]} ${texto}</div>`;
+}
+
+// ─── CALCULADORA PUNTO DE EQUILIBRIO ────────────────────────────
+function calcularPE() {
+  const fijos = parseFloat(document.getElementById('pe-fijos').value);
+  const precio = parseFloat(document.getElementById('pe-precio').value);
+  const cv = parseFloat(document.getElementById('pe-cv').value);
+  const actual = parseFloat(document.getElementById('pe-actual').value) || 0;
+  const alerta = document.getElementById('pe-alerta');
+  const res = document.getElementById('pe-resultado');
+
+  if (!fijos || !precio || !cv || isNaN(fijos) || isNaN(precio) || isNaN(cv)) {
+    alerta.style.display = 'block'; res.classList.remove('visible'); return;
+  }
+  alerta.style.display = 'none';
+
+  const margenUnitario = precio - cv;
+  if (margenUnitario <= 0) {
+    alerta.textContent = '⚠ El precio de venta debe ser mayor al costo variable unitario.';
+    alerta.style.display = 'block'; return;
+  }
+  const peUnidades = fijos / margenUnitario;
+  const peDolares = peUnidades * precio;
+  const margenContrib = (margenUnitario / precio * 100);
+
+  let kpis = kpiCard('PE en ' + (NEGOCIOS[negocioActivo]?.unidad||'unidades'), fmtNum(peUnidades.toFixed(1)), 'var(--azul-oscuro)');
+  kpis += kpiCard('PE en Dólares', fmt(peDolares), '#1a5ca8');
+  kpis += kpiCard('Margen de Contribución Unit.', fmt(margenUnitario), '#1a7a3c');
+  kpis += kpiCard('Índice Margen Contribución', pct(margenContrib), '#b45309');
+  document.getElementById('pe-kpis').innerHTML = kpis;
+
+  const graficoData = [
+    {label:'Costos Fijos', val:fijos, color:'#1a5ca8'},
+    {label:'PE en $', val:peDolares, color:'#003366'},
+  ];
+  if (actual > 0) graficoData.push({label:'Ingresos Actuales', val:actual*precio, color:'#1a7a3c'});
+  document.getElementById('pe-grafico').innerHTML = barraGrafico(graficoData);
+
+  let interpretacion = '';
+  if (actual > 0) {
+    const diferencia = actual - peUnidades;
+    if (diferencia >= 0) {
+      interpretacion = cajaInfo('ok', `Con <strong>${actual} ${NEGOCIOS[negocioActivo]?.unidad||'unidades'}</strong> estás <strong>${fmtNum(diferencia.toFixed(1))} unidades por encima</strong> del punto de equilibrio. Estás generando <strong>utilidad de ${fmt(diferencia*margenUnitario)}</strong> en el período.`);
+    } else {
+      interpretacion = cajaInfo('error', `Con <strong>${actual} ${NEGOCIOS[negocioActivo]?.unidad||'unidades'}</strong> estás <strong>${fmtNum(Math.abs(diferencia).toFixed(1))} unidades por debajo</strong> del punto de equilibrio. Pérdida estimada: <strong>${fmt(Math.abs(diferencia)*margenUnitario)}</strong>. Necesitas aumentar ventas o reducir costos fijos.`);
+    }
+  } else {
+    interpretacion = cajaInfo('info', `Para cubrir todos tus costos fijos y variables, debes vender al menos <strong>${fmtNum(peUnidades.toFixed(1))} ${NEGOCIOS[negocioActivo]?.unidad||'unidades'}</strong> al mes, equivalente a <strong>${fmt(peDolares)}</strong> en ingresos.`);
+  }
+  document.getElementById('pe-interpretacion').innerHTML = interpretacion;
+  res.classList.add('visible');
+}
+
+function resetPE() {
+  ['pe-fijos','pe-precio','pe-cv','pe-actual'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('pe-resultado').classList.remove('visible');
+  document.getElementById('pe-alerta').style.display = 'none';
+}
+
+// ─── COSTOS ──────────────────────────────────────────────────────
+let costosData = [];
+
+function inicializarCostos() {
+  costosData = NEGOCIOS[negocioActivo].costosPredefinidos.map((c,i)=>({...c, id:i}));
+  renderCostos();
+}
+
+function renderCostos() {
+  const tbody = document.getElementById('costos-tbody');
+  const tipoCols = {fijo:'🔵 Fijo', variable:'🟢 Variable', semivariable:'🟡 Semivariable'};
+  tbody.innerHTML = costosData.map(c=>`
+    <tr id="costo-row-${c.id}">
+      <td><input class="inline-input" value="${c.desc}" onchange="actualizarCosto(${c.id},'desc',this.value)"></td>
+      <td>
+        <select class="inline-input" onchange="actualizarCosto(${c.id},'tipo',this.value)">
+          <option value="fijo" ${c.tipo==='fijo'?'selected':''}>🔵 Fijo</option>
+          <option value="variable" ${c.tipo==='variable'?'selected':''}>🟢 Variable</option>
+          <option value="semivariable" ${c.tipo==='semivariable'?'selected':''}>🟡 Semivariable</option>
+        </select>
+      </td>
+      <td><input class="inline-input" type="number" value="${c.monto}" min="0" step="0.01" onchange="actualizarCosto(${c.id},'monto',parseFloat(this.value)||0)" style="text-align:right"></td>
+      <td><button class="del-btn" onclick="eliminarCosto(${c.id})">✕</button></td>
+    </tr>`).join('');
+  actualizarTotalCostos();
+}
+
+let costoIdCounter = 100;
+function agregarCosto(tipo) {
+  costosData.push({desc:'Nuevo costo', tipo, monto:0, id:costoIdCounter++});
+  renderCostos();
+}
+
+function eliminarCosto(id) {
+  costosData = costosData.filter(c=>c.id!==id);
+  renderCostos();
+}
+
+function actualizarCosto(id, campo, valor) {
+  const c = costosData.find(c=>c.id===id);
+  if (c) c[campo] = valor;
+  actualizarTotalCostos();
+}
+
+function actualizarTotalCostos() {
+  const total = costosData.reduce((s,c)=>s+Number(c.monto),0);
+  document.getElementById('total-costos').textContent = fmt(total);
+}
+
+function resetCostos() {
+  inicializarCostos();
+  document.getElementById('costos-resultado').classList.remove('visible');
+}
+
+function analizarCostos() {
+  const fijos = costosData.filter(c=>c.tipo==='fijo').reduce((s,c)=>s+c.monto,0);
+  const variables = costosData.filter(c=>c.tipo==='variable').reduce((s,c)=>s+c.monto,0);
+  const semivariables = costosData.filter(c=>c.tipo==='semivariable').reduce((s,c)=>s+c.monto,0);
+  const total = fijos + variables + semivariables;
+  if (total === 0) return;
+
+  let kpis = kpiCard('Costos Fijos', fmt(fijos), '#1a5ca8');
+  kpis += kpiCard('Costos Variables', fmt(variables), '#1a7a3c');
+  kpis += kpiCard('Semivariables', fmt(semivariables), '#b45309');
+  kpis += kpiCard('TOTAL COSTOS', fmt(total), '#003366');
+  document.getElementById('costos-kpis').innerHTML = kpis;
+
+  const grafico = [
+    {label:'Fijos', val:fijos, color:'#1a5ca8'},
+    {label:'Variables', val:variables, color:'#1a7a3c'},
+    {label:'Semivariables', val:semivariables, color:'#b45309'},
+  ].filter(g=>g.val>0);
+  document.getElementById('costos-grafico').innerHTML = barraGrafico(grafico);
+
+  const pctFijos = (fijos/total*100).toFixed(1);
+  const pctVar = (variables/total*100).toFixed(1);
+  let inter = '';
+  if (fijos/total > 0.65) {
+    inter = cajaInfo('warn', `Tu estructura de costos es <strong>mayormente fija (${pctFijos}%)</strong>. Esto significa que en meses de baja demanda, los costos no bajan proporcionalmente. Evalúa si algún costo fijo puede convertirse en variable (ej: contratación por evento vs. planta).`);
+  } else if (variables/total > 0.60) {
+    inter = cajaInfo('info', `Tu estructura de costos es <strong>mayormente variable (${pctVar}%)</strong>. Esto es positivo: cuando las ventas bajan, los costos también disminuyen. Sin embargo, tu margen de contribución podría ser bajo: revísalo en la calculadora de Punto de Equilibrio.`);
+  } else {
+    inter = cajaInfo('ok', `Tienes una estructura de costos <strong>relativamente equilibrada</strong>: ${pctFijos}% fijos, ${pctVar}% variables. Esto te da flexibilidad operativa.`);
+  }
+  document.getElementById('costos-interpretacion').innerHTML = inter;
+  document.getElementById('costos-resultado').classList.add('visible');
+}
+
+// ─── CRÉDITO ─────────────────────────────────────────────────────
+function switchCuota(panelId, btn) {
+  document.querySelectorAll('.panel-cuota').forEach(p=>p.classList.remove('activo'));
+  document.querySelectorAll('.tab-cuota-btn').forEach(b=>b.classList.remove('activo'));
+  document.getElementById(panelId).classList.add('activo');
+  btn.classList.add('activo');
+}
+
+function calcularCuota() {
+  const P = parseFloat(document.getElementById('cred-monto').value);
+  const tasaAnual = parseFloat(document.getElementById('cred-tasa').value);
+  const n = parseInt(document.getElementById('cred-plazo').value);
+  const alerta = document.getElementById('cuota-alerta');
+  if (!P || !tasaAnual || !n || isNaN(P) || isNaN(tasaAnual) || isNaN(n)) {
+    alerta.style.display='block'; return;
+  }
+  alerta.style.display='none';
+
+  const i = tasaAnual / 100 / 12;
+  const cuota = P * (i * Math.pow(1+i,n)) / (Math.pow(1+i,n) - 1);
+  const totalPago = cuota * n;
+  const totalInteres = totalPago - P;
+
+  let kpis = kpiCard('Cuota Mensual', fmt(cuota), '#003366');
+  kpis += kpiCard('Total a Pagar', fmt(totalPago), '#1a5ca8');
+  kpis += kpiCard('Total en Intereses', fmt(totalInteres), '#b91c1c');
+  kpis += kpiCard('Capital Solicitado', fmt(P), '#1a7a3c');
+  document.getElementById('cuota-kpis').innerHTML = kpis;
+
+  let saldo = P;
+  let filas = '';
+  for (let m=1; m<=n; m++) {
+    const intMes = saldo * i;
+    const capitalMes = cuota - intMes;
+    saldo -= capitalMes;
+    if (saldo < 0.01) saldo = 0;
+    filas += `<tr><td>${m}</td><td>${fmt(cuota)}</td><td>${fmt(intMes)}</td><td>${fmt(capitalMes)}</td><td>${fmt(saldo)}</td></tr>`;
+  }
+  document.getElementById('amort-tbody').innerHTML = filas;
+  document.getElementById('cuota-resultado').classList.add('visible');
+}
+
+function resetCuota() {
+  ['cred-monto','cred-tasa','cred-plazo'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('cuota-resultado').classList.remove('visible');
+  document.getElementById('cuota-alerta').style.display='none';
+}
+
+function calcularMonto() {
+  const C = parseFloat(document.getElementById('inv-cuota').value);
+  const tasaAnual = parseFloat(document.getElementById('inv-tasa').value);
+  const n = parseInt(document.getElementById('inv-plazo').value);
+  const alerta = document.getElementById('monto-alerta');
+  if (!C || !tasaAnual || !n || isNaN(C) || isNaN(tasaAnual) || isNaN(n)) {
+    alerta.style.display='block'; return;
+  }
+  alerta.style.display='none';
+
+  const i = tasaAnual / 100 / 12;
+  const P = C * (Math.pow(1+i,n) - 1) / (i * Math.pow(1+i,n));
+  const totalPago = C * n;
+  const totalInteres = totalPago - P;
+
+  let kpis = kpiCard('Monto Máximo a Solicitar', fmt(P), '#003366');
+  kpis += kpiCard('Cuota Mensual Ingresada', fmt(C), '#1a7a3c');
+  kpis += kpiCard('Total a Pagar', fmt(totalPago), '#1a5ca8');
+  kpis += kpiCard('Total en Intereses', fmt(totalInteres), '#b91c1c');
+  document.getElementById('monto-kpis').innerHTML = kpis;
+
+  const interp = cajaInfo('info', `Con una cuota máxima de <strong>${fmt(C)}/mes</strong> a una tasa del <strong>${tasaAnual}% anual</strong> en <strong>${n} meses</strong>, puedes solicitar hasta <strong>${fmt(P)}</strong>. Recuerda: la cuota no debe superar el 35% de tu flujo de caja libre mensual.`);
+  document.getElementById('monto-interpretacion').innerHTML = interp;
+  document.getElementById('monto-resultado').classList.add('visible');
+}
+
+function resetMonto() {
+  ['inv-cuota','inv-tasa','inv-plazo'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('monto-resultado').classList.remove('visible');
+  document.getElementById('monto-alerta').style.display='none';
+}
+
+// ─── MARGEN Y RENTABILIDAD ───────────────────────────────────────
+function calcularMargen() {
+  const ventas = parseFloat(document.getElementById('mrg-ventas').value);
+  const cventas = parseFloat(document.getElementById('mrg-cventas').value);
+  const gastos = parseFloat(document.getElementById('mrg-gastos').value) || 0;
+  const imp = parseFloat(document.getElementById('mrg-imp').value) || 0;
+  const inversion = parseFloat(document.getElementById('mrg-inversion').value) || 0;
+  const alerta = document.getElementById('mrg-alerta');
+  if (!ventas || !cventas || isNaN(ventas) || isNaN(cventas)) {
+    alerta.style.display='block'; return;
+  }
+  alerta.style.display='none';
+
+  const utilidadBruta = ventas - cventas;
+  const utilidadOperacional = utilidadBruta - gastos;
+  const utilidadNeta = utilidadOperacional - imp;
+  const mrgBruto = utilidadBruta/ventas*100;
+  const mrgOperacional = utilidadOperacional/ventas*100;
+  const mrgNeto = utilidadNeta/ventas*100;
+  const roi = inversion > 0 ? utilidadNeta/inversion*100 : null;
+
+  let kpis = kpiCard('Utilidad Bruta', fmt(utilidadBruta), utilidadBruta>=0?'#1a7a3c':'#b91c1c');
+  kpis += kpiCard('Margen Bruto', pct(mrgBruto), utilidadBruta>=0?'#1a7a3c':'#b91c1c');
+  kpis += kpiCard('Margen Operacional', pct(mrgOperacional), utilidadOperacional>=0?'#1a5ca8':'#b91c1c');
+  kpis += kpiCard('Margen Neto', pct(mrgNeto), utilidadNeta>=0?'#003366':'#b91c1c');
+  if (roi!==null) kpis += kpiCard('ROI', pct(roi), roi>=12?'#1a7a3c':roi>=6?'#b45309':'#b91c1c');
+  document.getElementById('mrg-kpis').innerHTML = kpis;
+
+  const grafico = [
+    {label:'Ingresos', val:ventas, color:'#1a7a3c'},
+    {label:'Costo Ventas', val:cventas, color:'#b91c1c'},
+    {label:'Gtos. Operac.', val:gastos, color:'#b45309'},
+    {label:'Util. Neta', val:Math.max(utilidadNeta,0), color:'#003366'},
+  ];
+  document.getElementById('mrg-grafico').innerHTML = barraGrafico(grafico);
+
+  let inter = '';
+  if (mrgNeto < 0) {
+    inter = cajaInfo('error', `La operación genera <strong>pérdida neta de ${fmt(Math.abs(utilidadNeta))}</strong>. Revisa urgente la estructura de costos y el precio de venta.`);
+  } else if (mrgNeto < 5) {
+    inter = cajaInfo('warn', `El margen neto es muy estrecho (<strong>${pct(mrgNeto)}</strong>). Cualquier imprevisto puede convertirlo en pérdida. Busca reducir costos o aumentar precios.`);
+  } else if (mrgNeto < 15) {
+    inter = cajaInfo('info', `Margen neto de <strong>${pct(mrgNeto)}</strong>: aceptable, pero hay espacio para mejorar. ${roi!==null?'El ROI de '+pct(roi)+' '+( roi>12?'supera una inversión bancaria típica, positivo.':'es bajo; evalúa si el capital estaría mejor en otra inversión.'):''}` );
+  } else {
+    inter = cajaInfo('ok', `Excelente margen neto de <strong>${pct(mrgNeto)}</strong>. El negocio es sólido. ${roi!==null?'ROI de '+pct(roi)+': muy competitivo.':''}`);
+  }
+  document.getElementById('mrg-interpretacion').innerHTML = inter;
+  document.getElementById('mrg-resultado').classList.add('visible');
+}
+
+function resetMargen() {
+  ['mrg-ventas','mrg-cventas','mrg-gastos','mrg-imp','mrg-inversion'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('mrg-resultado').classList.remove('visible');
+  document.getElementById('mrg-alerta').style.display='none';
+}
+
+// ─── FLUJO DE CAJA ───────────────────────────────────────────────
+function calcularFlujo() {
+  const inicial = parseFloat(document.getElementById('flujo-inicial').value) || 0;
+  const ingreso = parseFloat(document.getElementById('flujo-ingreso').value);
+  const fijos = parseFloat(document.getElementById('flujo-fijos').value) || 0;
+  const variables = parseFloat(document.getElementById('flujo-variables').value) || 0;
+  const cuota = parseFloat(document.getElementById('flujo-cuota').value) || 0;
+  const crecimiento = parseFloat(document.getElementById('flujo-crecimiento').value) || 0;
+  const alerta = document.getElementById('flujo-alerta');
+  if (!ingreso || isNaN(ingreso)) { alerta.style.display='block'; return; }
+  alerta.style.display='none';
+
+  const meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio'];
+  let saldo = inicial;
+  let filas = '';
+  let totalIngresos = 0, totalSalidas = 0, minSaldo = Infinity;
+  let mesNegativo = false;
+
+  for (let m=0; m<6; m++) {
+    const ingMes = ingreso * Math.pow(1 + crecimiento/100, m);
+    const salidas = fijos + variables + cuota;
+    const flujoNeto = ingMes - salidas;
+    saldo += flujoNeto;
+    totalIngresos += ingMes;
+    totalSalidas += salidas;
+    if (saldo < minSaldo) minSaldo = saldo;
+    if (saldo < 0) mesNegativo = true;
+    const color = saldo < 0 ? 'color:#b91c1c;font-weight:700' : flujoNeto >= 0 ? 'color:#1a7a3c' : 'color:#b45309';
+    filas += `<tr>
+      <td>${meses[m]}</td>
+      <td>${fmt(ingMes)}</td>
+      <td>${fmt(fijos)}</td>
+      <td>${fmt(variables)}</td>
+      <td>${fmt(cuota)}</td>
+      <td style="${flujoNeto>=0?'color:#1a7a3c':'color:#b91c1c'}">${fmt(flujoNeto)}</td>
+      <td style="${color}">${fmt(saldo)}</td>
+    </tr>`;
+  }
+  document.getElementById('flujo-tbody').innerHTML = filas;
+
+  let kpis = kpiCard('Total Ingresos 6 meses', fmt(totalIngresos), '#1a7a3c');
+  kpis += kpiCard('Total Egresos 6 meses', fmt(totalSalidas), '#b91c1c');
+  kpis += kpiCard('Saldo Final Proyectado', fmt(saldo), saldo>=0?'#003366':'#b91c1c');
+  kpis += kpiCard('Saldo Mínimo', fmt(minSaldo), minSaldo>=0?'#1a5ca8':'#b91c1c');
+  document.getElementById('flujo-kpis').innerHTML = kpis;
+
+  let inter = '';
+  if (mesNegativo) {
+    inter = cajaInfo('error', `⚠ La proyección muestra al menos un mes con <strong>saldo negativo</strong>. Debes gestionar líneas de crédito preventivas, acelerar cobranza o reducir egresos antes de que ocurra el déficit.`);
+  } else if (minSaldo < (fijos+variables)*0.5) {
+    inter = cajaInfo('warn', `El saldo mínimo proyectado es bajo (<strong>${fmt(minSaldo)}</strong>). Se recomienda mantener un colchón de caja equivalente a al menos 1 mes de costos fijos como reserva operativa.`);
+  } else {
+    inter = cajaInfo('ok', `La proyección de flujo de caja es <strong>positiva en todos los meses</strong>. El saldo mínimo de <strong>${fmt(minSaldo)}</strong> indica buena liquidez. Considera invertir el excedente en activos o en crecimiento.`);
+  }
+  document.getElementById('flujo-interpretacion').innerHTML = inter;
+  document.getElementById('flujo-resultado').classList.add('visible');
+}
+
+function resetFlujo() {
+  ['flujo-inicial','flujo-ingreso','flujo-fijos','flujo-variables','flujo-cuota','flujo-crecimiento'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('flujo-resultado').classList.remove('visible');
+  document.getElementById('flujo-alerta').style.display='none';
+}
+</script>
+</body>
+</html>
