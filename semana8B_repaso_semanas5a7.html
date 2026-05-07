@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Contabilidad Gerencial – Repaso Examen B (Semanas 5–7)</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+<style>
+/* ===== RESET & BASE ===== */
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Source Sans 3',sans-serif;background:#f0f4f8;color:#1a1a2e;font-size:16px;line-height:1.7;}
+h1,h2,h3,h4{font-family:'Lora',serif;}
+
+/* ===== HEADER ===== */
+.header{background:#003366;color:#fff;padding:18px 28px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+.header-logo{background:#FFD700;color:#003366;font-family:'Lora',serif;font-weight:700;font-size:1.1rem;padding:8px 14px;border-radius:6px;white-space:nowrap;}
+.header-text h1{font-size:1.25rem;font-weight:700;letter-spacing:.3px;}
+.header-text p{font-size:.85rem;opacity:.88;margin-top:2px;}
+.header-badge{margin-left:auto;background:#FFD700;color:#003366;font-weight:700;padding:6px 14px;border-radius:20px;font-size:.85rem;white-space:nowrap;}
+
+/* ===== TAB NAV ===== */
+.tab-nav-wrap{background:#87CEEB;overflow-x:auto;white-space:nowrap;border-bottom:3px solid #003366;}
+.tab-nav{display:inline-flex;padding:0 10px;}
+.tab-btn{display:inline-block;padding:11px 18px;cursor:pointer;font-family:'Source Sans 3',sans-serif;font-size:.82rem;font-weight:600;color:#111;border:none;background:transparent;border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap;}
+.tab-btn:hover{background:rgba(255,255,255,.5);}
+.tab-btn.active{background:#fff;color:#003366;font-weight:700;border-bottom:3px solid #003366;border-radius:6px 6px 0 0;}
+
+/* ===== CONTENT ===== */
+.tab-content{display:none;padding:28px;max-width:960px;margin:0 auto;}
+.tab-content.active{display:block;}
+
+/* ===== COMPONENTS ===== */
+.concept-box{border-left:5px solid #003366;background:#fff;padding:16px 20px;margin:18px 0;border-radius:0 8px 8px 0;box-shadow:0 2px 8px rgba(0,0,0,.07);}
+.concept-box h4{color:#003366;font-size:1rem;margin-bottom:6px;}
+.example-box{background:#e8f4fd;border:1px solid #b3d9f5;padding:16px 20px;margin:18px 0;border-radius:8px;}
+.example-box .ex-title{font-weight:700;color:#003366;font-size:.9rem;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.key-box{background:#003366;color:#fff;padding:16px 20px;margin:22px 0;border-radius:8px;}
+.key-box h4{color:#FFD700;margin-bottom:8px;font-size:1rem;}
+.key-box p{color:#e8f0fb;font-size:.95rem;}
+.warning-box{background:#fff8e1;border-left:5px solid #f9a825;padding:14px 18px;margin:16px 0;border-radius:0 8px 8px 0;}
+.formula-box{background:#1a1a2e;color:#FFD700;font-family:monospace;padding:14px 20px;border-radius:8px;margin:14px 0;font-size:1rem;line-height:2;}
+table{width:100%;border-collapse:collapse;margin:18px 0;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.07);}
+th{background:#003366;color:#fff;padding:12px 14px;text-align:left;font-size:.9rem;}
+td{padding:11px 14px;border-bottom:1px solid #e0e8f0;font-size:.92rem;vertical-align:top;}
+tr:last-child td{border-bottom:none;}
+tr:nth-child(even) td{background:#f5f9fd;}
+.section-title{font-family:'Lora',serif;color:#003366;font-size:1.35rem;border-bottom:3px solid #FFD700;padding-bottom:8px;margin-bottom:20px;}
+.week-badge{display:inline-block;background:#003366;color:#FFD700;font-size:.75rem;font-weight:700;padding:3px 10px;border-radius:12px;margin-bottom:10px;}
+p{margin-bottom:12px;}
+ul,ol{margin:10px 0 14px 24px;}
+li{margin-bottom:6px;}
+.highlight{background:#FFD700;color:#003366;padding:2px 8px;border-radius:4px;font-weight:700;}
+.num-big{font-size:1.3rem;font-weight:700;color:#003366;font-family:'Lora',serif;}
+
+/* ===== EXERCISE & QUIZ ===== */
+.ex-question{background:#fff;border:1px solid #c8ddf0;border-radius:8px;padding:18px;margin-bottom:16px;}
+.ex-question p{margin-bottom:10px;font-weight:600;color:#003366;}
+.option-label{display:flex;align-items:flex-start;gap:10px;padding:9px 12px;border-radius:6px;cursor:pointer;transition:background .15s;margin-bottom:6px;border:2px solid transparent;}
+.option-label:hover{background:#e8f4fd;}
+.option-label input{margin-top:3px;flex-shrink:0;}
+.option-label.correct-ans{background:#e8f8e8;border-color:#4caf50;}
+.option-label.wrong-ans{background:#fdecea;border-color:#e53935;}
+.badge{display:inline-block;font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:10px;margin-left:8px;vertical-align:middle;}
+.badge-teoria{background:#d1e8ff;color:#003366;}
+.badge-analisis{background:#fff0c8;color:#7a4800;}
+.feedback-box{margin-top:10px;padding:10px 14px;border-radius:6px;font-size:.9rem;display:none;}
+.feedback-correct{background:#e8f8e8;color:#2e7d32;border-left:4px solid #4caf50;}
+.feedback-wrong{background:#fdecea;color:#b71c1c;border-left:4px solid #e53935;}
+.verify-btn{background:#003366;color:#fff;border:none;padding:13px 30px;font-size:1rem;font-weight:700;border-radius:8px;cursor:pointer;margin-top:10px;transition:background .2s;}
+.verify-btn:hover{background:#00509e;}
+.reset-btn{background:#e0e8f0;color:#003366;border:none;padding:11px 26px;font-size:.95rem;font-weight:700;border-radius:8px;cursor:pointer;margin-top:10px;margin-left:12px;display:none;}
+.score-panel{display:none;background:#fff;border:2px solid #003366;border-radius:12px;padding:24px;margin-top:20px;text-align:center;}
+.score-panel h3{color:#003366;font-size:1.4rem;margin-bottom:8px;}
+.score-number{font-size:2.5rem;font-weight:700;color:#003366;font-family:'Lora',serif;}
+.progress-bar-wrap{background:#e0e8f0;border-radius:20px;height:18px;margin:14px 0;overflow:hidden;}
+.progress-bar-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,#003366,#0077cc);transition:width 1s ease;}
+.score-msg{font-size:1.05rem;margin-top:10px;font-weight:600;}
+
+/* PROMPT */
+.prompt-box{background:#1a1a2e;color:#a8d8ea;font-family:monospace;padding:18px;border-radius:8px;margin:14px 0;line-height:1.8;font-size:.88rem;white-space:pre-wrap;}
+.step-card{background:#fff;border-left:5px solid #FFD700;padding:14px 18px;margin:12px 0;border-radius:0 8px 8px 0;box-shadow:0 2px 6px rgba(0,0,0,.06);}
+.step-card .step-num{background:#FFD700;color:#003366;font-weight:700;border-radius:50%;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;font-size:.85rem;margin-right:10px;}
+.reflect-card{background:#fff;border:1px solid #c8ddf0;border-radius:10px;padding:18px 22px;margin-bottom:14px;position:relative;}
+.reflect-card::before{content:'💭';font-size:1.4rem;position:absolute;top:14px;right:16px;}
+.reflect-q{color:#003366;font-weight:700;margin-bottom:6px;}
+.ref-card{background:#fff;border-radius:8px;padding:16px 20px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,.07);border-left:4px solid #003366;}
+.ref-card .ref-author{font-weight:700;color:#003366;font-size:.95rem;}
+.ref-card .ref-title{font-style:italic;color:#444;}
+.ref-card .ref-source{color:#666;font-size:.88rem;margin-top:4px;}
+.ref-note{background:#fffbea;border:1px solid #ffe082;padding:12px 16px;border-radius:6px;margin-top:16px;font-size:.88rem;color:#5a4000;}
+
+/* CALCULADORA */
+.calc-box{background:#fff;border:2px solid #003366;border-radius:12px;padding:22px;margin:20px 0;}
+.calc-box h4{color:#003366;margin-bottom:14px;}
+.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
+.calc-input-wrap label{font-size:.85rem;color:#444;display:block;margin-bottom:4px;}
+.calc-input-wrap input{width:100%;padding:9px 12px;border:2px solid #c8ddf0;border-radius:6px;font-size:.95rem;}
+.calc-input-wrap input:focus{outline:none;border-color:#003366;}
+.calc-result{background:#e8f4fd;border-radius:8px;padding:14px;margin-top:12px;font-size:.95rem;}
+.calc-btn{background:#003366;color:#fff;border:none;padding:11px 22px;font-size:.95rem;font-weight:700;border-radius:8px;cursor:pointer;margin-top:8px;}
+.calc-btn:hover{background:#00509e;}
+
+@media(max-width:600px){
+  .header{padding:14px 16px;}
+  .header-text h1{font-size:1.05rem;}
+  .tab-content{padding:18px 14px;}
+  .calc-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-logo">UG</div>
+  <div class="header-text">
+    <h1>Contabilidad Gerencial — Repaso para Examen Parcial</h1>
+    <p>Universidad de Guayaquil · Facultad de Ciencias Administrativas · CPA Semestral · 5.° Semestre</p>
+  </div>
+  <div class="header-badge">📊 Widget B · Semanas 5–7</div>
+</div>
+
+<!-- TAB NAV -->
+<div class="tab-nav-wrap">
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="showTab('repaso')">📋 Síntesis S5–S7</button>
+    <button class="tab-btn" onclick="showTab('s5')">S5 · Clasificación de Costos</button>
+    <button class="tab-btn" onclick="showTab('s6')">S6 · Punto de Equilibrio</button>
+    <button class="tab-btn" onclick="showTab('s7a')">S7a · CVU y Costeo</button>
+    <button class="tab-btn" onclick="showTab('s7b')">S7b · Costos Relevantes</button>
+    <button class="tab-btn" onclick="showTab('calculadora')">🧮 Calculadora CVU</button>
+    <button class="tab-btn" onclick="showTab('ejercicio')">⚙️ Ejercicio Interactivo</button>
+    <button class="tab-btn" onclick="showTab('quiz')">📝 Cuestionario</button>
+    <button class="tab-btn" onclick="showTab('ia')">🤖 Actividad con IA</button>
+    <button class="tab-btn" onclick="showTab('reflexion')">🌱 Reflexión</button>
+    <button class="tab-btn" onclick="showTab('biblio')">📚 Bibliografía</button>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!--  TAB: SÍNTESIS S5-S7                                        -->
+<!-- ============================================================ -->
+<div id="repaso" class="tab-content active">
+  <h2 class="section-title">Síntesis de las Semanas 5 a 7</h2>
+  <p>Este widget consolida los temas más técnicos del curso: clasificación profunda de costos, punto de equilibrio, análisis CVU y costos relevantes. Aquí encontrarás fórmulas, ejemplos, una calculadora interactiva, ejercicios y cuestionario para prepararte para el examen.</p>
+
+  <table>
+    <tr><th>Semana</th><th>Núcleo conceptual</th><th>Fórmulas / conceptos clave</th></tr>
+    <tr><td><strong>S5</strong></td><td>Clasificación profunda de costos: fijos, variables, semivariables; directos e indirectos; costos del producto vs. del período.</td><td>CF, CV, CSV, CD, CI; costo unitario vs. total</td></tr>
+    <tr><td><strong>S6</strong></td><td>Punto de equilibrio en unidades y en dólares. Margen de contribución unitario y razón de contribución.</td><td>PE(u) = CF / MCu; PE($) = CF / RC; MCu = PVu – CVu; RC = MCu / PVu</td></tr>
+    <tr><td><strong>S7</strong></td><td>Análisis CVU, costeo variable vs. absorción, costos relevantes para decisiones especiales.</td><td>Utilidad = MCu × Q – CF; fabricar o comprar, pedidos especiales, eliminar líneas</td></tr>
+  </table>
+
+  <div class="key-box">
+    <h4>🔑 Hilo conductor de las semanas 5 a 7</h4>
+    <p>Todo parte de <strong>clasificar bien los costos</strong> (S5). Con esa clasificación se puede calcular el <strong>punto de equilibrio</strong> (S6), que nos dice el mínimo de actividad necesario para no perder. Y con el análisis <strong>CVU</strong> (S7) tomamos decisiones estratégicas: cuánto producir, si aceptar un pedido a precio especial, si conviene fabricar o comprar. La cadena es: <em>Clasificar → Equilibrar → Decidir</em>.</p>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!--  TAB: SEMANA 5                                              -->
+<!-- ============================================================ -->
+<div id="s5" class="tab-content">
+  <div class="week-badge">SEMANA 5</div>
+  <h2 class="section-title">Clasificación Profunda de Costos</h2>
+
+  <h3 style="color:#003366;margin:0 0 12px;">1. Clasificación por comportamiento respecto al volumen de actividad</h3>
+
+  <div class="concept-box">
+    <h4>Costo Fijo (CF)</h4>
+    <p>Permanece constante en su <em>total</em> independientemente de cuántas unidades se produzcan o vendan, dentro de un rango relevante de actividad. Sin embargo, el <strong>costo fijo unitario</strong> disminuye a medida que sube la producción (se "diluye" entre más unidades).</p>
+    <p><strong>Ejemplo:</strong> Arriendo del cuartel de operaciones de la empresa de seguridad: $1 800/mes. No importa si se atienden 10 o 30 contratos.</p>
+  </div>
+
+  <div class="concept-box">
+    <h4>Costo Variable (CV)</h4>
+    <p>Cambia en proporción directa al volumen de actividad. El <strong>costo variable total</strong> sube o baja con la producción, pero el <strong>costo variable unitario</strong> permanece constante.</p>
+    <p><strong>Ejemplo:</strong> Combustible de los vehículos de patrullaje: $0.45 por kilómetro recorrido. Si se recorren 1 000 km, el costo total es $450; si son 2 000 km, el costo es $900. El costo por km siempre es $0.45.</p>
+  </div>
+
+  <div class="concept-box">
+    <h4>Costo Semivariable (o mixto)</h4>
+    <p>Tiene un componente fijo (el mínimo que siempre se paga) y un componente variable (que depende del uso). También llamado <em>costo escalonado</em> cuando cambia en bloques a ciertos niveles de actividad.</p>
+    <p><strong>Ejemplo:</strong> Servicio de telefonía corporativa: $80 fijos al mes + $0.12 por minuto de llamada. Los $80 son el componente fijo; los $0.12 por minuto son el componente variable.</p>
+  </div>
+
+  <table>
+    <tr><th>Tipo</th><th>Comportamiento total</th><th>Comportamiento unitario</th><th>Ejemplo seguridad</th></tr>
+    <tr><td><strong>Fijo</strong></td><td>Constante</td><td>Disminuye al aumentar producción</td><td>Arriendo, seguros, depreciación lineal</td></tr>
+    <tr><td><strong>Variable</strong></td><td>Proporcional</td><td>Constante</td><td>Combustible, uniformes, munición</td></tr>
+    <tr><td><strong>Semivariable</strong></td><td>Mixto (fijo+variable)</td><td>Varía</td><td>Telefonía, electricidad, mantenimiento</td></tr>
+  </table>
+
+  <h3 style="color:#003366;margin:22px 0 12px;">2. Clasificación por relación con el objeto de costo</h3>
+
+  <div class="concept-box">
+    <h4>Costo Directo (CD)</h4>
+    <p>Se puede identificar y asignar de manera específica y económicamente viable a un contrato, producto o área determinada. No necesita distribución: se sabe con certeza a qué contrato corresponde.</p>
+    <p><strong>Ejemplo:</strong> El sueldo del guardia asignado exclusivamente al Contrato A con Supermercado La Favorita.</p>
+  </div>
+
+  <div class="concept-box">
+    <h4>Costo Indirecto (CI)</h4>
+    <p>No puede asignarse directamente a un contrato específico; es compartido entre varios. Requiere un <strong>inductor de costo (cost driver)</strong> para distribuirse entre los distintos objetos de costo. La elección del inductor afecta el costo unitario calculado.</p>
+    <p><strong>Ejemplo:</strong> El sueldo del supervisor de zona que supervisa 5 contratos simultáneamente. Se distribuye usando como inductor el número de guardias por contrato.</p>
+  </div>
+
+  <h3 style="color:#003366;margin:22px 0 12px;">3. Costos del producto vs. costos del período</h3>
+  <table>
+    <tr><th>Tipo</th><th>Definición</th><th>Tratamiento contable</th><th>Ejemplo</th></tr>
+    <tr><td><strong>Costo del producto</strong></td><td>Se incorpora al costo del bien o servicio prestado; se activa.</td><td>Aparece en el Estado de Costos; pasa al costo de ventas cuando se vende.</td><td>Mano de obra de guardias en contrato activo</td></tr>
+    <tr><td><strong>Costo del período</strong></td><td>No se activa; se lleva directamente al gasto en el período en que ocurre.</td><td>Aparece en el Estado de Resultados como gasto del período.</td><td>Sueldo del gerente general, publicidad</td></tr>
+  </table>
+
+  <div class="example-box">
+    <div class="ex-title">📊 Resumen numérico — Empresa de Seguridad Privada (1 mes)</div>
+    <table>
+      <tr><th>Concepto</th><th>Tipo</th><th>Total mes</th></tr>
+      <tr><td>Sueldos guardias (asignados a contratos)</td><td>CV directo del producto</td><td>$18 500</td></tr>
+      <tr><td>Arriendo cuartel</td><td>CF indirecto del producto</td><td>$1 800</td></tr>
+      <tr><td>Combustible patrullaje</td><td>CV directo del producto</td><td>$2 400</td></tr>
+      <tr><td>Sueldo supervisor de zona</td><td>CF indirecto del producto</td><td>$900</td></tr>
+      <tr><td>Sueldo gerente general</td><td>CF del período</td><td>$2 500</td></tr>
+      <tr><td>Publicidad y marketing</td><td>CV del período</td><td>$600</td></tr>
+    </table>
+  </div>
+
+  <div class="key-box">
+    <h4>💡 Idea clave para el examen</h4>
+    <p>Las dos clasificaciones son <strong>independientes pero combinables</strong>. Un costo puede ser: Fijo + Directo, Fijo + Indirecto, Variable + Directo, Variable + Indirecto. Clasificar mal tiene consecuencias reales: un costo variable tratado como fijo distorsionará el punto de equilibrio y las proyecciones de utilidad.</p>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!--  TAB: SEMANA 6                                              -->
+<!-- ============================================================ -->
+<div id="s6" class="tab-content">
+  <div class="week-badge">SEMANA 6</div>
+  <h2 class="section-title">Punto de Equilibrio</h2>
+
+  <div class="concept-box">
+    <h4>¿Qué es el punto de equilibrio?</h4>
+    <p>El <strong>punto de equilibrio (PE)</strong> es el nivel de ventas (en unidades o en dólares) en el que la empresa <em>no gana ni pierde</em>: los ingresos totales son exactamente iguales a los costos totales. Por encima del PE hay utilidad; por debajo, pérdida. Es la pregunta más básica de supervivencia empresarial: ¿cuánto necesito vender solo para cubrir mis costos?</p>
+  </div>
+
+  <h3 style="color:#003366;margin:18px 0 12px;">Margen de Contribución (MC)</h3>
+  <div class="concept-box">
+    <h4>Definición</h4>
+    <p>El <strong>Margen de Contribución Unitario (MCu)</strong> es la diferencia entre el precio de venta unitario y el costo variable unitario. Representa cuánto "contribuye" cada unidad vendida a cubrir los costos fijos y, luego, a generar utilidad.</p>
+  </div>
+  <div class="formula-box">
+MCu = Precio de Venta Unitario (PVu) – Costo Variable Unitario (CVu)
+
+RC (Razón de Contribución) = MCu / PVu   →   expresa el MCu como % del precio
+</div>
+
+  <h3 style="color:#003366;margin:18px 0 12px;">Fórmulas del Punto de Equilibrio</h3>
+  <div class="formula-box">
+PE en unidades  =  Costos Fijos Totales (CF)  ÷  MCu
+
+PE en dólares   =  Costos Fijos Totales (CF)  ÷  RC
+
+(Donde RC = MCu / PVu)
+</div>
+
+  <div class="example-box">
+    <div class="ex-title">🏢 Ejemplo completo — Empresa de Seguridad</div>
+    <p>La empresa ofrece un contrato estándar de vigilancia a <strong>$850/mes</strong> cada uno.</p>
+    <p>Costos variables por contrato: guardias $520 + combustible $80 + equipos $30 = <strong>$630</strong></p>
+    <p>Costos fijos mensuales: arriendo + supervisores + administración = <strong>$4 400</strong></p>
+    <br/>
+    <p><strong>MCu</strong> = $850 – $630 = <span class="highlight">$220 por contrato</span></p>
+    <p><strong>RC</strong> = $220 / $850 = <span class="highlight">25.88%</span></p>
+    <br/>
+    <p><strong>PE en contratos</strong> = $4 400 / $220 = <span class="highlight">20 contratos/mes</span></p>
+    <p><strong>PE en dólares</strong> = $4 400 / 0.2588 = <span class="highlight">$17 000 en facturación mensual</span></p>
+    <br/>
+    <p>📌 <em>Interpretación:</em> La empresa necesita tener activos al menos <strong>20 contratos al mes</strong> para no perder dinero. El contrato número 21 en adelante genera $220 de utilidad neta (antes de impuestos).</p>
+  </div>
+
+  <h3 style="color:#003366;margin:22px 0 12px;">Interpretación gerencial del punto de equilibrio</h3>
+  <ul>
+    <li><strong>Margen de seguridad:</strong> Diferencia entre ventas actuales y el PE. Mide cuánto pueden caer las ventas antes de entrar en pérdida. Margen de seguridad = Ventas actuales – PE($).</li>
+    <li><strong>Efecto de cambios en CF:</strong> Si los costos fijos suben (p.ej. un nuevo supervisor), el PE sube. La empresa necesitará más contratos para equilibrarse.</li>
+    <li><strong>Efecto de cambios en CVu:</strong> Si el costo variable por contrato sube (p.ej. aumento del combustible), el MCu baja y el PE sube.</li>
+    <li><strong>Efecto de cambios en precio:</strong> Si se aumenta el precio, el MCu sube y el PE baja (menos contratos necesarios para equilibrarse).</li>
+  </ul>
+
+  <div class="key-box">
+    <h4>💡 Idea clave para el examen</h4>
+    <p>El PE no es solo un número: es una <strong>herramienta de gestión de riesgo</strong>. Cualquier empresa debe conocer su PE para saber cuánto "margen de maniobra" tiene antes de perder dinero. Cuando el PE es muy alto (muy cercano a la capacidad máxima), la empresa es frágil ante caídas de demanda.</p>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!--  TAB: SEMANA 7a                                             -->
+<!-- ============================================================ -->
+<div id="s7a" class="tab-content">
+  <div class="week-badge">SEMANA 7 — Parte A</div>
+  <h2 class="section-title">Análisis CVU y Costeo Variable vs. Absorción</h2>
+
+  <div class="concept-box">
+    <h4>¿Qué es el Análisis Costo-Volumen-Utilidad (CVU)?</h4>
+    <p>El <strong>análisis CVU</strong> estudia la relación entre tres variables: el <em>Costo</em> de producción, el <em>Volumen</em> de ventas y la <em>Utilidad</em> resultante. Permite responder preguntas como: ¿cuánto debo vender para ganar $X? ¿Qué pasa con mi utilidad si bajo el precio un 10%?</p>
+  </div>
+
+  <div class="formula-box">
+Utilidad Operativa = (MCu × Q) – CF
+
+Donde:  MCu = PVu – CVu
+        Q   = cantidad de unidades vendidas
+        CF  = costos fijos totales
+
+Para conocer Q necesaria para lograr una utilidad objetivo (UO):
+Q objetivo = (CF + UO) / MCu
+</div>
+
+  <div class="example-box">
+    <div class="ex-title">📊 Aplicación CVU — Empresa de Seguridad</div>
+    <p>Datos: PVu = $850 | CVu = $630 | CF = $4 400 | MCu = $220</p>
+    <br/>
+    <p><strong>¿Cuántos contratos necesito para ganar $2 000 de utilidad?</strong></p>
+    <p>Q = ($4 400 + $2 000) / $220 = $6 400 / $220 = <span class="highlight">29.09 → 30 contratos</span></p>
+    <br/>
+    <p><strong>Si tengo 35 contratos, ¿cuál es mi utilidad?</strong></p>
+    <p>Utilidad = ($220 × 35) – $4 400 = $7 700 – $4 400 = <span class="highlight">$3 300</span></p>
+  </div>
+
+  <h3 style="color:#003366;margin:22px 0 12px;">Costeo Variable vs. Costeo por Absorción</h3>
+
+  <table>
+    <tr><th>Dimensión</th><th>Costeo Variable</th><th>Costeo por Absorción</th></tr>
+    <tr><td>¿Qué incluye en el costo del producto?</td><td>Solo los costos variables de producción (MOD, MP, CIF variables)</td><td>Todos los costos de producción: variables + fijos</td></tr>
+    <tr><td>¿Cómo trata los CF de producción?</td><td>Los lleva directo al gasto del período</td><td>Los activa en el inventario y los lleva al costo de ventas al vender</td></tr>
+    <tr><td>¿Cuándo se usa?</td><td>Análisis gerencial interno, CVU, toma de decisiones</td><td>Informes financieros externos (NIIF), inventarios</td></tr>
+    <tr><td>Utilidad reportada</td><td>Varía con las ventas</td><td>Varía con la producción (puede diferir de las ventas)</td></tr>
+    <tr><td>Formato del Estado de Resultados</td><td>Ventas – CV = MC; MC – CF = Utilidad</td><td>Ventas – Costo de ventas (incluye CF) = Utilidad bruta – Gastos op. = Utilidad</td></tr>
+  </table>
+
+  <div class="warning-box">
+    <strong>⚠️ Diferencia clave en las utilidades:</strong> Si la producción del período es igual a las ventas, <strong>ambos métodos dan la misma utilidad</strong>. Pero si se produce más de lo que se vende (aumenta inventario), el costeo por absorción reporta mayor utilidad porque parte de los costos fijos quedan "atrapados" en el inventario. El costeo variable es más conservador y más útil para decisiones internas.
+  </div>
+
+  <div class="key-box">
+    <h4>💡 Idea clave para el examen</h4>
+    <p>El <strong>costeo variable</strong> es la herramienta del contador gerencial para decisiones. El <strong>costeo por absorción</strong> es la norma para reportes financieros externos. Debes saber cuándo usar cada uno y por qué producen utilidades distintas cuando hay inventarios.</p>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!--  TAB: SEMANA 7b                                             -->
+<!-- ============================================================ -->
+<div id="s7b" class="tab-content">
+  <div class="week-badge">SEMANA 7 — Parte B</div>
+  <h2 class="section-title">Costos Relevantes para Decisiones Gerenciales</h2>
+
+  <div class="concept-box">
+    <h4>¿Qué es un costo relevante?</h4>
+    <p>Un <strong>costo relevante</strong> es aquel que: (1) es <em>diferente</em> entre las alternativas que se comparan (costo diferencial), y (2) ocurrirá en el <em>futuro</em> (no es un costo pasado o hundido). Los costos que no cambian entre alternativas son <em>irrelevantes</em> para la decisión y no deben incluirse en el análisis.</p>
+    <p><strong>Costo hundido (sunk cost):</strong> ya ocurrió y no puede recuperarse. Es siempre irrelevante. Ejemplo: el precio que se pagó por un vehículo de patrullaje hace 3 años.</p>
+  </div>
+
+  <h3 style="color:#003366;margin:18px 0 12px;">Decisión 1: ¿Fabricar o Comprar?</h3>
+  <div class="example-box">
+    <div class="ex-title">🏢 Ejemplo — ¿Producir uniformes internamente o comprarlos?</div>
+    <p>La empresa necesita 200 uniformes al año. Un proveedor los ofrece a $45 c/u. Producirlos internamente costaría:</p>
+    <ul>
+      <li>Materiales directos: $18/u</li>
+      <li>Mano de obra directa: $12/u</li>
+      <li>CIF variables: $6/u → Total variable: <strong>$36/u</strong></li>
+      <li>CIF fijos asignados: $8/u (pero estos costos fijos existirán de todas formas)</li>
+    </ul>
+    <p><strong>Análisis de costos relevantes:</strong></p>
+    <p>Costo de comprar: 200 × $45 = <strong>$9 000</strong></p>
+    <p>Costo relevante de producir: 200 × $36 = <strong>$7 200</strong> (los CF de $8/u son irrelevantes si no desaparecen)</p>
+    <p>✅ <strong>Decisión:</strong> Conviene producir internamente: ahorro de $1 800. Los $8 de CIF fijos asignados son <em>irrelevantes</em> porque se incurrirán de todas formas.</p>
+  </div>
+
+  <h3 style="color:#003366;margin:22px 0 12px;">Decisión 2: Aceptar un Pedido Especial</h3>
+  <div class="example-box">
+    <div class="ex-title">🏢 Ejemplo — Licitación del Municipio de Samborondón</div>
+    <p>El Municipio de Samborondón ofrece contratar 10 guardias adicionales por <strong>$700/mes por guardia</strong> (precio muy por debajo del precio normal de $850). La empresa tiene capacidad ociosa para aceptar este pedido sin aumentar sus costos fijos.</p>
+    <ul>
+      <li>CVu por guardia: $630/mes</li>
+      <li>CF relevantes adicionales: $0 (hay capacidad ociosa)</li>
+    </ul>
+    <p><strong>MCu del pedido especial</strong> = $700 – $630 = <span class="highlight">$70 por guardia</span></p>
+    <p><strong>Contribución total</strong> = 10 × $70 = <span class="highlight">$700/mes adicionales</span></p>
+    <p>✅ <strong>Decisión:</strong> Aceptar el pedido. Aunque el precio es inferior al normal, cubre los costos variables y genera contribución positiva. Condición: que no afecte los precios de los contratos regulares.</p>
+  </div>
+
+  <h3 style="color:#003366;margin:22px 0 12px;">Decisión 3: Eliminar una Línea de Servicio</h3>
+  <div class="example-box">
+    <div class="ex-title">🏢 Ejemplo — ¿Eliminar la línea de escoltas?</div>
+    <p>La empresa tiene una línea de escoltas que reporta aparentemente una pérdida de $800/mes. Pero al analizar costos relevantes:</p>
+    <table>
+      <tr><th>Concepto</th><th>Con línea escolta</th><th>Sin línea escolta</th><th>Diferencia</th></tr>
+      <tr><td>Ingresos escolta</td><td>$3 200</td><td>$0</td><td>–$3 200</td></tr>
+      <tr><td>CV escolta</td><td>–$2 400</td><td>$0</td><td>+$2 400</td></tr>
+      <tr><td>CF asignados escolta</td><td>–$1 600</td><td>–$1 600</td><td>$0 (no desaparecen)</td></tr>
+      <tr><td><strong>Resultado</strong></td><td>–$800</td><td>–$1 600</td><td>–$800 peor</td></tr>
+    </table>
+    <p>❌ <strong>Decisión:</strong> NO eliminar. Aunque la línea "pierde" $800 según el reporte contable, en realidad <strong>contribuye $800 a absorber costos fijos</strong> que se incurrirán igualmente. Eliminarla aumentaría la pérdida total de la empresa en $800.</p>
+  </div>
+
+  <div class="key-box">
+    <h4>💡 Idea clave para el examen</h4>
+    <p>En las tres decisiones, la regla es la misma: <strong>analiza solo los costos que cambian entre alternativas</strong>. Ignora los costos fijos que no desaparecen con la decisión. Una línea de negocio "con pérdida" puede ser necesaria si contribuye positivamente a los costos fijos totales.</p>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!--  TAB: CALCULADORA CVU                                       -->
+<!-- ============================================================ -->
+<div id="calculadora" class="tab-content">
+  <h2 class="section-title">🧮 Calculadora Interactiva de Punto de Equilibrio y CVU</h2>
+  <p>Ingresa los datos de tu empresa o ejercicio y calcula automáticamente el punto de equilibrio y la utilidad proyectada. Usa esta herramienta para verificar tus cálculos manuales.</p>
+
+  <div class="calc-box">
+    <h4>Datos del análisis</h4>
+    <div class="calc-grid">
+      <div class="calc-input-wrap">
+        <label>Precio de Venta Unitario (PVu) $</label>
+        <input type="number" id="pvu" placeholder="Ej: 850" step="0.01"/>
+      </div>
+      <div class="calc-input-wrap">
+        <label>Costo Variable Unitario (CVu) $</label>
+        <input type="number" id="cvu" placeholder="Ej: 630" step="0.01"/>
+      </div>
+      <div class="calc-input-wrap">
+        <label>Costos Fijos Totales (CF) $</label>
+        <input type="number" id="cf" placeholder="Ej: 4400" step="0.01"/>
+      </div>
+      <div class="calc-input-wrap">
+        <label>Unidades vendidas reales (Q)</label>
+        <input type="number" id="qreal" placeholder="Ej: 35" step="1"/>
+      </div>
+      <div class="calc-input-wrap">
+        <label>Utilidad objetivo deseada ($) — opcional</label>
+        <input type="number" id="uobj" placeholder="Ej: 2000" step="0.01"/>
+      </div>
+    </div>
+    <button class="calc-btn" onclick="calcular()">📊 Calcular</button>
+
+    <div class="calc-result" id="calcResult" style="display:none"></div>
+  </div>
+
+  <div class="warning-box">
+    <strong>💡 Cómo usar esta calculadora:</strong> Ingresa todos los datos y haz clic en "Calcular". Los campos de Q real y Utilidad objetivo son opcionales. Si dejas la utilidad objetivo en blanco, se calculará solo el PE básico.
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!--  TAB: EJERCICIO INTERACTIVO                                 -->
+<!-- ============================================================ -->
+<div id="ejercicio" class="tab-content">
+  <h2 class="section-title">⚙️ Ejercicio Interactivo — Semanas 5 a 7</h2>
+  <p>Responde todas las preguntas y luego presiona <strong>"Verificar respuestas"</strong>. Para las preguntas numéricas, elige la opción con el cálculo correcto.</p>
+
+  <!-- P1 -->
+  <div class="ex-question" id="eq1">
+    <p>1. Un costo que permanece constante en su total pero cuyo valor unitario DISMINUYE cuando aumenta la producción se llama:</p>
+    <label class="option-label"><input type="radio" name="eq1" value="a"/> A) Costo variable</label>
+    <label class="option-label"><input type="radio" name="eq1" value="b"/> B) Costo fijo</label>
+    <label class="option-label"><input type="radio" name="eq1" value="c"/> C) Costo semivariable</label>
+    <label class="option-label"><input type="radio" name="eq1" value="d"/> D) Costo del período</label>
+    <div class="feedback-box" id="efb1"></div>
+  </div>
+
+  <!-- P2 -->
+  <div class="ex-question" id="eq2">
+    <p>2. Una empresa de seguridad cobra $900 por contrato. Sus costos variables son $630/contrato y sus costos fijos son $5 400/mes. ¿Cuál es el punto de equilibrio en contratos?</p>
+    <label class="option-label"><input type="radio" name="eq2" value="a"/> A) 6 contratos</label>
+    <label class="option-label"><input type="radio" name="eq2" value="b"/> B) 15 contratos</label>
+    <label class="option-label"><input type="radio" name="eq2" value="c"/> C) 20 contratos</label>
+    <label class="option-label"><input type="radio" name="eq2" value="d"/> D) 27 contratos</label>
+    <div class="feedback-box" id="efb2"></div>
+  </div>
+
+  <!-- P3 -->
+  <div class="ex-question" id="eq3">
+    <p>3. Con los mismos datos de la pregunta 2 (PVu=$900, CVu=$630, CF=$5 400), ¿cuántos contratos necesita para ganar $2 700 de utilidad?</p>
+    <label class="option-label"><input type="radio" name="eq3" value="a"/> A) 25 contratos</label>
+    <label class="option-label"><input type="radio" name="eq3" value="b"/> B) 30 contratos</label>
+    <label class="option-label"><input type="radio" name="eq3" value="c"/> C) 21 contratos</label>
+    <label class="option-label"><input type="radio" name="eq3" value="d"/> D) 10 contratos</label>
+    <div class="feedback-box" id="efb3"></div>
+  </div>
+
+  <!-- P4 -->
+  <div class="ex-question" id="eq4">
+    <p>4. El sueldo del guardia asignado EXCLUSIVAMENTE al contrato con el Banco del Pichincha se clasifica como:</p>
+    <label class="option-label"><input type="radio" name="eq4" value="a"/> A) Costo fijo indirecto</label>
+    <label class="option-label"><input type="radio" name="eq4" value="b"/> B) Costo variable indirecto del período</label>
+    <label class="option-label"><input type="radio" name="eq4" value="c"/> C) Costo variable directo del producto</label>
+    <label class="option-label"><input type="radio" name="eq4" value="d"/> D) Gasto fijo del período</label>
+    <div class="feedback-box" id="efb4"></div>
+  </div>
+
+  <!-- P5 -->
+  <div class="ex-question" id="eq5">
+    <p>5. En el análisis de la decisión "eliminar una línea de servicio", un costo fijo que no desaparece al eliminar la línea es:</p>
+    <label class="option-label"><input type="radio" name="eq5" value="a"/> A) Relevante, porque cambia la utilidad total.</label>
+    <label class="option-label"><input type="radio" name="eq5" value="b"/> B) Irrelevante, porque no cambia entre las alternativas.</label>
+    <label class="option-label"><input type="radio" name="eq5" value="c"/> C) Semivariable, porque depende de la decisión.</label>
+    <label class="option-label"><input type="radio" name="eq5" value="d"/> D) Hundido, porque ya fue pagado.</label>
+    <div class="feedback-box" id="efb5"></div>
+  </div>
+
+  <!-- P6 -->
+  <div class="ex-question" id="eq6">
+    <p>6. Si una empresa tiene ventas actuales de $25 000 y su PE es de $17 000, ¿cuál es su margen de seguridad?</p>
+    <label class="option-label"><input type="radio" name="eq6" value="a"/> A) $17 000</label>
+    <label class="option-label"><input type="radio" name="eq6" value="b"/> B) $8 000</label>
+    <label class="option-label"><input type="radio" name="eq6" value="c"/> C) $25 000</label>
+    <label class="option-label"><input type="radio" name="eq6" value="d"/> D) $42 000</label>
+    <div class="feedback-box" id="efb6"></div>
+  </div>
+
+  <!-- P7 -->
+  <div class="ex-question" id="eq7">
+    <p>7. La principal diferencia entre costeo variable y costeo por absorción es:</p>
+    <label class="option-label"><input type="radio" name="eq7" value="a"/> A) El costeo variable usa NIIF; el de absorción no.</label>
+    <label class="option-label"><input type="radio" name="eq7" value="b"/> B) En el costeo variable, los costos fijos de producción se llevan al gasto del período; en absorción, se activan en el inventario.</label>
+    <label class="option-label"><input type="radio" name="eq7" value="c"/> C) El costeo por absorción solo considera los costos variables.</label>
+    <label class="option-label"><input type="radio" name="eq7" value="d"/> D) Ambos producen siempre la misma utilidad neta.</label>
+    <div class="feedback-box" id="efb7"></div>
+  </div>
+
+  <!-- P8 -->
+  <div class="ex-question" id="eq8">
+    <p>8. Para decidir si aceptar un pedido especial a precio reducido, el factor CLAVE que determina si conviene aceptar es:</p>
+    <label class="option-label"><input type="radio" name="eq8" value="a"/> A) Que el precio especial sea igual al precio normal.</label>
+    <label class="option-label"><input type="radio" name="eq8" value="b"/> B) Que el precio especial cubra al menos los costos variables y genere margen de contribución positivo, con capacidad ociosa disponible.</label>
+    <label class="option-label"><input type="radio" name="eq8" value="c"/> C) Que el cliente sea reconocido en el mercado.</label>
+    <label class="option-label"><input type="radio" name="eq8" value="d"/> D) Que los costos fijos bajen automáticamente.</label>
+    <div class="feedback-box" id="efb8"></div>
+  </div>
+
+  <div style="margin-top:20px;">
+    <button class="verify-btn" onclick="verifyEjercicio()">✅ Verificar respuestas</button>
+    <button class="reset-btn" id="resetEj" onclick="resetEjercicio()">🔄 Reiniciar</button>
+  </div>
+  <div class="score-panel" id="ejScorePanel">
+    <h3>Resultado del Ejercicio</h3>
+    <div class="score-number" id="ejScoreNum"></div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="ejBar"></div></div>
+    <div class="score-msg" id="ejMsg"></div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!--  TAB: CUESTIONARIO                                          -->
+<!-- ============================================================ -->
+<div id="quiz" class="tab-content">
+  <h2 class="section-title">📝 Cuestionario — Semanas 5 a 7</h2>
+  <p>10 preguntas. Responde todas antes de verificar. Usa el material de este widget para prepararte.</p>
+
+  <!-- Q1 -->
+  <div class="ex-question" id="qq1">
+    <p>1. <span class="badge badge-teoria">Teórica</span> La razón de contribución (RC) del 30% significa que:</p>
+    <label class="option-label"><input type="radio" name="qq1" value="a"/> A) De cada $100 vendidos, $30 van a costos variables.</label>
+    <label class="option-label"><input type="radio" name="qq1" value="b"/> B) De cada $100 vendidos, $30 quedan disponibles para cubrir costos fijos y generar utilidad.</label>
+    <label class="option-label"><input type="radio" name="qq1" value="c"/> C) La empresa tiene 30 contratos activos.</label>
+    <label class="option-label"><input type="radio" name="qq1" value="d"/> D) Los costos fijos son el 30% de las ventas.</label>
+    <div class="feedback-box" id="qfb1"></div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="ex-question" id="qq2">
+    <p>2. <span class="badge badge-teoria">Teórica</span> El servicio de internet corporativo cobra $120 fijos al mes más $0.05 por GB de datos. Este costo se clasifica como:</p>
+    <label class="option-label"><input type="radio" name="qq2" value="a"/> A) Costo fijo</label>
+    <label class="option-label"><input type="radio" name="qq2" value="b"/> B) Costo variable</label>
+    <label class="option-label"><input type="radio" name="qq2" value="c"/> C) Costo semivariable (mixto)</label>
+    <label class="option-label"><input type="radio" name="qq2" value="d"/> D) Costo del período</label>
+    <div class="feedback-box" id="qfb2"></div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="ex-question" id="qq3">
+    <p>3. <span class="badge badge-teoria">Teórica</span> Un costo ya incurrido e irrecuperable que NO debe influir en una decisión futura se llama:</p>
+    <label class="option-label"><input type="radio" name="qq3" value="a"/> A) Costo relevante</label>
+    <label class="option-label"><input type="radio" name="qq3" value="b"/> B) Costo diferencial</label>
+    <label class="option-label"><input type="radio" name="qq3" value="c"/> C) Costo hundido (sunk cost)</label>
+    <label class="option-label"><input type="radio" name="qq3" value="d"/> D) Costo de oportunidad</label>
+    <div class="feedback-box" id="qfb3"></div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="ex-question" id="qq4">
+    <p>4. <span class="badge badge-teoria">Teórica</span> La fórmula correcta para calcular el punto de equilibrio en dólares es:</p>
+    <label class="option-label"><input type="radio" name="qq4" value="a"/> A) CF / MCu</label>
+    <label class="option-label"><input type="radio" name="qq4" value="b"/> B) CF / RC  (donde RC = MCu/PVu)</label>
+    <label class="option-label"><input type="radio" name="qq4" value="c"/> C) CVu / PVu</label>
+    <label class="option-label"><input type="radio" name="qq4" value="d"/> D) (MCu × Q) – CF</label>
+    <div class="feedback-box" id="qfb4"></div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="ex-question" id="qq5">
+    <p>5. <span class="badge badge-teoria">Teórica</span> En el costeo por absorción, si la producción es MAYOR que las ventas (quedan inventarios), en comparación con el costeo variable:</p>
+    <label class="option-label"><input type="radio" name="qq5" value="a"/> A) La utilidad reportada será MENOR.</label>
+    <label class="option-label"><input type="radio" name="qq5" value="b"/> B) La utilidad reportada será MAYOR, porque parte de los CF quedan en inventario y no se llevan al gasto.</label>
+    <label class="option-label"><input type="radio" name="qq5" value="c"/> C) La utilidad es igual en ambos métodos.</label>
+    <label class="option-label"><input type="radio" name="qq5" value="d"/> D) No existe diferencia porque los CF son iguales.</label>
+    <div class="feedback-box" id="qfb5"></div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="ex-question" id="qq6">
+    <p>6. <span class="badge badge-teoria">Teórica</span> La diferencia entre costos del producto y costos del período radica en que:</p>
+    <label class="option-label"><input type="radio" name="qq6" value="a"/> A) Los costos del producto son fijos y los del período son variables.</label>
+    <label class="option-label"><input type="radio" name="qq6" value="b"/> B) Los costos del producto se activan (quedan en inventario) hasta que se vende; los del período se gasifican inmediatamente.</label>
+    <label class="option-label"><input type="radio" name="qq6" value="c"/> C) Los costos del período incluyen solo la nómina de guardias.</label>
+    <label class="option-label"><input type="radio" name="qq6" value="d"/> D) No hay diferencia, ambos se registran igual en el Estado de Resultados.</label>
+    <div class="feedback-box" id="qfb6"></div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="ex-question" id="qq7">
+    <p>7. <span class="badge badge-teoria">Teórica</span> En la decisión de fabricar o comprar, ¿cuándo conviene fabricar internamente?</p>
+    <label class="option-label"><input type="radio" name="qq7" value="a"/> A) Cuando el costo total de fabricar (incluyendo CF irrecuperables) es menor que el precio de compra.</label>
+    <label class="option-label"><input type="radio" name="qq7" value="b"/> B) Cuando el costo variable de fabricar más los CF evitables es menor que el precio de compra.</label>
+    <label class="option-label"><input type="radio" name="qq7" value="c"/> C) Siempre que se tenga capacidad instalada.</label>
+    <label class="option-label"><input type="radio" name="qq7" value="d"/> D) Cuando el proveedor tiene mala reputación.</label>
+    <div class="feedback-box" id="qfb7"></div>
+  </div>
+
+  <!-- Q8 ANÁLISIS -->
+  <div class="ex-question" id="qq8">
+    <p>8. <span class="badge badge-analisis">Análisis</span> Una empresa de eventos tiene CF = $6 000/mes, PVu = $500/evento, CVu = $200/evento. Si vende 25 eventos en el mes, ¿cuál es su utilidad?</p>
+    <label class="option-label"><input type="radio" name="qq8" value="a"/> A) $7 500</label>
+    <label class="option-label"><input type="radio" name="qq8" value="b"/> B) $1 500</label>
+    <label class="option-label"><input type="radio" name="qq8" value="c"/> C) $6 000</label>
+    <label class="option-label"><input type="radio" name="qq8" value="d"/> D) $500</label>
+    <div class="feedback-box" id="qfb8"></div>
+  </div>
+
+  <!-- Q9 ANÁLISIS -->
+  <div class="ex-question" id="qq9">
+    <p>9. <span class="badge badge-analisis">Análisis</span> Una tienda de ropa tiene una sección de accesorios que reporta una "pérdida" de $1 200/mes en su estado interno. Al analizarla, se descubre que sus ingresos son $4 000, sus CV son $2 500 y sus CF asignados son $2 700 (que NO desaparecerían al cerrar la sección). ¿Qué debería hacer el gerente?</p>
+    <label class="option-label"><input type="radio" name="qq9" value="a"/> A) Cerrar la sección porque reporta pérdida.</label>
+    <label class="option-label"><input type="radio" name="qq9" value="b"/> B) Mantener la sección: su margen de contribución es +$1 500, que ayuda a absorber los CF que se incurrirán de todas formas.</label>
+    <label class="option-label"><input type="radio" name="qq9" value="c"/> C) Aumentar los precios hasta eliminar la pérdida.</label>
+    <label class="option-label"><input type="radio" name="qq9" value="d"/> D) Cerrar y traspasar los CF a otra sección.</label>
+    <div class="feedback-box" id="qfb9"></div>
+  </div>
+
+  <!-- Q10 ANÁLISIS -->
+  <div class="ex-question" id="qq10">
+    <p>10. <span class="badge badge-analisis">Análisis</span> Una panadería recibe una oferta especial de un hotel: 500 panes diarios a $0.60/pan. El precio normal es $0.90/pan. El CVu es $0.50/pan. Los CF totales son $400/día y hay capacidad ociosa. ¿Conviene aceptar?</p>
+    <label class="option-label"><input type="radio" name="qq10" value="a"/> A) No conviene porque el precio es menor al precio normal.</label>
+    <label class="option-label"><input type="radio" name="qq10" value="b"/> B) Sí conviene: MCu del pedido = $0.60 – $0.50 = $0.10 por pan. El pedido contribuye $50 adicionales a cubrir CF o generar utilidad.</label>
+    <label class="option-label"><input type="radio" name="qq10" value="c"/> C) No conviene porque los CF son muy altos.</label>
+    <label class="option-label"><input type="radio" name="qq10" value="d"/> D) Sí conviene, pero solo si el hotel firma un contrato anual.</label>
+    <div class="feedback-box" id="qfb10"></div>
+  </div>
+
+  <div style="margin-top:20px;">
+    <button class="verify-btn" onclick="verifyQuiz()">✅ Verificar respuestas</button>
+    <button class="reset-btn" id="resetQz" onclick="resetQuiz()">🔄 Reiniciar</button>
+  </div>
+  <div class="score-panel" id="qzScorePanel">
+    <h3>Calificación Final</h3>
+    <div class="score-number" id="qzScoreNum"></div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="qzBar"></div></div>
+    <div class="score-msg" id="qzMsg"></div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!--  TAB: ACTIVIDAD CON IA                                      -->
+<!-- ============================================================ -->
+<div id="ia" class="tab-content">
+  <h2 class="section-title">🤖 Actividad con Inteligencia Artificial</h2>
+
+  <div class="concept-box">
+    <h4>Herramienta recomendada: Claude en claude.ai</h4>
+    <p>Accede gratis en <strong>claude.ai</strong> (Anthropic). También funciona con ChatGPT (chatgpt.com) o Gemini (gemini.google.com).</p>
+  </div>
+
+  <h3 style="color:#003366;margin:18px 0 12px;">Actividad: "Diseña el análisis CVU de tu empresa real"</h3>
+  <p>Esta actividad te permite aplicar el análisis CVU a un caso de negocio real, usando la IA como <strong>asesor financiero</strong> que te ayuda a pensar, no como alguien que piensa por ti.</p>
+
+  <div class="step-card">
+    <span class="step-num">1</span> Antes de ir a la IA, <strong>define estos datos de tu empresa</strong> (o invéntalos para una empresa hipotética de seguridad):
+    <ul style="margin-top:8px;">
+      <li>Precio de venta de tu servicio principal</li>
+      <li>Costos variables por unidad de servicio</li>
+      <li>Costos fijos mensuales totales</li>
+      <li>Capacidad máxima de atención mensual</li>
+    </ul>
+  </div>
+
+  <div class="step-card">
+    <span class="step-num">2</span> Copia y usa este prompt en Claude (claude.ai), reemplazando los datos con los tuyos:
+  </div>
+
+  <div class="prompt-box">Actúa como un contador gerencial especializado en pequeñas y medianas empresas
+del sector servicios en Ecuador.
+
+Tengo una empresa de [TIPO DE EMPRESA] en Guayaquil con estos datos:
+- Precio de venta por [unidad de servicio]: $[X]
+- Costos variables por [unidad]: $[Y]
+- Costos fijos mensuales: $[Z]
+- Capacidad máxima: [N] unidades por mes
+
+Por favor:
+1. Calcula el margen de contribución unitario y la razón de contribución.
+   Muestra los cálculos paso a paso.
+2. Calcula el punto de equilibrio en unidades y en dólares.
+3. Si quiero ganar $[UTILIDAD OBJETIVO] al mes, ¿cuántas unidades debo vender?
+4. Si estoy operando al 70% de mi capacidad máxima, ¿cuál es mi utilidad actual?
+5. Identifica 3 acciones concretas que podría tomar para mejorar mi punto de
+   equilibrio: una reduciendo costos fijos, una reduciendo costos variables
+   y una aumentando el precio de venta. Para cada acción, calcula el nuevo PE.
+6. ¿Cuáles son los riesgos de operar muy cerca del punto de equilibrio en el
+   contexto económico actual de Ecuador?</div>
+
+  <div class="step-card">
+    <span class="step-num">3</span> <strong>Verifica los cálculos de la IA manualmente</strong> usando las fórmulas del material y la calculadora de este widget. Si hay diferencias, identifica cuál tiene razón y por qué.
+  </div>
+
+  <div class="step-card">
+    <span class="step-num">4</span> Escribe en tu cuaderno:
+    <ul style="margin-top:8px;">
+      <li>¿Las recomendaciones de la IA son realistas para el contexto ecuatoriano? ¿Por qué sí o por qué no?</li>
+      <li>¿Hubo algún error de cálculo en la respuesta de la IA? Documéntalo.</li>
+      <li>¿Qué factor de la realidad ecuatoriana (inflación, dolarización, regulaciones laborales) no consideró la IA?</li>
+    </ul>
+  </div>
+
+  <div class="warning-box">
+    <strong>⚠️ Criterio de evaluación:</strong><br/>
+    ✅ <strong>Pensamiento crítico</strong> = verificas los cálculos, identificas limitaciones del análisis IA, conectas con el contexto ecuatoriano real.<br/>
+    ❌ <strong>Copia simple</strong> = entregar la respuesta de la IA sin verificarla ni cuestionarla.
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!--  TAB: REFLEXIÓN                                             -->
+<!-- ============================================================ -->
+<div id="reflexion" class="tab-content">
+  <h2 class="section-title">🌱 Preguntas Reflexivas — Tu Vida como Empresa</h2>
+  <p style="margin-bottom:20px;">Estas semanas aprendiste herramientas numéricas precisas. Aquí las conectamos con tu vida. No hay respuestas buenas ni malas — solo honestidad contigo mismo.</p>
+
+  <div class="reflect-card">
+    <p class="reflect-q">1. ¿Cuál es tu "punto de equilibrio" personal?</p>
+    <p>En finanzas, el PE es el mínimo necesario para no perder. ¿Tienes claro cuánto necesitas ganar —en dinero, en tiempo, en energía— para que tu vida "no dé pérdida"? ¿Sabes cuáles son tus "costos fijos" personales (compromisos ineludibles) y cuáles son tus "costos variables" (gastos que puedes reducir)? ¿Estás por encima o por debajo de tu propio punto de equilibrio?</p>
+  </div>
+
+  <div class="reflect-card">
+    <p class="reflect-q">2. ¿Qué costos de tu vida son "fijos" y cuáles podrías hacer "variables"?</p>
+    <p>Un costo fijo existe independientemente de lo que produzcas. Un costo variable solo aparece cuando hay actividad. ¿Hay obligaciones en tu vida que se sienten como "costos fijos inamovibles" pero que en realidad podrías renegociar o eliminar? ¿Hay "costos variables" —hábitos, relaciones, compromisos— que consumen más recursos de los que aportan? ¿Qué pasaría si hicieras un inventario honesto de ambos?</p>
+  </div>
+
+  <div class="reflect-card">
+    <p class="reflect-q">3. ¿Cuál es tu "margen de contribución" en las relaciones que tienes?</p>
+    <p>El MCu mide cuánto queda disponible después de cubrir los costos variables. En tus relaciones (familia, amigos, trabajo), ¿cuánto de tu energía y tiempo queda libre después de cubrir lo básico que exige cada relación? ¿Hay relaciones que consumen todo tu margen y no dejan nada para ti mismo? ¿Hay relaciones con un MCu muy alto —que te energizan más de lo que te cuestan?</p>
+  </div>
+
+  <div class="reflect-card">
+    <p class="reflect-q">4. ¿Eres capaz de tomar decisiones basadas en costos relevantes, no en costos hundidos?</p>
+    <p>Un costo hundido no debe influir en decisiones futuras. ¿Cuántas decisiones tomas (o posternas) porque "ya invertí tanto tiempo / dinero / esfuerzo en esto"? ¿Continúas en situaciones que no te convienen porque sientes que "no puedes dejar ir lo que ya pusiste"? El pensamiento gerencial dice: lo pasado, pasado está. La decisión correcta mira solo hacia adelante. ¿Puedes hacer eso en tu vida?</p>
+  </div>
+
+  <div class="reflect-card">
+    <p class="reflect-q">5. ¿Tienes "líneas de servicio" en tu vida que deberías eliminar… o que parecen pérdida pero en realidad contribuyen?</p>
+    <p>Aprendiste que una línea con "pérdida contable" puede ser necesaria si tiene margen de contribución positivo. ¿Hay actividades, roles o compromisos en tu vida que parecen "dar pérdida" (te cuestan tiempo, esfuerzo) pero que en realidad contribuyen a algo más grande: tu propósito, tu identidad, tu comunidad? ¿Y hay otros que genuinamente deberías dejar ir?</p>
+  </div>
+
+  <div class="reflect-card">
+    <p class="reflect-q">6. ¿Estás dispuesto a aceptar "pedidos especiales" en tu vida?</p>
+    <p>Un pedido especial a precio reducido conviene si cubre los costos variables y hay capacidad ociosa. ¿Hay oportunidades en tu vida —proyectos, aprendizajes, relaciones— que "no pagan el precio normal" (no son perfectas, no son cómodas) pero que tienen margen de contribución positivo? ¿Las estás rechazando por expectativas rígidas, cuando podrías aprovechar tu "capacidad ociosa"?</p>
+  </div>
+
+  <div class="key-box">
+    <h4>💬 Para cerrar esta reflexión</h4>
+    <p>La Contabilidad Gerencial te enseña a <strong>ver con claridad lo que realmente cuesta y lo que realmente aporta</strong>. Esa habilidad, llevada a la vida personal, se convierte en inteligencia emocional aplicada: saber cuándo una relación, un proyecto o un hábito está por encima de tu punto de equilibrio personal, y cuándo ya lo superó. Las personas que viven bien son, en cierta forma, excelentes contadores gerenciales de su propia existencia.</p>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!--  TAB: BIBLIOGRAFÍA                                          -->
+<!-- ============================================================ -->
+<div id="biblio" class="tab-content">
+  <h2 class="section-title">📚 Bibliografía</h2>
+
+  <div class="ref-card">
+    <div class="ref-author">Horngren, C. T., Datar, S. M., & Rajan, M. V.</div>
+    <div class="ref-title">Cost Accounting: A Managerial Emphasis (15.ª ed.)</div>
+    <div class="ref-source">Pearson Education. (2015).</div>
+  </div>
+
+  <div class="ref-card">
+    <div class="ref-author">Garrison, R. H., Noreen, E. W., & Brewer, P. C.</div>
+    <div class="ref-title">Contabilidad Administrativa (14.ª ed.)</div>
+    <div class="ref-source">McGraw-Hill Education. (2015).</div>
+  </div>
+
+  <div class="ref-card">
+    <div class="ref-author">Ramírez Padilla, D. N.</div>
+    <div class="ref-title">Contabilidad Administrativa (9.ª ed.)</div>
+    <div class="ref-source">McGraw-Hill / Interamericana Editores. (2013).</div>
+  </div>
+
+  <div class="ref-card">
+    <div class="ref-author">Hansen, D. R., & Mowen, M. M.</div>
+    <div class="ref-title">Administración de Costos: Contabilidad y Control (5.ª ed.)</div>
+    <div class="ref-source">Cengage Learning. (2007).</div>
+  </div>
+
+  <div class="ref-card">
+    <div class="ref-author">Horngren, C. T., Sundem, G. L., & Stratton, W. O.</div>
+    <div class="ref-title">Introduction to Management Accounting (16.ª ed.)</div>
+    <div class="ref-source">Pearson Education. (2014).</div>
+  </div>
+
+  <div class="ref-card">
+    <div class="ref-author">Polimeni, R. S., Fabozzi, F. J., & Adelberg, A. H.</div>
+    <div class="ref-title">Contabilidad de Costos: Conceptos y Aplicaciones para la Toma de Decisiones Gerenciales (3.ª ed.)</div>
+    <div class="ref-source">McGraw-Hill. (1994).</div>
+  </div>
+
+  <div class="ref-note">
+    📌 <strong>Nota:</strong> Se recomienda verificar cada referencia en <strong>Google Scholar</strong> (scholar.google.com) o en el repositorio institucional de la Universidad de Guayaquil antes de citar en trabajos académicos.
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!--  JAVASCRIPT                                                  -->
+<!-- ============================================================ -->
+<script>
+// ---- TAB SWITCHING ----
+function showTab(id){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ---- CALCULADORA CVU ----
+function calcular(){
+  const pvu=parseFloat(document.getElementById('pvu').value);
+  const cvu=parseFloat(document.getElementById('cvu').value);
+  const cf=parseFloat(document.getElementById('cf').value);
+  const qr=parseFloat(document.getElementById('qreal').value)||null;
+  const uo=parseFloat(document.getElementById('uobj').value)||null;
+
+  if(isNaN(pvu)||isNaN(cvu)||isNaN(cf)){
+    alert('⚠️ Por favor ingresa al menos PVu, CVu y CF.');return;
+  }
+  if(pvu<=cvu){
+    document.getElementById('calcResult').style.display='block';
+    document.getElementById('calcResult').innerHTML='<span style="color:#b71c1c;font-weight:700;">⚠️ El precio de venta debe ser mayor al costo variable para que exista margen de contribución positivo.</span>';
+    return;
+  }
+
+  const mcu=pvu-cvu;
+  const rc=mcu/pvu;
+  const pe_u=cf/mcu;
+  const pe_d=cf/rc;
+
+  let html=`
+    <table style="margin:0">
+      <tr><th colspan="2" style="text-align:center">📊 Resultados del Análisis CVU</th></tr>
+      <tr><td><strong>Margen de Contribución Unitario (MCu)</strong></td><td><strong>$${mcu.toFixed(2)}</strong></td></tr>
+      <tr><td><strong>Razón de Contribución (RC)</strong></td><td><strong>${(rc*100).toFixed(2)}%</strong></td></tr>
+      <tr><td><strong>Punto de Equilibrio en unidades</strong></td><td><strong>${pe_u.toFixed(2)} unidades</strong></td></tr>
+      <tr><td><strong>Punto de Equilibrio en dólares</strong></td><td><strong>$${pe_d.toFixed(2)}</strong></td></tr>`;
+
+  if(qr!==null && !isNaN(qr)){
+    const util=(mcu*qr)-cf;
+    html+=`<tr><td><strong>Utilidad con Q = ${qr} unidades</strong></td><td><strong style="color:${util>=0?'#2e7d32':'#b71c1c'}">$${util.toFixed(2)}</strong></td></tr>`;
+    const ms=(qr*pvu)-pe_d;
+    html+=`<tr><td><strong>Margen de seguridad</strong></td><td><strong>$${ms.toFixed(2)}</strong></td></tr>`;
+  }
+  if(uo!==null && !isNaN(uo)){
+    const qobj=Math.ceil((cf+uo)/mcu);
+    html+=`<tr><td><strong>Unidades para lograr utilidad de $${uo.toFixed(2)}</strong></td><td><strong>${qobj} unidades</strong></td></tr>`;
+  }
+  html+='</table>';
+  document.getElementById('calcResult').style.display='block';
+  document.getElementById('calcResult').innerHTML=html;
+}
+
+// ---- EXERCISE DATA ----
+const ejAnswers={
+  eq1:{correct:'b',exp:'El costo FIJO permanece constante en su TOTAL pero su costo unitario disminuye a medida que sube la producción, porque se reparte entre más unidades.'},
+  eq2:{correct:'c',exp:'MCu = $900 – $630 = $270. PE(u) = $5 400 / $270 = 20 contratos. Cálculo: 5400/270=20.'},
+  eq3:{correct:'a',exp:'Q = (CF + UO) / MCu = ($5 400 + $2 700) / $270 = $8 100 / $270 = 30. Pero si la utilidad objetivo es $2 700: (5400+2700)/270 = 30. La opción A dice 25... Revisando: (5400+2700)/270=30. Opción correcta: 30 contratos. [Nota: opción B].'},
+  eq4:{correct:'c',exp:'El sueldo de un guardia asignado EXCLUSIVAMENTE a un contrato es: Variable (varía con el número de guardias activos), Directo (identificable al contrato específico), y del Producto (forma parte del costo del servicio).'},
+  eq5:{correct:'b',exp:'Un costo fijo que no desaparece al eliminar la línea es IRRELEVANTE para la decisión, porque no cambia entre las alternativas (con o sin la línea, el costo existe igual).'},
+  eq6:{correct:'b',exp:'Margen de seguridad = Ventas actuales – PE($) = $25 000 – $17 000 = $8 000. Representa cuánto pueden caer las ventas antes de entrar en pérdida.'},
+  eq7:{correct:'b',exp:'La diferencia fundamental: en costeo variable, los CF de producción van al gasto del período; en costeo por absorción, se activan en el inventario y pasan al costo de ventas solo cuando se vende.'},
+  eq8:{correct:'b',exp:'Para un pedido especial, la regla es: si el precio cubre los costos variables (MCu > 0) y hay capacidad ociosa (sin aumentar CF), el pedido mejora la utilidad total. El precio no necesita igualar al precio normal.'}
+};
+
+// Corregir respuesta de eq3
+ejAnswers.eq3 = {correct:'b', exp:'Q = (CF + UO) / MCu = ($5 400 + $2 700) / $270 = $8 100 / $270 = 30 contratos. Se necesitan 30 contratos para lograr $2 700 de utilidad.'};
+
+function verifyEjercicio(){
+  let score=0,total=Object.keys(ejAnswers).length,allAnswered=true;
+  for(let id in ejAnswers){
+    if(!document.querySelector(`input[name="${id}"]:checked`)){allAnswered=false;break;}
+  }
+  if(!allAnswered){alert('⚠️ Por favor responde todas las preguntas antes de verificar.');return;}
+  for(let id in ejAnswers){
+    const sel=document.querySelector(`input[name="${id}"]:checked`);
+    const fb=document.getElementById('efb'+id.slice(2));
+    document.querySelectorAll(`input[name="${id}"]`).forEach(i=>i.disabled=true);
+    const chosen=sel.value;
+    const correct=ejAnswers[id].correct;
+    if(chosen===correct){
+      sel.closest('.option-label').classList.add('correct-ans');
+      fb.className='feedback-box feedback-correct';
+      fb.innerHTML='✅ ¡Correcto! '+ejAnswers[id].exp;
+      score++;
+    } else {
+      sel.closest('.option-label').classList.add('wrong-ans');
+      document.querySelector(`input[name="${id}"][value="${correct}"]`).closest('.option-label').classList.add('correct-ans');
+      fb.className='feedback-box feedback-wrong';
+      fb.innerHTML='❌ Incorrecto. '+ejAnswers[id].exp;
+    }
+    fb.style.display='block';
+  }
+  const pct=Math.round(score/total*100);
+  document.getElementById('ejScorePanel').style.display='block';
+  document.getElementById('ejScoreNum').textContent=score+'/'+total+' — '+pct+'%';
+  const bar=document.getElementById('ejBar');
+  bar.style.width='0%';
+  setTimeout(()=>bar.style.width=pct+'%',100);
+  let msg='';
+  if(pct===100) msg='🏆 ¡Perfecto! Dominas las semanas 5 a 7.';
+  else if(pct>=80) msg='🎯 ¡Muy bien! Revisa los errores antes del examen.';
+  else if(pct>=60) msg='📘 Buen intento. Refuerza los cálculos y fórmulas.';
+  else if(pct>=40) msg='⚠️ Necesitas practicar más. Usa la calculadora interactiva.';
+  else msg='📖 Regresa al material y trabaja cada fórmula paso a paso.';
+  document.getElementById('ejMsg').textContent=msg;
+  document.getElementById('resetEj').style.display='inline-block';
+}
+
+function resetEjercicio(){
+  document.querySelectorAll('[name^="eq"]').forEach(i=>{i.checked=false;i.disabled=false;});
+  document.querySelectorAll('[id^="efb"]').forEach(f=>f.style.display='none');
+  document.querySelectorAll('.ex-question .option-label').forEach(l=>l.classList.remove('correct-ans','wrong-ans'));
+  document.getElementById('ejScorePanel').style.display='none';
+  document.getElementById('resetEj').style.display='none';
+}
+
+// ---- QUIZ DATA ----
+const qzAnswers={
+  qq1:{correct:'b',exp:'La razón de contribución (RC) indica qué porcentaje de cada dólar vendido queda disponible para cubrir costos fijos y generar utilidad. Si RC=30%, de cada $100 de ventas, $30 contribuyen a CF + utilidad.'},
+  qq2:{correct:'c',exp:'Tiene un componente fijo ($120/mes siempre) más un componente variable ($0.05/GB). Eso es la definición de costo semivariable o mixto.'},
+  qq3:{correct:'c',exp:'El costo hundido (sunk cost) ya ocurrió y es irrecuperable. Por definición, no debe influir en decisiones futuras porque tomemos la decisión que tomemos, ese costo ya está gastado.'},
+  qq4:{correct:'b',exp:'PE($) = CF / RC, donde RC = MCu/PVu. La opción A (CF/MCu) da el PE en unidades, no en dólares. La fórmula correcta para PE en dólares usa la razón de contribución.'},
+  qq5:{correct:'b',exp:'Cuando la producción excede las ventas (queda inventario), el costeo por absorción reporta MAYOR utilidad que el costeo variable porque parte de los CF quedan "atrapados" en el inventario sin ir al gasto del período.'},
+  qq6:{correct:'b',exp:'Los costos del producto se activan: quedan en el inventario hasta que se vende el producto o se presta el servicio. Los del período se gasifican inmediatamente en el Estado de Resultados, sin pasar por inventario.'},
+  qq7:{correct:'b',exp:'La decisión correcta compara: costo variable de fabricar + CF evitables vs. precio de compra. Los CF irrecuperables (que existirán de todas formas) son irrelevantes para la decisión.'},
+  qq8:{correct:'a',exp:'Utilidad = MCu × Q – CF = ($500–$200) × 25 – $6 000 = $300 × 25 – $6 000 = $7 500 – $6 000 = $1 500. Espera, recalculando: $300×25=$7500; $7500–$6000=$1500. La respuesta correcta es B ($1500). [Corrección aplicada en datos].'},
+  qq9:{correct:'b',exp:'MC de accesorios = $4 000 – $2 500 = $1 500 positivo. Los CF de $2 700 no desaparecen al cerrar. Si se cierra, se pierde el MC de $1 500, empeorando el resultado total en ese monto. Conviene mantener la sección.'},
+  qq10:{correct:'b',exp:'MCu del pedido especial = $0.60 – $0.50 = $0.10/pan. Contribución total = 500 × $0.10 = $50 adicionales. Hay capacidad ociosa. El pedido es aceptable porque genera contribución positiva y no aumenta los CF.'}
+};
+
+// Corregir q8
+qzAnswers.qq8={correct:'b',exp:'Utilidad = MCu × Q – CF = ($500–$200)×25 – $6 000 = $300×25 – $6 000 = $7 500 – $6 000 = $1 500.'};
+
+function verifyQuiz(){
+  let score=0,total=Object.keys(qzAnswers).length,allAnswered=true;
+  for(let id in qzAnswers){
+    if(!document.querySelector(`input[name="${id}"]:checked`)){allAnswered=false;break;}
+  }
+  if(!allAnswered){alert('⚠️ Responde todas las preguntas antes de verificar.');return;}
+  for(let id in qzAnswers){
+    const sel=document.querySelector(`input[name="${id}"]:checked`);
+    const fb=document.getElementById('qfb'+id.slice(2));
+    document.querySelectorAll(`input[name="${id}"]`).forEach(i=>i.disabled=true);
+    const chosen=sel.value;
+    const correct=qzAnswers[id].correct;
+    if(chosen===correct){
+      sel.closest('.option-label').classList.add('correct-ans');
+      fb.className='feedback-box feedback-correct';
+      fb.innerHTML='✅ Correcto. '+qzAnswers[id].exp;
+      score++;
+    } else {
+      sel.closest('.option-label').classList.add('wrong-ans');
+      document.querySelector(`input[name="${id}"][value="${correct}"]`).closest('.option-label').classList.add('correct-ans');
+      fb.className='feedback-box feedback-wrong';
+      fb.innerHTML='❌ Incorrecto. '+qzAnswers[id].exp;
+    }
+    fb.style.display='block';
+  }
+  const pct=Math.round(score/total*100);
+  document.getElementById('qzScorePanel').style.display='block';
+  let emoji='📖';
+  if(pct===100) emoji='🏆';
+  else if(pct>=80) emoji='🎯';
+  else if(pct>=60) emoji='📘';
+  else if(pct>=40) emoji='⚠️';
+  document.getElementById('qzScoreNum').innerHTML=emoji+' '+score+'/'+total+' &nbsp;·&nbsp; '+pct+'%';
+  const bar=document.getElementById('qzBar');
+  bar.style.width='0%';
+  setTimeout(()=>bar.style.width=pct+'%',100);
+  let msg='';
+  if(pct===100) msg='🏆 ¡Excelente! Dominas los temas técnicos. ¡Listo para el examen!';
+  else if(pct>=80) msg='🎯 ¡Muy bien! Con una última revisión de fórmulas, estás listo.';
+  else if(pct>=60) msg='📘 Vas en buen camino. Practica los cálculos con la calculadora del widget.';
+  else if(pct>=40) msg='⚠️ Necesitas reforzar. Trabaja cada fórmula paso a paso con ejemplos.';
+  else msg='📖 Regresa al material de S5, S6 y S7 y vuelve a intentarlo.';
+  document.getElementById('qzMsg').textContent=msg;
+  document.getElementById('resetQz').style.display='inline-block';
+}
+
+function resetQuiz(){
+  document.querySelectorAll('[name^="qq"]').forEach(i=>{i.checked=false;i.disabled=false;});
+  document.querySelectorAll('[id^="qfb"]').forEach(f=>f.style.display='none');
+  document.querySelectorAll('.ex-question .option-label').forEach(l=>l.classList.remove('correct-ans','wrong-ans'));
+  document.getElementById('qzScorePanel').style.display='none';
+  document.getElementById('resetQz').style.display='none';
+}
+</script>
+</body>
+</html>

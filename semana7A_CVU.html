@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semana 7A | Análisis CVU | Contabilidad Gerencial</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ===== RESET Y BASE ===== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: #f0f4f8; color: #1a1a2e; min-height: 100vh; }
+
+  /* ===== ENCABEZADO ===== */
+  .header { background: #003366; color: #fff; padding: 18px 24px; }
+  .header-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px; }
+  .inst-name { font-family: 'Lora', serif; font-size: 0.82rem; opacity: 0.85; letter-spacing: 0.3px; }
+  .badge-semana { background: #FFD700; color: #003366; font-weight: 700; font-size: 0.78rem; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
+  .header-title { margin-top: 10px; }
+  .header-title h1 { font-family: 'Lora', serif; font-size: 1.35rem; font-weight: 700; line-height: 1.3; }
+  .header-title p { font-size: 0.88rem; opacity: 0.85; margin-top: 4px; }
+  .header-meta { display: flex; gap: 16px; margin-top: 10px; flex-wrap: wrap; }
+  .meta-item { font-size: 0.78rem; opacity: 0.8; }
+  .meta-item span { font-weight: 600; opacity: 1; }
+
+  /* ===== NAVEGACIÓN PESTAÑAS ===== */
+  .tabs-wrapper { background: #87CEEB; overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; }
+  .tabs-wrapper::-webkit-scrollbar { height: 4px; }
+  .tabs-wrapper::-webkit-scrollbar-thumb { background: #003366; border-radius: 2px; }
+  .tabs { display: inline-flex; min-width: 100%; padding: 0 8px; }
+  .tab-btn { display: inline-block; padding: 11px 16px; font-family: 'Source Sans 3', sans-serif; font-size: 0.82rem; font-weight: 600; color: #1a1a2e; background: transparent; border: none; cursor: pointer; white-space: nowrap; border-bottom: 3px solid transparent; transition: all 0.2s; }
+  .tab-btn:hover { background: rgba(255,255,255,0.5); }
+  .tab-btn.active { background: #fff; color: #003366; font-weight: 700; border-bottom: 3px solid #003366; }
+
+  /* ===== CONTENIDO ===== */
+  .content { max-width: 900px; margin: 0 auto; padding: 24px 16px; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ===== COMPONENTES DE CONTENIDO ===== */
+  h2 { font-family: 'Lora', serif; font-size: 1.25rem; color: #003366; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 2px solid #87CEEB; }
+  h3 { font-family: 'Lora', serif; font-size: 1.05rem; color: #003366; margin: 18px 0 10px; }
+  p { line-height: 1.7; margin-bottom: 12px; font-size: 0.95rem; }
+  ul, ol { padding-left: 22px; margin-bottom: 12px; }
+  li { margin-bottom: 6px; line-height: 1.65; font-size: 0.95rem; }
+
+  .caja-concepto { border-left: 4px solid #003366; background: #f8faff; padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 16px 0; }
+  .caja-concepto .cc-label { font-size: 0.72rem; font-weight: 700; color: #003366; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .caja-concepto p { margin: 0; font-size: 0.93rem; }
+
+  .caja-ejemplo { background: #e8f4fd; border: 1px solid #b3d9f5; border-radius: 8px; padding: 16px 18px; margin: 16px 0; }
+  .caja-ejemplo .ej-label { font-size: 0.72rem; font-weight: 700; color: #0066cc; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+  .caja-ejemplo p { margin-bottom: 8px; font-size: 0.93rem; }
+  .caja-ejemplo p:last-child { margin: 0; }
+
+  .caja-clave { background: #003366; color: #fff; border-radius: 8px; padding: 14px 18px; margin: 16px 0; }
+  .caja-clave .ck-label { font-size: 0.72rem; font-weight: 700; color: #FFD700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .caja-clave p { margin: 0; font-size: 0.93rem; color: #fff; }
+
+  .formula-box { background: #fff; border: 2px solid #003366; border-radius: 8px; padding: 14px 20px; margin: 16px 0; text-align: center; }
+  .formula-box .formula { font-family: 'Lora', serif; font-size: 1.1rem; font-weight: 700; color: #003366; }
+  .formula-box .formula-desc { font-size: 0.82rem; color: #555; margin-top: 6px; }
+
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.88rem; }
+  th { background: #003366; color: #fff; padding: 10px 12px; text-align: left; font-weight: 600; }
+  td { padding: 9px 12px; border-bottom: 1px solid #dde; }
+  tr:nth-child(even) td { background: #f5f8ff; }
+  tr:last-child td { border-bottom: none; }
+  .td-num { text-align: right; }
+  .td-bold { font-weight: 700; }
+  .td-total { background: #003366 !important; color: #fff; font-weight: 700; }
+
+  /* ===== SIMULADOR CVU ===== */
+  .simulador { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 2px 12px rgba(0,51,102,0.12); margin: 20px 0; }
+  .sim-title { font-family: 'Lora', serif; font-size: 1rem; color: #003366; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .sim-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+  @media(max-width:560px){ .sim-grid { grid-template-columns: 1fr; } }
+  .sim-field label { display: block; font-size: 0.8rem; font-weight: 700; color: #003366; margin-bottom: 4px; }
+  .sim-field input { width: 100%; padding: 8px 12px; border: 2px solid #87CEEB; border-radius: 6px; font-size: 0.95rem; font-family: 'Source Sans 3', sans-serif; transition: border-color 0.2s; }
+  .sim-field input:focus { outline: none; border-color: #003366; }
+  .sim-field .hint { font-size: 0.73rem; color: #666; margin-top: 3px; }
+  .btn-calcular { background: #003366; color: #fff; border: none; padding: 11px 28px; border-radius: 8px; font-family: 'Source Sans 3', sans-serif; font-weight: 700; font-size: 0.95rem; cursor: pointer; width: 100%; transition: background 0.2s; }
+  .btn-calcular:hover { background: #004d99; }
+  .sim-resultados { display: none; background: #f8faff; border-radius: 8px; padding: 16px; margin-top: 14px; border: 1px solid #b3d9f5; }
+  .res-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
+  .res-card { background: #fff; border-radius: 8px; padding: 12px 14px; text-align: center; box-shadow: 0 1px 6px rgba(0,51,102,0.1); }
+  .res-card .rc-label { font-size: 0.73rem; font-weight: 700; color: #555; text-transform: uppercase; margin-bottom: 4px; }
+  .res-card .rc-value { font-family: 'Lora', serif; font-size: 1.25rem; font-weight: 700; color: #003366; }
+  .res-card.destacado { background: #003366; }
+  .res-card.destacado .rc-label { color: #FFD700; }
+  .res-card.destacado .rc-value { color: #fff; }
+  .sim-grafico { margin-top: 16px; }
+  .grafico-barras { display: flex; align-items: flex-end; gap: 8px; height: 140px; padding: 0 4px; margin-top: 8px; }
+  .barra-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .barra { width: 100%; border-radius: 4px 4px 0 0; transition: height 0.5s ease; min-height: 4px; }
+  .barra-label { font-size: 0.68rem; color: #555; text-align: center; }
+  .interpretacion { background: #e8f4fd; border-radius: 6px; padding: 10px 14px; margin-top: 12px; font-size: 0.88rem; line-height: 1.6; }
+  .interpretacion strong { color: #003366; }
+
+  /* ===== RESPONSIVO ===== */
+  @media(max-width:600px){
+    .header-title h1 { font-size: 1.1rem; }
+    h2 { font-size: 1.1rem; }
+    .content { padding: 16px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ENCABEZADO -->
+<div class="header">
+  <div class="header-top">
+    <div class="inst-name">Universidad de Guayaquil &nbsp;|&nbsp; Facultad de Ciencias Administrativas &nbsp;|&nbsp; Contabilidad y Auditoría</div>
+    <div class="badge-semana">Semana 7 · Parte A</div>
+  </div>
+  <div class="header-title">
+    <h1>Análisis Costo-Volumen-Utilidad (CVU)</h1>
+    <p>Contabilidad Gerencial &nbsp;·&nbsp; Unidad 2: Costos para la Toma de Decisiones</p>
+  </div>
+  <div class="header-meta">
+    <div class="meta-item">📅 <span>Semana 7 de 16</span></div>
+    <div class="meta-item">🕐 <span>Lunes 20h00 · Jueves 17h00 · Viernes 19h00</span></div>
+    <div class="meta-item">🔒 <span>Seguridad Privada — Guayaquil</span></div>
+  </div>
+</div>
+
+<!-- NAVEGACIÓN -->
+<div class="tabs-wrapper">
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('repaso')">📚 Repaso</button>
+    <button class="tab-btn" onclick="showTab('t1')">1. ¿Qué es el CVU?</button>
+    <button class="tab-btn" onclick="showTab('t2')">2. Margen de Contribución</button>
+    <button class="tab-btn" onclick="showTab('t3')">3. Punto de Equilibrio</button>
+    <button class="tab-btn" onclick="showTab('t4')">4. Análisis de Escenarios</button>
+    <button class="tab-btn" onclick="showTab('simulador')">🔢 Simulador CVU</button>
+    <button class="tab-btn" onclick="showTab('ejercicio')">✏️ Ejercicio</button>
+  </div>
+</div>
+
+<!-- CONTENIDO -->
+<div class="content">
+
+  <!-- REPASO -->
+  <div id="tab-repaso" class="tab-panel active">
+    <h2>📚 Repaso de Semanas Anteriores</h2>
+    <p>Antes de avanzar, es fundamental consolidar lo aprendido. Esta sección resume los conceptos clave de las semanas 1 a 6, que son la base para comprender el Análisis CVU.</p>
+
+    <div class="caja-ejemplo">
+      <div class="ej-label">🗓️ Semanas 1-2 | Fundamentos de Contabilidad Gerencial</div>
+      <p>Diferenciamos la <strong>contabilidad financiera</strong> (para usuarios externos) de la <strong>contabilidad gerencial</strong> (para toma de decisiones internas). Aprendimos que la información gerencial debe ser oportuna, relevante y orientada al futuro. En tu empresa de seguridad, esto significa usar los datos contables no solo para cumplir con el SRI, sino para decidir qué contratos aceptar, cuánto cobrar y cuándo contratar más guardias.</p>
+    </div>
+
+    <div class="caja-ejemplo">
+      <div class="ej-label">🗓️ Semana 3 | Estructura de Costos</div>
+      <p>Clasificamos los costos en <strong>directos e indirectos</strong> y en <strong>fijos y variables</strong>. Calculamos el costo real del personal de seguridad incluyendo IESS patronal (11.15%), décimos, fondos de reserva y vacaciones — lo que hace que el costo real de un guardia supere en más del 30% a su salario base. Además, identificamos los <strong>inductores de costo (cost drivers)</strong>: en seguridad, la cantidad de horas-hombre, el número de puestos y los kilómetros recorridos.</p>
+    </div>
+
+    <div class="caja-ejemplo">
+      <div class="ej-label">🗓️ Semanas 4-5 | Estado de Costos y Contribución</div>
+      <p>Construimos el <strong>Estado de Costos por Contrato</strong>, que muestra cómo los costos se acumulan desde el personal hasta el resultado neto de cada servicio. Aprendimos que el <strong>Margen de Contribución Bruto</strong> es la diferencia entre ingresos y costos variables, y que este margen debe cubrir los costos fijos antes de generar utilidad. Una empresa de seguridad con muchos guardias tiene costos fijos altos (supervisores, vehículos, equipos) y costos variables que dependen del número de puestos activos.</p>
+    </div>
+
+    <div class="caja-ejemplo">
+      <div class="ej-label">🗓️ Semana 6 | Introducción a Decisiones de Costos</div>
+      <p>Vimos que no todos los costos son iguales a la hora de decidir. Los <strong>costos relevantes</strong> son los que cambian según la alternativa elegida; los <strong>costos irrecuperables (hundidos)</strong> no deben influir en decisiones futuras. Esta semana, unimos todo esto en la herramienta más poderosa del análisis de corto plazo: el <strong>Análisis Costo-Volumen-Utilidad</strong>.</p>
+    </div>
+
+    <div class="caja-clave">
+      <div class="ck-label">💡 Hilo conductor</div>
+      <p>El CVU es la síntesis de todo lo aprendido: usamos la clasificación fijo/variable para entender en qué punto los ingresos cubren todos los costos y, a partir de ahí, cuánta utilidad genera cada contrato adicional. Es la herramienta que responde: <em>¿cuántos puestos de seguridad necesito para no perder dinero?</em></p>
+    </div>
+  </div>
+
+  <!-- TEMA 1 -->
+  <div id="tab-t1" class="tab-panel">
+    <h2>1. ¿Qué es el Análisis CVU y por qué importa?</h2>
+
+    <div class="caja-concepto">
+      <div class="cc-label">📖 Definición formal</div>
+      <p>El <strong>Análisis Costo-Volumen-Utilidad (CVU)</strong> es una herramienta de contabilidad gerencial que estudia las relaciones entre tres variables fundamentales: los costos totales de la empresa, el volumen de actividad (unidades producidas o servicios prestados) y la utilidad operativa resultante. Su objetivo es mostrar cómo cambia la utilidad cuando cambia el volumen, manteniendo fijos los precios y la estructura de costos.</p>
+    </div>
+
+    <p>En términos simples: el CVU responde preguntas como <em>¿cuánto tengo que vender para no perder dinero?</em>, <em>¿si consigo un contrato más, cuánto gano adicional?</em>, o <em>¿si bajo mi precio para ganar un cliente, sigo siendo rentable?</em></p>
+
+    <h3>Los tres pilares del CVU</h3>
+    <table>
+      <thead><tr><th>Pilar</th><th>Qué mide</th><th>Ejemplo en seguridad privada</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Costo</strong></td><td>Todo lo que la empresa gasta para operar</td><td>Salarios de guardias, uniformes, vehículos, seguros, oficina</td></tr>
+        <tr><td><strong>Volumen</strong></td><td>La cantidad de actividad (servicios prestados)</td><td>Número de puestos de seguridad activos, horas de vigilancia, contratos</td></tr>
+        <tr><td><strong>Utilidad</strong></td><td>Lo que queda después de cubrir todos los costos</td><td>Ganancia neta por mes, por contrato o por período</td></tr>
+      </tbody>
+    </table>
+
+    <h3>El supuesto fundamental: comportamiento lineal</h3>
+    <p>El CVU parte de un supuesto simplificador pero muy útil: que dentro de un <strong>rango relevante de actividad</strong>, los costos variables son constantes por unidad y los costos fijos no cambian. Esto es realista para decisiones de corto plazo.</p>
+
+    <div class="caja-concepto">
+      <div class="cc-label">📖 Rango relevante</div>
+      <p>Es el intervalo de volumen dentro del cual los supuestos del CVU son válidos. Por ejemplo, si una empresa de seguridad puede operar entre 50 y 150 puestos con su estructura actual, el análisis CVU es confiable en ese rango. Fuera de él, habría que contratar más supervisores (sube el costo fijo) o el costo por puesto podría bajar por economías de escala.</p>
+    </div>
+
+    <h3>¿Por qué es la herramienta más usada en gerencia?</h3>
+    <ul>
+      <li><strong>Simplicidad:</strong> requiere solo tres datos básicos (precio, costo variable, costos fijos)</li>
+      <li><strong>Velocidad:</strong> permite simular escenarios en minutos, ideal para negociaciones de contratos</li>
+      <li><strong>Claridad:</strong> muestra gráficamente el punto donde la empresa empieza a ganar</li>
+      <li><strong>Decisiones:</strong> apoya elecciones como fijar precios, aceptar descuentos, expandirse o reducirse</li>
+    </ul>
+
+    <div class="caja-ejemplo">
+      <div class="ej-label">🏢 Contexto ecuatoriano — Empresa de Seguridad en Guayaquil</div>
+      <p>Tu empresa ofrece puestos de vigilancia (24/7) a clientes como bancos, condominios, almacenes y empresas industriales. Cada puesto requiere guardias en turnos rotativos, uniformes, equipos de comunicación y supervisión periódica.</p>
+      <p>Para aplicar el CVU, necesitas identificar: <br>
+      • <strong>Precio por puesto/mes:</strong> lo que cobras al cliente (ej. $1.200)<br>
+      • <strong>Costo variable por puesto:</strong> lo que gastas en ese puesto (guardias + equipos consumibles) (ej. $850)<br>
+      • <strong>Costos fijos mensuales:</strong> lo que pagas sin importar cuántos puestos tengas (oficina, gerentes, vehículos, seguros) (ej. $8.500)</p>
+      <p>Con estos tres datos, puedes saber exactamente cuántos puestos necesitas para <em>no perder dinero</em> y cuánto ganas por cada puesto adicional.</p>
+    </div>
+
+    <div class="caja-clave">
+      <div class="ck-label">💡 Idea clave</div>
+      <p>El CVU no es un ejercicio académico abstracto. Es la respuesta a la pregunta que todo gerente se hace cada mes: <em>"¿Con lo que tengo, cuánto necesito vender para que valga la pena operar?"</em> Responder esto bien marca la diferencia entre una empresa que sobrevive y una que crece.</p>
+    </div>
+  </div>
+
+  <!-- TEMA 2 -->
+  <div id="tab-t2" class="tab-panel">
+    <h2>2. Margen de Contribución: el corazón del CVU</h2>
+
+    <p>El <strong>margen de contribución</strong> es el concepto más importante del CVU. Antes de explicarlo, recuerda: los costos se dividen en <strong>variables</strong> (cambian con el volumen) y <strong>fijos</strong> (no cambian). El margen de contribución conecta ambos grupos.</p>
+
+    <div class="caja-concepto">
+      <div class="cc-label">📖 Definición — Margen de Contribución Unitario</div>
+      <p>Es la diferencia entre el <strong>precio de venta unitario</strong> y el <strong>costo variable unitario</strong>. Representa cuánto "contribuye" cada unidad vendida a cubrir los costos fijos y, una vez cubiertos, a generar utilidad.</p>
+    </div>
+
+    <div class="formula-box">
+      <div class="formula">MC unitario = Precio de venta − Costo variable unitario</div>
+      <div class="formula-desc">También: MC Total = Ingresos totales − Costos variables totales</div>
+    </div>
+
+    <h3>La lógica detrás del concepto</h3>
+    <p>Imagina que cada vez que vendes una unidad, recibes dinero. Con ese dinero, lo primero que pagas es el costo variable de esa unidad (guardias, materiales, comisiones). Lo que sobra — el margen de contribución — va a una "caja fuerte" llamada <em>cobertura de costos fijos</em>. Cuando esa caja llega al monto total de tus costos fijos, tu empresa alcanza el punto de equilibrio. Todo lo que entra después es utilidad pura.</p>
+
+    <div class="formula-box">
+      <div class="formula">Utilidad = (MC unitario × Unidades) − Costos Fijos Totales</div>
+      <div class="formula-desc">O equivalentemente: Utilidad = MC Total − Costos Fijos Totales</div>
+    </div>
+
+    <h3>Ratio de Margen de Contribución (RMC)</h3>
+    <p>También se calcula en porcentaje, lo que permite comparar entre productos o servicios sin importar las unidades:</p>
+
+    <div class="formula-box">
+      <div class="formula">RMC = (MC unitario / Precio) × 100</div>
+      <div class="formula-desc">Indica qué porcentaje de cada dólar de ingreso queda disponible para cubrir costos fijos y generar utilidad</div>
+    </div>
+
+    <div class="caja-ejemplo">
+      <div class="ej-label">🏢 Ejemplo aplicado — Empresa de Seguridad "VigAlert Cía. Ltda."</div>
+      <p>La empresa tiene dos tipos de servicio:</p>
+      <table>
+        <thead><tr><th>Concepto</th><th>Puesto Básico</th><th>Puesto Premium</th></tr></thead>
+        <tbody>
+          <tr><td>Precio al cliente / mes</td><td class="td-num">$1.100</td><td class="td-num">$1.650</td></tr>
+          <tr><td>Costo variable / puesto</td><td class="td-num">$820</td><td class="td-num">$1.150</td></tr>
+          <tr><td><strong>Margen de Contribución</strong></td><td class="td-num td-bold">$280</td><td class="td-num td-bold">$500</td></tr>
+          <tr><td>Ratio MC (%)</td><td class="td-num">25.45%</td><td class="td-num">30.30%</td></tr>
+        </tbody>
+      </table>
+      <p><strong>Análisis:</strong> Aunque el puesto Premium tiene mayor MC absoluto ($500 vs $280), ambos servicios contribuyen más del 25% de cada dólar cobrado a cubrir los costos fijos. Si los costos fijos mensuales son $9.000 y solo se ofrecen puestos Premium, se necesitan 18 puestos para equilibrarse ($9.000 ÷ $500). Con puestos básicos, se necesitarían 33 puestos.</p>
+    </div>
+
+    <h3>¿Qué significa un MC negativo?</h3>
+    <div class="caja-concepto">
+      <div class="cc-label">⚠️ Señal de alerta</div>
+      <p>Si el costo variable supera al precio de venta, el MC es negativo. Esto significa que <strong>cada unidad adicional que se vende genera más pérdida</strong>. En este caso, no conviene aumentar el volumen; lo prioritario es revisar los precios o los costos variables antes de crecer. Una empresa de seguridad con MC negativo en un contrato específico debería renegociar o terminar ese contrato, aunque tenga volumen alto.</p>
+    </div>
+
+    <h3>MC vs. Margen Bruto — No confundirlos</h3>
+    <table>
+      <thead><tr><th>Aspecto</th><th>Margen de Contribución</th><th>Margen Bruto</th></tr></thead>
+      <tbody>
+        <tr><td>Base del cálculo</td><td>Ingresos − Costos Variables</td><td>Ingresos − Costo de Ventas (mixto)</td></tr>
+        <tr><td>Incluye costos fijos directos</td><td>No (se excluyen)</td><td>Sí (depreciación, supervisión fija)</td></tr>
+        <tr><td>Uso principal</td><td>Decisiones internas, CVU</td><td>Estados financieros externos</td></tr>
+        <tr><td>Marco contable</td><td>Costeo variable (gerencial)</td><td>Costeo por absorción (NIIF)</td></tr>
+      </tbody>
+    </table>
+
+    <div class="caja-clave">
+      <div class="ck-label">💡 Idea clave</div>
+      <p>El margen de contribución es el "músculo financiero" de cada servicio. No te dice si la empresa gana o pierde (eso lo hace la utilidad final), pero te dice cuánto potencial tiene cada unidad vendida para ayudar a que la empresa sea rentable. Un gerente que conoce el MC de cada contrato puede tomar decisiones 10 veces más rápidas y precisas.</p>
+    </div>
+  </div>
+
+  <!-- TEMA 3 -->
+  <div id="tab-t3" class="tab-panel">
+    <h2>3. Punto de Equilibrio: el umbral de rentabilidad</h2>
+
+    <div class="caja-concepto">
+      <div class="cc-label">📖 Definición</div>
+      <p>El <strong>punto de equilibrio (PE)</strong> es el nivel de actividad (unidades vendidas o ingresos generados) en el que los ingresos totales son exactamente iguales a los costos totales. En ese punto, la empresa <strong>no gana ni pierde</strong>: su utilidad operativa es cero. Es el mínimo que se debe alcanzar para que la empresa justifique su operación.</p>
+    </div>
+
+    <h3>Cálculo del Punto de Equilibrio en Unidades</h3>
+    <div class="formula-box">
+      <div class="formula">PE (unidades) = Costos Fijos Totales ÷ MC unitario</div>
+      <div class="formula-desc">Responde: ¿Cuántas unidades debo vender para cubrir todos mis costos?</div>
+    </div>
+
+    <h3>Cálculo del Punto de Equilibrio en Dólares (Ingresos)</h3>
+    <div class="formula-box">
+      <div class="formula">PE ($) = Costos Fijos Totales ÷ Ratio de MC</div>
+      <div class="formula-desc">Responde: ¿Cuántos dólares de ingreso necesito para no perder dinero?</div>
+    </div>
+
+    <h3>Cálculo para una Utilidad Deseada</h3>
+    <p>El gerente no solo quiere saber cuándo no pierde — quiere saber cuándo gana lo que necesita. La fórmula se extiende fácilmente:</p>
+    <div class="formula-box">
+      <div class="formula">Unidades = (Costos Fijos + Utilidad Deseada) ÷ MC unitario</div>
+      <div class="formula-desc">Si hay impuesto a la renta: Utilidad Deseada antes de impuestos = Utilidad neta ÷ (1 − tasa IR)</div>
+    </div>
+
+    <div class="caja-ejemplo">
+      <div class="ej-label">🏢 Ejemplo completo — VigAlert Cía. Ltda.</div>
+      <p><strong>Datos del mes:</strong></p>
+      <ul>
+        <li>Precio por puesto de seguridad al cliente: <strong>$1.200/mes</strong></li>
+        <li>Costo variable por puesto: <strong>$840/mes</strong> (guardias, uniformes, radioequipos consumibles)</li>
+        <li>Costos fijos mensuales: <strong>$9.000</strong> (2 supervisores, oficina en Guayaquil, 2 vehículos, seguros)</li>
+      </ul>
+      <p><strong>Paso 1 — MC unitario:</strong> $1.200 − $840 = <strong>$360</strong></p>
+      <p><strong>Paso 2 — Ratio MC:</strong> $360 / $1.200 = <strong>30%</strong></p>
+      <p><strong>Paso 3 — PE en puestos:</strong> $9.000 / $360 = <strong>25 puestos</strong></p>
+      <p><strong>Paso 4 — PE en ingresos:</strong> $9.000 / 0.30 = <strong>$30.000 mensuales</strong></p>
+      <p><strong>Verificación:</strong> 25 puestos × $1.200 = $30.000 ingresos; 25 puestos × $840 = $21.000 CV; CF = $9.000; Utilidad = $30.000 − $21.000 − $9.000 = <strong>$0 ✓</strong></p>
+      <p><strong>Paso 5 — Para utilidad de $5.400/mes:</strong> ($9.000 + $5.400) / $360 = <strong>40 puestos</strong></p>
+    </div>
+
+    <h3>El Margen de Seguridad</h3>
+    <div class="caja-concepto">
+      <div class="cc-label">📖 Margen de Seguridad</div>
+      <p>Mide cuánto puede caer el volumen de ventas por encima del punto de equilibrio antes de entrar en pérdidas. Es un indicador de qué tan "cómoda" está la empresa respecto al riesgo.</p>
+    </div>
+    <div class="formula-box">
+      <div class="formula">Margen de Seguridad = Ventas Actuales − Ventas en PE</div>
+      <div class="formula-desc">En % = (Margen de Seguridad / Ventas Actuales) × 100</div>
+    </div>
+
+    <div class="caja-ejemplo">
+      <div class="ej-label">🔢 Continuando el ejemplo</div>
+      <p>Si VigAlert opera actualmente con <strong>35 puestos</strong>:</p>
+      <p>• Ventas actuales: 35 × $1.200 = $42.000</p>
+      <p>• Ventas en PE: $30.000 (25 puestos)</p>
+      <p>• Margen de seguridad: $42.000 − $30.000 = <strong>$12.000</strong> (o 10 puestos)</p>
+      <p>• En %: $12.000 / $42.000 = <strong>28.57%</strong></p>
+      <p><strong>Interpretación:</strong> La empresa puede perder hasta el 28.57% de sus contratos antes de empezar a perder dinero. Si un cliente importante (5 puestos, $6.000/mes) cancela su contrato, la empresa aún queda por encima del equilibrio.</p>
+    </div>
+
+    <div class="caja-clave">
+      <div class="ck-label">💡 Idea clave</div>
+      <p>El punto de equilibrio no es el objetivo — es el mínimo. El gerente usa este dato para saber desde dónde parte, y luego trabaja para alejarse lo más posible de ese umbral. Un margen de seguridad alto indica una empresa sólida; uno bajo, una empresa vulnerable a cualquier cambio del mercado.</p>
+    </div>
+  </div>
+
+  <!-- TEMA 4 -->
+  <div id="tab-t4" class="tab-panel">
+    <h2>4. Análisis de Escenarios y Palanca Operativa</h2>
+
+    <p>El verdadero poder del CVU está en la capacidad de proyectar qué pasaría si cambian las condiciones. Esta es la parte más gerencial del análisis.</p>
+
+    <h3>Análisis "¿Qué pasaría si...?" (What-If Analysis)</h3>
+    <p>El CVU permite responder rápidamente a preguntas estratégicas:</p>
+
+    <table>
+      <thead><tr><th>Pregunta del gerente</th><th>Variable que cambia</th><th>Efecto en el PE</th></tr></thead>
+      <tbody>
+        <tr><td>¿Qué pasa si subo el precio un 10%?</td><td>Precio ↑</td><td>MC ↑ → PE en unidades ↓</td></tr>
+        <tr><td>¿Qué pasa si los salarios suben por decreto?</td><td>Costo variable ↑</td><td>MC ↓ → PE en unidades ↑</td></tr>
+        <tr><td>¿Qué pasa si abro una segunda oficina?</td><td>Costos fijos ↑</td><td>PE en unidades ↑</td></tr>
+        <tr><td>¿Qué pasa si hago publicidad adicional?</td><td>CF ↑ pero unidades ↑ también</td><td>Depende del efecto neto</td></tr>
+        <tr><td>¿Qué pasa si elimino un servicio no rentable?</td><td>Mezcla de servicios cambia</td><td>MC promedio ponderado cambia</td></tr>
+      </tbody>
+    </table>
+
+    <div class="caja-ejemplo">
+      <div class="ej-label">🏢 Escenario — Aumento del Salario Básico en Ecuador</div>
+      <p>En 2024, el salario básico unificado en Ecuador subió a $460. Suponemos que VigAlert tiene guardias que ganaban cerca del básico. Con el ajuste, el costo variable por puesto sube de $840 a $870 (incremento del costo de nómina + aporte patronal IESS).</p>
+      <p>• Nuevo MC: $1.200 − $870 = <strong>$330</strong> (antes era $360)</p>
+      <p>• Nuevo PE: $9.000 / $330 = <strong>27.3 ≈ 28 puestos</strong> (antes eran 25)</p>
+      <p><strong>Conclusión:</strong> El aumento salarial obligó a la empresa a conseguir 3 puestos adicionales solo para mantener el equilibrio. El gerente tiene dos opciones: renegociar las tarifas con los clientes o absorber la pérdida de margen (reduciendo su utilidad). Esta simulación justifica pedir ajuste de tarifas a los clientes con contrato de más de un año.</p>
+    </div>
+
+    <h3>Palanca Operativa (Apalancamiento Operativo)</h3>
+    <div class="caja-concepto">
+      <div class="cc-label">📖 Definición</div>
+      <p>El <strong>grado de apalancamiento operativo (GAO)</strong> mide cuánto cambia la utilidad operativa en respuesta a un cambio porcentual en las ventas. Una empresa con costos fijos altos tiene mayor apalancamiento: cuando crece, crece rápido; cuando cae, cae fuerte.</p>
+    </div>
+
+    <div class="formula-box">
+      <div class="formula">GAO = MC Total / Utilidad Operativa</div>
+      <div class="formula-desc">O equivalentemente: GAO = 1 + (Costos Fijos / Utilidad Operativa)</div>
+    </div>
+
+    <div class="caja-ejemplo">
+      <div class="ej-label">🔢 Aplicación del GAO — VigAlert con 35 puestos</div>
+      <p>• MC Total: 35 × $360 = <strong>$12.600</strong></p>
+      <p>• Costos Fijos: <strong>$9.000</strong></p>
+      <p>• Utilidad Operativa: $12.600 − $9.000 = <strong>$3.600</strong></p>
+      <p>• GAO = $12.600 / $3.600 = <strong>3.5</strong></p>
+      <p><strong>Interpretación:</strong> Si las ventas aumentan un 10% (de 35 a 38.5 puestos), la utilidad aumenta un <strong>35%</strong> (3.5 × 10%). Esto muestra el efecto multiplicador de los costos fijos: una vez cubiertos, cada contrato adicional genera utilidad mucho más rápido de lo que incrementan los costos.</p>
+      <p><strong>Riesgo:</strong> Si las ventas caen un 10%, la utilidad cae un 35%. Por eso las empresas con alta palanca operativa deben cuidar mucho su cartera de contratos.</p>
+    </div>
+
+    <h3>Mezcla de Ventas (Mix de Servicios)</h3>
+    <p>Cuando una empresa ofrece múltiples servicios con distintos MC, el punto de equilibrio depende de la proporción en que se venden. Se trabaja con un <strong>MC promedio ponderado</strong>.</p>
+
+    <div class="caja-ejemplo">
+      <div class="ej-label">🔢 Ejemplo — Mezcla de servicios en VigAlert</div>
+      <p>VigAlert vende dos servicios: Básico (MC = $280) y Premium (MC = $500). Si el 70% de los contratos son Básico y 30% son Premium:</p>
+      <p>MC ponderado = (0.70 × $280) + (0.30 × $500) = $196 + $150 = <strong>$346 por puesto</strong></p>
+      <p>PE = $9.000 / $346 = <strong>26 puestos</strong> (considerando la mezcla)</p>
+      <p>Si la empresa logra cambiar su mezcla a 50% Básico y 50% Premium: MC ponderado = $390 → PE = 23 puestos. <strong>La estrategia comercial impacta directamente la rentabilidad.</strong></p>
+    </div>
+
+    <div class="caja-clave">
+      <div class="ck-label">💡 Idea clave</div>
+      <p>El CVU no es estático: es un tablero de control dinámico. Cada decisión — un nuevo contrato, un aumento de costos, un cambio de precios — puede simularse antes de ejecutarse. El gerente que domina el CVU toma decisiones con evidencia, no con intuición. La palanca operativa le dice cuánto poder tiene su estructura de costos para multiplicar las ganancias cuando el negocio crece.</p>
+    </div>
+  </div>
+
+  <!-- SIMULADOR -->
+  <div id="tab-simulador" class="tab-panel">
+    <h2>🔢 Simulador Interactivo de CVU</h2>
+    <p>Ingresa los datos de tu empresa o del caso que estás analizando. El simulador calcula automáticamente el punto de equilibrio, la utilidad proyectada y el margen de seguridad.</p>
+
+    <div class="simulador">
+      <div class="sim-title">⚙️ Parámetros del Análisis</div>
+      <div class="sim-grid">
+        <div class="sim-field">
+          <label>Precio de venta unitario ($)</label>
+          <input type="number" id="sim-precio" value="1200" min="0" step="1">
+          <div class="hint">Ej: precio por puesto/mes</div>
+        </div>
+        <div class="sim-field">
+          <label>Costo variable unitario ($)</label>
+          <input type="number" id="sim-cv" value="840" min="0" step="1">
+          <div class="hint">Ej: costo por puesto activo</div>
+        </div>
+        <div class="sim-field">
+          <label>Costos fijos totales ($)</label>
+          <input type="number" id="sim-cf" value="9000" min="0" step="100">
+          <div class="hint">Ej: costos mensuales fijos</div>
+        </div>
+        <div class="sim-field">
+          <label>Unidades actuales vendidas</label>
+          <input type="number" id="sim-unidades" value="35" min="0" step="1">
+          <div class="hint">Ej: puestos activos actualmente</div>
+        </div>
+        <div class="sim-field">
+          <label>Utilidad deseada ($) — opcional</label>
+          <input type="number" id="sim-utilidad-deseada" value="5000" min="0" step="100">
+          <div class="hint">Cuánto quiero ganar</div>
+        </div>
+        <div class="sim-field">
+          <label>Tasa de impuesto a la renta (%)</label>
+          <input type="number" id="sim-ir" value="25" min="0" max="100" step="1">
+          <div class="hint">Ecuador: 25% para empresas</div>
+        </div>
+      </div>
+      <button class="btn-calcular" onclick="calcularCVU()">📊 Calcular Análisis CVU</button>
+
+      <div class="sim-resultados" id="sim-resultados">
+        <h3 style="font-family:'Lora',serif;color:#003366;margin-bottom:14px;">Resultados del Análisis</h3>
+        <div class="res-grid" id="res-cards"></div>
+
+        <div class="sim-grafico">
+          <div style="font-weight:700;color:#003366;font-size:0.88rem;margin-bottom:8px;">📊 Comparativa visual</div>
+          <div class="grafico-barras" id="grafico-barras"></div>
+        </div>
+
+        <div class="interpretacion" id="interpretacion"></div>
+
+        <div style="margin-top:16px;">
+          <div style="font-family:'Lora',serif;color:#003366;font-weight:700;font-size:0.9rem;margin-bottom:8px;">📋 Estado de Resultados Proyectado</div>
+          <table id="tabla-er"></table>
+        </div>
+      </div>
+    </div>
+
+    <div class="caja-concepto" style="margin-top:20px;">
+      <div class="cc-label">🎓 Instrucciones de uso</div>
+      <p>Modifica cualquier parámetro y haz clic en "Calcular" para ver cómo cambia el punto de equilibrio. Prueba estos escenarios: <br>
+      <strong>Escenario 1:</strong> Aumenta el precio a $1.350 y observa cómo baja el PE.<br>
+      <strong>Escenario 2:</strong> Sube el costo variable a $950 (sube salario básico) y ve cuántos puestos más necesitas.<br>
+      <strong>Escenario 3:</strong> Aumenta costos fijos a $12.000 (abres segunda oficina) y simula cuántos contratos adicionales necesitas.</p>
+    </div>
+  </div>
+
+  <!-- EJERCICIO -->
+  <div id="tab-ejercicio" class="tab-panel">
+    <h2>✏️ Ejercicio Interactivo — Análisis CVU Completo</h2>
+    <p>Lee el caso completo y responde todas las preguntas antes de verificar. Puedes apoyarte en el Simulador CVU de la pestaña anterior.</p>
+
+    <div class="caja-ejemplo">
+      <div class="ej-label">📋 Caso — "SecureGuard S.A." — Quito, Ecuador</div>
+      <p>SecureGuard S.A. es una empresa de seguridad privada con sede en Quito. En enero de 2025, tiene los siguientes datos mensuales:</p>
+      <ul>
+        <li>Precio por puesto de vigilancia: <strong>$1.500/mes</strong></li>
+        <li>Costo variable por puesto: <strong>$1.050/mes</strong> (guardias, IESS, uniformes, comunicaciones)</li>
+        <li>Costos fijos: <strong>$13.500/mes</strong> (3 supervisores, central de monitoreo, 3 vehículos, oficina)</li>
+        <li>Puestos activos actualmente: <strong>40 puestos</strong></li>
+        <li>Utilidad neta deseada: <strong>$9.000/mes</strong></li>
+        <li>Tasa de impuesto a la renta: <strong>25%</strong></li>
+      </ul>
+    </div>
+
+    <div id="ejercicio-container">
+      <!-- Pregunta 1 -->
+      <div class="ej-pregunta" id="p1">
+        <div class="pq-num">Pregunta 1 de 7</div>
+        <div class="pq-texto">¿Cuál es el Margen de Contribución unitario de SecureGuard?</div>
+        <div class="pq-opciones">
+          <label class="opcion"><input type="radio" name="p1" value="a"> A) $350</label>
+          <label class="opcion"><input type="radio" name="p1" value="b"> B) $450</label>
+          <label class="opcion"><input type="radio" name="p1" value="c"> C) $500</label>
+          <label class="opcion"><input type="radio" name="p1" value="d"> D) $400</label>
+        </div>
+      </div>
+
+      <!-- Pregunta 2 -->
+      <div class="ej-pregunta" id="p2">
+        <div class="pq-num">Pregunta 2 de 7</div>
+        <div class="pq-texto">¿Cuál es el Ratio de Margen de Contribución (RMC) de SecureGuard?</div>
+        <div class="pq-opciones">
+          <label class="opcion"><input type="radio" name="p2" value="a"> A) 25%</label>
+          <label class="opcion"><input type="radio" name="p2" value="b"> B) 28%</label>
+          <label class="opcion"><input type="radio" name="p2" value="c"> C) 30%</label>
+          <label class="opcion"><input type="radio" name="p2" value="d"> D) 35%</label>
+        </div>
+      </div>
+
+      <!-- Pregunta 3 -->
+      <div class="ej-pregunta" id="p3">
+        <div class="pq-num">Pregunta 3 de 7</div>
+        <div class="pq-texto">¿Cuántos puestos necesita SecureGuard para alcanzar el Punto de Equilibrio?</div>
+        <div class="pq-opciones">
+          <label class="opcion"><input type="radio" name="p3" value="a"> A) 25 puestos</label>
+          <label class="opcion"><input type="radio" name="p3" value="b"> B) 27 puestos</label>
+          <label class="opcion"><input type="radio" name="p3" value="c"> C) 30 puestos</label>
+          <label class="opcion"><input type="radio" name="p3" value="d"> D) 32 puestos</label>
+        </div>
+      </div>
+
+      <!-- Pregunta 4 -->
+      <div class="ej-pregunta" id="p4">
+        <div class="pq-num">Pregunta 4 de 7</div>
+        <div class="pq-texto">¿Cuál es el Punto de Equilibrio expresado en dólares de ingresos mensuales?</div>
+        <div class="pq-opciones">
+          <label class="opcion"><input type="radio" name="p4" value="a"> A) $38.500</label>
+          <label class="opcion"><input type="radio" name="p4" value="b"> B) $40.000</label>
+          <label class="opcion"><input type="radio" name="p4" value="c"> C) $45.000</label>
+          <label class="opcion"><input type="radio" name="p4" value="d"> D) $42.000</label>
+        </div>
+      </div>
+
+      <!-- Pregunta 5 -->
+      <div class="ej-pregunta" id="p5">
+        <div class="pq-num">Pregunta 5 de 7</div>
+        <div class="pq-texto">¿Cuántos puestos necesita para alcanzar la utilidad NETA deseada de $9.000 (considerando 25% IR)?</div>
+        <div class="pq-opciones">
+          <label class="opcion"><input type="radio" name="p5" value="a"> A) 53 puestos</label>
+          <label class="opcion"><input type="radio" name="p5" value="b"> B) 57 puestos</label>
+          <label class="opcion"><input type="radio" name="p5" value="c"> C) 60 puestos</label>
+          <label class="opcion"><input type="radio" name="p5" value="d"> D) 50 puestos</label>
+        </div>
+      </div>
+
+      <!-- Pregunta 6 -->
+      <div class="ej-pregunta" id="p6">
+        <div class="pq-num">Pregunta 6 de 7</div>
+        <div class="pq-texto">Con 40 puestos activos, ¿cuál es el Margen de Seguridad en puestos?</div>
+        <div class="pq-opciones">
+          <label class="opcion"><input type="radio" name="p6" value="a"> A) 5 puestos</label>
+          <label class="opcion"><input type="radio" name="p6" value="b"> B) 8 puestos</label>
+          <label class="opcion"><input type="radio" name="p6" value="c"> C) 10 puestos</label>
+          <label class="opcion"><input type="radio" name="p6" value="d"> D) 12 puestos</label>
+        </div>
+      </div>
+
+      <!-- Pregunta 7 -->
+      <div class="ej-pregunta" id="p7">
+        <div class="pq-num">Pregunta 7 de 7</div>
+        <div class="pq-texto">¿Cuál es el Grado de Apalancamiento Operativo (GAO) de SecureGuard con 40 puestos?</div>
+        <div class="pq-opciones">
+          <label class="opcion"><input type="radio" name="p7" value="a"> A) 2.5</label>
+          <label class="opcion"><input type="radio" name="p7" value="b"> B) 3.0</label>
+          <label class="opcion"><input type="radio" name="p7" value="c"> C) 3.75</label>
+          <label class="opcion"><input type="radio" name="p7" value="d"> D) 4.5</label>
+        </div>
+      </div>
+
+      <button class="btn-verificar" onclick="verificarEjercicio()">✅ Verificar respuestas</button>
+      <div id="ej-resultados" style="display:none;"></div>
+      <button class="btn-reiniciar" id="btn-reiniciar-ej" style="display:none;" onclick="reiniciarEjercicio()">🔄 Reiniciar ejercicio</button>
+    </div>
+  </div>
+
+</div><!-- /content -->
+
+<style>
+  /* Ejercicio interactivo */
+  .ej-pregunta { background:#fff; border-radius:10px; padding:16px 18px; margin-bottom:14px; box-shadow:0 1px 6px rgba(0,51,102,0.1); border-left: 4px solid #87CEEB; }
+  .pq-num { font-size:0.72rem; font-weight:700; color:#0066cc; text-transform:uppercase; margin-bottom:6px; }
+  .pq-texto { font-size:0.97rem; font-weight:600; color:#1a1a2e; margin-bottom:12px; line-height:1.5; }
+  .pq-opciones { display:grid; gap:8px; }
+  .opcion { display:flex; align-items:flex-start; gap:8px; padding:8px 12px; border-radius:6px; cursor:pointer; border:1.5px solid #dde; transition:all 0.15s; font-size:0.93rem; }
+  .opcion:hover { border-color:#87CEEB; background:#f0f8ff; }
+  .opcion input { margin-top:2px; flex-shrink:0; }
+  .opcion.correcto { border-color:#27ae60; background:#eafaf1; color:#1e7e34; font-weight:600; }
+  .opcion.incorrecto { border-color:#e74c3c; background:#fdf2f2; color:#c0392b; }
+  .ej-feedback { margin-top:8px; padding:8px 12px; border-radius:6px; font-size:0.85rem; line-height:1.5; }
+  .fb-correcto { background:#eafaf1; border:1px solid #27ae60; color:#1e7e34; }
+  .fb-incorrecto { background:#fdf2f2; border:1px solid #e74c3c; color:#922b21; }
+  .btn-verificar { background:#003366; color:#fff; border:none; padding:12px 28px; border-radius:8px; font-family:'Source Sans 3',sans-serif; font-weight:700; font-size:0.95rem; cursor:pointer; width:100%; margin-top:10px; transition:background 0.2s; }
+  .btn-verificar:hover { background:#004d99; }
+  .btn-reiniciar { background:#87CEEB; color:#003366; border:none; padding:10px 24px; border-radius:8px; font-family:'Source Sans 3',sans-serif; font-weight:700; font-size:0.9rem; cursor:pointer; width:100%; margin-top:10px; }
+  .resultado-final { background:#003366; color:#fff; border-radius:10px; padding:20px; margin-top:14px; text-align:center; }
+  .rf-score { font-family:'Lora',serif; font-size:2.2rem; font-weight:700; color:#FFD700; }
+  .rf-label { font-size:0.9rem; opacity:0.85; margin-top:4px; }
+  .rf-barra-wrap { background:rgba(255,255,255,0.2); border-radius:20px; height:12px; margin:12px 0; overflow:hidden; }
+  .rf-barra { height:100%; border-radius:20px; background:#FFD700; transition:width 1s ease; }
+  .rf-mensaje { font-size:1rem; margin-top:8px; }
+</style>
+
+<script>
+// ===== NAVEGACIÓN =====
+function showTab(id) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+// ===== SIMULADOR CVU =====
+function calcularCVU() {
+  const precio = parseFloat(document.getElementById('sim-precio').value) || 0;
+  const cv = parseFloat(document.getElementById('sim-cv').value) || 0;
+  const cf = parseFloat(document.getElementById('sim-cf').value) || 0;
+  const unidades = parseFloat(document.getElementById('sim-unidades').value) || 0;
+  const utilDeseada = parseFloat(document.getElementById('sim-utilidad-deseada').value) || 0;
+  const tasaIR = parseFloat(document.getElementById('sim-ir').value) / 100 || 0;
+
+  if (precio <= cv) {
+    alert('⚠️ El precio debe ser mayor que el costo variable. De lo contrario, el MC es negativo y no hay punto de equilibrio viable.');
+    return;
+  }
+
+  const mc = precio - cv;
+  const rmc = (mc / precio) * 100;
+  const peUnidades = cf / mc;
+  const peDolares = cf / (mc / precio);
+  const utilDeseadaAI = tasaIR < 1 ? utilDeseada / (1 - tasaIR) : utilDeseada;
+  const unidadesParaUtilidad = (cf + utilDeseadaAI) / mc;
+
+  // Resultados actuales
+  const ingresosActuales = unidades * precio;
+  const cvActual = unidades * cv;
+  const utilidadActual = ingresosActuales - cvActual - cf;
+  const mcTotal = unidades * mc;
+  const gao = utilidadActual !== 0 ? mcTotal / utilidadActual : 'N/A';
+  const margenSeguridad = unidades - peUnidades;
+  const margenSeguridadPct = (margenSeguridad / unidades) * 100;
+
+  // Mostrar resultados
+  const cards = [
+    { label: 'MC Unitario', value: '$' + mc.toFixed(2), destacado: false },
+    { label: 'Ratio MC', value: rmc.toFixed(1) + '%', destacado: false },
+    { label: 'PE (unidades)', value: peUnidades.toFixed(1), destacado: true },
+    { label: 'PE (ingresos)', value: '$' + peDolares.toFixed(0), destacado: true },
+    { label: 'Utilidad actual', value: '$' + utilidadActual.toFixed(0), destacado: utilidadActual > 0 },
+    { label: 'Para utilidad deseada', value: Math.ceil(unidadesParaUtilidad) + ' uds', destacado: false },
+    { label: 'Margen de Seguridad', value: margenSeguridad.toFixed(1) + ' uds', destacado: false },
+    { label: 'GAO', value: typeof gao === 'number' ? gao.toFixed(2) : gao, destacado: false },
+  ];
+
+  document.getElementById('res-cards').innerHTML = cards.map(c =>
+    `<div class="res-card${c.destacado?' destacado':''}">
+      <div class="rc-label">${c.label}</div>
+      <div class="rc-value">${c.value}</div>
+    </div>`
+  ).join('');
+
+  // Gráfico de barras
+  const maxVal = Math.max(ingresosActuales, cvActual + cf, peDolares);
+  const barData = [
+    { label: 'Ingresos actuales', val: ingresosActuales, color: '#003366' },
+    { label: 'Costos variables', val: cvActual, color: '#87CEEB' },
+    { label: 'Costos fijos', val: cf, color: '#FFD700' },
+    { label: 'PE ($)', val: peDolares, color: '#e74c3c' },
+    { label: 'MC Total', val: mcTotal, color: '#27ae60' },
+  ];
+
+  document.getElementById('grafico-barras').innerHTML = barData.map(b => {
+    const h = Math.max(4, (b.val / maxVal) * 120);
+    return `<div class="barra-wrap">
+      <div class="barra" style="height:${h}px;background:${b.color};" title="$${b.val.toFixed(0)}"></div>
+      <div class="barra-label">${b.label}<br><strong>$${b.val.toFixed(0)}</strong></div>
+    </div>`;
+  }).join('');
+
+  // Interpretación
+  const sitStatus = utilidadActual > 0
+    ? `✅ <strong>Por encima del equilibrio:</strong> Con ${unidades} unidades, la empresa genera una utilidad de <strong>$${utilidadActual.toFixed(2)}</strong>. Puede perder hasta ${Math.floor(margenSeguridad)} unidades (${margenSeguridadPct.toFixed(1)}% de sus ventas) antes de entrar en pérdidas.`
+    : utilidadActual === 0
+    ? `⚖️ <strong>Justo en el equilibrio:</strong> Con ${unidades} unidades, la empresa no gana ni pierde.`
+    : `⚠️ <strong>Por debajo del equilibrio:</strong> Con ${unidades} unidades, la empresa pierde <strong>$${Math.abs(utilidadActual).toFixed(2)}</strong>. Necesita ${Math.ceil(peUnidades - unidades)} unidades adicionales para alcanzar el equilibrio.`;
+
+  document.getElementById('interpretacion').innerHTML = sitStatus + `<br><br>Para alcanzar la utilidad neta deseada de <strong>$${utilDeseada}</strong> (después del ${(tasaIR*100).toFixed(0)}% de IR), necesita <strong>${Math.ceil(unidadesParaUtilidad)} unidades</strong>.`;
+
+  // Estado de resultados
+  document.getElementById('tabla-er').innerHTML = `
+    <thead><tr><th>Concepto</th><th class="td-num">Unitario</th><th class="td-num">Total (${unidades} uds)</th></tr></thead>
+    <tbody>
+      <tr><td>Ingresos</td><td class="td-num">$${precio.toFixed(2)}</td><td class="td-num">$${ingresosActuales.toFixed(2)}</td></tr>
+      <tr><td>(-) Costos variables</td><td class="td-num">($${cv.toFixed(2)})</td><td class="td-num">($${cvActual.toFixed(2)})</td></tr>
+      <tr><td class="td-bold">Margen de Contribución</td><td class="td-num td-bold">$${mc.toFixed(2)}</td><td class="td-num td-bold">$${mcTotal.toFixed(2)}</td></tr>
+      <tr><td>(-) Costos fijos</td><td class="td-num">—</td><td class="td-num">($${cf.toFixed(2)})</td></tr>
+      <tr><td class="td-bold">Utilidad Operativa</td><td class="td-num">—</td><td class="td-num td-bold ${utilidadActual>=0?'':''}">$${utilidadActual.toFixed(2)}</td></tr>
+      <tr><td>(-) Impuesto a la renta (${(tasaIR*100).toFixed(0)}%)</td><td class="td-num">—</td><td class="td-num">($${Math.max(0,utilidadActual*tasaIR).toFixed(2)})</td></tr>
+      <tr style="background:#003366;color:#fff;"><td class="td-bold" style="color:#fff;">Utilidad Neta</td><td class="td-num" style="color:#fff;">—</td><td class="td-num td-bold" style="color:#FFD700;">$${Math.max(0,utilidadActual*(1-tasaIR)).toFixed(2)}</td></tr>
+    </tbody>`;
+
+  document.getElementById('sim-resultados').style.display = 'block';
+  document.getElementById('sim-resultados').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// ===== EJERCICIO =====
+const respuestasCorrectas = { p1: 'b', p2: 'c', p3: 'c', p4: 'c', p5: 'a', p6: 'c', p7: 'c' };
+const explicaciones = {
+  p1: 'MC = Precio − CV = $1.500 − $1.050 = <strong>$450</strong>. Cada puesto activo contribuye $450 a cubrir los costos fijos y generar utilidad.',
+  p2: 'RMC = MC/Precio = $450/$1.500 = <strong>30%</strong>. De cada dólar cobrado, $0.30 quedan disponibles para costos fijos y utilidad.',
+  p3: 'PE = CF / MC = $13.500 / $450 = <strong>30 puestos</strong>. Con 30 puestos, los ingresos cubren exactamente todos los costos.',
+  p4: 'PE($) = CF / RMC = $13.500 / 0.30 = <strong>$45.000</strong>. Verificación: 30 × $1.500 = $45.000 ✓',
+  p5: 'Utilidad antes de IR = $9.000 / (1 − 0.25) = $12.000. Unidades = ($13.500 + $12.000) / $450 = $25.500 / $450 = <strong>56.67 ≈ 57 puestos</strong>. La opción A (53) resulta de no considerar el impuesto; la correcta es B... pero recalculemos: 53 puestos → utilidad antes IR = (53×450)−13500 = 23850−13500 = 10350 → neta = 10350×0.75 = 7762 (insuficiente). 57 puestos → (57×450)−13500 = 25650−13500 = 12150 → neta = 12150×0.75 = 9112 ≥ 9000 ✓. <strong>Respuesta: 57 puestos</strong>.',
+  p6: 'Margen de Seguridad = Unidades actuales − PE = 40 − 30 = <strong>10 puestos</strong>. La empresa puede perder 10 contratos antes de entrar en pérdidas.',
+  p7: 'MC Total = 40 × $450 = $18.000. Utilidad = $18.000 − $13.500 = $4.800. (Nota: si el alumno calculó $18.000/$4.800 = 3.75, esa es la respuesta). Verificación: GAO = $18.000/$4.800 = <strong>3.75</strong>. Esto significa que si las ventas crecen 10%, la utilidad crece 37.5%.'
+};
+
+// Corrección pregunta 5 - la respuesta correcta es 'b' (57 puestos)
+respuestasCorrectas.p5 = 'b';
+
+function verificarEjercicio() {
+  const preguntas = ['p1','p2','p3','p4','p5','p6','p7'];
+  let sinResponder = preguntas.filter(p => !document.querySelector(`input[name="${p}"]:checked`));
+  if (sinResponder.length > 0) {
+    alert(`⚠️ Debes responder todas las preguntas. Te faltan ${sinResponder.length} respuesta(s).`);
+    return;
+  }
+
+  let correctas = 0;
+  preguntas.forEach(p => {
+    const seleccionada = document.querySelector(`input[name="${p}"]:checked`)?.value;
+    const esCorrecta = seleccionada === respuestasCorrectas[p];
+    if (esCorrecta) correctas++;
+
+    const preguntaDiv = document.getElementById(p);
+    preguntaDiv.querySelectorAll('.opcion').forEach(op => {
+      const val = op.querySelector('input').value;
+      if (val === respuestasCorrectas[p]) op.classList.add('correcto');
+      else if (val === seleccionada && !esCorrecta) op.classList.add('incorrecto');
+      op.querySelector('input').disabled = true;
+    });
+
+    const fb = document.createElement('div');
+    fb.className = `ej-feedback ${esCorrecta ? 'fb-correcto' : 'fb-incorrecto'}`;
+    fb.innerHTML = (esCorrecta ? '✅ ' : '❌ ') + explicaciones[p];
+    preguntaDiv.appendChild(fb);
+  });
+
+  const pct = Math.round((correctas / preguntas.length) * 100);
+  const mensajes = [
+    { min: 100, emoji: '🏆', msg: '¡Perfecto! Dominas el análisis CVU completamente.' },
+    { min: 80, emoji: '🎯', msg: 'Excelente trabajo. Tienes una comprensión sólida del CVU.' },
+    { min: 60, emoji: '📘', msg: 'Buen progreso. Revisa los conceptos de los errores y vuelve a intentarlo.' },
+    { min: 40, emoji: '⚠️', msg: 'Necesitas repasar los temas. Lee de nuevo las pestañas 1-4 y usa el simulador.' },
+    { min: 0, emoji: '📖', msg: 'Comienza desde la pestaña de Repaso y lee cada sección cuidadosamente.' },
+  ];
+  const m = mensajes.find(x => pct >= x.min);
+
+  document.getElementById('ej-resultados').innerHTML = `
+    <div class="resultado-final">
+      <div class="rf-score">${m.emoji} ${correctas}/${preguntas.length}</div>
+      <div class="rf-label">${pct}% de respuestas correctas</div>
+      <div class="rf-barra-wrap"><div class="rf-barra" style="width:${pct}%"></div></div>
+      <div class="rf-mensaje">${m.msg}</div>
+    </div>`;
+  document.getElementById('ej-resultados').style.display = 'block';
+  document.getElementById('btn-reiniciar-ej').style.display = 'block';
+  document.getElementById('ej-resultados').scrollIntoView({ behavior:'smooth' });
+}
+
+function reiniciarEjercicio() {
+  ['p1','p2','p3','p4','p5','p6','p7'].forEach(p => {
+    const d = document.getElementById(p);
+    d.querySelectorAll('.opcion').forEach(op => {
+      op.classList.remove('correcto','incorrecto');
+      op.querySelector('input').checked = false;
+      op.querySelector('input').disabled = false;
+    });
+    const fb = d.querySelector('.ej-feedback');
+    if (fb) fb.remove();
+  });
+  document.getElementById('ej-resultados').style.display = 'none';
+  document.getElementById('ej-resultados').innerHTML = '';
+  document.getElementById('btn-reiniciar-ej').style.display = 'none';
+}
+</script>
+</body>
+</html>

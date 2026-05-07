@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semana 7B | Costeo & Decisiones | Contabilidad Gerencial</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: #f0f4f8; color: #1a1a2e; min-height: 100vh; }
+
+  .header { background: #003366; color: #fff; padding: 18px 24px; }
+  .header-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px; }
+  .inst-name { font-family: 'Lora', serif; font-size: 0.82rem; opacity: 0.85; }
+  .badge-semana { background: #FFD700; color: #003366; font-weight: 700; font-size: 0.78rem; padding: 3px 10px; border-radius: 20px; }
+  .header-title { margin-top: 10px; }
+  .header-title h1 { font-family: 'Lora', serif; font-size: 1.3rem; font-weight: 700; line-height: 1.3; }
+  .header-title p { font-size: 0.88rem; opacity: 0.85; margin-top: 4px; }
+  .header-meta { display: flex; gap: 16px; margin-top: 10px; flex-wrap: wrap; }
+  .meta-item { font-size: 0.78rem; opacity: 0.8; }
+  .meta-item span { font-weight: 600; }
+
+  .tabs-wrapper { background: #87CEEB; overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; }
+  .tabs-wrapper::-webkit-scrollbar { height: 4px; }
+  .tabs-wrapper::-webkit-scrollbar-thumb { background: #003366; border-radius: 2px; }
+  .tabs { display: inline-flex; min-width: 100%; padding: 0 8px; }
+  .tab-btn { display: inline-block; padding: 11px 15px; font-size: 0.82rem; font-weight: 600; color: #1a1a2e; background: transparent; border: none; cursor: pointer; white-space: nowrap; border-bottom: 3px solid transparent; transition: all 0.2s; font-family: 'Source Sans 3', sans-serif; }
+  .tab-btn:hover { background: rgba(255,255,255,0.5); }
+  .tab-btn.active { background: #fff; color: #003366; font-weight: 700; border-bottom: 3px solid #003366; }
+
+  .content { max-width: 900px; margin: 0 auto; padding: 24px 16px; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  h2 { font-family: 'Lora', serif; font-size: 1.22rem; color: #003366; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 2px solid #87CEEB; }
+  h3 { font-family: 'Lora', serif; font-size: 1.02rem; color: #003366; margin: 18px 0 10px; }
+  h4 { font-size: 0.95rem; font-weight: 700; color: #003366; margin: 14px 0 8px; }
+  p { line-height: 1.7; margin-bottom: 12px; font-size: 0.94rem; }
+  ul, ol { padding-left: 22px; margin-bottom: 12px; }
+  li { margin-bottom: 6px; line-height: 1.65; font-size: 0.94rem; }
+
+  .caja-concepto { border-left: 4px solid #003366; background: #f8faff; padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 16px 0; }
+  .caja-concepto .cc-label { font-size: 0.72rem; font-weight: 700; color: #003366; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .caja-concepto p { margin: 0; font-size: 0.93rem; }
+
+  .caja-ejemplo { background: #e8f4fd; border: 1px solid #b3d9f5; border-radius: 8px; padding: 16px 18px; margin: 16px 0; }
+  .caja-ejemplo .ej-label { font-size: 0.72rem; font-weight: 700; color: #0066cc; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .caja-ejemplo p { margin-bottom: 8px; font-size: 0.93rem; }
+  .caja-ejemplo p:last-child { margin: 0; }
+
+  .caja-clave { background: #003366; color: #fff; border-radius: 8px; padding: 14px 18px; margin: 16px 0; }
+  .caja-clave .ck-label { font-size: 0.72rem; font-weight: 700; color: #FFD700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .caja-clave p { margin: 0; font-size: 0.93rem; color: #fff; }
+
+  .caja-alerta { background: #fff8e1; border: 2px solid #FFD700; border-radius: 8px; padding: 14px 18px; margin: 16px 0; }
+  .caja-alerta .ca-label { font-size: 0.72rem; font-weight: 700; color: #b8860b; text-transform: uppercase; margin-bottom: 6px; }
+
+  .formula-box { background: #fff; border: 2px solid #003366; border-radius: 8px; padding: 12px 20px; margin: 14px 0; text-align: center; }
+  .formula-box .formula { font-family: 'Lora', serif; font-size: 1.05rem; font-weight: 700; color: #003366; }
+  .formula-box .formula-desc { font-size: 0.82rem; color: #555; margin-top: 5px; }
+
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 0.87rem; }
+  th { background: #003366; color: #fff; padding: 9px 12px; text-align: left; font-weight: 600; }
+  td { padding: 8px 12px; border-bottom: 1px solid #dde; }
+  tr:nth-child(even) td { background: #f5f8ff; }
+  .td-num { text-align: right; }
+  .td-bold { font-weight: 700; }
+  .td-sub { font-size: 0.8rem; color: #555; }
+  .td-highlight { background: #003366 !important; color: #FFD700; font-weight: 700; }
+  .td-verde { background: #eafaf1 !important; color: #1e7e34; font-weight: 700; }
+  .td-rojo { background: #fdf2f2 !important; color: #922b21; font-weight: 700; }
+
+  .comparativa-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 16px 0; }
+  @media(max-width:560px){ .comparativa-grid { grid-template-columns: 1fr; } }
+  .comp-card { background: #fff; border-radius: 10px; padding: 16px; box-shadow: 0 1px 8px rgba(0,51,102,0.1); }
+  .comp-card h4 { border-bottom: 2px solid; padding-bottom: 8px; margin-bottom: 12px; }
+  .comp-card.variable h4 { border-color: #27ae60; color: #27ae60; }
+  .comp-card.absorcion h4 { border-color: #e74c3c; color: #e74c3c; }
+
+  /* Decisiones interactivas */
+  .decision-tool { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 2px 12px rgba(0,51,102,0.12); margin: 20px 0; }
+  .dt-title { font-family: 'Lora', serif; font-size: 0.98rem; color: #003366; font-weight: 700; margin-bottom: 14px; }
+  .dt-field { margin-bottom: 12px; }
+  .dt-field label { display: block; font-size: 0.8rem; font-weight: 700; color: #003366; margin-bottom: 4px; }
+  .dt-field input { width: 100%; padding: 8px 12px; border: 2px solid #87CEEB; border-radius: 6px; font-size: 0.95rem; font-family: 'Source Sans 3', sans-serif; }
+  .dt-field input:focus { outline: none; border-color: #003366; }
+  .dt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media(max-width:500px){ .dt-grid { grid-template-columns: 1fr; } }
+  .btn-decidir { background: #003366; color: #fff; border: none; padding: 10px 24px; border-radius: 8px; font-family: 'Source Sans 3', sans-serif; font-weight: 700; font-size: 0.9rem; cursor: pointer; width: 100%; margin-top: 8px; }
+  .btn-decidir:hover { background: #004d99; }
+  .dt-resultado { display: none; margin-top: 14px; background: #f8faff; border-radius: 8px; padding: 16px; border: 1px solid #b3d9f5; }
+  .dr-verdict { font-family: 'Lora', serif; font-size: 1.1rem; font-weight: 700; padding: 12px 16px; border-radius: 8px; text-align: center; margin-bottom: 12px; }
+  .dr-verdict.si { background: #eafaf1; color: #1e7e34; border: 2px solid #27ae60; }
+  .dr-verdict.no { background: #fdf2f2; color: #922b21; border: 2px solid #e74c3c; }
+  .dr-verdict.neutral { background: #fff8e1; color: #b8860b; border: 2px solid #FFD700; }
+
+  /* Cuestionario */
+  .quiz-pregunta { background:#fff; border-radius:10px; padding:16px 18px; margin-bottom:14px; box-shadow:0 1px 6px rgba(0,51,102,0.1); border-left:4px solid #87CEEB; }
+  .qp-num { font-size:0.72rem; font-weight:700; color:#0066cc; text-transform:uppercase; margin-bottom:4px; }
+  .qp-badge { display:inline-block; font-size:0.68rem; font-weight:700; padding:2px 8px; border-radius:20px; margin-bottom:8px; }
+  .badge-teorica { background:#e8f4fd; color:#0066cc; }
+  .badge-analisis { background:#fff3e0; color:#e65100; }
+  .qp-texto { font-size:0.95rem; font-weight:600; color:#1a1a2e; margin-bottom:10px; line-height:1.5; }
+  .qp-opciones { display:grid; gap:7px; }
+  .opcion { display:flex; align-items:flex-start; gap:8px; padding:8px 12px; border-radius:6px; cursor:pointer; border:1.5px solid #dde; font-size:0.92rem; transition:all 0.15s; }
+  .opcion:hover { border-color:#87CEEB; background:#f0f8ff; }
+  .opcion input { margin-top:2px; flex-shrink:0; }
+  .opcion.correcto { border-color:#27ae60; background:#eafaf1; color:#1e7e34; font-weight:600; }
+  .opcion.incorrecto { border-color:#e74c3c; background:#fdf2f2; color:#c0392b; }
+  .q-feedback { margin-top:8px; padding:8px 12px; border-radius:6px; font-size:0.84rem; line-height:1.5; }
+  .fb-correcto { background:#eafaf1; border:1px solid #27ae60; color:#1e7e34; }
+  .fb-incorrecto { background:#fdf2f2; border:1px solid #e74c3c; color:#922b21; }
+  .btn-verificar { background:#003366; color:#fff; border:none; padding:12px 28px; border-radius:8px; font-family:'Source Sans 3',sans-serif; font-weight:700; font-size:0.95rem; cursor:pointer; width:100%; margin-top:10px; }
+  .btn-verificar:hover { background:#004d99; }
+  .btn-reiniciar { background:#87CEEB; color:#003366; border:none; padding:10px; border-radius:8px; font-family:'Source Sans 3',sans-serif; font-weight:700; font-size:0.9rem; cursor:pointer; width:100%; margin-top:10px; }
+  .resultado-final { background:#003366; color:#fff; border-radius:10px; padding:20px; margin-top:14px; text-align:center; }
+  .rf-score { font-family:'Lora',serif; font-size:2.2rem; font-weight:700; color:#FFD700; }
+  .rf-barra-wrap { background:rgba(255,255,255,0.2); border-radius:20px; height:12px; margin:10px 0; overflow:hidden; }
+  .rf-barra { height:100%; border-radius:20px; background:#FFD700; transition:width 1s; }
+
+  /* Reflexiva */
+  .reflexion-card { background:#fff; border-radius:12px; padding:20px; margin-bottom:16px; box-shadow:0 2px 10px rgba(0,51,102,0.1); border-top:4px solid #003366; }
+  .rc-icon { font-size:2rem; margin-bottom:10px; }
+  .rc-pregunta { font-family:'Lora',serif; font-size:1rem; font-weight:700; color:#003366; margin-bottom:10px; line-height:1.4; }
+  .rc-conexion { font-size:0.85rem; color:#555; font-style:italic; padding:10px 14px; background:#f8faff; border-radius:6px; border-left:3px solid #87CEEB; }
+  .rc-area { width:100%; min-height:80px; padding:10px; border:2px solid #dde; border-radius:8px; font-family:'Source Sans 3',sans-serif; font-size:0.9rem; margin-top:10px; resize:vertical; }
+  .rc-area:focus { outline:none; border-color:#003366; }
+
+  /* Bibliografía */
+  .bib-card { background:#fff; border-radius:10px; padding:16px 18px; margin-bottom:12px; box-shadow:0 1px 6px rgba(0,51,102,0.08); border-left:4px solid #87CEEB; }
+  .bib-autor { font-weight:700; color:#003366; font-size:0.88rem; }
+  .bib-titulo { font-style:italic; color:#1a1a2e; font-size:0.9rem; margin:4px 0; }
+  .bib-fuente { font-size:0.83rem; color:#555; }
+  .bib-nota { background:#fff8e1; border:1px solid #FFD700; border-radius:8px; padding:12px 16px; margin-top:16px; font-size:0.85rem; }
+
+  /* IA */
+  .ia-card { background:#fff; border-radius:12px; padding:20px; box-shadow:0 2px 12px rgba(0,51,102,0.1); margin-bottom:16px; }
+  .ia-step { display:flex; gap:12px; margin-bottom:14px; }
+  .ia-num { background:#003366; color:#FFD700; font-weight:700; font-size:0.9rem; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .prompt-box { background:#1a1a2e; color:#7ec8e3; font-family:monospace; font-size:0.83rem; padding:14px 16px; border-radius:8px; line-height:1.7; white-space:pre-wrap; margin:10px 0; }
+  .criterio-item { display:flex; gap:10px; padding:8px 12px; border-radius:6px; margin-bottom:6px; font-size:0.88rem; }
+  .ci-si { background:#eafaf1; border:1px solid #27ae60; }
+  .ci-no { background:#fdf2f2; border:1px solid #e74c3c; }
+
+  @media(max-width:600px){ .content { padding:14px 10px; } h2 { font-size:1.05rem; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div class="inst-name">Universidad de Guayaquil &nbsp;|&nbsp; Facultad de Ciencias Administrativas &nbsp;|&nbsp; Contabilidad y Auditoría</div>
+    <div class="badge-semana">Semana 7 · Parte B</div>
+  </div>
+  <div class="header-title">
+    <h1>Costeo Variable vs. Absorción · Costos Relevantes para Decisiones</h1>
+    <p>Contabilidad Gerencial &nbsp;·&nbsp; Unidad 2: Costos para la Toma de Decisiones</p>
+  </div>
+  <div class="header-meta">
+    <div class="meta-item">📅 <span>Semana 7 de 16</span></div>
+    <div class="meta-item">🔒 <span>Seguridad Privada — Guayaquil</span></div>
+    <div class="meta-item">📌 <span>Continúa desde el widget 7A</span></div>
+  </div>
+</div>
+
+<div class="tabs-wrapper">
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('t1')">1. Costeo Variable</button>
+    <button class="tab-btn" onclick="showTab('t2')">2. Costeo por Absorción</button>
+    <button class="tab-btn" onclick="showTab('t3')">3. Fabricar o Comprar</button>
+    <button class="tab-btn" onclick="showTab('t4')">4. Pedidos Especiales</button>
+    <button class="tab-btn" onclick="showTab('t5')">5. Eliminar Líneas</button>
+    <button class="tab-btn" onclick="showTab('herramientas')">🔧 Herramientas</button>
+    <button class="tab-btn" onclick="showTab('cuestionario')">📝 Cuestionario</button>
+    <button class="tab-btn" onclick="showTab('ia')">🤖 Act. con IA</button>
+    <button class="tab-btn" onclick="showTab('reflexion')">💭 Reflexión</button>
+    <button class="tab-btn" onclick="showTab('bib')">📚 Bibliografía</button>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- TEMA 1: COSTEO VARIABLE -->
+  <div id="tab-t1" class="tab-panel active">
+    <h2>1. Costeo Variable (Directo)</h2>
+
+    <div class="caja-concepto">
+      <div class="cc-label">📖 Definición</div>
+      <p>El <strong>costeo variable</strong> (también llamado costeo directo o marginal) es un método de costeo en el que <strong>solo los costos variables de producción o prestación del servicio</strong> se incluyen en el costo unitario del producto o servicio. Los costos fijos de fabricación/operación se tratan como gastos del período y se llevan directamente al Estado de Resultados, sin importar cuántas unidades se produzcan o vendan.</p>
+    </div>
+
+    <h3>Estructura del Estado de Resultados bajo Costeo Variable</h3>
+    <table>
+      <thead><tr><th>Concepto</th><th class="td-num">Monto</th></tr></thead>
+      <tbody>
+        <tr><td>Ingresos por ventas</td><td class="td-num">$XX.XXX</td></tr>
+        <tr><td class="td-sub">(−) Costos variables (producción/servicio)</td><td class="td-num td-sub">($ X.XXX)</td></tr>
+        <tr><td class="td-sub">(−) Gastos variables de ventas y administración</td><td class="td-num td-sub">($ XXX)</td></tr>
+        <tr><td class="td-bold">= Margen de Contribución</td><td class="td-num td-bold">$XX.XXX</td></tr>
+        <tr><td class="td-sub">(−) Costos fijos de operación (PERÍODO)</td><td class="td-num td-sub">($ X.XXX)</td></tr>
+        <tr><td class="td-sub">(−) Gastos fijos de ventas y administración</td><td class="td-num td-sub">($ XXX)</td></tr>
+        <tr style="background:#003366;"><td class="td-bold" style="color:#fff;">= Utilidad Operativa</td><td class="td-num td-bold" style="color:#FFD700;">$X.XXX</td></tr>
+      </tbody>
+    </table>
+
+    <h3>¿Por qué es útil para la gerencia?</h3>
+    <p>El costeo variable separa claramente lo que cambia con el volumen (costos variables) de lo que es fijo. Esto permite calcular el <strong>margen de contribución</strong> directamente del estado de resultados, facilitando:</p>
+    <ul>
+      <li>Análisis CVU (como el de la Parte A)</li>
+      <li>Evaluación de rentabilidad por contrato, zona o tipo de servicio</li>
+      <li>Decisiones de corto plazo: aceptar pedidos, eliminar líneas, fijar precios</li>
+      <li>Planificación de utilidades y presupuestos</li>
+    </ul>
+
+    <div class="caja-ejemplo">
+      <div class="ej-label">🏢 Ejemplo — VigAlert Cía. Ltda. bajo Costeo Variable</div>
+      <p>Datos del mes de enero: <br>
+      • Puestos activos: 38 | Precio: $1.200 | Costo variable/puesto: $840 | Costos fijos: $9.000<br>
+      • Gastos variables de ventas: $15/puesto | Gastos fijos adm.: $2.000</p>
+      <table>
+        <thead><tr><th>Concepto</th><th class="td-num">Unitario</th><th class="td-num">Total (38 puestos)</th></tr></thead>
+        <tbody>
+          <tr><td>Ingresos</td><td class="td-num">$1.200</td><td class="td-num">$45.600</td></tr>
+          <tr><td>(−) Costos variables operación</td><td class="td-num">($840)</td><td class="td-num">($31.920)</td></tr>
+          <tr><td>(−) Gastos variables de ventas</td><td class="td-num">($15)</td><td class="td-num">($570)</td></tr>
+          <tr><td class="td-bold">= Margen de Contribución</td><td class="td-num td-bold">$345</td><td class="td-num td-bold">$13.110</td></tr>
+          <tr><td>(−) Costos fijos operación</td><td class="td-num">—</td><td class="td-num">($9.000)</td></tr>
+          <tr><td>(−) Gastos fijos adm.</td><td class="td-num">—</td><td class="td-num">($2.000)</td></tr>
+          <tr style="background:#003366;"><td class="td-bold" style="color:#fff;">= Utilidad Operativa</td><td class="td-num" style="color:#fff;">—</td><td class="td-num td-bold" style="color:#FFD700;">$2.110</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="caja-clave">
+      <div class="ck-label">💡 Idea clave</div>
+      <p>El costeo variable NO está permitido por las NIIF para los estados financieros externos — es una herramienta estrictamente <strong>interna y gerencial</strong>. Su poder radica en revelar el margen de contribución, que es invisible en el costeo por absorción. Úsalo para decidir; usa el costeo por absorción para reportar.</p>
+    </div>
+  </div>
+
+  <!-- TEMA 2: COSTEO POR ABSORCIÓN -->
+  <div id="tab-t2" class="tab-panel">
+    <h2>2. Costeo por Absorción (Completo)</h2>
+
+    <div class="caja-concepto">
+      <div class="cc-label">📖 Definición</div>
+      <p>El <strong>costeo por absorción</strong> (o costeo completo/total) incluye en el costo unitario del producto o servicio <strong>TODOS los costos de producción/operación</strong>: variables Y fijos. Es el método exigido por las NIIF y por el SRI en Ecuador para la elaboración de estados financieros externos. Los costos fijos se "absorben" dentro del costo por unidad y se convierten en gasto solo cuando el producto se vende (no cuando se produce).</p>
+    </div>
+
+    <h3>Estructura bajo Costeo por Absorción</h3>
+    <table>
+      <thead><tr><th>Concepto</th><th class="td-num">Monto</th></tr></thead>
+      <tbody>
+        <tr><td>Ingresos por ventas</td><td class="td-num">$XX.XXX</td></tr>
+        <tr><td>(−) Costo de ventas/servicios (variable + fijo absorbido)</td><td class="td-num">($X.XXX)</td></tr>
+        <tr><td class="td-bold">= Utilidad Bruta</td><td class="td-num td-bold">$X.XXX</td></tr>
+        <tr><td>(−) Gastos de ventas y administración</td><td class="td-num">($XXX)</td></tr>
+        <tr style="background:#003366;"><td class="td-bold" style="color:#fff;">= Utilidad Operativa</td><td class="td-num td-bold" style="color:#FFD700;">$X.XXX</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Comparación directa entre ambos métodos</h3>
+    <div class="comparativa-grid">
+      <div class="comp-card variable">
+        <h4>✅ Costeo Variable</h4>
+        <ul>
+          <li>CF de operación → <strong>gasto del período</strong></li>
+          <li>Costo unitario = solo CV</li>
+          <li>Muestra el margen de contribución</li>
+          <li>Utilidad varía con las <strong>ventas</strong></li>
+          <li>Uso: decisiones gerenciales internas</li>
+          <li>No permitido por NIIF para reportes externos</li>
+        </ul>
+      </div>
+      <div class="comp-card absorcion">
+        <h4>📋 Costeo por Absorción</h4>
+        <ul>
+          <li>CF de operación → <strong>parte del costo unitario</strong></li>
+          <li>Costo unitario = CV + CF prorrateado</li>
+          <li>No muestra directamente el MC</li>
+          <li>Utilidad varía con la <strong>producción Y ventas</strong></li>
+          <li>Uso: estados financieros externos, SRI</li>
+          <li>Obligatorio por NIIF y normativa ecuatoriana</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>La diferencia en utilidades: el efecto inventario</h3>
+    <div class="caja-alerta">
+      <div class="ca-label">⚠️ Punto crítico</div>
+      <p>Cuando la producción es <strong>mayor</strong> que las ventas (queda inventario al final), el costeo por absorción muestra <strong>mayor utilidad</strong> que el costeo variable, porque parte de los costos fijos queda "atrapada" en el inventario y no se registra como gasto. Cuando producción = ventas, ambos métodos dan la misma utilidad. Esto puede llevar a los gerentes a producir más solo para mejorar la utilidad contable, que es una práctica peligrosa llamada <em>"inflado de inventarios"</em>.</p>
+    </div>
+
+    <div class="formula-box">
+      <div class="formula">Dif. en Utilidad = CF/unidad × (Producción − Ventas)</div>
+      <div class="formula-desc">Si producción > ventas → Absorción tiene mayor utilidad. Si ventas > producción → Variable tiene mayor utilidad.</div>
+    </div>
+
+    <div class="caja-ejemplo">
+      <div class="ej-label">🏢 Ejemplo comparativo — Mismo mes, dos presentaciones</div>
+      <p>VigAlert: 38 puestos facturados; precio $1.200; CV $840; CF $9.000 + $2.000 adm.; gastos VV $570.<br>
+      CF de operación por puesto = $9.000 / 38 = $236.84</p>
+      <table>
+        <thead><tr><th>Concepto</th><th class="td-num">Costeo Variable</th><th class="td-num">Costeo por Absorción</th></tr></thead>
+        <tbody>
+          <tr><td>Ingresos</td><td class="td-num">$45.600</td><td class="td-num">$45.600</td></tr>
+          <tr><td>Costo del servicio</td><td class="td-num">($31.920)</td><td class="td-num">($40.920) incl. CF op.</td></tr>
+          <tr><td>Utilidad/Margen bruto</td><td class="td-num">$13.110 (MC)</td><td class="td-num">$4.680 (UB)</td></tr>
+          <tr><td>CF operación (período)</td><td class="td-num">($9.000)</td><td class="td-num">— (ya absorbido)</td></tr>
+          <tr><td>Gastos adm. y ventas</td><td class="td-num">($2.000)</td><td class="td-num">($2.570)</td></tr>
+          <tr style="background:#003366;"><td style="color:#fff;" class="td-bold">Utilidad Operativa</td><td class="td-num" style="color:#FFD700;font-weight:700;">$2.110</td><td class="td-num" style="color:#FFD700;font-weight:700;">$2.110</td></tr>
+        </tbody>
+      </table>
+      <p><strong>Resultado:</strong> Cuando producción = ventas, ambos métodos dan <strong>idéntica utilidad operativa</strong>. La diferencia aparece en la presentación y en el margen de contribución visible. En servicios (donde no hay inventario físico), la diferencia práctica es menor que en manufactura.</p>
+    </div>
+
+    <div class="caja-clave">
+      <div class="ck-label">💡 Idea clave</div>
+      <p>Un contador gerencial debe saber usar <strong>ambos métodos</strong>: el de absorción para cumplir con la ley y las NIIF, y el variable para tomar decisiones. Confundir ambos puede llevar a decisiones erróneas. Nunca uses datos de costeo por absorción para decidir si aceptar un contrato adicional — usarás el costeo variable y el margen de contribución.</p>
+    </div>
+  </div>
+
+  <!-- TEMA 3: FABRICAR O COMPRAR -->
+  <div id="tab-t3" class="tab-panel">
+    <h2>3. Costos Relevantes: Decisión de Fabricar o Comprar</h2>
+
+    <p>Una de las decisiones más comunes en empresas de servicios y manufactura es si una actividad o insumo debe producirse internamente o adquirirse a un proveedor externo. Esto se llama decisión de <strong>fabricar o comprar</strong> (make or buy) o, en servicios, <strong>hacer internamente o subcontratar (outsourcing)</strong>.</p>
+
+    <div class="caja-concepto">
+      <div class="cc-label">📖 Costos Relevantes</div>
+      <p>Son los costos que <strong>difieren entre las alternativas</strong> y son futuros (aún no ocurridos). Los costos que no cambian sin importar qué se decida son <strong>irrelevantes</strong> y no deben incluirse en el análisis. También son relevantes los <strong>costos de oportunidad</strong>: el beneficio que se pierde al elegir una alternativa sobre otra.</p>
+    </div>
+
+    <h3>¿Qué costos son relevantes y cuáles no?</h3>
+    <table>
+      <thead><tr><th>Costo</th><th>¿Relevante?</th><th>Razón</th></tr></thead>
+      <tbody>
+        <tr><td>Materiales adicionales si se produce internamente</td><td class="td-verde">Sí</td><td>Cambia según la decisión</td></tr>
+        <tr><td>Mano de obra adicional si se produce internamente</td><td class="td-verde">Sí</td><td>Cambia según la decisión</td></tr>
+        <tr><td>Precio de compra al proveedor externo</td><td class="td-verde">Sí</td><td>Solo ocurre si se compra</td></tr>
+        <tr><td>Costos fijos que no cambian (alquiler, salarios gerenciales)</td><td class="td-rojo">No</td><td>Ocurren de todas formas</td></tr>
+        <tr><td>Depreciación de equipos ya adquiridos</td><td class="td-rojo">No</td><td>Costo hundido (ya gastado)</td></tr>
+        <tr><td>Ingreso por uso alternativo de capacidad liberada</td><td class="td-verde">Sí</td><td>Costo de oportunidad</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Proceso de análisis: 4 pasos</h3>
+    <ol>
+      <li><strong>Identificar</strong> todos los costos de ambas alternativas</li>
+      <li><strong>Filtrar</strong>: eliminar costos irrelevantes (no cambian)</li>
+      <li><strong>Comparar</strong>: costo neto de hacer vs. costo neto de comprar</li>
+      <li><strong>Considerar factores cualitativos</strong>: calidad, confiabilidad, estrategia</li>
+    </ol>
+
+    <div class="caja-ejemplo">
+      <div class="ej-label">🏢 Caso — VigAlert: ¿Capacitar internamente o contratar instructores externos?</div>
+      <p>VigAlert capacita a sus guardias en defensa personal y primeros auxilios. El gerente evalúa si mantener un <strong>instructor interno</strong> (empleado fijo) o contratar a una empresa de capacitación externa para cada lote de guardias nuevos.</p>
+
+      <table>
+        <thead><tr><th>Concepto</th><th class="td-num">Instructor Interno/mes</th><th class="td-num">Empresa Externa/mes</th></tr></thead>
+        <tbody>
+          <tr><td>Salario del instructor (con beneficios sociales)</td><td class="td-num">$1.200</td><td class="td-num">—</td></tr>
+          <tr><td>Materiales de capacitación</td><td class="td-num">$300</td><td class="td-num">Incluido</td></tr>
+          <tr><td>Equipo y espacio de entrenamiento (ya existe)</td><td class="td-rojo td-num">Irrel. $800</td><td class="td-rojo td-num">Irrel. $800</td></tr>
+          <tr><td>Tarifa empresa externa (20 guardias/mes)</td><td class="td-num">—</td><td class="td-num">$1.800</td></tr>
+          <tr><td>Gastos de coordinación adicional</td><td class="td-num">—</td><td class="td-num">$200</td></tr>
+          <tr class="td-highlight"><td>TOTAL COSTOS RELEVANTES</td><td class="td-num">$1.500</td><td class="td-num">$2.000</td></tr>
+          <tr><td class="td-bold">Ventaja de la opción interna</td><td class="td-num td-bold" colspan="2" style="text-align:center;">$500/mes a favor del instructor interno</td></tr>
+        </tbody>
+      </table>
+      <p><strong>Análisis cualitativo:</strong> Sin embargo, si el instructor interno sale de vacaciones o renuncia, VigAlert queda sin capacitación. La empresa externa da más flexibilidad. El gerente decide mantener el instructor interno pero contratar externamente en meses de alta rotación (verano, diciembre).</p>
+    </div>
+
+    <div class="caja-clave">
+      <div class="ck-label">💡 Idea clave</div>
+      <p>La decisión de fabricar o comprar nunca es solo numérica. El análisis cuantitativo dice <em>cuánto cuesta cada opción</em>; el análisis cualitativo dice si eso se puede sostener estratégicamente. Una empresa de seguridad que subcontrata su capacitación pierde control sobre la calidad de sus guardias — y en este sector, la calidad es la diferencia entre perder o ganar contratos.</p>
+    </div>
+  </div>
+
+  <!-- TEMA 4: PEDIDOS ESPECIALES -->
+  <div id="tab-t4" class="tab-panel">
+    <h2>4. Decisión: Aceptar o Rechazar un Pedido Especial</h2>
+
+    <div class="caja-concepto">
+      <div class="cc-label">📖 ¿Qué es un pedido especial?</div>
+      <p>Un <strong>pedido especial</strong> es una solicitud de un cliente que no es habitual — generalmente a un precio <strong>por debajo del precio normal</strong> de venta. Puede venir de un cliente nuevo que quiere probar el servicio, de un cliente existente que necesita un volumen mayor, o de una licitación pública. La pregunta gerencial es: <strong>¿conviene aceptarlo?</strong></p>
+    </div>
+
+    <h3>La regla de decisión</h3>
+    <p>Un pedido especial conviene aceptar si genera un <strong>Margen de Contribución positivo</strong> — es decir, si el precio ofrecido supera los costos variables adicionales que genera el pedido — Y si existe <strong>capacidad ociosa</strong> suficiente para atenderlo sin afectar los contratos actuales.</p>
+
+    <div class="formula-box">
+      <div class="formula">Acepta si: Precio especial &gt; Costo variable unitario del pedido</div>
+      <div class="formula-desc">El MC positivo contribuye a cubrir CF ya existentes → aumenta utilidad. <br>Si no hay capacidad ociosa, el análisis cambia: hay que considerar costos de oportunidad.</div>
+    </div>
+
+    <h3>Costos relevantes en esta decisión</h3>
+    <table>
+      <thead><tr><th>Costo/Ingreso</th><th>¿Relevante?</th><th>Explicación</th></tr></thead>
+      <tbody>
+        <tr><td>Costos variables adicionales del pedido</td><td class="td-verde">Sí</td><td>Solo ocurren si se acepta</td></tr>
+        <tr><td>Costos fijos actuales (ya cubiertos)</td><td class="td-rojo">No</td><td>No cambian por el pedido</td></tr>
+        <tr><td>Precio del pedido especial</td><td class="td-verde">Sí</td><td>Es el ingreso diferencial</td></tr>
+        <tr><td>Ingreso perdido por contratos desplazados (si no hay capacidad)</td><td class="td-verde">Sí</td><td>Costo de oportunidad</td></tr>
+        <tr><td>Costos de marketing (fijos) ya gastados</td><td class="td-rojo">No</td><td>Costo hundido</td></tr>
+      </tbody>
+    </table>
+
+    <div class="caja-ejemplo">
+      <div class="ej-label">🏢 Caso — VigAlert recibe oferta del Municipio de Guayaquil</div>
+      <p>El Municipio de Guayaquil ofrece contratar 8 puestos de vigilancia para un evento de 3 meses, pagando solo <strong>$950/puesto/mes</strong> (en lugar del precio regular de $1.200). VigAlert opera actualmente con 38 puestos y tiene capacidad para 50 puestos con su estructura actual (12 puestos de capacidad ociosa).</p>
+
+      <table>
+        <thead><tr><th>Análisis del pedido especial</th><th class="td-num">Por puesto</th><th class="td-num">8 puestos / mes</th></tr></thead>
+        <tbody>
+          <tr><td>Precio ofrecido por el Municipio</td><td class="td-num">$950</td><td class="td-num">$7.600</td></tr>
+          <tr><td>(−) Costo variable por puesto</td><td class="td-num">($840)</td><td class="td-num">($6.720)</td></tr>
+          <tr><td class="td-bold">= Margen de Contribución incremental</td><td class="td-num td-bold">$110</td><td class="td-num td-bold">$880</td></tr>
+          <tr><td>(−) CF adicionales del pedido (ninguno, hay capacidad)</td><td class="td-num">$0</td><td class="td-num">$0</td></tr>
+          <tr style="background:#003366;"><td class="td-bold" style="color:#fff;">= Utilidad adicional por aceptar</td><td class="td-num" style="color:#FFD700;font-weight:700;">$110</td><td class="td-num" style="color:#FFD700;font-weight:700;">$880/mes</td></tr>
+        </tbody>
+      </table>
+
+      <p><strong>Decisión:</strong> ✅ <strong>Conviene aceptar.</strong> Aunque el precio es 21% menor al normal, el MC es positivo ($110/puesto). En 3 meses, VigAlert gana $2.640 adicionales que de otra forma no existirían. Los costos fijos ya están cubiertos por los 38 puestos actuales.</p>
+      <p><strong>Riesgo a considerar:</strong> ¿El Municipio usará este precio como referencia para contratos futuros? ¿Otros clientes se enterarán y pedirán igual descuento? Estos son factores cualitativos que el gerente debe evaluar junto con los números.</p>
+    </div>
+
+    <div class="caja-alerta">
+      <div class="ca-label">⚠️ Cuando NO hay capacidad ociosa</div>
+      <p>Si VigAlert ya opera al 100% (sin capacidad ociosa), aceptar el pedido del Municipio significaría <strong>desplazar contratos existentes</strong> que pagan $1.200. En ese caso, el costo de oportunidad es $1.200 − $840 = $360 por puesto, y la comparación sería: precio especial ($950) vs. ingreso perdido + CV ($840 + $360 = $1.200). El pedido ya no conviene.</p>
+    </div>
+
+    <div class="caja-clave">
+      <div class="ck-label">💡 Idea clave</div>
+      <p>Un gerente que rechaza automáticamente cualquier oferta bajo el precio normal está dejando dinero en la mesa. Un gerente que acepta todo sin analizar puede dañar su marca o sus precios de mercado. El análisis de costos relevantes le da la herramienta para <em>decidir con números</em>, no con intuición ni orgullo.</p>
+    </div>
+  </div>
+
+  <!-- TEMA 5: ELIMINAR LÍNEAS -->
+  <div id="tab-t5" class="tab-panel">
+    <h2>5. Decisión: Eliminar o Mantener una Línea de Servicio</h2>
+
+    <div class="caja-concepto">
+      <div class="cc-label">📖 El problema</div>
+      <p>Cuando una línea de producto o servicio muestra <strong>pérdida operativa</strong> bajo el costeo por absorción, el primer instinto del gerente es eliminarla. Pero esto puede ser un <strong>error grave</strong>: si esa línea tiene un margen de contribución positivo, su eliminación reduce los ingresos más de lo que reduce los costos, empeorando el resultado total de la empresa.</p>
+    </div>
+
+    <h3>La trampa del costeo por absorción</h3>
+    <p>El costeo por absorción distribuye los costos fijos entre todas las líneas. Si se elimina una línea, los costos fijos <strong>no desaparecen</strong> — se redistribuyen entre las líneas restantes. Esto hace que otras líneas parezcan menos rentables, pudiendo generar una espiral de eliminaciones que destruye la empresa.</p>
+
+    <h3>Regla de decisión correcta</h3>
+    <div class="formula-box">
+      <div class="formula">Elimina si: MC de la línea ≤ 0 Y no hay costos fijos evitables</div>
+      <div class="formula-desc">Si el MC es positivo, la línea contribuye a cubrir los CF aunque muestre "pérdida" en el costeo por absorción.<br>Eliminarla empeoraría la situación total.</div>
+    </div>
+
+    <h3>Costos fijos evitables vs. inevitables</h3>
+    <div class="caja-concepto">
+      <div class="cc-label">📖 Clasificación clave</div>
+      <p><strong>Costos fijos evitables:</strong> desaparecen si se elimina la línea (supervisor dedicado solo a esa línea, vehículo exclusivo, etc.).<br>
+      <strong>Costos fijos inevitables (comunes):</strong> continúan aunque se elimine la línea (gerencia general, alquiler de oficina, sistemas contables). Estos se redistribuyen entre las líneas restantes y NO deben influir en la decisión.</p>
+    </div>
+
+    <div class="caja-ejemplo">
+      <div class="ej-label">🏢 Caso — VigAlert evalúa su línea de "Vigilancia Móvil en Motos"</div>
+      <p>VigAlert tiene 3 líneas de servicio. El Estado de Resultados bajo costeo por absorción muestra:</p>
+      <table>
+        <thead><tr><th>Concepto</th><th class="td-num">Vigilancia Fija</th><th class="td-num">Monitoreo Remoto</th><th class="td-num">Móvil en Motos</th><th class="td-num">TOTAL</th></tr></thead>
+        <tbody>
+          <tr><td>Ingresos</td><td class="td-num">$28.800</td><td class="td-num">$12.000</td><td class="td-num">$6.000</td><td class="td-num">$46.800</td></tr>
+          <tr><td>CV operación</td><td class="td-num">($20.160)</td><td class="td-num">($7.200)</td><td class="td-num">($5.100)</td><td class="td-num">($32.460)</td></tr>
+          <tr><td class="td-bold">MC</td><td class="td-num td-bold">$8.640</td><td class="td-num td-bold">$4.800</td><td class="td-num td-bold">$900</td><td class="td-num td-bold">$14.340</td></tr>
+          <tr><td>CF evitables de la línea</td><td class="td-num">($3.000)</td><td class="td-num">($2.000)</td><td class="td-num">($1.800)</td><td class="td-num">($6.800)</td></tr>
+          <tr><td>CF comunes asignados</td><td class="td-num">($3.500)</td><td class="td-num">($1.500)</td><td class="td-num">($1.000)</td><td class="td-num">($6.000)</td></tr>
+          <tr style="background:#f5f8ff;"><td class="td-bold">Utilidad por absorción</td><td class="td-num td-bold" style="color:#27ae60;">$2.140</td><td class="td-num td-bold" style="color:#27ae60;">$1.300</td><td class="td-num td-bold" style="color:#e74c3c;">($1.900)</td><td class="td-num td-bold">$1.540</td></tr>
+        </tbody>
+      </table>
+
+      <p><strong>El análisis incorrecto diría:</strong> "Móvil en Motos tiene pérdida de $1.900 → eliminar."</p>
+      <p><strong>El análisis correcto con costos relevantes:</strong></p>
+      <table>
+        <thead><tr><th>Si se elimina Móvil en Motos</th><th class="td-num">Impacto</th></tr></thead>
+        <tbody>
+          <tr><td>Se pierde el MC de esa línea</td><td class="td-num td-rojo">−$900</td></tr>
+          <tr><td>Se ahorran los CF evitables</td><td class="td-num td-verde">+$1.800</td></tr>
+          <tr><td>Los CF comunes ($1.000) se redistribuyen a las otras líneas</td><td class="td-num">$0 (no se eliminan)</td></tr>
+          <tr style="background:#003366;"><td class="td-bold" style="color:#fff;">Mejora en utilidad total al eliminar</td><td class="td-num td-bold" style="color:#FFD700;">+$900</td></tr>
+        </tbody>
+      </table>
+      <p><strong>Decisión:</strong> ✅ En este caso, SÍ conviene eliminar la línea porque los CF evitables ($1.800) superan al MC ($900). La empresa mejora en $900 al cerrar esa línea. Pero ojo: si los CF evitables fueran solo $500 (por ejemplo, si los motociclistas se reasignan a otros puestos), la decisión sería mantenerla.</p>
+    </div>
+
+    <div class="caja-clave">
+      <div class="ck-label">💡 Idea clave</div>
+      <p>Una línea con pérdida en el papel no siempre debe eliminarse. Y una línea con utilidad positiva por absorción no siempre es la más conveniente. La clave está en identificar qué costos realmente desaparecen si se elimina la línea y compararlo con el MC que se pierde. Solo los costos relevantes (diferenciales) deben guiar la decisión.</p>
+    </div>
+  </div>
+
+  <!-- HERRAMIENTAS INTERACTIVAS -->
+  <div id="tab-herramientas" class="tab-panel">
+    <h2>🔧 Herramientas de Decisión Interactivas</h2>
+    <p>Usa las siguientes calculadoras para analizar los tres tipos de decisiones estudiados. Ingresa los datos de tu caso y obtén la recomendación con el análisis completo.</p>
+
+    <!-- HERRAMIENTA 1: FABRICAR O COMPRAR -->
+    <div class="decision-tool">
+      <div class="dt-title">🏭 Calculadora: ¿Fabricar Internamente o Subcontratar?</div>
+      <div class="dt-grid">
+        <div class="dt-field"><label>Costo variable interno ($/unidad)</label><input type="number" id="fb-cvi" value="1500" step="10"><span style="font-size:0.75rem;color:#555">Ej: salario + beneficios del instructor</span></div>
+        <div class="dt-field"><label>Costo fijo evitable interno ($/período)</label><input type="number" id="fb-cfe" value="200" step="10"><span style="font-size:0.75rem;color:#555">CF que desaparecen si se subcontrata</span></div>
+        <div class="dt-field"><label>Precio del proveedor externo ($/unidad)</label><input type="number" id="fb-ext" value="2000" step="10"><span style="font-size:0.75rem;color:#555">Lo que cobraría la empresa externa</span></div>
+        <div class="dt-field"><label>Volumen de unidades del período</label><input type="number" id="fb-vol" value="20" step="1"><span style="font-size:0.75rem;color:#555">Ej: guardias a capacitar</span></div>
+        <div class="dt-field"><label>Costo de oportunidad ($/período)</label><input type="number" id="fb-opp" value="0" step="10"><span style="font-size:0.75rem;color:#555">Ingreso que se generaría si se libera capacidad</span></div>
+      </div>
+      <button class="btn-decidir" onclick="calcFabricar()">⚡ Analizar decisión</button>
+      <div class="dt-resultado" id="fb-resultado"></div>
+    </div>
+
+    <!-- HERRAMIENTA 2: PEDIDO ESPECIAL -->
+    <div class="decision-tool">
+      <div class="dt-title">📦 Calculadora: ¿Aceptar el Pedido Especial?</div>
+      <div class="dt-grid">
+        <div class="dt-field"><label>Precio normal de venta ($/unidad)</label><input type="number" id="pe-normal" value="1200" step="10"></div>
+        <div class="dt-field"><label>Precio ofrecido en el pedido especial</label><input type="number" id="pe-especial" value="950" step="10"></div>
+        <div class="dt-field"><label>Costo variable por unidad</label><input type="number" id="pe-cv" value="840" step="10"></div>
+        <div class="dt-field"><label>Unidades del pedido especial</label><input type="number" id="pe-uds" value="8" step="1"></div>
+        <div class="dt-field"><label>Costos fijos adicionales del pedido ($)</label><input type="number" id="pe-cfa" value="0" step="10"><span style="font-size:0.75rem;color:#555">CF que solo ocurren por este pedido</span></div>
+        <div class="dt-field"><label>¿Hay capacidad ociosa? (1=sí, 0=no)</label><input type="number" id="pe-cap" value="1" min="0" max="1" step="1"></div>
+      </div>
+      <button class="btn-decidir" onclick="calcPedido()">⚡ Analizar decisión</button>
+      <div class="dt-resultado" id="pe-resultado"></div>
+    </div>
+
+    <!-- HERRAMIENTA 3: ELIMINAR LÍNEA -->
+    <div class="decision-tool">
+      <div class="dt-title">🗑️ Calculadora: ¿Eliminar la Línea de Servicio?</div>
+      <div class="dt-grid">
+        <div class="dt-field"><label>Ingresos de la línea ($/período)</label><input type="number" id="el-ing" value="6000" step="100"></div>
+        <div class="dt-field"><label>Costos variables de la línea</label><input type="number" id="el-cv" value="5100" step="100"></div>
+        <div class="dt-field"><label>CF evitables si se elimina</label><input type="number" id="el-cfe" value="1800" step="100"><span style="font-size:0.75rem;color:#555">Los que desaparecen realmente</span></div>
+        <div class="dt-field"><label>CF comunes asignados a la línea</label><input type="number" id="el-cfc" value="1000" step="100"><span style="font-size:0.75rem;color:#555">Se redistribuirán si se elimina</span></div>
+      </div>
+      <button class="btn-decidir" onclick="calcEliminar()">⚡ Analizar decisión</button>
+      <div class="dt-resultado" id="el-resultado"></div>
+    </div>
+  </div>
+
+  <!-- CUESTIONARIO -->
+  <div id="tab-cuestionario" class="tab-panel">
+    <h2>📝 Cuestionario — Semana 7B</h2>
+    <p>Lee cada pregunta con atención. Selecciona tu respuesta y al finalizar presiona "Verificar". <strong>No se califica pregunta por pregunta.</strong></p>
+
+    <div id="quiz-container">
+      <!-- Q1 -->
+      <div class="quiz-pregunta" id="q1">
+        <div class="qp-num">Pregunta 1 de 10</div>
+        <div><span class="qp-badge badge-teorica">Teórica</span></div>
+        <div class="qp-texto">¿Cuál es la principal diferencia entre el costeo variable y el costeo por absorción en cuanto al tratamiento de los costos fijos de operación?</div>
+        <div class="qp-opciones">
+          <label class="opcion"><input type="radio" name="q1" value="a"> A) En el costeo variable, los CF se incluyen en el costo unitario; en absorción van al período.</label>
+          <label class="opcion"><input type="radio" name="q1" value="b"> B) En el costeo variable, los CF van directamente al Estado de Resultados como gastos del período; en absorción se incluyen en el costo unitario.</label>
+          <label class="opcion"><input type="radio" name="q1" value="c"> C) Ambos métodos tratan los CF de la misma manera, solo difieren en la presentación.</label>
+          <label class="opcion"><input type="radio" name="q1" value="d"> D) El costeo por absorción no incluye costos fijos en ningún cálculo.</label>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="quiz-pregunta" id="q2">
+        <div class="qp-num">Pregunta 2 de 10</div>
+        <div><span class="qp-badge badge-teorica">Teórica</span></div>
+        <div class="qp-texto">¿En qué situación el costeo por absorción muestra una utilidad mayor que el costeo variable?</div>
+        <div class="qp-opciones">
+          <label class="opcion"><input type="radio" name="q2" value="a"> A) Cuando las ventas superan a la producción del período.</label>
+          <label class="opcion"><input type="radio" name="q2" value="b"> B) Cuando la producción es mayor que las ventas (hay acumulación de inventario).</label>
+          <label class="opcion"><input type="radio" name="q2" value="c"> C) Cuando los costos variables son más altos que los fijos.</label>
+          <label class="opcion"><input type="radio" name="q2" value="d"> D) Ambos métodos siempre dan la misma utilidad.</label>
+        </div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="quiz-pregunta" id="q3">
+        <div class="qp-num">Pregunta 3 de 10</div>
+        <div><span class="qp-badge badge-teorica">Teórica</span></div>
+        <div class="qp-texto">¿Cuál es la condición mínima para que convenga aceptar un pedido especial a un precio inferior al normal, asumiendo que hay capacidad ociosa?</div>
+        <div class="qp-opciones">
+          <label class="opcion"><input type="radio" name="q3" value="a"> A) Que el precio especial cubra el costo total absorbido (variable + fijo prorrateado).</label>
+          <label class="opcion"><input type="radio" name="q3" value="b"> B) Que el precio especial supere únicamente los costos variables adicionales generados por el pedido.</label>
+          <label class="opcion"><input type="radio" name="q3" value="c"> C) Que el precio especial sea igual al precio normal multiplicado por 0.80.</label>
+          <label class="opcion"><input type="radio" name="q3" value="d"> D) Que el pedido especial genere suficiente volumen para bajar el costo fijo unitario.</label>
+        </div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="quiz-pregunta" id="q4">
+        <div class="qp-num">Pregunta 4 de 10</div>
+        <div><span class="qp-badge badge-teorica">Teórica</span></div>
+        <div class="qp-texto">En la decisión de "fabricar o comprar", ¿cuál de los siguientes costos es IRRELEVANTE para el análisis?</div>
+        <div class="qp-opciones">
+          <label class="opcion"><input type="radio" name="q4" value="a"> A) El salario de los empleados que se contratarán específicamente para producir internamente.</label>
+          <label class="opcion"><input type="radio" name="q4" value="b"> B) El precio cotizado por el proveedor externo.</label>
+          <label class="opcion"><input type="radio" name="q4" value="c"> C) La depreciación de equipos ya adquiridos que se usan en ambas alternativas.</label>
+          <label class="opcion"><input type="radio" name="q4" value="d"> D) El costo de oportunidad de la capacidad liberada si se compra externamente.</label>
+        </div>
+      </div>
+
+      <!-- Q5 -->
+      <div class="quiz-pregunta" id="q5">
+        <div class="qp-num">Pregunta 5 de 10</div>
+        <div><span class="qp-badge badge-teorica">Teórica</span></div>
+        <div class="qp-texto">Una empresa tiene una línea de servicio que muestra una pérdida de $2.000 bajo costeo por absorción. Su Margen de Contribución es $1.500 y sus costos fijos evitables son $800. ¿Qué debería hacer la empresa?</div>
+        <div class="qp-opciones">
+          <label class="opcion"><input type="radio" name="q5" value="a"> A) Eliminarla inmediatamente porque muestra pérdida.</label>
+          <label class="opcion"><input type="radio" name="q5" value="b"> B) Mantenerla, porque el MC ($1.500) supera los CF evitables ($800), y eliminarla empeoraría la situación.</label>
+          <label class="opcion"><input type="radio" name="q5" value="c"> C) Mantenerla, porque el costeo por absorción siempre sobreestima las pérdidas.</label>
+          <label class="opcion"><input type="radio" name="q5" value="d"> D) Eliminarla solo si los ingresos de esa línea son menores al promedio de la empresa.</label>
+        </div>
+      </div>
+
+      <!-- Q6 -->
+      <div class="quiz-pregunta" id="q6">
+        <div class="qp-num">Pregunta 6 de 10</div>
+        <div><span class="qp-badge badge-teorica">Teórica</span></div>
+        <div class="qp-texto">¿Para qué tipo de análisis está específicamente diseñado el costeo variable y por qué el costeo por absorción no es apropiado para ese uso?</div>
+        <div class="qp-opciones">
+          <label class="opcion"><input type="radio" name="q6" value="a"> A) Para reportes externos al SRI, porque muestra mayor utilidad.</label>
+          <label class="opcion"><input type="radio" name="q6" value="b"> B) Para decisiones gerenciales internas y CVU, porque separa claramente costos variables de fijos y revela el margen de contribución.</label>
+          <label class="opcion"><input type="radio" name="q6" value="c"> C) Para calcular el impuesto a la renta, porque incluye todos los costos en el costo unitario.</label>
+          <label class="opcion"><input type="radio" name="q6" value="d"> D) Para decisiones de largo plazo, porque el MC es irrelevante en esos contextos.</label>
+        </div>
+      </div>
+
+      <!-- Q7 -->
+      <div class="quiz-pregunta" id="q7">
+        <div class="qp-num">Pregunta 7 de 10</div>
+        <div><span class="qp-badge badge-teorica">Teórica</span></div>
+        <div class="qp-texto">¿Qué son los costos fijos "inevitables" o "comunes" en la decisión de eliminar una línea de servicio?</div>
+        <div class="qp-opciones">
+          <label class="opcion"><input type="radio" name="q7" value="a"> A) Costos que desaparecen completamente si se elimina la línea.</label>
+          <label class="opcion"><input type="radio" name="q7" value="b"> B) Costos que continúan existiendo aunque se elimine la línea; solo se redistribuyen entre las líneas restantes.</label>
+          <label class="opcion"><input type="radio" name="q7" value="c"> C) Costos variables que se vuelven fijos con el tiempo.</label>
+          <label class="opcion"><input type="radio" name="q7" value="d"> D) Costos que solo se generan por la línea específica que se evalúa eliminar.</label>
+        </div>
+      </div>
+
+      <!-- Q8 ANÁLISIS -->
+      <div class="quiz-pregunta" id="q8">
+        <div class="qp-num">Pregunta 8 de 10</div>
+        <div><span class="qp-badge badge-analisis">Análisis</span></div>
+        <div class="qp-texto">Una empresa de transporte ofrece servicios de mensajería ($15/envío) y mudanzas ($500/servicio). El costo variable de mensajería es $12/envío y el de mudanzas $380/servicio. Los costos fijos totales son $8.000/mes. ¿Cuál servicio tiene mayor Ratio de Margen de Contribución?</div>
+        <div class="qp-opciones">
+          <label class="opcion"><input type="radio" name="q8" value="a"> A) Mensajería, con RMC del 20%.</label>
+          <label class="opcion"><input type="radio" name="q8" value="b"> B) Mudanzas, con RMC del 24%.</label>
+          <label class="opcion"><input type="radio" name="q8" value="c"> C) Ambos tienen el mismo RMC del 22%.</label>
+          <label class="opcion"><input type="radio" name="q8" value="d"> D) Mensajería, con RMC del 24%.</label>
+        </div>
+      </div>
+
+      <!-- Q9 ANÁLISIS -->
+      <div class="quiz-pregunta" id="q9">
+        <div class="qp-num">Pregunta 9 de 10</div>
+        <div><span class="qp-badge badge-analisis">Análisis</span></div>
+        <div class="qp-texto">Un restaurante recibe una oferta para catering de un evento corporativo: 200 cubiertos a $12 c/u. Su precio normal es $18/cubierto y su costo variable es $9/cubierto. Tiene capacidad ociosa suficiente y no genera costos fijos adicionales. ¿Cuánta utilidad adicional genera si acepta?</div>
+        <div class="qp-opciones">
+          <label class="opcion"><input type="radio" name="q9" value="a"> A) $1.800 adicionales.</label>
+          <label class="opcion"><input type="radio" name="q9" value="b"> B) $600 adicionales.</label>
+          <label class="opcion"><input type="radio" name="q9" value="c"> C) $0, porque el precio especial no cubre el costo total.</label>
+          <label class="opcion"><input type="radio" name="q9" value="d"> D) ($600) — pérdida si acepta.</label>
+        </div>
+      </div>
+
+      <!-- Q10 ANÁLISIS -->
+      <div class="quiz-pregunta" id="q10">
+        <div class="qp-num">Pregunta 10 de 10</div>
+        <div><span class="qp-badge badge-analisis">Análisis</span></div>
+        <div class="qp-texto">Una clínica tiene tres departamentos. El de Radiología muestra pérdida de $3.500 bajo costeo por absorción. Su MC es $2.200, sus CF evitables son $1.000 y los CF comunes asignados son $4.700. Si se elimina, ¿cuál es el impacto en la utilidad total de la clínica?</div>
+        <div class="qp-opciones">
+          <label class="opcion"><input type="radio" name="q10" value="a"> A) Mejora en $3.500 (se elimina la pérdida).</label>
+          <label class="opcion"><input type="radio" name="q10" value="b"> B) Empeora en $1.200 (se pierde más MC del que se ahorra en CF evitables).</label>
+          <label class="opcion"><input type="radio" name="q10" value="c"> C) Mejora en $1.000 (se ahorran los CF evitables y el MC es irrelevante).</label>
+          <label class="opcion"><input type="radio" name="q10" value="d"> D) No cambia, porque los CF comunes compensan el MC perdido.</label>
+        </div>
+      </div>
+
+      <button class="btn-verificar" onclick="verificarQuiz()">✅ Verificar respuestas</button>
+      <div id="quiz-resultados" style="display:none;"></div>
+      <button class="btn-reiniciar" id="btn-reiniciar-quiz" style="display:none;" onclick="reiniciarQuiz()">🔄 Reiniciar cuestionario</button>
+    </div>
+  </div>
+
+  <!-- ACTIVIDAD CON IA -->
+  <div id="tab-ia" class="tab-panel">
+    <h2>🤖 Actividad con Inteligencia Artificial</h2>
+
+    <div class="caja-ejemplo">
+      <div class="ej-label">🎯 Objetivo de la actividad</div>
+      <p>Usar la IA como interlocutor de pensamiento crítico para analizar una decisión real de costos en tu empresa, contrastar el análisis automático de la IA con tu propio juicio, e identificar qué elementos cualitativos la IA no puede considerar por sí sola.</p>
+    </div>
+
+    <div class="ia-card">
+      <h3 style="color:#003366;font-family:'Lora',serif;margin-bottom:14px;">Pasos de la actividad</h3>
+
+      <div class="ia-step">
+        <div class="ia-num">1</div>
+        <div>
+          <p><strong>Herramienta recomendada:</strong> <a href="https://claude.ai" target="_blank" style="color:#003366;font-weight:700;">Claude en claude.ai</a> (gratuito). Alternativas: ChatGPT o Gemini.</p>
+          <p>Abre una nueva conversación e ingresa el siguiente prompt:</p>
+        </div>
+      </div>
+
+      <div class="prompt-box">Actúa como un consultor especialista en contabilidad gerencial y costos. Voy a darte los datos de una decisión real de mi empresa de seguridad privada en Guayaquil, Ecuador. Quiero que:
+
+1. Analices la decisión usando el marco de costos relevantes
+2. Me digas si conviene o no conviene, con números claros
+3. Identifiques qué información adicional necesitarías para un análisis más completo
+4. Me señales al menos 3 factores cualitativos que los números no capturan
+
+Los datos son:
+- Mi empresa tiene 40 puestos de vigilancia activos
+- Precio normal: $1.200/puesto/mes; Costo variable: $860/puesto
+- Costos fijos mensuales: $10.500 (incluye 3 supervisores, 2 vehículos, oficina)
+- Un cliente del sector bancario ofrece 6 puestos adicionales durante 4 meses, pagando $1.050/puesto (precio especial por ser cliente nuevo con potencial de renovación)
+- Tengo capacidad para 55 puestos con mi estructura actual
+
+Presenta el análisis en formato tabular y luego dame tu recomendación con argumento claro.</div>
+
+      <div class="ia-step" style="margin-top:14px;">
+        <div class="ia-num">2</div>
+        <div>
+          <p><strong>¿Qué hacer con la respuesta de la IA?</strong></p>
+          <ul>
+            <li>Lee el análisis numérico y verifica los cálculos tú mismo (usa la calculadora de la pestaña "Herramientas")</li>
+            <li>Compara si la IA consideró el costo de oportunidad correctamente</li>
+            <li>Evalúa los factores cualitativos que la IA identificó — ¿hay alguno que no mencionó y que tú sí ves desde tu experiencia en el sector?</li>
+            <li>Escribe un párrafo de al menos 150 palabras respondiendo: <em>"¿Estoy de acuerdo con la recomendación de la IA? ¿Por qué sí o no?"</em></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="ia-step">
+        <div class="ia-num">3</div>
+        <div>
+          <p><strong>Profundiza con esta pregunta de seguimiento:</strong></p>
+          <div class="prompt-box">Considerando que este cliente bancario podría convertirse en contrato permanente de 10 puestos al año siguiente, ¿cambiaría tu recomendación? ¿Cómo valorarías ese potencial estratégico en términos contables?</div>
+        </div>
+      </div>
+    </div>
+
+    <h3>Criterio de evaluación</h3>
+    <p>El profesor valorará <strong>tu análisis crítico</strong>, no la respuesta de la IA:</p>
+
+    <div class="criterio-item ci-si">
+      <span>✅</span>
+      <span><strong>Demuestra pensamiento crítico:</strong> Verificas los cálculos, señalas errores o limitaciones de la IA, agregas tu perspectiva del sector seguridad, identificas factores que la IA omitió.</span>
+    </div>
+    <div class="criterio-item ci-no">
+      <span>❌</span>
+      <span><strong>Es solo copia:</strong> Transcribes la respuesta de la IA sin verificación, sin comentario propio, sin conectarla con el contexto real de tu empresa.</span>
+    </div>
+    <div class="criterio-item ci-si" style="margin-top:6px;">
+      <span>✅</span>
+      <span><strong>Extra:</strong> Propones una variación del escenario (cambias un parámetro) y muestras cómo cambia la decisión.</span>
+    </div>
+
+    <div class="caja-clave">
+      <div class="ck-label">💡 Por qué esta actividad importa</div>
+      <p>La IA puede hacer análisis numéricos rápidos, pero no conoce tu empresa, tu sector, tu historial con ese cliente ni tus objetivos estratégicos. El gerente del siglo XXI usa la IA como asistente de cálculo, pero mantiene el criterio y la decisión final. Esta es exactamente la habilidad que desarrollamos hoy.</p>
+    </div>
+  </div>
+
+  <!-- REFLEXIÓN -->
+  <div id="tab-reflexion" class="tab-panel">
+    <h2>💭 Preguntas Reflexivas — Conectando los Costos con tu Vida</h2>
+    <p style="font-style:italic;color:#555;margin-bottom:20px;">No hay respuestas buenas ni malas. Estas preguntas buscan que descubras que los principios de la contabilidad gerencial ya los aplicas en tu vida sin saberlo. Escribe lo que piensas con honestidad.</p>
+
+    <div class="reflexion-card">
+      <div class="rc-icon">⚖️</div>
+      <div class="rc-pregunta">El punto de equilibrio en los costos es el momento en que los ingresos cubren exactamente todos los gastos. ¿Cuál es tu "punto de equilibrio emocional"? ¿Qué necesitas mínimamente en un día para sentirte funcional y bien?</div>
+      <div class="rc-conexion">Conexión: Así como una empresa define su umbral mínimo de operación, cada persona tiene un umbral mínimo de bienestar. Reconocerlo con claridad — sin sobreestimarlo ni subestimarlo — es inteligencia emocional en acción.</div>
+      <textarea class="rc-area" placeholder="Escribe tu reflexión aquí..."></textarea>
+    </div>
+
+    <div class="reflexion-card">
+      <div class="rc-icon">🔁</div>
+      <div class="rc-pregunta">En la decisión de "fabricar o comprar", la clave es reconocer qué puedes hacer tú mejor y qué conviene delegar. En tu vida personal y profesional, ¿qué actividades estás haciendo tú mismo que podrías o deberías delegar? ¿Qué te cuesta (en tiempo, energía o estrés) hacerlo solo?</div>
+      <div class="rc-conexion">Conexión: El "costo de oportunidad" de hacer algo que no es tu fortaleza es el tiempo que no dedicas a lo que sí lo es. Delegar no es debilidad — es gestión estratégica de recursos.</div>
+      <textarea class="rc-area" placeholder="Escribe tu reflexión aquí..."></textarea>
+    </div>
+
+    <div class="reflexion-card">
+      <div class="rc-icon">🤝</div>
+      <div class="rc-pregunta">Un "pedido especial" es una oportunidad fuera de lo habitual, a condiciones diferentes. ¿Cuándo fue la última vez que aceptaste hacer algo "fuera de tu precio normal" (una oportunidad, un favor, una colaboración sin remuneración inmediata)? ¿Fue una buena decisión? ¿Por qué sí o no?</div>
+      <div class="rc-conexion">Conexión: En la vida, muchas de las mejores oportunidades llegan con condiciones no estándar. El análisis de costos relevantes te enseña a evaluar si vale la pena, no a decir siempre que sí ni siempre que no.</div>
+      <textarea class="rc-area" placeholder="Escribe tu reflexión aquí..."></textarea>
+    </div>
+
+    <div class="reflexion-card">
+      <div class="rc-icon">🗑️</div>
+      <div class="rc-pregunta">Eliminar una "línea de servicio" que parece no rentable pero que tiene margen de contribución positivo puede ser un error. En tu vida, ¿hay relaciones, hábitos o actividades que "en el papel" parecen improductivas pero que en realidad te aportan algo esencial? ¿Cómo lo sabes?</div>
+      <div class="rc-conexion">Conexión: En programación neurolingüística, se habla de identificar el "para qué" de cada comportamiento. Un hábito puede parecer costoso o ineficiente, pero si cumple una función emocional o social real, eliminarlo puede dejar un vacío mayor.</div>
+      <textarea class="rc-area" placeholder="Escribe tu reflexión aquí..."></textarea>
+    </div>
+
+    <div class="reflexion-card">
+      <div class="rc-icon">🧠</div>
+      <div class="rc-pregunta">El costeo variable dice: "mira lo que REALMENTE cambia con cada decisión, no lo que ya está dado". ¿En qué decisiones de tu vida estás incluyendo "costos hundidos" (cosas del pasado que ya no puedes cambiar) para justificar seguir en un camino que ya no te conviene?</div>
+      <div class="rc-conexion">Conexión: "Ya invertí tanto tiempo en esto" o "ya gasté tanto en ese curso" son costos hundidos. La contabilidad gerencial y la psicología cognitiva coinciden: las decisiones deben mirar hacia adelante, no hacia atrás. Esto se llama evitar la "falacia del costo hundido".</div>
+      <textarea class="rc-area" placeholder="Escribe tu reflexión aquí..."></textarea>
+    </div>
+
+    <div class="reflexion-card">
+      <div class="rc-icon">🌱</div>
+      <div class="rc-pregunta">El apalancamiento operativo muestra que, pasado el punto de equilibrio, cada unidad adicional genera utilidad de forma exponencial. ¿En qué área de tu vida personal o profesional estás cerca de tu "punto de equilibrio" — ese punto en que el esfuerzo sostenido empieza a generar retornos acelerados?</div>
+      <div class="rc-conexion">Conexión: El crecimiento personal, al igual que el empresarial, tiene una fase de cobertura de costos fijos (desarrollar hábitos, superar la curva de aprendizaje) antes de que lleguen los resultados visibles. Quienes abandonan antes de ese punto nunca experimentan el efecto multiplicador.</div>
+      <textarea class="rc-area" placeholder="Escribe tu reflexión aquí..."></textarea>
+    </div>
+
+    <div class="caja-clave">
+      <div class="ck-label">💡 Para cerrar</div>
+      <p>La contabilidad gerencial no es solo números — es una forma de pensar con claridad sobre decisiones, recursos y consecuencias. Cada concepto que has estudiado esta semana tiene un paralelo en la vida real. El estudiante que lo ve así no solo aprueba el examen: desarrolla una mentalidad de gestión que lo acompañará toda su vida profesional.</p>
+    </div>
+  </div>
+
+  <!-- BIBLIOGRAFÍA -->
+  <div id="tab-bib" class="tab-panel">
+    <h2>📚 Bibliografía — APA 7.ª edición</h2>
+
+    <div class="bib-card">
+      <div class="bib-autor">Horngren, C. T., Datar, S. M., & Rajan, M. V.</div>
+      <div class="bib-titulo">Contabilidad de costos: Un enfoque gerencial (14.ª ed.)</div>
+      <div class="bib-fuente">Pearson Educación. (2012)</div>
+    </div>
+
+    <div class="bib-card">
+      <div class="bib-autor">Hansen, D. R., & Mowen, M. M.</div>
+      <div class="bib-titulo">Administración de costos: Contabilidad y control (5.ª ed.)</div>
+      <div class="bib-fuente">Cengage Learning. (2007)</div>
+    </div>
+
+    <div class="bib-card">
+      <div class="bib-autor">Ramírez Padilla, D. N.</div>
+      <div class="bib-titulo">Contabilidad administrativa (8.ª ed.)</div>
+      <div class="bib-fuente">McGraw-Hill Interamericana. (2008)</div>
+    </div>
+
+    <div class="bib-card">
+      <div class="bib-autor">Garrison, R. H., Noreen, E. W., & Brewer, P. C.</div>
+      <div class="bib-titulo">Contabilidad administrativa (13.ª ed.)</div>
+      <div class="bib-fuente">McGraw-Hill Educación. (2010)</div>
+    </div>
+
+    <div class="bib-card">
+      <div class="bib-autor">Jiménez Boulanger, F., & Espinoza Gutiérrez, C. L.</div>
+      <div class="bib-titulo">Costos industriales</div>
+      <div class="bib-fuente">Editorial Tecnológica de Costa Rica. (2007)</div>
+    </div>
+
+    <div class="bib-card">
+      <div class="bib-autor">Ministerio de Trabajo del Ecuador</div>
+      <div class="bib-titulo">Acuerdo Ministerial sobre salario básico unificado y beneficios sociales</div>
+      <div class="bib-fuente">Registro Oficial del Ecuador. (2024). https://www.trabajo.gob.ec</div>
+    </div>
+
+    <div class="bib-card">
+      <div class="bib-autor">Instituto Ecuatoriano de Seguridad Social (IESS)</div>
+      <div class="bib-titulo">Tasas de aporte al IESS: Empleado y empleador</div>
+      <div class="bib-fuente">IESS. (2024). https://www.iess.gob.ec</div>
+    </div>
+
+    <div class="bib-nota">
+      <strong>📌 Nota importante:</strong> Se recomienda verificar cada referencia en <a href="https://scholar.google.com" target="_blank" style="color:#003366;">Google Scholar (scholar.google.com)</a> o en el repositorio institucional de la Universidad de Guayaquil antes de citar en trabajos académicos. Las ediciones más recientes de los libros de texto pueden contener actualizaciones relevantes en terminología y ejemplos.
+    </div>
+  </div>
+
+</div><!-- /content -->
+
+<script>
+// ===== NAVEGACIÓN =====
+function showTab(id) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+// ===== HERRAMIENTA FABRICAR/COMPRAR =====
+function calcFabricar() {
+  const cvi = parseFloat(document.getElementById('fb-cvi').value) || 0;
+  const cfe = parseFloat(document.getElementById('fb-cfe').value) || 0;
+  const ext = parseFloat(document.getElementById('fb-ext').value) || 0;
+  const vol = parseFloat(document.getElementById('fb-vol').value) || 1;
+  const opp = parseFloat(document.getElementById('fb-opp').value) || 0;
+
+  const costoInternoTotal = (cvi * vol) + cfe;
+  const costoExternoTotal = (ext * vol) - opp; // opp reduce el costo efectivo de comprar
+  const diferencia = costoExternoTotal - costoInternoTotal;
+
+  let verdict, cls;
+  if (diferencia > 0) { verdict = `✅ CONVIENE HACER INTERNAMENTE — Ahorro: $${diferencia.toFixed(2)}`; cls = 'si'; }
+  else if (diferencia < 0) { verdict = `🔄 CONVIENE SUBCONTRATAR — Ahorro: $${Math.abs(diferencia).toFixed(2)}`; cls = 'no'; }
+  else { verdict = `⚖️ INDIFERENTE — Ambas opciones cuestan igual`; cls = 'neutral'; }
+
+  document.getElementById('fb-resultado').innerHTML = `
+    <div class="dr-verdict ${cls}">${verdict}</div>
+    <table>
+      <thead><tr><th>Concepto</th><th class="td-num">Hacer interno</th><th class="td-num">Subcontratar</th></tr></thead>
+      <tbody>
+        <tr><td>Costo variable total (${vol} uds)</td><td class="td-num">$${(cvi*vol).toFixed(2)}</td><td class="td-num">$${(ext*vol).toFixed(2)}</td></tr>
+        <tr><td>CF evitables</td><td class="td-num">$${cfe.toFixed(2)}</td><td class="td-num">—</td></tr>
+        <tr><td>(-) Costo de oportunidad</td><td class="td-num">—</td><td class="td-num">($${opp.toFixed(2)})</td></tr>
+        <tr style="background:#003366;"><td style="color:#fff;" class="td-bold">TOTAL COSTO RELEVANTE</td><td class="td-num" style="color:#FFD700;font-weight:700;">$${costoInternoTotal.toFixed(2)}</td><td class="td-num" style="color:#FFD700;font-weight:700;">$${costoExternoTotal.toFixed(2)}</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:0.83rem;color:#555;margin-top:8px;">⚠️ Recuerda evaluar también: calidad, confiabilidad del proveedor, impacto en el equipo interno, confidencialidad.</p>`;
+  document.getElementById('fb-resultado').style.display = 'block';
+}
+
+// ===== HERRAMIENTA PEDIDO ESPECIAL =====
+function calcPedido() {
+  const normal = parseFloat(document.getElementById('pe-normal').value) || 0;
+  const especial = parseFloat(document.getElementById('pe-especial').value) || 0;
+  const cv = parseFloat(document.getElementById('pe-cv').value) || 0;
+  const uds = parseFloat(document.getElementById('pe-uds').value) || 0;
+  const cfa = parseFloat(document.getElementById('pe-cfa').value) || 0;
+  const cap = parseInt(document.getElementById('pe-cap').value);
+
+  const mc_especial = especial - cv;
+  const utilidad_adicional = (mc_especial * uds) - cfa;
+
+  let verdict, cls, nota = '';
+  if (!cap) {
+    nota = '<p style="color:#e74c3c;font-weight:600;margin-top:8px;">⚠️ Sin capacidad ociosa, debes incluir el costo de oportunidad (MC de contratos desplazados) en el análisis. El pedido podría no convenir.</p>';
+  }
+
+  if (utilidad_adicional > 0 && cap) { verdict = `✅ ACEPTAR EL PEDIDO — Utilidad adicional: $${utilidad_adicional.toFixed(2)}`; cls = 'si'; }
+  else if (utilidad_adicional <= 0) { verdict = `❌ RECHAZAR EL PEDIDO — Genera pérdida de $${Math.abs(utilidad_adicional).toFixed(2)}`; cls = 'no'; }
+  else { verdict = `⚠️ ANALIZAR CON CUIDADO — Considerar costo de oportunidad`; cls = 'neutral'; }
+
+  document.getElementById('pe-resultado').innerHTML = `
+    <div class="dr-verdict ${cls}">${verdict}</div>
+    <table>
+      <thead><tr><th>Concepto</th><th class="td-num">Unitario</th><th class="td-num">Total (${uds} uds)</th></tr></thead>
+      <tbody>
+        <tr><td>Precio especial ofrecido</td><td class="td-num">$${especial.toFixed(2)}</td><td class="td-num">$${(especial*uds).toFixed(2)}</td></tr>
+        <tr><td>(-) Costo variable</td><td class="td-num">($${cv.toFixed(2)})</td><td class="td-num">($${(cv*uds).toFixed(2)})</td></tr>
+        <tr><td class="td-bold">MC incremental</td><td class="td-num td-bold">$${mc_especial.toFixed(2)}</td><td class="td-num td-bold">$${(mc_especial*uds).toFixed(2)}</td></tr>
+        <tr><td>(-) CF adicionales del pedido</td><td class="td-num">—</td><td class="td-num">($${cfa.toFixed(2)})</td></tr>
+        <tr style="background:#003366;"><td style="color:#fff;" class="td-bold">UTILIDAD ADICIONAL</td><td class="td-num" style="color:#FFD700;font-weight:700;">—</td><td class="td-num" style="color:#FFD700;font-weight:700;">$${utilidad_adicional.toFixed(2)}</td></tr>
+        <tr><td class="td-sub">Precio descuento vs. normal</td><td class="td-num td-sub">${(((normal-especial)/normal)*100).toFixed(1)}% menos</td><td class="td-num">—</td></tr>
+      </tbody>
+    </table>${nota}`;
+  document.getElementById('pe-resultado').style.display = 'block';
+}
+
+// ===== HERRAMIENTA ELIMINAR LÍNEA =====
+function calcEliminar() {
+  const ing = parseFloat(document.getElementById('el-ing').value) || 0;
+  const cv = parseFloat(document.getElementById('el-cv').value) || 0;
+  const cfe = parseFloat(document.getElementById('el-cfe').value) || 0;
+  const cfc = parseFloat(document.getElementById('el-cfc').value) || 0;
+
+  const mc = ing - cv;
+  const utilAbsorcion = mc - cfe - cfc;
+  const impactoEliminar = cfe - mc; // si positivo, eliminar mejora
+
+  let verdict, cls;
+  if (impactoEliminar > 0) {
+    verdict = `✅ CONVIENE ELIMINAR — La empresa mejora $${impactoEliminar.toFixed(2)} al eliminar esta línea`;
+    cls = 'si';
+  } else if (impactoEliminar < 0) {
+    verdict = `❌ NO CONVIENE ELIMINAR — Eliminarla empeora la utilidad total en $${Math.abs(impactoEliminar).toFixed(2)}`;
+    cls = 'no';
+  } else {
+    verdict = `⚖️ INDIFERENTE — La decisión no impacta la utilidad total`;
+    cls = 'neutral';
+  }
+
+  document.getElementById('el-resultado').innerHTML = `
+    <div class="dr-verdict ${cls}">${verdict}</div>
+    <table>
+      <thead><tr><th>Análisis</th><th class="td-num">Si se mantiene</th><th class="td-num">Si se elimina</th></tr></thead>
+      <tbody>
+        <tr><td>Ingresos de la línea</td><td class="td-num">$${ing.toFixed(2)}</td><td class="td-num">$0</td></tr>
+        <tr><td>(-) Costos variables</td><td class="td-num">($${cv.toFixed(2)})</td><td class="td-num">$0</td></tr>
+        <tr><td class="td-bold">Margen de Contribución</td><td class="td-num td-bold">$${mc.toFixed(2)}</td><td class="td-num td-rojo">($${mc.toFixed(2)}) perdido</td></tr>
+        <tr><td>(-) CF evitables</td><td class="td-num">($${cfe.toFixed(2)})</td><td class="td-num td-verde">+$${cfe.toFixed(2)} ahorrado</td></tr>
+        <tr><td>(-) CF comunes asignados</td><td class="td-num">($${cfc.toFixed(2)})</td><td class="td-num td-sub">Se redistribuyen — NO se eliminan</td></tr>
+        <tr><td>Utilidad bajo absorción</td><td class="td-num ${utilAbsorcion>=0?'':'td-rojo'}">$${utilAbsorcion.toFixed(2)}</td><td class="td-num">—</td></tr>
+        <tr style="background:#003366;"><td style="color:#fff;" class="td-bold">IMPACTO REAL EN UTILIDAD TOTAL</td><td class="td-num" style="color:#FFD700;font-weight:700;" colspan="2" style="text-align:center;">$${(-impactoEliminar).toFixed(2)} (${impactoEliminar<0?'mejora':'empeora'} si se elimina)</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:0.83rem;color:#555;margin-top:8px;">Recuerda: los CF comunes ($${cfc.toFixed(2)}) NO desaparecen — se redistribuyen entre las líneas restantes.</p>`;
+  document.getElementById('el-resultado').style.display = 'block';
+}
+
+// ===== CUESTIONARIO =====
+const qRespuestas = { q1:'b', q2:'b', q3:'b', q4:'c', q5:'b', q6:'b', q7:'b', q8:'a', q9:'b', q10:'b' };
+const qExplicaciones = {
+  q1: 'En el costeo variable, los CF de operación se llevan al Estado de Resultados como gastos del período. En costeo por absorción, se incluyen en el costo unitario del servicio o producto. Esta diferencia genera distintas utilidades cuando producción ≠ ventas.',
+  q2: 'Cuando la producción supera las ventas, parte de los CF queda "atrapada" en el inventario final bajo absorción, sin registrarse como gasto. Esto hace que la utilidad bajo absorción sea mayor. En servicios (sin inventario físico), esta diferencia no aplica.',
+  q3: 'La condición mínima es que el precio especial cubra los costos variables adicionales (MC positivo). Los costos fijos ya están cubiertos por los contratos habituales, por lo que no necesitan considerarse si hay capacidad ociosa.',
+  q4: 'La depreciación de equipos ya adquiridos es un costo hundido: ya se incurrió en él y no cambia sin importar qué se decida. Por lo tanto, es irrelevante para la decisión. Todos los demás (salario nuevo, precio externo, costo de oportunidad) sí cambian según la alternativa.',
+  q5: 'El MC positivo ($1.500) supera los CF evitables ($800). Si se elimina la línea, se pierde $1.500 de MC pero solo se ahorran $800 de CF. El impacto neto es −$700 en la utilidad total. Mantenerla es mejor, aunque el costeo por absorción muestre pérdida.',
+  q6: 'El costeo variable es ideal para el análisis CVU y decisiones internas porque separa claramente qué cambia con el volumen (CV) de qué no cambia (CF), revelando el margen de contribución. El costeo por absorción mezcla CV y CF en el costo unitario, ocultando el MC.',
+  q7: 'Los CF comunes o inevitables son los que no desaparecen si se elimina una línea — simplemente se redistribuyen entre las líneas restantes. Son irrelevantes para la decisión de eliminar porque su total no cambia. Solo son relevantes los CF evitables.',
+  q8: 'Mensajería: MC = $15 − $12 = $3; RMC = $3/$15 = 20%. Mudanzas: MC = $500 − $380 = $120; RMC = $120/$500 = 24%. Mudanzas tiene mayor RMC (24%), pero la pregunta era cuál tiene mayor RMC — es mudanzas. Sin embargo, la opción A dice "Mensajería con 20%" y la opción B dice "Mudanzas con 24%". La correcta es la opción A: Mensajería 20% NO — es la opción que dice el RMC correcto de mensajería. La respuesta correcta es A (mensajería 20%) solo para identificar el RMC correcto de ese servicio. Pero ¿cuál es MAYOR? Mudanzas con 24%. Opción correcta: A identifica el 20% de mensajería (correcto en su cálculo). La opción con mayor RMC es "Mudanzas 24%" = opción B en el enunciado. Verificando: la respuesta correcta es A porque la pregunta pide cuál tiene MAYOR RMC y la opción A dice "Mensajería con RMC del 20%" — pero mudanzas tiene 24%. Re-leyendo: la opción A dice "Mensajería con RMC del 20%" y la B dice "Mudanzas con RMC del 24%". El mayor es B (Mudanzas 24%). Corrección: respuesta correcta = B.',
+  q9: 'MC por cubierto del pedido especial = $12 − $9 = $3. MC total = $3 × 200 = $600. No hay CF adicionales ni se desplazan contratos (hay capacidad ociosa). Utilidad adicional = $600.',
+  q10: 'MC de Radiología = $2.200. CF evitables = $1.000. Si se elimina: se pierde $2.200 de MC, se ahorran $1.000 de CF. Los CF comunes ($4.700) continúan. Impacto = $1.000 − $2.200 = −$1.200 → la utilidad total empeora en $1.200. No debe eliminarse.'
+};
+// Corrección: q8 respuesta es B (mudanzas 24%)
+qRespuestas.q8 = 'b';
+
+function verificarQuiz() {
+  const preguntas = ['q1','q2','q3','q4','q5','q6','q7','q8','q9','q10'];
+  const sinResponder = preguntas.filter(p => !document.querySelector(`input[name="${p}"]:checked`));
+  if (sinResponder.length > 0) {
+    alert(`⚠️ Debes responder todas las preguntas. Faltan ${sinResponder.length}.`);
+    return;
+  }
+
+  let correctas = 0;
+  preguntas.forEach(p => {
+    const sel = document.querySelector(`input[name="${p}"]:checked`)?.value;
+    const ok = sel === qRespuestas[p];
+    if (ok) correctas++;
+
+    const div = document.getElementById(p);
+    div.querySelectorAll('.opcion').forEach(op => {
+      const v = op.querySelector('input').value;
+      if (v === qRespuestas[p]) op.classList.add('correcto');
+      else if (v === sel && !ok) op.classList.add('incorrecto');
+      op.querySelector('input').disabled = true;
+    });
+
+    const fb = document.createElement('div');
+    fb.className = `q-feedback ${ok ? 'fb-correcto' : 'fb-incorrecto'}`;
+    fb.innerHTML = (ok ? '✅ ' : '❌ ') + qExplicaciones[p];
+    div.appendChild(fb);
+  });
+
+  const pct = Math.round((correctas / preguntas.length) * 100);
+  const msgs = [
+    {min:100,e:'🏆',m:'¡Perfecto! Excelente dominio de todos los conceptos de la semana 7.'},
+    {min:80,e:'🎯',m:'Muy buen trabajo. Dominas los conceptos centrales.'},
+    {min:60,e:'📘',m:'Buen esfuerzo. Revisa los temas donde tuviste errores.'},
+    {min:40,e:'⚠️',m:'Necesitas repasar el material. Lee cada pestaña con atención.'},
+    {min:0,e:'📖',m:'Comienza desde el principio y usa las herramientas interactivas.'},
+  ];
+  const m = msgs.find(x => pct >= x.min);
+
+  document.getElementById('quiz-resultados').innerHTML = `
+    <div class="resultado-final">
+      <div class="rf-score">${m.e} ${correctas}/10</div>
+      <div style="opacity:0.85;font-size:0.9rem;margin-top:4px;">${pct}% de respuestas correctas</div>
+      <div class="rf-barra-wrap"><div class="rf-barra" style="width:${pct}%"></div></div>
+      <div style="font-size:1rem;margin-top:8px;">${m.m}</div>
+    </div>`;
+  document.getElementById('quiz-resultados').style.display = 'block';
+  document.getElementById('btn-reiniciar-quiz').style.display = 'block';
+  document.getElementById('quiz-resultados').scrollIntoView({behavior:'smooth'});
+}
+
+function reiniciarQuiz() {
+  ['q1','q2','q3','q4','q5','q6','q7','q8','q9','q10'].forEach(p => {
+    const d = document.getElementById(p);
+    d.querySelectorAll('.opcion').forEach(op => {
+      op.classList.remove('correcto','incorrecto');
+      op.querySelector('input').checked = false;
+      op.querySelector('input').disabled = false;
+    });
+    const fb = d.querySelector('.q-feedback');
+    if (fb) fb.remove();
+  });
+  document.getElementById('quiz-resultados').style.display = 'none';
+  document.getElementById('quiz-resultados').innerHTML = '';
+  document.getElementById('btn-reiniciar-quiz').style.display = 'none';
+}
+</script>
+</body>
+</html>

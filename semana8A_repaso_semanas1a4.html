@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Contabilidad Gerencial – Repaso Examen A (Semanas 1–4)</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+<style>
+/* ===== RESET & BASE ===== */
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Source Sans 3',sans-serif;background:#f0f4f8;color:#1a1a2e;font-size:16px;line-height:1.7;}
+h1,h2,h3,h4{font-family:'Lora',serif;}
+
+/* ===== HEADER ===== */
+.header{background:#003366;color:#fff;padding:18px 28px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+.header-logo{background:#FFD700;color:#003366;font-family:'Lora',serif;font-weight:700;font-size:1.1rem;padding:8px 14px;border-radius:6px;white-space:nowrap;}
+.header-text h1{font-size:1.25rem;font-weight:700;letter-spacing:.3px;}
+.header-text p{font-size:.85rem;opacity:.88;margin-top:2px;}
+.header-badge{margin-left:auto;background:#FFD700;color:#003366;font-weight:700;padding:6px 14px;border-radius:20px;font-size:.85rem;white-space:nowrap;}
+
+/* ===== TAB NAV ===== */
+.tab-nav-wrap{background:#87CEEB;overflow-x:auto;white-space:nowrap;border-bottom:3px solid #003366;}
+.tab-nav{display:inline-flex;padding:0 10px;}
+.tab-btn{display:inline-block;padding:11px 18px;cursor:pointer;font-family:'Source Sans 3',sans-serif;font-size:.82rem;font-weight:600;color:#111;border:none;background:transparent;border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap;}
+.tab-btn:hover{background:rgba(255,255,255,.5);}
+.tab-btn.active{background:#fff;color:#003366;font-weight:700;border-bottom:3px solid #003366;border-radius:6px 6px 0 0;}
+
+/* ===== CONTENT ===== */
+.tab-content{display:none;padding:28px;max-width:960px;margin:0 auto;}
+.tab-content.active{display:block;}
+
+/* ===== COMPONENTS ===== */
+.concept-box{border-left:5px solid #003366;background:#fff;padding:16px 20px;margin:18px 0;border-radius:0 8px 8px 0;box-shadow:0 2px 8px rgba(0,0,0,.07);}
+.concept-box h4{color:#003366;font-size:1rem;margin-bottom:6px;}
+.example-box{background:#e8f4fd;border:1px solid #b3d9f5;padding:16px 20px;margin:18px 0;border-radius:8px;}
+.example-box .ex-title{font-weight:700;color:#003366;font-size:.9rem;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.key-box{background:#003366;color:#fff;padding:16px 20px;margin:22px 0;border-radius:8px;}
+.key-box h4{color:#FFD700;margin-bottom:8px;font-size:1rem;}
+.key-box p{color:#e8f0fb;font-size:.95rem;}
+.warning-box{background:#fff8e1;border-left:5px solid #f9a825;padding:14px 18px;margin:16px 0;border-radius:0 8px 8px 0;}
+table{width:100%;border-collapse:collapse;margin:18px 0;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.07);}
+th{background:#003366;color:#fff;padding:12px 14px;text-align:left;font-size:.9rem;}
+td{padding:11px 14px;border-bottom:1px solid #e0e8f0;font-size:.92rem;vertical-align:top;}
+tr:last-child td{border-bottom:none;}
+tr:nth-child(even) td{background:#f5f9fd;}
+.section-title{font-family:'Lora',serif;color:#003366;font-size:1.35rem;border-bottom:3px solid #FFD700;padding-bottom:8px;margin-bottom:20px;}
+.week-badge{display:inline-block;background:#003366;color:#FFD700;font-size:.75rem;font-weight:700;padding:3px 10px;border-radius:12px;margin-bottom:10px;}
+p{margin-bottom:12px;}
+ul,ol{margin:10px 0 14px 24px;}
+li{margin-bottom:6px;}
+
+/* ===== EXERCISE & QUIZ ===== */
+.ex-question{background:#fff;border:1px solid #c8ddf0;border-radius:8px;padding:18px;margin-bottom:16px;}
+.ex-question p{margin-bottom:10px;font-weight:600;color:#003366;}
+.option-label{display:flex;align-items:flex-start;gap:10px;padding:9px 12px;border-radius:6px;cursor:pointer;transition:background .15s;margin-bottom:6px;border:2px solid transparent;}
+.option-label:hover{background:#e8f4fd;}
+.option-label input{margin-top:3px;flex-shrink:0;}
+.option-label.correct-ans{background:#e8f8e8;border-color:#4caf50;}
+.option-label.wrong-ans{background:#fdecea;border-color:#e53935;}
+.badge{display:inline-block;font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:10px;margin-left:8px;vertical-align:middle;}
+.badge-teoria{background:#d1e8ff;color:#003366;}
+.badge-analisis{background:#fff0c8;color:#7a4800;}
+.feedback-box{margin-top:10px;padding:10px 14px;border-radius:6px;font-size:.9rem;display:none;}
+.feedback-correct{background:#e8f8e8;color:#2e7d32;border-left:4px solid #4caf50;}
+.feedback-wrong{background:#fdecea;color:#b71c1c;border-left:4px solid #e53935;}
+.verify-btn{background:#003366;color:#fff;border:none;padding:13px 30px;font-size:1rem;font-weight:700;border-radius:8px;cursor:pointer;margin-top:10px;transition:background .2s;}
+.verify-btn:hover{background:#00509e;}
+.reset-btn{background:#e0e8f0;color:#003366;border:none;padding:11px 26px;font-size:.95rem;font-weight:700;border-radius:8px;cursor:pointer;margin-top:10px;margin-left:12px;display:none;}
+.score-panel{display:none;background:#fff;border:2px solid #003366;border-radius:12px;padding:24px;margin-top:20px;text-align:center;}
+.score-panel h3{color:#003366;font-size:1.4rem;margin-bottom:8px;}
+.score-number{font-size:2.5rem;font-weight:700;color:#003366;font-family:'Lora',serif;}
+.progress-bar-wrap{background:#e0e8f0;border-radius:20px;height:18px;margin:14px 0;overflow:hidden;}
+.progress-bar-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,#003366,#0077cc);transition:width 1s ease;}
+.score-msg{font-size:1.05rem;margin-top:10px;font-weight:600;}
+
+/* ===== AI ACTIVITY ===== */
+.prompt-box{background:#1a1a2e;color:#a8d8ea;font-family:monospace;padding:18px;border-radius:8px;margin:14px 0;line-height:1.8;font-size:.88rem;white-space:pre-wrap;}
+.step-card{background:#fff;border-left:5px solid #FFD700;padding:14px 18px;margin:12px 0;border-radius:0 8px 8px 0;box-shadow:0 2px 6px rgba(0,0,0,.06);}
+.step-card .step-num{background:#FFD700;color:#003366;font-weight:700;border-radius:50%;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;font-size:.85rem;margin-right:10px;}
+
+/* ===== REFLECTION ===== */
+.reflect-card{background:#fff;border:1px solid #c8ddf0;border-radius:10px;padding:18px 22px;margin-bottom:14px;position:relative;}
+.reflect-card::before{content:'💭';font-size:1.4rem;position:absolute;top:14px;right:16px;}
+.reflect-q{color:#003366;font-weight:700;margin-bottom:6px;}
+
+/* ===== BIBLIOGRAPHY ===== */
+.ref-card{background:#fff;border-radius:8px;padding:16px 20px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,.07);border-left:4px solid #003366;}
+.ref-card .ref-author{font-weight:700;color:#003366;font-size:.95rem;}
+.ref-card .ref-title{font-style:italic;color:#444;}
+.ref-card .ref-source{color:#666;font-size:.88rem;margin-top:4px;}
+.ref-note{background:#fffbea;border:1px solid #ffe082;padding:12px 16px;border-radius:6px;margin-top:16px;font-size:.88rem;color:#5a4000;}
+
+/* ===== DRAG MATCH ===== */
+.match-wrap{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0;}
+.match-col h4{color:#003366;font-size:.9rem;font-weight:700;margin-bottom:10px;}
+.match-item{background:#fff;border:2px solid #c8ddf0;border-radius:8px;padding:10px 14px;margin-bottom:8px;cursor:pointer;font-size:.9rem;transition:all .2s;}
+.match-item:hover{border-color:#003366;}
+.match-item.selected{border-color:#003366;background:#e8f4fd;}
+.match-item.matched{border-color:#4caf50;background:#e8f8e8;}
+.match-item.wrong-match{border-color:#e53935;background:#fdecea;}
+.match-line{font-size:.88rem;color:#555;}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+  .header{padding:14px 16px;}
+  .header-text h1{font-size:1.05rem;}
+  .tab-content{padding:18px 14px;}
+  .match-wrap{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-logo">UG</div>
+  <div class="header-text">
+    <h1>Contabilidad Gerencial — Repaso para Examen Parcial</h1>
+    <p>Universidad de Guayaquil · Facultad de Ciencias Administrativas · CPA Semestral · 5.° Semestre</p>
+  </div>
+  <div class="header-badge">📚 Widget A · Semanas 1–4</div>
+</div>
+
+<!-- TAB NAV -->
+<div class="tab-nav-wrap">
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="showTab('repaso')">📋 Síntesis S1–S4</button>
+    <button class="tab-btn" onclick="showTab('s1')">S1 · Contador vs. Gerente</button>
+    <button class="tab-btn" onclick="showTab('s2')">S2 · Excel Gerencial</button>
+    <button class="tab-btn" onclick="showTab('s3')">S3 · SIG y Decisiones</button>
+    <button class="tab-btn" onclick="showTab('s4')">S4 · Ética Profesional</button>
+    <button class="tab-btn" onclick="showTab('ejercicio')">⚙️ Ejercicio Interactivo</button>
+    <button class="tab-btn" onclick="showTab('quiz')">📝 Cuestionario</button>
+    <button class="tab-btn" onclick="showTab('ia')">🤖 Actividad con IA</button>
+    <button class="tab-btn" onclick="showTab('reflexion')">🌱 Reflexión</button>
+    <button class="tab-btn" onclick="showTab('biblio')">📚 Bibliografía</button>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!--  TAB: SÍNTESIS                                              -->
+<!-- ============================================================ -->
+<div id="repaso" class="tab-content active">
+  <h2 class="section-title">Síntesis de las Semanas 1 a 4</h2>
+  <p>Este widget consolida los conceptos fundamentales de las primeras cuatro semanas del curso. Úsalo para repasar, autoevaluarte y prepararte para el examen parcial. Cada semana tiene su propia pestaña con una síntesis, y más adelante encontrarás ejercicios y cuestionario.</p>
+
+  <table>
+    <tr><th>Semana</th><th>Núcleo conceptual</th><th>Palabras clave para el examen</th></tr>
+    <tr><td><strong>S1</strong></td><td>Diferencia entre Contabilidad Financiera y Gerencial; información que necesita el gerente; limitaciones de los estados financieros tradicionales.</td><td>Usuario interno, toma de decisiones, información prospectiva, NIIF vs. gerencia</td></tr>
+    <tr><td><strong>S2</strong></td><td>Herramientas de Excel aplicadas a la Contabilidad Gerencial; clasificación de costos; hoja de trabajo gerencial.</td><td>Tabla dinámica, BUSCARV, costos fijos/variables, hoja de trabajo</td></tr>
+    <tr><td><strong>S3</strong></td><td>Sistemas de Información Gerencial (SIG): del dato operativo a la decisión estratégica; flujo de información.</td><td>Dato, información, conocimiento, SIG, nivel operativo, nivel táctico, nivel estratégico</td></tr>
+    <tr><td><strong>S4</strong></td><td>Ética del contador gerencial; Código de Ética del Contador Ecuatoriano (CECE); responsabilidad social corporativa (RSC).</td><td>Integridad, objetividad, confidencialidad, CECE, RSC, transparencia informativa</td></tr>
+  </table>
+
+  <div class="key-box">
+    <h4>🔑 Hilo conductor de las cuatro semanas</h4>
+    <p>La Contabilidad Gerencial existe para <strong>darle al gerente información útil, oportuna y confiable</strong>. Para lograrlo se necesitan herramientas (Excel, SIG), pero también un marco ético que garantice la integridad de esa información. Sin ética, los datos pierden validez; sin herramientas, los datos no llegan a tiempo; sin claridad conceptual, los datos no se interpretan bien.</p>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!--  TAB: SEMANA 1                                              -->
+<!-- ============================================================ -->
+<div id="s1" class="tab-content">
+  <div class="week-badge">SEMANA 1</div>
+  <h2 class="section-title">Contador Financiero vs. Contador Gerencial</h2>
+
+  <div class="concept-box">
+    <h4>Definición clave</h4>
+    <p>La <strong>Contabilidad Financiera</strong> registra hechos económicos ya ocurridos para informar a usuarios <em>externos</em> (SRI, bancos, accionistas). La <strong>Contabilidad Gerencial</strong> transforma esa misma información —y datos adicionales— en reportes orientados a usuarios <em>internos</em> para apoyar la toma de decisiones presentes y futuras.</p>
+  </div>
+
+  <table>
+    <tr><th>Dimensión</th><th>Contabilidad Financiera</th><th>Contabilidad Gerencial</th></tr>
+    <tr><td>Usuario principal</td><td>Externo (SRI, bancos, SCVS)</td><td>Interno (gerente, dueño, directivo)</td></tr>
+    <tr><td>Orientación temporal</td><td>Histórica (pasado)</td><td>Prospectiva (futuro)</td></tr>
+    <tr><td>Norma obligatoria</td><td>NIIF / NIC</td><td>No existe una norma única; se adapta a cada empresa</td></tr>
+    <tr><td>Periodicidad</td><td>Mensual / Anual</td><td>Diaria, semanal, mensual, según necesidad</td></tr>
+    <tr><td>Nivel de detalle</td><td>Agregado (empresa completa)</td><td>Granular (por línea, producto, contrato)</td></tr>
+    <tr><td>Unidad de medida</td><td>Solo monetaria</td><td>Monetaria y no monetaria (horas, unidades, porcentajes)</td></tr>
+  </table>
+
+  <div class="example-box">
+    <div class="ex-title">🏢 Ejemplo ecuatoriano — Empresa de Seguridad Privada</div>
+    <p>El <strong>Balance General</strong> al 31 de diciembre muestra que la empresa tiene $180 000 en activos totales (contabilidad financiera, para el SRI). Pero el <strong>gerente</strong> necesita saber: ¿cuánto me cuesta realmente cada contrato de vigilancia? ¿Cuál contrato da más margen? ¿Puedo bajar el precio para ganar una licitación municipal? Esa información no está en el balance: la provee la <em>contabilidad gerencial</em>.</p>
+  </div>
+
+  <h3 style="color:#003366;margin:22px 0 10px;">Información que necesita el gerente</h3>
+  <p>El gerente no administra con estados financieros tradicionales; necesita información segmentada, oportuna y accionable:</p>
+  <ul>
+    <li><strong>Costos por unidad de negocio</strong> (por contrato, por guardia, por turno)</li>
+    <li><strong>Análisis de rentabilidad</strong> por línea de servicio</li>
+    <li><strong>Proyecciones</strong> de flujo de caja a 30/60/90 días</li>
+    <li><strong>Indicadores no financieros</strong> (ausentismo, rotación, incidentes)</li>
+    <li><strong>Análisis "what-if"</strong>: ¿qué pasa si subo sueldos un 10%?</li>
+  </ul>
+
+  <h3 style="color:#003366;margin:22px 0 10px;">Limitaciones de los estados financieros tradicionales</h3>
+  <ul>
+    <li>Son <strong>históricos</strong>: muestran lo que pasó, no lo que puede pasar.</li>
+    <li>Son <strong>agregados</strong>: el Estado de Resultados totaliza ventas, pero no dice cuál cliente o contrato fue rentable.</li>
+    <li>No miden <strong>capital intelectual</strong>, satisfacción del cliente ni clima organizacional.</li>
+    <li>Se elaboran con periodicidad fija (mensual/anual), lo que genera <strong>retraso informativo</strong>.</li>
+    <li>Siguen reglas contables (NIIF) que a veces difieren de la <strong>realidad económica</strong> de la empresa.</li>
+  </ul>
+
+  <div class="key-box">
+    <h4>💡 Idea clave para el examen</h4>
+    <p>La Contabilidad Gerencial <strong>no reemplaza</strong> a la Financiera: la complementa. Ambas usan los mismos datos base, pero los procesan con propósitos y audiencias distintas. Un buen contador gerencial debe dominar ambas perspectivas.</p>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!--  TAB: SEMANA 2                                              -->
+<!-- ============================================================ -->
+<div id="s2" class="tab-content">
+  <div class="week-badge">SEMANA 2</div>
+  <h2 class="section-title">Excel Gerencial y Clasificación de Costos</h2>
+
+  <div class="concept-box">
+    <h4>¿Por qué Excel en Contabilidad Gerencial?</h4>
+    <p>Excel es la herramienta más usada por gerentes y contadores en Latinoamérica para análisis ad-hoc, porque permite manipular datos con rapidez sin depender de un sistema ERP costoso. No es un software contable, sino una <strong>plataforma de análisis flexible</strong>.</p>
+  </div>
+
+  <h3 style="color:#003366;margin:18px 0 10px;">Herramientas clave de Excel para el contador gerencial</h3>
+  <table>
+    <tr><th>Herramienta</th><th>Función gerencial</th><th>Ejemplo aplicado</th></tr>
+    <tr><td><strong>Tablas dinámicas</strong></td><td>Resumir grandes volúmenes de datos por categoría</td><td>Ventas totales por contrato de seguridad en el mes</td></tr>
+    <tr><td><strong>BUSCARV / XLOOKUP</strong></td><td>Cruzar información entre tablas</td><td>Obtener el costo por hora de un guardia desde la tabla de nómina</td></tr>
+    <tr><td><strong>Gráficos dinámicos</strong></td><td>Visualizar tendencias</td><td>Evolución mensual del costo de vigilancia nocturna</td></tr>
+    <tr><td><strong>Fórmulas condicionales (SI, SUMAR.SI)</strong></td><td>Filtrar y calcular por condición</td><td>Sumar solo los contratos activos con margen > 15%</td></tr>
+    <tr><td><strong>Escenarios / Solver</strong></td><td>Análisis what-if y optimización</td><td>¿Cuántos contratos necesito para cubrir costos fijos?</td></tr>
+  </table>
+
+  <h3 style="color:#003366;margin:22px 0 10px;">Clasificación de costos (primer acercamiento)</h3>
+  <div class="concept-box">
+    <h4>Costo vs. Gasto</h4>
+    <p>Un <strong>costo</strong> es un sacrificio de recursos asociado a la generación del producto o servicio (se activa). Un <strong>gasto</strong> es un sacrificio de recursos del período que no se activa directamente en el producto. Ejemplo: el sueldo de los guardias es un <em>costo</em>; el sueldo del gerente general es un <em>gasto administrativo</em>.</p>
+  </div>
+
+  <table>
+    <tr><th>Criterio de clasificación</th><th>Tipo</th><th>Descripción</th><th>Ejemplo seguridad</th></tr>
+    <tr><td rowspan="2">Comportamiento respecto al volumen</td><td>Fijo</td><td>No cambia si sube o baja la producción</td><td>Arriendo de instalaciones</td></tr>
+    <tr><td>Variable</td><td>Sube o baja proporcionalmente</td><td>Combustible de vehículos de patrullaje</td></tr>
+    <tr><td rowspan="2">Relación con el producto</td><td>Directo</td><td>Identificable y asignable a un contrato específico</td><td>Sueldo del guardia asignado al contrato X</td></tr>
+    <tr><td>Indirecto</td><td>Compartido entre varios contratos o servicios</td><td>Sueldo del supervisor de zona</td></tr>
+  </table>
+
+  <h3 style="color:#003366;margin:22px 0 10px;">La hoja de trabajo gerencial</h3>
+  <p>Es un documento de Excel estructurado que consolida: ingresos por contrato, costos directos, costos indirectos asignados y margen de contribución por unidad de negocio. No es el mayor general contable, sino una herramienta de <strong>análisis paralela</strong> para la gerencia.</p>
+
+  <div class="example-box">
+    <div class="ex-title">📊 Estructura básica de una hoja de trabajo gerencial</div>
+    <table>
+      <tr><th>Concepto</th><th>Contrato A</th><th>Contrato B</th><th>Total</th></tr>
+      <tr><td>Ingresos (facturación)</td><td>$8 500</td><td>$12 000</td><td>$20 500</td></tr>
+      <tr><td>(-) Costos directos</td><td>$5 200</td><td>$7 800</td><td>$13 000</td></tr>
+      <tr><td>(=) Margen bruto</td><td>$3 300</td><td>$4 200</td><td>$7 500</td></tr>
+      <tr><td>(-) Costos indirectos asignados</td><td>$1 100</td><td>$1 600</td><td>$2 700</td></tr>
+      <tr><td>(=) Resultado por contrato</td><td>$2 200</td><td>$2 600</td><td>$4 800</td></tr>
+    </table>
+  </div>
+
+  <div class="key-box">
+    <h4>💡 Idea clave para el examen</h4>
+    <p>Excel no es la solución definitiva, sino el <strong>puente práctico</strong> entre los datos contables y las decisiones gerenciales. La clasificación correcta de costos es la base: si clasificas mal un costo (p.ej. tratas como variable algo que es fijo), todo el análisis gerencial posterior será incorrecto.</p>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!--  TAB: SEMANA 3                                              -->
+<!-- ============================================================ -->
+<div id="s3" class="tab-content">
+  <div class="week-badge">SEMANA 3</div>
+  <h2 class="section-title">Sistemas de Información Gerencial (SIG)</h2>
+
+  <div class="concept-box">
+    <h4>¿Qué es un SIG?</h4>
+    <p>Un <strong>Sistema de Información Gerencial (SIG)</strong> es el conjunto de personas, procesos, tecnologías y datos que recopilan, procesan y distribuyen información para apoyar la toma de decisiones en los distintos niveles de la organización. No es solo un software: es una <strong>arquitectura informacional</strong>.</p>
+  </div>
+
+  <h3 style="color:#003366;margin:18px 0 10px;">La pirámide del conocimiento: del dato a la decisión</h3>
+  <table>
+    <tr><th>Nivel</th><th>Qué es</th><th>Ejemplo en seguridad privada</th></tr>
+    <tr><td><strong>Dato</strong></td><td>Hecho bruto, sin contexto ni interpretación</td><td>"Guardia 07 — 8 horas — turno nocturno — martes"</td></tr>
+    <tr><td><strong>Información</strong></td><td>Datos organizados con significado</td><td>"El costo de nómina nocturna del martes fue $1 240"</td></tr>
+    <tr><td><strong>Conocimiento</strong></td><td>Información analizada con experiencia</td><td>"Los turnos nocturnos cuestan 18% más por guardia que los diurnos"</td></tr>
+    <tr><td><strong>Decisión</strong></td><td>Acción gerencial fundamentada</td><td>"Ajustar el precio del contrato nocturno en un 20%"</td></tr>
+  </table>
+
+  <div class="concept-box">
+    <h4>Niveles de la organización y su información</h4>
+    <ul>
+      <li><strong>Nivel operativo:</strong> Procesa transacciones del día a día. Necesita información detallada, inmediata. Ejemplo: registro de asistencia de guardias.</li>
+      <li><strong>Nivel táctico (mandos medios):</strong> Controla y supervisa procesos. Necesita información resumida por períodos cortos. Ejemplo: informe semanal de horas extras.</li>
+      <li><strong>Nivel estratégico (alta gerencia):</strong> Define rumbo y estrategia. Necesita información agregada, tendencias, comparativos. Ejemplo: rentabilidad trimestral por línea de negocio.</li>
+    </ul>
+  </div>
+
+  <h3 style="color:#003366;margin:22px 0 10px;">Flujo de información en la empresa</h3>
+  <div class="example-box">
+    <div class="ex-title">🔄 Ciclo de la información gerencial (empresa de seguridad)</div>
+    <ol>
+      <li><strong>Captura operativa:</strong> El guardia marca su entrada/salida en el sistema biométrico.</li>
+      <li><strong>Procesamiento:</strong> El sistema calcula horas trabajadas, recargos nocturnos, extras.</li>
+      <li><strong>Integración contable:</strong> Esas horas se valorizan y se cargan al costo del contrato correspondiente.</li>
+      <li><strong>Reporte gerencial:</strong> El contador gerencial genera un informe: "Costo de mano de obra por contrato – semana 18".</li>
+      <li><strong>Decisión:</strong> El gerente decide renegociar el contrato C porque su margen cayó al 6%.</li>
+    </ol>
+  </div>
+
+  <div class="warning-box">
+    <strong>⚠️ Error común:</strong> Confundir "tener datos" con "tener información". Una empresa puede tener miles de registros en su sistema y aún así el gerente no tener información útil, si esos datos no están organizados, depurados y presentados de manera oportuna y relevante.
+  </div>
+
+  <h3 style="color:#003366;margin:22px 0 10px;">El dato operativo como insumo gerencial</h3>
+  <p>Cada operación del día a día genera <strong>datos operativos</strong> (transacciones, registros, marcaciones). El contador gerencial debe:</p>
+  <ul>
+    <li>Identificar qué datos son relevantes para las decisiones gerenciales.</li>
+    <li>Diseñar o supervisar los sistemas que los capturan correctamente.</li>
+    <li>Transformarlos en información accionable (dashboards, reportes, alertas).</li>
+    <li>Presentarlos en el nivel de detalle adecuado para cada nivel de la organización.</li>
+  </ul>
+
+  <div class="key-box">
+    <h4>💡 Idea clave para el examen</h4>
+    <p>El SIG no es un lujo tecnológico: es la <strong>columna vertebral informacional</strong> de la empresa. Sin un buen SIG, el gerente toma decisiones basadas en intuición o en información tardía e incompleta. El contador gerencial es el <strong>arquitecto de la información</strong> dentro de ese sistema.</p>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!--  TAB: SEMANA 4                                              -->
+<!-- ============================================================ -->
+<div id="s4" class="tab-content">
+  <div class="week-badge">SEMANA 4</div>
+  <h2 class="section-title">Ética Profesional del Contador Gerencial</h2>
+
+  <div class="concept-box">
+    <h4>¿Por qué la ética es un tema de Contabilidad Gerencial?</h4>
+    <p>El contador gerencial maneja información privilegiada y sensible: costos reales, márgenes, proyecciones, debilidades financieras. Su comportamiento ético no es opcional — es la <strong>garantía de confiabilidad</strong> de toda la información que produce y sobre la cual el gerente tomará decisiones que afectan empleados, clientes y sociedad.</p>
+  </div>
+
+  <h3 style="color:#003366;margin:18px 0 10px;">Principios fundamentales del Código de Ética del Contador Ecuatoriano (CECE)</h3>
+  <table>
+    <tr><th>Principio</th><th>Significado práctico</th><th>Ejemplo de violación</th></tr>
+    <tr><td><strong>Integridad</strong></td><td>Actuar con honestidad y veracidad en todo momento</td><td>Registrar un costo menor al real para mejorar artificialmente el margen de un contrato</td></tr>
+    <tr><td><strong>Objetividad</strong></td><td>No dejar que intereses personales o de terceros sesguen el análisis</td><td>Favorecer al proveedor del dueño aunque sus precios sean más altos</td></tr>
+    <tr><td><strong>Competencia profesional</strong></td><td>Mantenerse actualizado; no ejercer en áreas donde no se tiene capacidad</td><td>Elaborar estados financieros sin conocer NIIF</td></tr>
+    <tr><td><strong>Confidencialidad</strong></td><td>No revelar información de la empresa a terceros sin autorización</td><td>Compartir los costos de la empresa con un competidor</td></tr>
+    <tr><td><strong>Comportamiento profesional</strong></td><td>Cumplir leyes y normas; no desacreditar la profesión</td><td>Emitir un informe con datos falsos para ganar una licitación</td></tr>
+  </table>
+
+  <div class="example-box">
+    <div class="ex-title">🇪🇨 El CECE en Ecuador</div>
+    <p>El <strong>Código de Ética del Contador Ecuatoriano (CECE)</strong> es emitido y actualizado por la <strong>Federación Nacional de Contadores del Ecuador (FNCE)</strong>. Se basa en el Código de Ética del IESBA (International Ethics Standards Board for Accountants), adaptado al contexto legal y profesional ecuatoriano. Su cumplimiento es obligatorio para todos los contadores públicos autorizados (CPA) del país. Las infracciones pueden derivar en sanciones gremiales e incluso en responsabilidad civil o penal.</p>
+  </div>
+
+  <h3 style="color:#003366;margin:22px 0 10px;">Responsabilidad Social Corporativa (RSC) y Transparencia Informativa</h3>
+  <div class="concept-box">
+    <h4>Definición de RSC</h4>
+    <p>La <strong>Responsabilidad Social Corporativa (RSC)</strong> es el compromiso voluntario de la empresa de contribuir positivamente a la sociedad y el medioambiente, más allá del cumplimiento legal mínimo. Para el contador gerencial, implica que los reportes deben reflejar no solo resultados financieros, sino también impactos sociales y ambientales.</p>
+  </div>
+
+  <p>La <strong>transparencia informativa</strong> es el principio por el cual la empresa revela de forma clara, oportuna y completa la información relevante a sus grupos de interés (stakeholders). Para el contador gerencial esto significa:</p>
+  <ul>
+    <li>No omitir información desfavorable en los reportes internos.</li>
+    <li>No "maquillar" indicadores para que parezcan mejores de lo que son.</li>
+    <li>Señalar al gerente cuando una decisión puede implicar riesgos éticos o legales.</li>
+    <li>Documentar las bases de cálculo y supuestos usados en los análisis.</li>
+  </ul>
+
+  <div class="warning-box">
+    <strong>⚠️ Dilema ético frecuente:</strong> El gerente pide al contador que "ajuste" los costos de un contrato para ganar una licitación. El contador enfrenta presión jerárquica vs. obligación ética. El CECE es claro: la <em>integridad</em> y la <em>objetividad</em> prevalecen sobre la presión del superior. El contador debe negarse y documentar su negativa.
+  </div>
+
+  <div class="key-box">
+    <h4>💡 Idea clave para el examen</h4>
+    <p>La ética no es un adorno: es el <strong>fundamento de la credibilidad</strong> del contador gerencial. La información más sofisticada del mundo carece de valor si quien la produce carece de integridad. RSC + transparencia informativa = contabilidad gerencial responsable.</p>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!--  TAB: EJERCICIO INTERACTIVO                                 -->
+<!-- ============================================================ -->
+<div id="ejercicio" class="tab-content">
+  <h2 class="section-title">⚙️ Ejercicio Interactivo — Clasificar y Relacionar</h2>
+  <p>Lee cada situación y selecciona la respuesta correcta. Cuando hayas respondido <strong>todas</strong> las preguntas, presiona <strong>"Verificar respuestas"</strong>.</p>
+
+  <!-- P1 -->
+  <div class="ex-question" id="eq1">
+    <p>1. Una empresa de seguridad necesita presentar su Estado de Resultados al banco para solicitar un crédito. ¿Qué tipo de contabilidad satisface principalmente esta necesidad?</p>
+    <label class="option-label"><input type="radio" name="eq1" value="a"/> A) Contabilidad Gerencial, porque analiza rentabilidad por contrato.</label>
+    <label class="option-label"><input type="radio" name="eq1" value="b"/> B) Contabilidad Financiera, porque produce estados para usuarios externos como bancos.</label>
+    <label class="option-label"><input type="radio" name="eq1" value="c"/> C) Contabilidad de Costos, porque es la única normatizada.</label>
+    <label class="option-label"><input type="radio" name="eq1" value="d"/> D) Ambas por igual, ya que producen los mismos informes.</label>
+    <div class="feedback-box" id="efb1"></div>
+  </div>
+
+  <!-- P2 -->
+  <div class="ex-question" id="eq2">
+    <p>2. El gerente quiere saber: "¿Cuánto me cuesta exactamente cada guardia de turno nocturno?" Esta información pertenece a:</p>
+    <label class="option-label"><input type="radio" name="eq2" value="a"/> A) Contabilidad Financiera, pues involucra nómina.</label>
+    <label class="option-label"><input type="radio" name="eq2" value="b"/> B) Contabilidad Gerencial, pues es información interna, granular y orientada a decisiones.</label>
+    <label class="option-label"><input type="radio" name="eq2" value="c"/> C) Auditoría externa, pues requiere verificación independiente.</label>
+    <label class="option-label"><input type="radio" name="eq2" value="d"/> D) No es posible calcularlo con herramientas contables.</label>
+    <div class="feedback-box" id="efb2"></div>
+  </div>
+
+  <!-- P3 -->
+  <div class="ex-question" id="eq3">
+    <p>3. En la pirámide del SIG, ¿en qué nivel se ubica el gerente general cuando define la estrategia de expansión de la empresa para los próximos 3 años?</p>
+    <label class="option-label"><input type="radio" name="eq3" value="a"/> A) Nivel operativo, porque usa datos del día a día.</label>
+    <label class="option-label"><input type="radio" name="eq3" value="b"/> B) Nivel táctico, porque controla procesos intermedios.</label>
+    <label class="option-label"><input type="radio" name="eq3" value="c"/> C) Nivel estratégico, porque define el rumbo a largo plazo.</label>
+    <label class="option-label"><input type="radio" name="eq3" value="d"/> D) Nivel de conocimiento, porque analiza información.</label>
+    <div class="feedback-box" id="efb3"></div>
+  </div>
+
+  <!-- P4 -->
+  <div class="ex-question" id="eq4">
+    <p>4. El contador gerencial revela los costos de producción de su empresa a un competidor a cambio de información de mercado. ¿Qué principio del CECE viola principalmente?</p>
+    <label class="option-label"><input type="radio" name="eq4" value="a"/> A) Competencia profesional</label>
+    <label class="option-label"><input type="radio" name="eq4" value="b"/> B) Integridad</label>
+    <label class="option-label"><input type="radio" name="eq4" value="c"/> C) Confidencialidad</label>
+    <label class="option-label"><input type="radio" name="eq4" value="d"/> D) Objetividad</label>
+    <div class="feedback-box" id="efb4"></div>
+  </div>
+
+  <!-- P5 -->
+  <div class="ex-question" id="eq5">
+    <p>5. El arriendo mensual de las oficinas de la empresa de seguridad cuesta $1 200 sin importar si se tienen 5 o 20 contratos activos. Este costo se clasifica como:</p>
+    <label class="option-label"><input type="radio" name="eq5" value="a"/> A) Costo variable directo</label>
+    <label class="option-label"><input type="radio" name="eq5" value="b"/> B) Costo fijo indirecto</label>
+    <label class="option-label"><input type="radio" name="eq5" value="c"/> C) Gasto variable del período</label>
+    <label class="option-label"><input type="radio" name="eq5" value="d"/> D) Costo semivariable</label>
+    <div class="feedback-box" id="efb5"></div>
+  </div>
+
+  <!-- P6 -->
+  <div class="ex-question" id="eq6">
+    <p>6. La herramienta de Excel que permite resumir el total de facturación por cliente en segundos, a partir de una base de datos de miles de filas, se llama:</p>
+    <label class="option-label"><input type="radio" name="eq6" value="a"/> A) Función SI anidada</label>
+    <label class="option-label"><input type="radio" name="eq6" value="b"/> B) Tabla dinámica (PivotTable)</label>
+    <label class="option-label"><input type="radio" name="eq6" value="c"/> C) BUSCARV</label>
+    <label class="option-label"><input type="radio" name="eq6" value="d"/> D) Gráfico de dispersión</label>
+    <div class="feedback-box" id="efb6"></div>
+  </div>
+
+  <!-- P7 -->
+  <div class="ex-question" id="eq7">
+    <p>7. Una limitación importante de los estados financieros tradicionales es que:</p>
+    <label class="option-label"><input type="radio" name="eq7" value="a"/> A) Son elaborados por contadores sin ética.</label>
+    <label class="option-label"><input type="radio" name="eq7" value="b"/> B) No permiten calcular el IVA.</label>
+    <label class="option-label"><input type="radio" name="eq7" value="c"/> C) Solo muestran el pasado y están agregados, sin detallar la rentabilidad por línea de negocio.</label>
+    <label class="option-label"><input type="radio" name="eq7" value="d"/> D) Son elaborados con normas internacionales que no aplican en Ecuador.</label>
+    <div class="feedback-box" id="efb7"></div>
+  </div>
+
+  <!-- P8 -->
+  <div class="ex-question" id="eq8">
+    <p>8. La Responsabilidad Social Corporativa (RSC) para el contador gerencial implica principalmente:</p>
+    <label class="option-label"><input type="radio" name="eq8" value="a"/> A) Hacer donaciones a la comunidad con fondos de la empresa.</label>
+    <label class="option-label"><input type="radio" name="eq8" value="b"/> B) Que los reportes reflejen no solo resultados financieros, sino también impactos sociales y transparencia informativa.</label>
+    <label class="option-label"><input type="radio" name="eq8" value="c"/> C) Cumplir únicamente con las obligaciones tributarias.</label>
+    <label class="option-label"><input type="radio" name="eq8" value="d"/> D) Presentar estados financieros auditados.</label>
+    <div class="feedback-box" id="efb8"></div>
+  </div>
+
+  <div style="margin-top:20px;">
+    <button class="verify-btn" onclick="verifyEjercicio()">✅ Verificar respuestas</button>
+    <button class="reset-btn" id="resetEj" onclick="resetEjercicio()">🔄 Reiniciar</button>
+  </div>
+
+  <div class="score-panel" id="ejScorePanel">
+    <h3>Resultado del Ejercicio</h3>
+    <div class="score-number" id="ejScoreNum"></div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="ejBar"></div></div>
+    <div class="score-msg" id="ejMsg"></div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!--  TAB: CUESTIONARIO                                          -->
+<!-- ============================================================ -->
+<div id="quiz" class="tab-content">
+  <h2 class="section-title">📝 Cuestionario de Preparación para Examen</h2>
+  <p>10 preguntas de opción múltiple. Responde todas antes de verificar. <span style="color:#003366;font-weight:700;">Las preguntas de análisis no requieren contexto previo.</span></p>
+
+  <!-- Q1 -->
+  <div class="ex-question" id="qq1">
+    <p>1. <span class="badge badge-teoria">Teórica</span> La Contabilidad Gerencial se diferencia de la Financiera principalmente porque:</p>
+    <label class="option-label"><input type="radio" name="qq1" value="a"/> A) Utiliza normas NIIF más rigurosas.</label>
+    <label class="option-label"><input type="radio" name="qq1" value="b"/> B) Está orientada a usuarios internos y apoya la toma de decisiones con información prospectiva y detallada.</label>
+    <label class="option-label"><input type="radio" name="qq1" value="c"/> C) Solo se usa en empresas grandes con sistemas ERP.</label>
+    <label class="option-label"><input type="radio" name="qq1" value="d"/> D) Es obligatoria por ley, a diferencia de la contabilidad financiera.</label>
+    <div class="feedback-box" id="qfb1"></div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="ex-question" id="qq2">
+    <p>2. <span class="badge badge-teoria">Teórica</span> ¿Cuál de los siguientes es un ejemplo de información NO monetaria que puede manejar la Contabilidad Gerencial?</p>
+    <label class="option-label"><input type="radio" name="qq2" value="a"/> A) El saldo de cuentas por cobrar al 31 de diciembre.</label>
+    <label class="option-label"><input type="radio" name="qq2" value="b"/> B) La tasa de rotación de guardias de seguridad por mes.</label>
+    <label class="option-label"><input type="radio" name="qq2" value="c"/> C) El valor del activo total según el balance general.</label>
+    <label class="option-label"><input type="radio" name="qq2" value="d"/> D) El impuesto a la renta causado del ejercicio.</label>
+    <div class="feedback-box" id="qfb2"></div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="ex-question" id="qq3">
+    <p>3. <span class="badge badge-teoria">Teórica</span> En la jerarquía del SIG, transformar el dato "120 horas de guardia nocturna esta semana" en la afirmación "el costo de vigilancia nocturna subió 15% respecto a la semana pasada" representa el paso de:</p>
+    <label class="option-label"><input type="radio" name="qq3" value="a"/> A) Conocimiento a decisión.</label>
+    <label class="option-label"><input type="radio" name="qq3" value="b"/> B) Dato a información.</label>
+    <label class="option-label"><input type="radio" name="qq3" value="c"/> C) Información a conocimiento.</label>
+    <label class="option-label"><input type="radio" name="qq3" value="d"/> D) Decisión a dato.</label>
+    <div class="feedback-box" id="qfb3"></div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="ex-question" id="qq4">
+    <p>4. <span class="badge badge-teoria">Teórica</span> El principio del CECE que obliga al contador a mantenerse actualizado en normas, técnicas y procedimientos de su profesión se denomina:</p>
+    <label class="option-label"><input type="radio" name="qq4" value="a"/> A) Integridad</label>
+    <label class="option-label"><input type="radio" name="qq4" value="b"/> B) Confidencialidad</label>
+    <label class="option-label"><input type="radio" name="qq4" value="c"/> C) Competencia profesional y diligencia debida</label>
+    <label class="option-label"><input type="radio" name="qq4" value="d"/> D) Comportamiento profesional</label>
+    <div class="feedback-box" id="qfb4"></div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="ex-question" id="qq5">
+    <p>5. <span class="badge badge-teoria">Teórica</span> ¿Cuál herramienta de Excel permite cruzar un código de empleado en la tabla de nómina con la tabla de asignación de contratos para conocer el costo por contrato?</p>
+    <label class="option-label"><input type="radio" name="qq5" value="a"/> A) Tabla dinámica</label>
+    <label class="option-label"><input type="radio" name="qq5" value="b"/> B) BUSCARV (o XLOOKUP)</label>
+    <label class="option-label"><input type="radio" name="qq5" value="c"/> C) Gráfico de barras</label>
+    <label class="option-label"><input type="radio" name="qq5" value="d"/> D) Solver</label>
+    <div class="feedback-box" id="qfb5"></div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="ex-question" id="qq6">
+    <p>6. <span class="badge badge-teoria">Teórica</span> La transparencia informativa como práctica de RSC en el contador gerencial se refiere a:</p>
+    <label class="option-label"><input type="radio" name="qq6" value="a"/> A) Publicar los estados financieros en redes sociales.</label>
+    <label class="option-label"><input type="radio" name="qq6" value="b"/> B) Revelar de forma clara y completa la información relevante, sin omitir datos desfavorables ni manipular indicadores.</label>
+    <label class="option-label"><input type="radio" name="qq6" value="c"/> C) Entregar reportes solo cuando el gerente los solicite.</label>
+    <label class="option-label"><input type="radio" name="qq6" value="d"/> D) Mantener reserva absoluta de toda la información contable.</label>
+    <div class="feedback-box" id="qfb6"></div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="ex-question" id="qq7">
+    <p>7. <span class="badge badge-teoria">Teórica</span> La principal limitación del Estado de Resultados para la toma de decisiones gerenciales es que:</p>
+    <label class="option-label"><input type="radio" name="qq7" value="a"/> A) No incluye las ventas netas.</label>
+    <label class="option-label"><input type="radio" name="qq7" value="b"/> B) Presenta información global agregada que no permite ver la rentabilidad por producto, servicio o contrato individual.</label>
+    <label class="option-label"><input type="radio" name="qq7" value="c"/> C) Solo aplica a empresas industriales.</label>
+    <label class="option-label"><input type="radio" name="qq7" value="d"/> D) No cumple con las NIIF vigentes en Ecuador.</label>
+    <div class="feedback-box" id="qfb7"></div>
+  </div>
+
+  <!-- Q8 ANÁLISIS -->
+  <div class="ex-question" id="qq8">
+    <p>8. <span class="badge badge-analisis">Análisis</span> Una empresa constructora tiene 50 proyectos activos. Su contador solo presenta un Estado de Resultados consolidado al gerente cada mes. El gerente no puede identificar cuáles proyectos pierden dinero. ¿Cuál es el diagnóstico correcto?</p>
+    <label class="option-label"><input type="radio" name="qq8" value="a"/> A) El Estado de Resultados está mal elaborado y viola las NIIF.</label>
+    <label class="option-label"><input type="radio" name="qq8" value="b"/> B) La empresa no tiene un sistema de Contabilidad Gerencial que desagregue resultados por proyecto; solo usa contabilidad financiera consolidada.</label>
+    <label class="option-label"><input type="radio" name="qq8" value="c"/> C) El gerente no sabe leer estados financieros.</label>
+    <label class="option-label"><input type="radio" name="qq8" value="d"/> D) El problema se soluciona con una auditoría externa.</label>
+    <div class="feedback-box" id="qfb8"></div>
+  </div>
+
+  <!-- Q9 ANÁLISIS -->
+  <div class="ex-question" id="qq9">
+    <p>9. <span class="badge badge-analisis">Análisis</span> Un contador recibe presión de su jefe para registrar como "gastos de capacitación" ciertos viajes de placer del gerente, con el fin de deducirlos del impuesto a la renta. El contador se niega. ¿Qué principio del CECE está aplicando correctamente?</p>
+    <label class="option-label"><input type="radio" name="qq9" value="a"/> A) Confidencialidad, porque no reveló la información a terceros.</label>
+    <label class="option-label"><input type="radio" name="qq9" value="b"/> B) Integridad y comportamiento profesional, porque se niega a registrar datos falsos para cumplir normas legales y éticas.</label>
+    <label class="option-label"><input type="radio" name="qq9" value="c"/> C) Competencia profesional, porque conoce la ley tributaria.</label>
+    <label class="option-label"><input type="radio" name="qq9" value="d"/> D) Objetividad, porque no tiene interés personal en el viaje.</label>
+    <div class="feedback-box" id="qfb9"></div>
+  </div>
+
+  <!-- Q10 ANÁLISIS -->
+  <div class="ex-question" id="qq10">
+    <p>10. <span class="badge badge-analisis">Análisis</span> Una cadena de farmacias tiene registros de ventas de 200 000 tickets diarios, pero el gerente dice que "no tiene información para decidir qué productos discontinuar". ¿Cuál es el problema central desde la perspectiva del SIG?</p>
+    <label class="option-label"><input type="radio" name="qq10" value="a"/> A) La empresa tiene demasiados datos y debe reducir sus ventas.</label>
+    <label class="option-label"><input type="radio" name="qq10" value="b"/> B) Los datos no han sido procesados ni transformados en información útil para la toma de decisiones; el SIG no funciona correctamente.</label>
+    <label class="option-label"><input type="radio" name="qq10" value="c"/> C) El gerente debería contratar un auditor externo.</label>
+    <label class="option-label"><input type="radio" name="qq10" value="d"/> D) El sistema tiene más datos de los que la empresa necesita.</label>
+    <div class="feedback-box" id="qfb10"></div>
+  </div>
+
+  <div style="margin-top:20px;">
+    <button class="verify-btn" onclick="verifyQuiz()">✅ Verificar respuestas</button>
+    <button class="reset-btn" id="resetQz" onclick="resetQuiz()">🔄 Reiniciar</button>
+  </div>
+
+  <div class="score-panel" id="qzScorePanel">
+    <h3>Calificación Final</h3>
+    <div class="score-number" id="qzScoreNum"></div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="qzBar"></div></div>
+    <div class="score-msg" id="qzMsg"></div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!--  TAB: ACTIVIDAD CON IA                                      -->
+<!-- ============================================================ -->
+<div id="ia" class="tab-content">
+  <h2 class="section-title">🤖 Actividad con Inteligencia Artificial</h2>
+
+  <div class="concept-box">
+    <h4>Herramienta recomendada: Claude en claude.ai</h4>
+    <p>Ingresa a <strong>claude.ai</strong> (Anthropic) con una cuenta gratuita. También puedes usar ChatGPT (chatgpt.com) o Gemini (gemini.google.com). La actividad funciona con cualquiera de estas herramientas.</p>
+  </div>
+
+  <h3 style="color:#003366;margin:18px 0 12px;">Actividad: "El contador gerencial ante un dilema ético real"</h3>
+  <p>Esta actividad te invita a usar la IA como <strong>interlocutor de pensamiento crítico</strong>, no como fuente de respuestas para copiar.</p>
+
+  <div class="step-card">
+    <span class="step-num">1</span> <strong>Usa el siguiente prompt exacto</strong> en Claude (claude.ai):
+  </div>
+
+  <div class="prompt-box">Actúa como un contador gerencial con 10 años de experiencia en Ecuador.
+Te presento este dilema:
+
+Trabajas en una empresa de seguridad privada en Guayaquil. El gerente general
+te pide que "ajustes" el costo operativo del contrato con el Municipio de Guayaquil:
+quiere que registres $18 000 en lugar de los $22 500 reales, para que el margen
+parezca más atractivo en la prórroga del contrato que se negocia esta semana.
+
+Responde:
+1. ¿Qué principios del Código de Ética del Contador (CECE) se violan con esta
+   solicitud? Menciona al menos tres y explica por qué cada uno aplica.
+2. ¿Qué riesgos legales, profesionales y reputacionales enfrenta el contador
+   si accede a la solicitud?
+3. ¿Cómo debería manejar el contador esta situación sin perder su empleo y
+   manteniendo su integridad? Propón al menos dos estrategias concretas.
+4. ¿Existe algún escenario donde "ajustar" los datos sea éticamente aceptable?
+   Argumenta tu posición.</div>
+
+  <div class="step-card">
+    <span class="step-num">2</span> <strong>Lee la respuesta de la IA con espíritu crítico.</strong> Luego escribe en tu cuaderno:
+    <ul style="margin-top:10px;">
+      <li>¿Estás de acuerdo con las estrategias que propone? ¿Por qué sí o por qué no?</li>
+      <li>¿La IA mencionó algún principio del CECE que no recuerdas haber estudiado? Investígalo.</li>
+      <li>¿Qué harías <em>tú</em> en esa situación? ¿Coincide con lo que propone la IA?</li>
+    </ul>
+  </div>
+
+  <div class="step-card">
+    <span class="step-num">3</span> <strong>Debate con la IA.</strong> Envía este segundo mensaje:
+  </div>
+
+  <div class="prompt-box">Ahora quiero que argumentes el punto de vista del gerente general.
+¿Qué razones podría tener para hacer esta solicitud? ¿Existen presiones
+del entorno empresarial ecuatoriano que empujan a los gerentes a tomar
+estas decisiones? ¿Cómo debería el contador empatizar con esa presión
+sin ceder en su integridad?</div>
+
+  <div class="step-card">
+    <span class="step-num">4</span> <strong>Escribe tu reflexión final</strong> (mínimo 200 palabras): ¿Qué aprendiste del diálogo con la IA que no habías considerado antes? ¿Cambió tu posición inicial?
+  </div>
+
+  <div class="warning-box">
+    <strong>⚠️ Criterio de evaluación:</strong><br/>
+    ✅ <strong>Pensamiento crítico</strong> = comparas la respuesta de la IA con lo estudiado, identificas puntos débiles o incompletos, y elaboras tu propia posición fundamentada.<br/>
+    ❌ <strong>Copia simple</strong> = pegas la respuesta de la IA como si fuera tuya, sin análisis ni posición personal.
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!--  TAB: REFLEXIÓN                                             -->
+<!-- ============================================================ -->
+<div id="reflexion" class="tab-content">
+  <h2 class="section-title">🌱 Preguntas Reflexivas — Conectando con tu Vida</h2>
+  <p style="margin-bottom:20px;">No hay respuestas correctas ni incorrectas. Estas preguntas buscan que <strong>conectes los conceptos del curso con tu propia experiencia</strong>. Tómate tu tiempo. Puedes escribir tus respuestas en tu diario, hablar con alguien de confianza, o simplemente reflexionar en silencio.</p>
+
+  <div class="reflect-card">
+    <p class="reflect-q">1. ¿Tú también tienes una "contabilidad financiera" y una "contabilidad gerencial" en tu propia vida?</p>
+    <p>La Contabilidad Financiera muestra lo que fue. La Gerencial decide lo que será. ¿Hay una diferencia entre cómo <em>muestras</em> tu vida a los demás (redes sociales, conversaciones sociales) y cómo realmente la <em>gestionas</em> en tu interior? ¿Qué información sobre ti mismo guardas solo para tomar decisiones personales y no la compartes con nadie?</p>
+  </div>
+
+  <div class="reflect-card">
+    <p class="reflect-q">2. ¿En qué nivel del SIG funciona tu mente en este momento de tu vida?</p>
+    <p>¿Estás procesando "datos" (reaccionando a lo que pasa sin analizarlo) o estás operando en el nivel "estratégico" (definiendo hacia dónde vas con conciencia)? ¿Qué tan a menudo pasas del nivel operativo al estratégico en tu toma de decisiones personales?</p>
+  </div>
+
+  <div class="reflect-card">
+    <p class="reflect-q">3. ¿Cuándo fue la última vez que alguien te pidió hacer algo que contravenía tu código ético personal?</p>
+    <p>El contador gerencial tiene el CECE. Tú también tienes un "código" —aunque no esté escrito. ¿Cuál es tu principio más difícil de sostener bajo presión? ¿Integridad, objetividad, confidencialidad? ¿Qué revela eso sobre ti?</p>
+  </div>
+
+  <div class="reflect-card">
+    <p class="reflect-q">4. ¿Qué "herramientas de Excel" usas en tu vida para organizarte?</p>
+    <p>Excel es una herramienta de análisis y organización. ¿Tienes herramientas equivalentes en tu vida: un presupuesto personal, un plan de metas, una rutina? ¿O tomas las decisiones más importantes "de memoria", sin ningún sistema de análisis? ¿Qué pasaría si llevaras tu vida con la misma rigurosidad que un contador gerencial lleva una empresa?</p>
+  </div>
+
+  <div class="reflect-card">
+    <p class="reflect-q">5. ¿Eres transparente contigo mismo sobre tus propios resultados?</p>
+    <p>La RSC y la transparencia informativa exigen no ocultar información desfavorable. ¿Eres capaz de mirarte con honestidad: tus fortalezas, tus debilidades, tus resultados reales? ¿O "maquillas" tu autoimagen para no enfrentar realidades incómodas? ¿Qué necesitarías cambiar para ser más transparente contigo mismo?</p>
+  </div>
+
+  <div class="reflect-card">
+    <p class="reflect-q">6. ¿Cuál es tu "margen de contribución" personal?</p>
+    <p>En finanzas, el margen de contribución es lo que cada producto aporta después de cubrir sus costos variables. ¿Qué aportas tú —en tu familia, trabajo, círculo social— que realmente justifica lo que "cuestas" en tiempo y energía de los demás? ¿Estás generando valor genuino o solo cubriendo costos?</p>
+  </div>
+
+  <div class="key-box">
+    <h4>💬 Para cerrar esta reflexión</h4>
+    <p>La contabilidad gerencial no es solo técnica: es una <strong>forma de pensar</strong>. Quien puede analizar los costos y beneficios de una empresa también puede analizar los costos y beneficios de sus propias decisiones. La autoconciencia —saber quién eres, qué priorizas y hacia dónde vas— es la versión más personal y poderosa de la contabilidad gerencial.</p>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!--  TAB: BIBLIOGRAFÍA                                          -->
+<!-- ============================================================ -->
+<div id="biblio" class="tab-content">
+  <h2 class="section-title">📚 Bibliografía</h2>
+
+  <div class="ref-card">
+    <div class="ref-author">Horngren, C. T., Sundem, G. L., & Stratton, W. O.</div>
+    <div class="ref-title">Introduction to Management Accounting (16.ª ed.)</div>
+    <div class="ref-source">Pearson Education. (2014).</div>
+  </div>
+
+  <div class="ref-card">
+    <div class="ref-author">Ramírez Padilla, D. N.</div>
+    <div class="ref-title">Contabilidad Administrativa (9.ª ed.)</div>
+    <div class="ref-source">McGraw-Hill / Interamericana Editores. (2013).</div>
+  </div>
+
+  <div class="ref-card">
+    <div class="ref-author">Garrison, R. H., Noreen, E. W., & Brewer, P. C.</div>
+    <div class="ref-title">Contabilidad Administrativa (14.ª ed.)</div>
+    <div class="ref-source">McGraw-Hill Education. (2015).</div>
+  </div>
+
+  <div class="ref-card">
+    <div class="ref-author">Federación Nacional de Contadores del Ecuador (FNCE)</div>
+    <div class="ref-title">Código de Ética del Contador Ecuatoriano</div>
+    <div class="ref-source">FNCE. (2020). Recuperado de https://www.contadoresguayas.org</div>
+  </div>
+
+  <div class="ref-card">
+    <div class="ref-author">Laudon, K. C., & Laudon, J. P.</div>
+    <div class="ref-title">Sistemas de información gerencial: Administración de la empresa digital (14.ª ed.)</div>
+    <div class="ref-source">Pearson Education. (2016).</div>
+  </div>
+
+  <div class="ref-card">
+    <div class="ref-author">International Ethics Standards Board for Accountants (IESBA)</div>
+    <div class="ref-title">Handbook of the International Code of Ethics for Professional Accountants (2022 edition)</div>
+    <div class="ref-source">IFAC. (2022). Recuperado de https://www.ethicsboard.org</div>
+  </div>
+
+  <div class="ref-card">
+    <div class="ref-author">Superintendencia de Compañías, Valores y Seguros del Ecuador (SCVS)</div>
+    <div class="ref-title">Resolución No. SC.ICI.CPAIFRS.G.11.010: Adopción de las NIIF en Ecuador</div>
+    <div class="ref-source">SCVS. (2011). Registro Oficial.</div>
+  </div>
+
+  <div class="ref-note">
+    📌 <strong>Nota:</strong> Se recomienda verificar cada referencia en <strong>Google Scholar</strong> (scholar.google.com) o en el repositorio institucional de la Universidad de Guayaquil antes de citar en trabajos académicos.
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!--  JAVASCRIPT                                                  -->
+<!-- ============================================================ -->
+<script>
+// ---- TAB SWITCHING ----
+function showTab(id){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ---- EXERCISE DATA ----
+const ejAnswers = {
+  eq1:{correct:'b', exp:'La Contabilidad Financiera produce estados para usuarios externos como bancos, SRI y accionistas. Esta es su función principal.'},
+  eq2:{correct:'b', exp:'El costo por guardia es información interna, granular y orientada a una decisión operativa. Es dominio de la Contabilidad Gerencial.'},
+  eq3:{correct:'c', exp:'La pirámide del SIG tiene tres niveles: operativo (transacciones diarias), táctico (mandos medios) y estratégico (alta gerencia / largo plazo).'},
+  eq4:{correct:'c', exp:'Revelar información confidencial de la empresa a un competidor viola el principio de CONFIDENCIALIDAD del CECE.'},
+  eq5:{correct:'b', exp:'El arriendo no cambia con el volumen → es FIJO. No es asignable a un contrato específico → es INDIRECTO. Clasificación correcta: costo fijo indirecto.'},
+  eq6:{correct:'b', exp:'Las Tablas Dinámicas (PivotTable) están diseñadas exactamente para resumir grandes bases de datos de forma rápida y flexible.'},
+  eq7:{correct:'c', exp:'Los estados financieros muestran información histórica y agregada. No permiten ver la rentabilidad individual por contrato, cliente o línea de negocio.'},
+  eq8:{correct:'b', exp:'La RSC para el contador gerencial implica que los reportes reflejen impactos sociales y se mantenga transparencia informativa, no solo cumplimiento tributario.'}
+};
+
+function verifyEjercicio(){
+  let score=0, total=Object.keys(ejAnswers).length, allAnswered=true;
+  for(let id in ejAnswers){
+    const sel=document.querySelector(`input[name="${id}"]:checked`);
+    if(!sel){allAnswered=false;break;}
+  }
+  if(!allAnswered){alert('⚠️ Por favor responde todas las preguntas antes de verificar.');return;}
+  for(let id in ejAnswers){
+    const sel=document.querySelector(`input[name="${id}"]:checked`);
+    const fb=document.getElementById('efb'+id.slice(2));
+    const labels=document.querySelectorAll(`input[name="${id}"]`);
+    labels.forEach(l=>l.disabled=true);
+    const chosen=sel.value;
+    const correct=ejAnswers[id].correct;
+    const parent=sel.closest('.option-label');
+    if(chosen===correct){
+      parent.classList.add('correct-ans');
+      fb.className='feedback-box feedback-correct';
+      fb.innerHTML='✅ ¡Correcto! '+ejAnswers[id].exp;
+      score++;
+    } else {
+      parent.classList.add('wrong-ans');
+      document.querySelector(`input[name="${id}"][value="${correct}"]`).closest('.option-label').classList.add('correct-ans');
+      fb.className='feedback-box feedback-wrong';
+      fb.innerHTML='❌ Incorrecto. '+ejAnswers[id].exp;
+    }
+    fb.style.display='block';
+  }
+  const pct=Math.round(score/total*100);
+  const panel=document.getElementById('ejScorePanel');
+  panel.style.display='block';
+  document.getElementById('ejScoreNum').textContent=score+'/'+total+' — '+pct+'%';
+  const bar=document.getElementById('ejBar');
+  bar.style.width='0%';
+  setTimeout(()=>bar.style.width=pct+'%',100);
+  let msg='';
+  if(pct===100) msg='🏆 ¡Perfecto! Dominas completamente las Semanas 1–4.';
+  else if(pct>=80) msg='🎯 ¡Muy bien! Estás listo para el examen con una pequeña revisión.';
+  else if(pct>=60) msg='📘 Buen progreso. Repasa los temas donde fallaste.';
+  else if(pct>=40) msg='⚠️ Necesitas reforzar. Vuelve a las pestañas de contenido.';
+  else msg='📖 Regresa al material y reléelo con calma antes de intentar de nuevo.';
+  document.getElementById('ejMsg').textContent=msg;
+  document.getElementById('resetEj').style.display='inline-block';
+}
+
+function resetEjercicio(){
+  document.querySelectorAll('[name^="eq"]').forEach(i=>{i.checked=false;i.disabled=false;});
+  document.querySelectorAll('[id^="efb"]').forEach(f=>f.style.display='none');
+  document.querySelectorAll('.option-label').forEach(l=>l.classList.remove('correct-ans','wrong-ans'));
+  document.getElementById('ejScorePanel').style.display='none';
+  document.getElementById('resetEj').style.display='none';
+}
+
+// ---- QUIZ DATA ----
+const qzAnswers = {
+  qq1:{correct:'b', exp:'La orientación a usuarios internos y el apoyo a decisiones con información prospectiva y detallada son las características definitorias de la Contabilidad Gerencial.'},
+  qq2:{correct:'b', exp:'La tasa de rotación de guardias es una medida no monetaria (porcentaje de personas). La CG admite métricas tanto monetarias como no monetarias.'},
+  qq3:{correct:'c', exp:'Pasar de información (el dato organizado sobre horas) al conocimiento (el análisis de porcentaje de variación) es el paso de "información a conocimiento" en la pirámide del SIG.'},
+  qq4:{correct:'c', exp:'El principio de "Competencia profesional y diligencia debida" obliga al contador a mantenerse actualizado en normas, técnicas y procedimientos de su profesión.'},
+  qq5:{correct:'b', exp:'BUSCARV (o XLOOKUP) cruza información entre dos tablas usando un campo común (el código de empleado), permitiendo obtener datos de una tabla en la otra.'},
+  qq6:{correct:'b', exp:'La transparencia informativa implica revelar clara y completamente la información relevante, sin ocultar datos desfavorables ni manipular indicadores.'},
+  qq7:{correct:'b', exp:'El Estado de Resultados presenta información global y agregada. No desglosa por producto, servicio o contrato, lo que limita su utilidad gerencial para identificar fuentes de pérdida o ganancia.'},
+  qq8:{correct:'b', exp:'El problema es la ausencia de Contabilidad Gerencial. Solo se usa contabilidad financiera consolidada. Un sistema gerencial desagregaría los resultados por proyecto, permitiendo identificar cuáles pierden dinero.'},
+  qq9:{correct:'b', exp:'El contador aplica Integridad (actuar con honestidad y veracidad) y Comportamiento profesional (cumplir las leyes y no desacreditar la profesión), al negarse a registrar datos falsos.'},
+  qq10:{correct:'b', exp:'El SIG no está funcionando correctamente: tiene los datos, pero no los ha procesado ni transformado en información útil. "Tener datos" no equivale a "tener información". El SIG debe transformar datos en información accionable.'}
+};
+
+function verifyQuiz(){
+  let score=0,total=Object.keys(qzAnswers).length,allAnswered=true;
+  for(let id in qzAnswers){
+    if(!document.querySelector(`input[name="${id}"]:checked`)){allAnswered=false;break;}
+  }
+  if(!allAnswered){alert('⚠️ Responde todas las preguntas antes de verificar.');return;}
+  for(let id in qzAnswers){
+    const sel=document.querySelector(`input[name="${id}"]:checked`);
+    const fb=document.getElementById('qfb'+id.slice(2));
+    document.querySelectorAll(`input[name="${id}"]`).forEach(i=>i.disabled=true);
+    const chosen=sel.value;
+    const correct=qzAnswers[id].correct;
+    if(chosen===correct){
+      sel.closest('.option-label').classList.add('correct-ans');
+      fb.className='feedback-box feedback-correct';
+      fb.innerHTML='✅ Correcto. '+qzAnswers[id].exp;
+      score++;
+    } else {
+      sel.closest('.option-label').classList.add('wrong-ans');
+      document.querySelector(`input[name="${id}"][value="${correct}"]`).closest('.option-label').classList.add('correct-ans');
+      fb.className='feedback-box feedback-wrong';
+      fb.innerHTML='❌ Incorrecto. '+qzAnswers[id].exp;
+    }
+    fb.style.display='block';
+  }
+  const pct=Math.round(score/total*100);
+  document.getElementById('qzScorePanel').style.display='block';
+  let emoji='📖';
+  if(pct===100) emoji='🏆';
+  else if(pct>=80) emoji='🎯';
+  else if(pct>=60) emoji='📘';
+  else if(pct>=40) emoji='⚠️';
+  document.getElementById('qzScoreNum').innerHTML=emoji+' '+score+'/'+total+' &nbsp;·&nbsp; '+pct+'%';
+  const bar=document.getElementById('qzBar');
+  bar.style.width='0%';
+  setTimeout(()=>bar.style.width=pct+'%',100);
+  let msg='';
+  if(pct===100) msg='🏆 ¡Excelente! Resultados perfectos. Estás más que listo para el examen.';
+  else if(pct>=80) msg='🎯 ¡Muy bien! Revisa los errores y llegarás con todo al examen.';
+  else if(pct>=60) msg='📘 Vas bien, pero hay conceptos que reforzar. Lee las pestañas de contenido nuevamente.';
+  else if(pct>=40) msg='⚠️ Necesitas repasar. Vuelve al material de las semanas 1 a 4.';
+  else msg='📖 Dedica tiempo a releer cada semana antes de volver a intentarlo.';
+  document.getElementById('qzMsg').textContent=msg;
+  document.getElementById('resetQz').style.display='inline-block';
+}
+
+function resetQuiz(){
+  document.querySelectorAll('[name^="qq"]').forEach(i=>{i.checked=false;i.disabled=false;});
+  document.querySelectorAll('[id^="qfb"]').forEach(f=>f.style.display='none');
+  document.querySelectorAll('.ex-question .option-label').forEach(l=>l.classList.remove('correct-ans','wrong-ans'));
+  document.getElementById('qzScorePanel').style.display='none';
+  document.getElementById('resetQz').style.display='none';
+}
+</script>
+</body>
+</html>
