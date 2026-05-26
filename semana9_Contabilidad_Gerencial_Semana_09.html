@@ -1,0 +1,1961 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semana 9 | Presupuestos y Control Gerencial</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ===== RESET & BASE ===== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    color: #1a1a1a;
+    background: #f5f7fa;
+    min-height: 100vh;
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    background: #003366;
+    color: white;
+    padding: 20px 24px 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+  .header-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .header-inst {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+    opacity: 0.85;
+    text-transform: uppercase;
+  }
+  .header-title {
+    font-family: 'Lora', serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 4px 0 2px;
+    line-height: 1.3;
+  }
+  .header-meta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 12px;
+    opacity: 0.8;
+    margin-top: 4px;
+  }
+  .badge {
+    background: rgba(135,206,235,0.3);
+    border: 1px solid rgba(135,206,235,0.5);
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  /* ===== TAB NAV ===== */
+  .tab-bar-wrapper {
+    background: #87CEEB;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    position: sticky;
+    top: 98px;
+    z-index: 99;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  }
+  .tab-bar-wrapper::-webkit-scrollbar { height: 4px; }
+  .tab-bar-wrapper::-webkit-scrollbar-thumb { background: #003366; border-radius: 2px; }
+  .tab-bar {
+    display: inline-flex;
+    padding: 0 8px;
+    min-width: 100%;
+  }
+  .tab-btn {
+    display: inline-block;
+    padding: 12px 16px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a1a1a;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    border-bottom: 3px solid transparent;
+    position: relative;
+  }
+  .tab-btn:hover { background: rgba(255,255,255,0.4); }
+  .tab-btn.active {
+    background: white;
+    color: #003366;
+    font-weight: 700;
+    border-bottom: 3px solid #003366;
+  }
+
+  /* ===== PANELS ===== */
+  .panel { display: none; padding: 32px 24px 48px; max-width: 900px; margin: 0 auto; }
+  .panel.active { display: block; }
+
+  /* ===== TYPOGRAPHY ===== */
+  h2 {
+    font-family: 'Lora', serif;
+    font-size: 26px;
+    color: #003366;
+    font-weight: 700;
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+  h3 {
+    font-family: 'Lora', serif;
+    font-size: 19px;
+    color: #003366;
+    font-weight: 600;
+    margin: 28px 0 10px;
+    line-height: 1.3;
+  }
+  h4 {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #003366;
+    margin: 18px 0 6px;
+  }
+  p { margin-bottom: 14px; }
+  ul, ol { margin: 10px 0 14px 22px; }
+  li { margin-bottom: 6px; }
+  strong { color: #003366; }
+
+  .section-intro {
+    font-size: 14px;
+    color: #555;
+    border-left: 4px solid #87CEEB;
+    padding-left: 12px;
+    margin-bottom: 24px;
+    font-style: italic;
+  }
+
+  /* ===== BOXES ===== */
+  .concept-box {
+    border-left: 5px solid #003366;
+    background: #f0f5ff;
+    padding: 16px 20px;
+    margin: 18px 0;
+    border-radius: 0 8px 8px 0;
+  }
+  .concept-box .box-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #003366;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .concept-box p { margin-bottom: 0; }
+
+  .example-box {
+    background: #e3f2fd;
+    border: 1px solid #b3d9f5;
+    padding: 16px 20px;
+    margin: 18px 0;
+    border-radius: 8px;
+  }
+  .example-box .box-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #0077b6;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+
+  .key-idea {
+    background: #003366;
+    color: white;
+    padding: 16px 20px;
+    margin: 24px 0;
+    border-radius: 8px;
+  }
+  .key-idea .box-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #87CEEB;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .key-idea p { margin-bottom: 0; color: white; }
+
+  .warning-box {
+    background: #fff8e1;
+    border-left: 5px solid #f59e0b;
+    padding: 14px 18px;
+    margin: 16px 0;
+    border-radius: 0 8px 8px 0;
+  }
+  .warning-box .box-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #b45309;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  /* ===== TABLES ===== */
+  .table-wrap { overflow-x: auto; margin: 18px 0; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    min-width: 420px;
+  }
+  th {
+    background: #003366;
+    color: white;
+    padding: 10px 14px;
+    text-align: left;
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+  }
+  td {
+    padding: 9px 14px;
+    border-bottom: 1px solid #e0e0e0;
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: #f5f7fa; }
+  tr:hover td { background: #e8f0fe; }
+  .td-num { text-align: right; font-variant-numeric: tabular-nums; }
+
+  /* ===== BUDGET STRUCTURE ===== */
+  .budget-tree {
+    background: white;
+    border: 1px solid #d0dce8;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 18px 0;
+  }
+  .budget-tree .root {
+    background: #003366;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 700;
+    text-align: center;
+    font-size: 15px;
+    margin-bottom: 16px;
+  }
+  .budget-tree .level-1 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .budget-tree .l1-node {
+    background: #0077b6;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 13px;
+    text-align: center;
+  }
+  .budget-tree .level-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 8px;
+  }
+  .budget-tree .l2-node {
+    background: #e3f2fd;
+    border: 1px solid #b3d9f5;
+    padding: 7px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    text-align: center;
+    color: #003366;
+  }
+  .budget-tree .connector {
+    text-align: center;
+    color: #87CEEB;
+    font-size: 20px;
+    margin: 4px 0;
+  }
+
+  /* ===== TYPES GRID ===== */
+  .types-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin: 18px 0;
+  }
+  .type-card {
+    background: white;
+    border: 1px solid #d0dce8;
+    border-top: 4px solid #0077b6;
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .type-card h4 { margin: 0 0 6px; font-size: 14px; }
+  .type-card p { font-size: 13px; margin-bottom: 0; color: #444; }
+  .type-card.accent1 { border-top-color: #003366; }
+  .type-card.accent2 { border-top-color: #0099cc; }
+  .type-card.accent3 { border-top-color: #7ec8e3; }
+  .type-card.accent4 { border-top-color: #f59e0b; }
+  .type-card.accent5 { border-top-color: #10b981; }
+  .type-card.accent6 { border-top-color: #ef4444; }
+
+  /* ===== PROCESS STEPS ===== */
+  .steps {
+    counter-reset: step;
+    list-style: none;
+    margin: 16px 0;
+    padding: 0;
+  }
+  .steps li {
+    counter-increment: step;
+    display: flex;
+    gap: 14px;
+    margin-bottom: 14px;
+    align-items: flex-start;
+  }
+  .steps li::before {
+    content: counter(step);
+    background: #003366;
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  /* ===== REPASO CARDS ===== */
+  .repaso-card {
+    background: white;
+    border: 1px solid #d0dce8;
+    border-left: 5px solid #0077b6;
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin-bottom: 14px;
+  }
+  .repaso-card .week-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #0077b6;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .repaso-card h4 { margin: 0 0 6px; font-size: 15px; }
+  .repaso-card p { font-size: 13px; margin-bottom: 0; color: #444; }
+
+  /* ===== REVENUE TABLE ===== */
+  .rev-table th { font-size: 12px; padding: 8px 10px; }
+  .rev-table td { font-size: 13px; padding: 7px 10px; }
+  .rev-table .total-row td { font-weight: 700; background: #e8f0fe; color: #003366; }
+  .rev-table .header-row td { background: #003366; color: white; font-weight: 700; text-align: center; }
+
+  /* ===== INTERACTIVE EXERCISE ===== */
+  .exercise-container { margin: 0; }
+  .ex-instruction {
+    background: #003366;
+    color: white;
+    padding: 14px 20px;
+    border-radius: 8px 8px 0 0;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .ex-instruction strong { color: #87CEEB; }
+  .ex-body { background: white; border: 1px solid #d0dce8; border-top: none; padding: 20px; border-radius: 0 0 8px 8px; }
+
+  .ex-item {
+    background: #f8fafd;
+    border: 1px solid #e0e8f0;
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+  }
+  .ex-item .item-num {
+    font-size: 11px;
+    font-weight: 700;
+    color: #003366;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .ex-item .item-q { font-weight: 600; margin-bottom: 10px; font-size: 14px; }
+  .ex-options { display: flex; flex-direction: column; gap: 6px; }
+  .ex-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border: 1px solid #d0dce8;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-size: 14px;
+    background: white;
+  }
+  .ex-option:hover { background: #e8f0fe; border-color: #003366; }
+  .ex-option input[type="radio"] { accent-color: #003366; }
+  .ex-feedback { display: none; margin-top: 10px; padding: 10px 14px; border-radius: 6px; font-size: 13px; }
+  .ex-feedback.correct { background: #d1fae5; border: 1px solid #6ee7b7; color: #065f46; }
+  .ex-feedback.incorrect { background: #fee2e2; border: 1px solid #fca5a5; color: #7f1d1d; }
+  .ex-feedback.active { display: block; }
+
+  /* ===== QUIZ ===== */
+  .quiz-item {
+    background: #f8fafd;
+    border: 1px solid #e0e8f0;
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+  }
+  .quiz-header { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+  .quiz-num { font-size: 12px; font-weight: 700; color: #666; min-width: 32px; }
+  .quiz-badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 20px;
+    white-space: nowrap;
+    margin-top: 2px;
+  }
+  .badge-teoria { background: #dbeafe; color: #1e40af; }
+  .badge-analisis { background: #fef3c7; color: #92400e; }
+  .quiz-q { font-weight: 600; font-size: 14px; line-height: 1.4; }
+  .quiz-options { display: flex; flex-direction: column; gap: 6px; }
+  .quiz-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border: 1px solid #d0dce8;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-size: 14px;
+    background: white;
+  }
+  .quiz-option:hover { background: #e8f0fe; border-color: #003366; }
+  .quiz-option input[type="radio"] { accent-color: #003366; }
+  .quiz-feedback { display: none; margin-top: 10px; padding: 10px 14px; border-radius: 6px; font-size: 13px; }
+  .quiz-feedback.correct { background: #d1fae5; border: 1px solid #6ee7b7; color: #065f46; }
+  .quiz-feedback.incorrect { background: #fee2e2; border: 1px solid #fca5a5; color: #7f1d1d; }
+  .quiz-feedback.active { display: block; }
+
+  /* ===== VERIFY BUTTON & RESULTS ===== */
+  .verify-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background: #003366;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background 0.2s;
+    font-family: 'Source Sans 3', sans-serif;
+  }
+  .verify-btn:hover { background: #004d99; }
+  .reset-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background: white;
+    color: #003366;
+    border: 2px solid #003366;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.2s;
+    font-family: 'Source Sans 3', sans-serif;
+  }
+  .reset-btn:hover { background: #f0f5ff; }
+
+  .results-box {
+    display: none;
+    margin-top: 20px;
+    background: white;
+    border: 2px solid #003366;
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+  }
+  .results-box.active { display: block; }
+  .results-score { font-size: 42px; font-weight: 700; color: #003366; font-family: 'Lora', serif; }
+  .results-percent { font-size: 20px; color: #0077b6; margin: 4px 0 16px; }
+  .progress-bar-wrap { background: #e0e0e0; border-radius: 50px; height: 16px; overflow: hidden; margin: 12px 0; }
+  .progress-bar-fill { height: 100%; border-radius: 50px; background: linear-gradient(90deg, #003366, #0099cc); transition: width 0.8s ease; }
+  .results-emoji { font-size: 36px; margin: 10px 0 6px; }
+  .results-msg { font-size: 16px; color: #333; font-weight: 600; }
+
+  /* ===== AI ACTIVITY ===== */
+  .ai-section { background: white; border: 1px solid #d0dce8; border-radius: 10px; overflow: hidden; margin: 18px 0; }
+  .ai-header { background: #003366; color: white; padding: 14px 20px; }
+  .ai-header h3 { color: white; margin: 0; font-size: 17px; }
+  .ai-body { padding: 20px; }
+  .prompt-box {
+    background: #1a1a2e;
+    color: #e0f0ff;
+    padding: 18px 20px;
+    border-radius: 8px;
+    font-family: 'Source Sans 3', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    margin: 14px 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+    border-left: 4px solid #87CEEB;
+  }
+  .eval-criteria {
+    background: #f0f5ff;
+    border: 1px solid #b3c6e0;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 12px 0;
+  }
+  .eval-criteria h4 { margin: 0 0 8px; color: #003366; }
+
+  /* ===== REFLECTION ===== */
+  .reflection-card {
+    background: white;
+    border: 1px solid #d0dce8;
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-bottom: 14px;
+  }
+  .reflection-card .q-num {
+    font-size: 11px;
+    font-weight: 700;
+    color: #0077b6;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .reflection-card p { font-size: 15px; margin: 0; font-style: italic; color: #333; }
+
+  /* ===== BIBLIOGRAPHY ===== */
+  .bib-card {
+    background: white;
+    border: 1px solid #d0dce8;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+  }
+  .bib-card .bib-authors { font-size: 13px; color: #555; margin-bottom: 2px; }
+  .bib-card .bib-year { font-weight: 700; color: #003366; }
+  .bib-card .bib-title { font-style: italic; color: #1a1a1a; font-size: 14px; margin: 4px 0; }
+  .bib-card .bib-source { font-size: 13px; color: #0077b6; }
+  .bib-note { background: #fff8e1; border: 1px solid #fde68a; border-radius: 8px; padding: 12px 16px; margin-top: 20px; font-size: 13px; color: #78350f; }
+
+  /* ===== HIGHLIGHT CHIPS ===== */
+  .chip {
+    display: inline-block;
+    background: #e3f2fd;
+    color: #003366;
+    border: 1px solid #b3d9f5;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    margin: 2px;
+  }
+
+  /* ===== FORMULA BOX ===== */
+  .formula {
+    background: #f0f5ff;
+    border: 2px dashed #0077b6;
+    border-radius: 8px;
+    padding: 14px 20px;
+    text-align: center;
+    margin: 16px 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: #003366;
+    font-family: 'Lora', serif;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 600px) {
+    .panel { padding: 20px 14px 40px; }
+    h2 { font-size: 21px; }
+    .types-grid { grid-template-columns: 1fr; }
+    table { font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="header">
+  <div class="header-top">
+    <div>
+      <div class="header-inst">Universidad de Guayaquil &nbsp;|&nbsp; Facultad de Ciencias Administrativas &nbsp;|&nbsp; CPA — Quinto Semestre</div>
+      <div class="header-title">Contabilidad Gerencial &mdash; Semana 9</div>
+      <div class="header-meta">
+        <span class="badge">Unidad 3: Presupuestos y Control Gerencial</span>
+        <span class="badge">Año 2026</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== TAB BAR ===== -->
+<div class="tab-bar-wrapper">
+  <div class="tab-bar" id="tabBar">
+    <button class="tab-btn active" data-tab="repaso">📋 Repaso</button>
+    <button class="tab-btn" data-tab="t1">1. Qué es un Presupuesto</button>
+    <button class="tab-btn" data-tab="t2">2. Tipos de Presupuesto</button>
+    <button class="tab-btn" data-tab="t3">3. Presupuesto Maestro</button>
+    <button class="tab-btn" data-tab="t4">4. Presupuesto de Ingresos</button>
+    <button class="tab-btn" data-tab="ejercicio">✏️ Ejercicio</button>
+    <button class="tab-btn" data-tab="cuestionario">📝 Cuestionario</button>
+    <button class="tab-btn" data-tab="ia">🤖 Actividad IA</button>
+    <button class="tab-btn" data-tab="reflexion">💭 Reflexión</button>
+    <button class="tab-btn" data-tab="biblio">📚 Bibliografía</button>
+  </div>
+</div>
+
+<!-- ======================================================= -->
+<!-- PANEL: REPASO -->
+<!-- ======================================================= -->
+<div class="panel active" id="panel-repaso">
+  <h2>Repaso: Unidades 1 y 2</h2>
+  <p class="section-intro">Antes de comenzar la Unidad 3, consolidemos los conceptos fundamentales que hemos construido juntos. Todo lo que viene a continuación se apoya en estas bases.</p>
+
+  <div class="repaso-card">
+    <div class="week-label">Semana 1 — Rol del Contador Gerencial</div>
+    <h4>La Contabilidad Gerencial: para qué sirve</h4>
+    <p>Distinguimos la Contabilidad Gerencial (orientada al futuro y a la toma de decisiones internas) de la Contabilidad Financiera (orientada al reporte externo histórico) y la Contabilidad de Costos (cuantificación del proceso productivo). El contador gerencial actúa como asesor estratégico, no solo como registrador de transacciones.</p>
+  </div>
+
+  <div class="repaso-card">
+    <div class="week-label">Semana 2 — Costos y Sistemas de Información</div>
+    <h4>Clasificación de costos y herramientas en Excel</h4>
+    <p>Clasificamos los costos en fijos, variables, semivariables, directos e indirectos, y entendimos su comportamiento ante cambios en el nivel de actividad. Además, vimos cómo los Sistemas de Información Gerencial (SIG) transforman datos operativos en decisiones estratégicas, operando en tres niveles: operativo, táctico y estratégico.</p>
+  </div>
+
+  <div class="repaso-card">
+    <div class="week-label">Semana 3 — Ética y Responsabilidad</div>
+    <h4>El contador ético frente a presiones comerciales</h4>
+    <p>Analizamos el Código de Ética del Contador Ecuatoriano (CECE): competencia, objetividad, integridad y confidencialidad. Identificamos cómo el optimismo contable puede distorsionar la información gerencial y la responsabilidad del contador de mantener información transparente.</p>
+  </div>
+
+  <div class="repaso-card">
+    <div class="week-label">Semana 4 — Cierre Unidad 1 e Inicio Unidad 2</div>
+    <h4>Integración y transición hacia los costos estratégicos</h4>
+    <p>Cerramos la Unidad 1 integrando el rol del contador, la clasificación de costos y el SIG. Iniciamos la Unidad 2 comprendiendo que el costo es la variable más estratégica del negocio porque determina la rentabilidad, el precio y la viabilidad de cada decisión.</p>
+  </div>
+
+  <div class="repaso-card">
+    <div class="week-label">Semana 5 — Comportamiento del Costo</div>
+    <h4>Costos fijos, variables y mixtos; costeo de servicios</h4>
+    <p>Representamos gráficamente cómo cada tipo de costo reacciona ante variaciones en el nivel de actividad. Diferenciamos costo del período (gastos administrativos) y costo del servicio (directamente asociado a la prestación del servicio de seguridad: sueldos de guardias, armamento, uniformes).</p>
+  </div>
+
+  <div class="repaso-card">
+    <div class="week-label">Semana 6 — Punto de Equilibrio</div>
+    <h4>Margen de contribución y punto de equilibrio — La base del Semana 9</h4>
+    <p>Calculamos el <strong>margen de contribución</strong> (precio – costo variable) y la <strong>razón de contribución</strong> por línea de servicio (guardias, monitoreo, consultoría). Determinamos el punto de equilibrio en unidades y en dólares: el nivel mínimo de operación para no perder dinero. Aplicamos análisis de sensibilidad para evaluar escenarios de cambio de precio o costo. <em>Este es el concepto más directamente relacionado con el Presupuesto de Ingresos que construiremos hoy.</em></p>
+  </div>
+
+  <div class="repaso-card">
+    <div class="week-label">Semana 7 — CVU y Decisiones con Costos Relevantes</div>
+    <h4>Análisis Costo-Volumen-Utilidad y decisiones estratégicas</h4>
+    <p>Proyectamos la utilidad esperada bajo distintos niveles de actividad usando el modelo CVU. Comparamos el costeo variable con el costeo por absorción y sus diferentes resultados en el estado de resultados. Finalmente, aplicamos el concepto de <strong>costos relevantes</strong> para decisiones como: ¿contratar guardias propios o subcontratar?, ¿eliminar la línea de consultoría?</p>
+  </div>
+
+  <div class="key-idea">
+    <div class="box-label">🔗 Conexión con la Semana 9</div>
+    <p>Todo lo que aprendiste sobre costos fijos, variables, margen de contribución y punto de equilibrio ahora se convierte en los supuestos y variables clave del presupuesto. La Unidad 3 no empieza de cero: transforma esas herramientas analíticas en un plan formal, proyectado y controlable para el futuro.</p>
+  </div>
+</div>
+
+<!-- ======================================================= -->
+<!-- PANEL: TEMA 1 — Qué es un Presupuesto -->
+<!-- ======================================================= -->
+<div class="panel" id="panel-t1">
+  <h2>¿Qué es un Presupuesto y para qué sirve?</h2>
+  <p class="section-intro">Objetivo: Comprender el presupuesto como herramienta de planeación y control, entendiendo su propósito real más allá de ser "un listado de números".</p>
+
+  <div class="concept-box">
+    <div class="box-label">📌 Definición Precisa</div>
+    <p>Un <strong>presupuesto</strong> es un plan financiero cuantificado y formalizado que expresa, en unidades monetarias y físicas, los objetivos de una organización para un período determinado, y sirve como instrumento de coordinación, asignación de recursos y control del desempeño gerencial.</p>
+  </div>
+
+  <p>Aclaremos algo esencial desde el principio: un presupuesto <strong>no es una predicción del futuro</strong> ni una simple lista de gastos. Es una <strong>declaración de intenciones</strong> de la gerencia, respaldada por supuestos razonados sobre el entorno, la empresa y sus capacidades. Si la realidad se desvía del presupuesto, esa diferencia —llamada <strong>variación</strong>— es precisamente lo que la gerencia analiza para tomar decisiones correctivas.</p>
+
+  <h3>Los Tres Propósitos Fundamentales del Presupuesto</h3>
+
+  <div class="types-grid">
+    <div class="type-card accent1">
+      <h4>🎯 1. Planificación</h4>
+      <p>Obliga a la gerencia a pensar con anticipación: ¿cuántos contratos esperamos cerrar?, ¿cuántos guardias necesitaremos?, ¿cuánto dinero necesitamos? Convierte la visión estratégica en números concretos.</p>
+    </div>
+    <div class="type-card accent2">
+      <h4>🔗 2. Coordinación</h4>
+      <p>Alinea todos los departamentos de la empresa. El área de operaciones sabe cuántos guardias puede contratar porque el área financiera ya definió el presupuesto de nómina. Evita que cada área "haga lo suyo" sin considerar el todo.</p>
+    </div>
+    <div class="type-card accent3">
+      <h4>📊 3. Control</h4>
+      <p>Al cierre del período, se compara lo presupuestado con lo real. Las diferencias (variaciones) revelan problemas de eficiencia, cambios en el entorno o errores de planificación que la gerencia debe gestionar.</p>
+    </div>
+  </div>
+
+  <h3>El Presupuesto como Herramienta Estratégica</h3>
+
+  <p>Muchas personas piensan que el presupuesto es solo un trámite administrativo: "la contabilidad hace sus números". Eso es un error grave. Un presupuesto bien construido responde preguntas estratégicas concretas:</p>
+
+  <ul>
+    <li>¿Podemos crecer un 15% el próximo año sin contratar más administrativos?</li>
+    <li>¿Qué pasa con nuestra utilidad si el IESS sube las cargas sociales un 5%?</li>
+    <li>¿Tenemos liquidez suficiente para pagar la nómina en diciembre si los clientes pagan tarde?</li>
+    <li>¿Cuántos contratos nuevos necesitamos para que el servicio de monitoreo sea rentable?</li>
+  </ul>
+
+  <p>Ninguna de estas preguntas tiene respuesta sin un presupuesto. El contador gerencial —tú— es quien construye esas respuestas.</p>
+
+  <div class="example-box">
+    <div class="box-label">🏢 Ejemplo: Empresa de Seguridad "SEGURECUADOR S.A." — Guayaquil</div>
+    <p>SEGURECUADOR opera con tres líneas de servicio: guardias de seguridad (60% de sus ingresos), monitoreo electrónico (30%) y consultoría en seguridad (10%). En diciembre de 2025, su gerente general convoca al contador gerencial y le dice: <em>"Necesito saber si el 2026 va a ser rentable, y si necesito pedir crédito en julio."</em></p>
+    <p>Sin un presupuesto maestro, esa pregunta es imposible de responder. Con él, el contador puede presentar en enero de 2026 un plan mes a mes que muestre ingresos proyectados, costos esperados, utilidad estimada y flujo de caja, todo con sus supuestos documentados.</p>
+  </div>
+
+  <h3>¿Por qué el Presupuesto es Relevante en Empresas de Servicios?</h3>
+  <p>A diferencia de las empresas manufactureras (que producen y almacenan bienes), las empresas de servicios como SEGURECUADOR tienen una particularidad: <strong>el costo principal es la mano de obra</strong> (guardias, supervisores, técnicos de monitoreo). Esto significa que:</p>
+
+  <ul>
+    <li>Los costos son predominantemente <strong>fijos o semifijos</strong> (un guardia cobra aunque no haya clientes ese día).</li>
+    <li>Los ingresos dependen directamente de los <strong>contratos vigentes</strong>.</li>
+    <li>Si pierde un contrato grande, el impacto es inmediato e irreversible en el corto plazo.</li>
+  </ul>
+
+  <p>Por eso, un presupuesto riguroso en una empresa de seguridad puede literalmente salvar a la empresa de una crisis de liquidez.</p>
+
+  <div class="key-idea">
+    <div class="box-label">💡 Idea Clave</div>
+    <p>El presupuesto es el puente entre la estrategia empresarial (qué queremos lograr) y la operación diaria (cómo lo lograremos y con qué recursos). Sin ese puente, la empresa camina sin rumbo y solo reacciona ante los problemas en lugar de anticiparlos.</p>
+  </div>
+</div>
+
+<!-- ======================================================= -->
+<!-- PANEL: TEMA 2 — Tipos de Presupuesto -->
+<!-- ======================================================= -->
+<div class="panel" id="panel-t2">
+  <h2>Tipos de Presupuesto</h2>
+  <p class="section-intro">Objetivo: Distinguir los diferentes tipos de presupuesto según su naturaleza, período y enfoque, para aplicar el correcto a cada situación gerencial.</p>
+
+  <p>No existe "un solo tipo" de presupuesto. Según lo que la empresa necesita planificar y controlar, utilizará diferentes enfoques. Clasificamos los presupuestos desde tres dimensiones distintas:</p>
+
+  <h3>Clasificación 1: Por su Naturaleza o Contenido</h3>
+
+  <div class="types-grid">
+    <div class="type-card accent1">
+      <h4>💰 Presupuesto de Operaciones</h4>
+      <p>Planifica los ingresos y costos de la actividad normal del negocio: ventas/contratos, costos directos, gastos administrativos y de ventas. Culmina en un Estado de Resultados proyectado.</p>
+    </div>
+    <div class="type-card accent2">
+      <h4>🏗️ Presupuesto de Capital</h4>
+      <p>Planifica las inversiones en activos de largo plazo: vehículos, equipos de monitoreo, software, instalaciones. Responde: ¿qué compraremos y en qué momento del año?</p>
+    </div>
+    <div class="type-card accent3">
+      <h4>💧 Presupuesto de Efectivo (Caja)</h4>
+      <p>Proyecta cuándo entra y cuándo sale el dinero real, semana a semana o mes a mes. Responde: ¿tendremos dinero disponible para pagar la nómina del 15 de julio? Este tema lo veremos en detalle en la Semana 10.</p>
+    </div>
+  </div>
+
+  <h3>Clasificación 2: Por el Período que Cubre</h3>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Tipo</th>
+          <th>Período</th>
+          <th>Uso típico</th>
+          <th>Ejemplo en seguridad</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Operativo / Anual</strong></td>
+          <td>1 año</td>
+          <td>Planificación general del negocio</td>
+          <td>Presupuesto 2026 de SEGURECUADOR</td>
+        </tr>
+        <tr>
+          <td><strong>Mensualizado</strong></td>
+          <td>12 meses desglosados</td>
+          <td>Control mes a mes</td>
+          <td>Ingresos proyectados ene–dic 2026</td>
+        </tr>
+        <tr>
+          <td><strong>Trimestral</strong></td>
+          <td>3 meses</td>
+          <td>Revisión y ajuste periódico</td>
+          <td>Revisión Q2 (abr–jun 2026)</td>
+        </tr>
+        <tr>
+          <td><strong>Estratégico / Plurianual</strong></td>
+          <td>3 a 5 años</td>
+          <td>Decisiones de inversión y expansión</td>
+          <td>Plan de expansión a Cuenca y Quito</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Clasificación 3: Por el Método de Elaboración</h3>
+
+  <div class="types-grid">
+    <div class="type-card accent4">
+      <h4>📈 Presupuesto Incremental</h4>
+      <p>Parte del presupuesto del año anterior y aplica un porcentaje de ajuste (inflación, crecimiento esperado). Es rápido pero puede perpetuar ineficiencias pasadas.</p>
+      <p><em>Ejemplo:</em> "El año pasado gastamos $120.000 en nómina; este año añadimos 5% = $126.000."</p>
+    </div>
+    <div class="type-card accent5">
+      <h4>🔄 Presupuesto Base Cero (PBC)</h4>
+      <p>Cada partida se justifica desde cero, como si la empresa comenzara de nuevo. Elimina gastos innecesarios, pero requiere más tiempo y análisis.</p>
+      <p><em>Ejemplo:</em> "¿Necesitamos realmente ese servicio de vigilancia interna? Justifícalo."</p>
+    </div>
+    <div class="type-card accent6">
+      <h4>🌊 Presupuesto Flexible</h4>
+      <p>Se recalcula automáticamente según el nivel real de actividad. Permite comparaciones justas: si solo se ejecutaron 80 contratos (y no 100 previstos), ¿cuánto debimos gastar con ese nivel de actividad?</p>
+    </div>
+    <div class="type-card accent1">
+      <h4>🔁 Presupuesto Continuo (Rolling)</h4>
+      <p>Siempre cubre 12 meses hacia adelante. Al cerrar enero, se añade el siguiente enero. La empresa nunca "termina" de presupuestar.</p>
+    </div>
+  </div>
+
+  <div class="example-box">
+    <div class="box-label">🏢 Ejemplo Aplicado — SEGURECUADOR</div>
+    <p>SEGURECUADOR utiliza un presupuesto anual incremental para planificar sus operaciones generales, y aplica un presupuesto flexible para evaluar el desempeño de cada supervisor de zona: si la zona norte tuvo 45 contratos activos (en lugar de 50 proyectados), se recalcula cuánto debió costar operarla a ese nivel de actividad antes de compararla con los costos reales.</p>
+  </div>
+
+  <h3>¿Qué tipo de presupuesto construiremos en la Unidad 3?</h3>
+
+  <div class="concept-box">
+    <div class="box-label">📌 Respuesta</div>
+    <p>Construiremos el <strong>Presupuesto Maestro Anual Mensualizado</strong> de SEGURECUADOR para 2026, comenzando hoy por el Presupuesto de Ingresos. Usaremos el método <strong>incremental con supuestos documentados</strong>: partimos de los contratos actuales y proyectamos el crecimiento con fundamentos explícitos.</p>
+  </div>
+
+  <div class="key-idea">
+    <div class="box-label">💡 Idea Clave</div>
+    <p>Elegir el tipo de presupuesto correcto no es un detalle técnico: es una decisión estratégica. Un presupuesto incremental es útil cuando el entorno es estable; uno base cero es indispensable cuando hay sospechas de ineficiencia; y uno flexible es el único que permite evaluar justamente el desempeño cuando el volumen de actividad varía.</p>
+  </div>
+</div>
+
+<!-- ======================================================= -->
+<!-- PANEL: TEMA 3 — Presupuesto Maestro -->
+<!-- ======================================================= -->
+<div class="panel" id="panel-t3">
+  <h2>El Presupuesto Maestro: Estructura e Interrelaciones</h2>
+  <p class="section-intro">Objetivo: Diseñar la arquitectura completa del presupuesto maestro e identificar cómo cada sub-presupuesto alimenta al siguiente, como las piezas de un engranaje.</p>
+
+  <div class="concept-box">
+    <div class="box-label">📌 Definición</div>
+    <p>El <strong>Presupuesto Maestro</strong> (o Presupuesto General) es el plan integral que consolida todos los sub-presupuestos de una empresa en un conjunto coherente de estados financieros proyectados: Estado de Resultados proyectado, Balance General proyectado y Presupuesto de Caja. Es el "mapa completo" del año siguiente.</p>
+  </div>
+
+  <h3>La Arquitectura del Presupuesto Maestro</h3>
+  <p>El presupuesto maestro no se construye de forma arbitraria: cada sub-presupuesto <strong>depende del anterior</strong>. Si el presupuesto de ingresos dice que venderemos 120 contratos, entonces el de operaciones debe planificar la nómina para cubrir 120 contratos, y así sucesivamente. Esta interdependencia es la clave para entender su estructura:</p>
+
+  <div class="budget-tree">
+    <div class="root">🗂️ PRESUPUESTO MAESTRO — SEGURECUADOR 2026</div>
+    <div class="connector">▼</div>
+    <div class="level-1">
+      <div class="l1-node">📈 Presupuesto de Ingresos</div>
+      <div class="l1-node">⚙️ Presupuesto de Operaciones</div>
+      <div class="l1-node">🏗️ Presupuesto de Capital</div>
+      <div class="l1-node">💧 Presupuesto de Caja</div>
+    </div>
+    <div class="connector">▼</div>
+    <div class="level-2">
+      <div class="l2-node">📋 Contratos por línea de servicio</div>
+      <div class="l2-node">👮 Nómina de guardias</div>
+      <div class="l2-node">🔫 Armamento y equipos</div>
+      <div class="l2-node">📡 Monitoreo electrónico</div>
+      <div class="l2-node">🚗 Vehículos y logística</div>
+      <div class="l2-node">🏢 Gastos administrativos</div>
+      <div class="l2-node">📣 Gastos de ventas</div>
+    </div>
+    <div class="connector">▼</div>
+    <div class="level-2">
+      <div class="l2-node" style="background:#d1fae5;border-color:#6ee7b7;">📊 Estado de Resultados Proyectado</div>
+      <div class="l2-node" style="background:#d1fae5;border-color:#6ee7b7;">📋 Balance General Proyectado</div>
+      <div class="l2-node" style="background:#d1fae5;border-color:#6ee7b7;">💰 Flujo de Caja Proyectado</div>
+    </div>
+  </div>
+
+  <h3>¿Por qué el Presupuesto de Ingresos es el Punto de Partida?</h3>
+
+  <p>En una empresa de servicios, <strong>todo parte de cuánto se va a vender</strong>. Si no sabemos cuántos contratos de seguridad vamos a firmar, no podemos saber:</p>
+  <ul>
+    <li>Cuántos guardias necesitamos contratar (o despedir).</li>
+    <li>Cuántas unidades móviles de supervisión necesitamos.</li>
+    <li>Cuánto armamento y uniformes debemos adquirir.</li>
+    <li>Cuánto crédito bancario necesitaremos para financiar la operación antes de cobrar.</li>
+  </ul>
+
+  <p>Por eso, el Presupuesto de Ingresos no es solo "el primero en construirse": es el <strong>motor que impulsa a todos los demás</strong>.</p>
+
+  <h3>Sub-presupuestos en SEGURECUADOR: Descripción Rápida</h3>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Sub-presupuesto</th>
+          <th>¿Qué proyecta?</th>
+          <th>¿De qué depende?</th>
+          <th>Semana</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Ingresos</strong></td>
+          <td>Contratos x precio por línea de servicio</td>
+          <td>Supuestos de mercado y crecimiento</td>
+          <td><span class="chip">Semana 9</span></td>
+        </tr>
+        <tr>
+          <td><strong>Nómina operativa</strong></td>
+          <td>Sueldos, horas extra, beneficios sociales de guardias</td>
+          <td>N.° de contratos de guardias</td>
+          <td><span class="chip">Semana 10</span></td>
+        </tr>
+        <tr>
+          <td><strong>Equipos y logística</strong></td>
+          <td>Armamento, uniformes, vehículos, combustible</td>
+          <td>N.° de contratos y zonas de operación</td>
+          <td><span class="chip">Semana 10</span></td>
+        </tr>
+        <tr>
+          <td><strong>Gastos administrativos</strong></td>
+          <td>Nómina de oficina, arriendos, seguros, servicios básicos</td>
+          <td>Estructura organizacional</td>
+          <td><span class="chip">Semana 10</span></td>
+        </tr>
+        <tr>
+          <td><strong>Gastos de ventas</strong></td>
+          <td>Comisiones a ejecutivos, publicidad, materiales comerciales</td>
+          <td>Presupuesto de ingresos</td>
+          <td><span class="chip">Semana 10</span></td>
+        </tr>
+        <tr>
+          <td><strong>Efectivo / Caja</strong></td>
+          <td>Cobros y pagos mes a mes; períodos de déficit y superávit</td>
+          <td>Todos los sub-presupuestos anteriores</td>
+          <td><span class="chip">Semana 10</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="warning-box">
+    <div class="box-label">⚠️ Error Común</div>
+    <p>Muchos estudiantes —y también gerentes sin formación técnica— confunden "tener presupuesto" con "haber llenado una hoja de Excel con números". El verdadero presupuesto maestro exige que cada número tenga un <strong>supuesto documentado</strong> que lo justifique. Si el presupuesto dice "ingresos: $1.200.000", debe poder responderse: ¿por qué esa cifra y no $900.000? ¿Qué supuestos la sustentan?</p>
+  </div>
+
+  <h3>Proceso de Construcción: Los Pasos Clave</h3>
+  <ol class="steps">
+    <li><strong>Definir el período:</strong> Generalmente 12 meses (enero–diciembre 2026), desglosado mes a mes.</li>
+    <li><strong>Establecer los supuestos generales:</strong> Inflación esperada, crecimiento del mercado de seguridad, políticas salariales del gobierno, tipo de cambio (si aplica).</li>
+    <li><strong>Construir el Presupuesto de Ingresos</strong> por línea de servicio y mes.</li>
+    <li><strong>Derivar el Presupuesto de Operaciones:</strong> ¿Cuántos guardias necesito para esos contratos? ¿Qué equipos?</li>
+    <li><strong>Elaborar los Presupuestos de Gastos</strong> (administrativos y de ventas).</li>
+    <li><strong>Integrar en el Estado de Resultados Proyectado</strong> para ver la utilidad esperada.</li>
+    <li><strong>Construir el Presupuesto de Caja</strong> para asegurar que hay liquidez real.</li>
+    <li><strong>Validar y aprobar</strong> con la gerencia; ajustar si la utilidad o el flujo de caja no son satisfactorios.</li>
+  </ol>
+
+  <div class="key-idea">
+    <div class="box-label">💡 Idea Clave</div>
+    <p>El Presupuesto Maestro es un sistema, no una hoja suelta. Si cambias un número en el presupuesto de ingresos (por ejemplo, porque perdiste un contrato grande), ese cambio debe propagarse automáticamente a todos los sub-presupuestos dependientes. En la práctica, esto se hace con fórmulas vinculadas en Excel o con software de presupuestación.</p>
+  </div>
+</div>
+
+<!-- ======================================================= -->
+<!-- PANEL: TEMA 4 — Presupuesto de Ingresos -->
+<!-- ======================================================= -->
+<div class="panel" id="panel-t4">
+  <h2>Presupuesto de Ingresos: El Punto de Partida</h2>
+  <p class="section-intro">Objetivo: Elaborar el presupuesto de ingresos mensualizado de SEGURECUADOR, distinguiendo por línea de servicio y documentando supuestos de crecimiento.</p>
+
+  <div class="concept-box">
+    <div class="box-label">📌 Definición</div>
+    <p>El <strong>Presupuesto de Ingresos</strong> es la proyección formal de los ingresos esperados por período, desagregados por línea de servicio, tipo de contrato o producto. Responde a la pregunta: <em>¿Cuánto dinero esperamos recibir, de quién, por qué servicio y en qué mes?</em></p>
+  </div>
+
+  <h3>Componentes del Presupuesto de Ingresos</h3>
+  <p>Para construirlo, necesitamos tres elementos por cada línea de servicio:</p>
+
+  <div class="formula">
+    Ingreso Proyectado = N.° de Contratos × Precio Promedio por Contrato × Meses Activos
+  </div>
+
+  <ul>
+    <li><strong>N.° de Contratos:</strong> ¿Cuántos contratos activos tenemos? ¿Cuántos nuevos firmaremos? ¿Cuántos podremos perder?</li>
+    <li><strong>Precio Promedio:</strong> El valor mensual promedio que cobra la empresa por cada contrato de esa línea.</li>
+    <li><strong>Supuestos de Crecimiento:</strong> ¿Por qué esperamos ese número de contratos? ¿Qué variables lo explican?</li>
+  </ul>
+
+  <h3>Supuestos de SEGURECUADOR para 2026</h3>
+  <p>Antes de calcular, documentamos los supuestos. Esta es la parte más importante y la que diferencia un presupuesto profesional de uno amateur:</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Variable</th>
+          <th>Supuesto documentado</th>
+          <th>Fuente / Justificación</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Inflación Ecuador 2026</strong></td>
+          <td>3,5% anual estimado</td>
+          <td>Proyección BCE (Banco Central del Ecuador)</td>
+        </tr>
+        <tr>
+          <td><strong>Crecimiento del mercado de seguridad privada</strong></td>
+          <td>8% anual</td>
+          <td>Tendencia histórica post-pandemia; aumento de inseguridad en zonas urbanas</td>
+        </tr>
+        <tr>
+          <td><strong>Ajuste salarial SBU 2026</strong></td>
+          <td>+5% (impacta costos, no ingresos)</td>
+          <td>Política gubernamental Ecuador</td>
+        </tr>
+        <tr>
+          <td><strong>Retención de contratos vigentes</strong></td>
+          <td>92% de contratos actuales se renuevan</td>
+          <td>Histórico de fidelización de SEGURECUADOR (últimos 3 años)</td>
+        </tr>
+        <tr>
+          <td><strong>Nuevos contratos: guardias</strong></td>
+          <td>+3 contratos por trimestre (crecimiento orgánico)</td>
+          <td>Pipeline comercial actual; 2 licitaciones en proceso</td>
+        </tr>
+        <tr>
+          <td><strong>Nuevos contratos: monitoreo</strong></td>
+          <td>+2 contratos por trimestre</td>
+          <td>Mayor penetración de clientes residenciales y condominios</td>
+        </tr>
+        <tr>
+          <td><strong>Consultoría</strong></td>
+          <td>Proyectos puntuales; 1 por trimestre promedio</td>
+          <td>Sin acción comercial específica; demanda entrante</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Situación Inicial de SEGURECUADOR (enero 2026)</h3>
+
+  <div class="example-box">
+    <div class="box-label">📊 Datos de Partida</div>
+    <p>Al 31 de diciembre de 2025, SEGURECUADOR cuenta con:</p>
+    <ul>
+      <li><strong>Guardias:</strong> 25 contratos activos a un promedio de <strong>$2.800/mes</strong> cada uno.</li>
+      <li><strong>Monitoreo:</strong> 15 contratos activos a un promedio de <strong>$650/mes</strong> cada uno.</li>
+      <li><strong>Consultoría:</strong> Proyectos puntuales, estimado de <strong>$1.500/proyecto</strong>, con 1 proyecto por trimestre.</li>
+    </ul>
+    <p>Precios se actualizan en julio (+3,5% por inflación) para todos los contratos.</p>
+  </div>
+
+  <h3>Presupuesto de Ingresos — Primer Semestre 2026 (Versión Simplificada)</h3>
+
+  <div class="table-wrap">
+    <table class="rev-table">
+      <thead>
+        <tr>
+          <th>Línea de Servicio</th>
+          <th class="td-num">Enero</th>
+          <th class="td-num">Febrero</th>
+          <th class="td-num">Marzo</th>
+          <th class="td-num">Abril</th>
+          <th class="td-num">Mayo</th>
+          <th class="td-num">Junio</th>
+          <th class="td-num">S1 TOTAL</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="8" class="header-row" style="background:#0077b6;color:white;font-weight:700;">GUARDIAS DE SEGURIDAD (contratos ×  precio promedio)</td>
+        </tr>
+        <tr>
+          <td style="padding-left:20px;color:#555;font-size:13px;">N.° contratos activos</td>
+          <td class="td-num">25</td>
+          <td class="td-num">25</td>
+          <td class="td-num">28</td>
+          <td class="td-num">28</td>
+          <td class="td-num">28</td>
+          <td class="td-num">31</td>
+          <td class="td-num">—</td>
+        </tr>
+        <tr>
+          <td style="padding-left:20px;color:#555;font-size:13px;">Precio promedio/mes</td>
+          <td class="td-num">$2.800</td>
+          <td class="td-num">$2.800</td>
+          <td class="td-num">$2.800</td>
+          <td class="td-num">$2.800</td>
+          <td class="td-num">$2.800</td>
+          <td class="td-num">$2.800</td>
+          <td class="td-num">—</td>
+        </tr>
+        <tr class="total-row">
+          <td><strong>Ingresos Guardias</strong></td>
+          <td class="td-num">$70.000</td>
+          <td class="td-num">$70.000</td>
+          <td class="td-num">$78.400</td>
+          <td class="td-num">$78.400</td>
+          <td class="td-num">$78.400</td>
+          <td class="td-num">$86.800</td>
+          <td class="td-num">$462.000</td>
+        </tr>
+        <tr>
+          <td colspan="8" class="header-row" style="background:#0099cc;color:white;font-weight:700;">MONITOREO ELECTRÓNICO</td>
+        </tr>
+        <tr>
+          <td style="padding-left:20px;color:#555;font-size:13px;">N.° contratos activos</td>
+          <td class="td-num">15</td>
+          <td class="td-num">15</td>
+          <td class="td-num">17</td>
+          <td class="td-num">17</td>
+          <td class="td-num">17</td>
+          <td class="td-num">19</td>
+          <td class="td-num">—</td>
+        </tr>
+        <tr>
+          <td style="padding-left:20px;color:#555;font-size:13px;">Precio promedio/mes</td>
+          <td class="td-num">$650</td>
+          <td class="td-num">$650</td>
+          <td class="td-num">$650</td>
+          <td class="td-num">$650</td>
+          <td class="td-num">$650</td>
+          <td class="td-num">$650</td>
+          <td class="td-num">—</td>
+        </tr>
+        <tr class="total-row">
+          <td><strong>Ingresos Monitoreo</strong></td>
+          <td class="td-num">$9.750</td>
+          <td class="td-num">$9.750</td>
+          <td class="td-num">$11.050</td>
+          <td class="td-num">$11.050</td>
+          <td class="td-num">$11.050</td>
+          <td class="td-num">$12.350</td>
+          <td class="td-num">$65.000</td>
+        </tr>
+        <tr>
+          <td colspan="8" class="header-row" style="background:#7ec8e3;color:#003366;font-weight:700;">CONSULTORÍA EN SEGURIDAD</td>
+        </tr>
+        <tr class="total-row">
+          <td><strong>Ingresos Consultoría</strong></td>
+          <td class="td-num">$1.500</td>
+          <td class="td-num">$0</td>
+          <td class="td-num">$0</td>
+          <td class="td-num">$1.500</td>
+          <td class="td-num">$0</td>
+          <td class="td-num">$0</td>
+          <td class="td-num">$3.000</td>
+        </tr>
+        <tr style="background:#003366;">
+          <td style="color:white;font-weight:700;">TOTAL INGRESOS SEGURECUADOR</td>
+          <td class="td-num" style="color:#87CEEB;font-weight:700;">$81.250</td>
+          <td class="td-num" style="color:#87CEEB;font-weight:700;">$79.750</td>
+          <td class="td-num" style="color:#87CEEB;font-weight:700;">$89.450</td>
+          <td class="td-num" style="color:#87CEEB;font-weight:700;">$90.950</td>
+          <td class="td-num" style="color:#87CEEB;font-weight:700;">$89.450</td>
+          <td class="td-num" style="color:#87CEEB;font-weight:700;">$99.150</td>
+          <td class="td-num" style="color:#87CEEB;font-weight:700;">$530.000</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Lectura Gerencial del Presupuesto de Ingresos</h3>
+
+  <p>Los números solos no dicen nada: lo que importa es <strong>lo que revelan</strong>. Analicemos este presupuesto desde la perspectiva del contador gerencial:</p>
+
+  <ul>
+    <li>Los <strong>guardias representan el 87% de los ingresos</strong> del primer semestre. Eso implica una dependencia alta: perder 3 contratos grandes puede afectar significativamente la rentabilidad.</li>
+    <li>El <strong>monitoreo crece de forma constante</strong> (de 15 a 19 contratos en 6 meses). Es la línea con mayor potencial de escalar porque sus costos fijos son bajos una vez instalada la infraestructura.</li>
+    <li>La <strong>consultoría es errática e impredecible</strong>. Si la empresa quiere depender menos de esto, debe decidir si invierte en capacidad comercial para esta línea o la mantiene como servicio complementario.</li>
+    <li><strong>Febrero es el mes más débil</strong> ($79.750): no hay consultoría y los guardias aún no crecen. La gerencia debe anticipar que ese mes tendrá menor margen para cubrir costos fijos.</li>
+  </ul>
+
+  <div class="warning-box">
+    <div class="box-label">⚠️ Los Supuestos son la Columna Vertebral</div>
+    <p>Si un competidor lanza una guerra de precios en Guayaquil y el precio promedio de guardias cae de $2.800 a $2.500/mes, el ingreso de enero pasa de $70.000 a $62.500 — una diferencia de $7.500 en un solo mes. Por eso, el análisis de sensibilidad (aprendido en la Semana 6) debe aplicarse también al presupuesto de ingresos.</p>
+  </div>
+
+  <div class="key-idea">
+    <div class="box-label">💡 Idea Clave</div>
+    <p>El Presupuesto de Ingresos no es solo matemática: es la narrativa estratégica de la empresa convertida en números. Cada cifra debe poder defenderse ante la gerencia con un supuesto claro y documentado. Un presupuesto que nadie puede explicar no sirve para controlar ni para decidir.</p>
+  </div>
+</div>
+
+<!-- ======================================================= -->
+<!-- PANEL: EJERCICIO INTERACTIVO -->
+<!-- ======================================================= -->
+<div class="panel" id="panel-ejercicio">
+  <h2>Ejercicio Interactivo</h2>
+  <p class="section-intro">Clasifica y empareja cada afirmación con el concepto presupuestario correcto. Responde todas las preguntas antes de verificar.</p>
+
+  <div class="exercise-container">
+    <div class="ex-instruction">
+      <strong>Instrucciones:</strong> Lee cada situación y selecciona la opción correcta. Responde <strong>todos los ítems primero</strong> y luego presiona "Verificar respuestas". El material de este widget contiene toda la información necesaria para responder correctamente.
+    </div>
+    <div class="ex-body">
+
+      <!-- Ítem 1 -->
+      <div class="ex-item">
+        <div class="item-num">Ítem 1 de 8</div>
+        <div class="item-q">La gerente de SEGURECUADOR afirma: "Proyectamos 3 contratos nuevos de guardias por trimestre porque tenemos 2 licitaciones en proceso y un crecimiento histórico de 8% en el sector." Esta declaración es un ejemplo de:</div>
+        <div class="ex-options">
+          <label class="ex-option"><input type="radio" name="ei1" value="a"> a) Una variación presupuestaria favorable</label>
+          <label class="ex-option"><input type="radio" name="ei1" value="b"> b) Un supuesto documentado del presupuesto de ingresos</label>
+          <label class="ex-option"><input type="radio" name="ei1" value="c"> c) Un presupuesto base cero</label>
+          <label class="ex-option"><input type="radio" name="ei1" value="d"> d) Un presupuesto de capital</label>
+        </div>
+        <div class="ex-feedback" id="ef1"></div>
+      </div>
+
+      <!-- Ítem 2 -->
+      <div class="ex-item">
+        <div class="item-num">Ítem 2 de 8</div>
+        <div class="item-q">SEGURECUADOR decide que cada partida de gasto del departamento de monitoreo debe justificarse desde cero, como si ese departamento empezara de nuevo, en lugar de tomar el presupuesto del año pasado. ¿Qué método de elaboración presupuestaria está usando?</div>
+        <div class="ex-options">
+          <label class="ex-option"><input type="radio" name="ei2" value="a"> a) Presupuesto incremental</label>
+          <label class="ex-option"><input type="radio" name="ei2" value="b"> b) Presupuesto continuo (rolling)</label>
+          <label class="ex-option"><input type="radio" name="ei2" value="c"> c) Presupuesto base cero</label>
+          <label class="ex-option"><input type="radio" name="ei2" value="d"> d) Presupuesto de capital</label>
+        </div>
+        <div class="ex-feedback" id="ef2"></div>
+      </div>
+
+      <!-- Ítem 3 -->
+      <div class="ex-item">
+        <div class="item-num">Ítem 3 de 8</div>
+        <div class="item-q">En el presupuesto de ingresos de SEGURECUADOR, el presupuesto de nómina de guardias depende directamente de cuántos contratos se proyectan. Esta relación demuestra que el presupuesto de ingresos:</div>
+        <div class="ex-options">
+          <label class="ex-option"><input type="radio" name="ei3" value="a"> a) Es el último sub-presupuesto en construirse</label>
+          <label class="ex-option"><input type="radio" name="ei3" value="b"> b) No afecta a los demás sub-presupuestos</label>
+          <label class="ex-option"><input type="radio" name="ei3" value="c"> c) Es el punto de partida que impulsa a todos los demás sub-presupuestos</label>
+          <label class="ex-option"><input type="radio" name="ei3" value="d"> d) Es independiente del presupuesto de efectivo</label>
+        </div>
+        <div class="ex-feedback" id="ef3"></div>
+      </div>
+
+      <!-- Ítem 4 -->
+      <div class="ex-item">
+        <div class="item-num">Ítem 4 de 8</div>
+        <div class="item-q">El supervisor de zona norte de SEGURECUADOR tuvo costos de $18.500 en un mes donde solo operó 45 contratos, en lugar de los 50 planificados. Para evaluar justamente su desempeño, la gerencia recalcula cuánto debió costar operar con 45 contratos y compara eso con los $18.500. ¿Qué tipo de presupuesto está usando la gerencia?</div>
+        <div class="ex-options">
+          <label class="ex-option"><input type="radio" name="ei4" value="a"> a) Presupuesto incremental</label>
+          <label class="ex-option"><input type="radio" name="ei4" value="b"> b) Presupuesto flexible</label>
+          <label class="ex-option"><input type="radio" name="ei4" value="c"> c) Presupuesto maestro</label>
+          <label class="ex-option"><input type="radio" name="ei4" value="d"> d) Presupuesto base cero</label>
+        </div>
+        <div class="ex-feedback" id="ef4"></div>
+      </div>
+
+      <!-- Ítem 5 -->
+      <div class="ex-item">
+        <div class="item-num">Ítem 5 de 8</div>
+        <div class="item-q">¿Cuál de los siguientes NO es un propósito fundamental del presupuesto empresarial?</div>
+        <div class="ex-options">
+          <label class="ex-option"><input type="radio" name="ei5" value="a"> a) Planificación anticipada de recursos</label>
+          <label class="ex-option"><input type="radio" name="ei5" value="b"> b) Coordinación entre departamentos</label>
+          <label class="ex-option"><input type="radio" name="ei5" value="c"> c) Eliminar la incertidumbre del entorno empresarial</label>
+          <label class="ex-option"><input type="radio" name="ei5" value="d"> d) Control del desempeño mediante comparación con lo real</label>
+        </div>
+        <div class="ex-feedback" id="ef5"></div>
+      </div>
+
+      <!-- Ítem 6 -->
+      <div class="ex-item">
+        <div class="item-num">Ítem 6 de 8</div>
+        <div class="item-q">En el presupuesto de ingresos de SEGURECUADOR, se observa que el servicio de guardias representa el 87% de los ingresos del primer semestre. ¿Cuál es la principal implicación gerencial de esta concentración?</div>
+        <div class="ex-options">
+          <label class="ex-option"><input type="radio" name="ei6" value="a"> a) Que la empresa es muy eficiente en monitoreo electrónico</label>
+          <label class="ex-option"><input type="radio" name="ei6" value="b"> b) Que la empresa tiene alta dependencia en una línea; perder contratos de guardias afecta gravemente los ingresos totales</label>
+          <label class="ex-option"><input type="radio" name="ei6" value="c"> c) Que la consultoría debe eliminarse del presupuesto maestro</label>
+          <label class="ex-option"><input type="radio" name="ei6" value="d"> d) Que el precio de los guardias debería reducirse para captar más clientes</label>
+        </div>
+        <div class="ex-feedback" id="ef6"></div>
+      </div>
+
+      <!-- Ítem 7 -->
+      <div class="ex-item">
+        <div class="item-num">Ítem 7 de 8</div>
+        <div class="item-q">SEGURECUADOR siempre mantiene un presupuesto de 12 meses hacia adelante. En enero cierra ese mes y proyecta el siguiente enero, de modo que nunca "termina" de planificar. ¿Cómo se denomina este método?</div>
+        <div class="ex-options">
+          <label class="ex-option"><input type="radio" name="ei7" value="a"> a) Presupuesto base cero</label>
+          <label class="ex-option"><input type="radio" name="ei7" value="b"> b) Presupuesto de capital</label>
+          <label class="ex-option"><input type="radio" name="ei7" value="c"> c) Presupuesto continuo o rolling</label>
+          <label class="ex-option"><input type="radio" name="ei7" value="d"> d) Presupuesto estratégico quinquenal</label>
+        </div>
+        <div class="ex-feedback" id="ef7"></div>
+      </div>
+
+      <!-- Ítem 8 -->
+      <div class="ex-item">
+        <div class="item-num">Ítem 8 de 8</div>
+        <div class="item-q">Al analizar el presupuesto de ingresos de SEGURECUADOR, el contador observa que febrero es el mes más débil con $79.750. ¿Cuál es la acción gerencial más adecuada ante este hallazgo?</div>
+        <div class="ex-options">
+          <label class="ex-option"><input type="radio" name="ei8" value="a"> a) Ignorarlo porque es solo un mes dentro del año</label>
+          <label class="ex-option"><input type="radio" name="ei8" value="b"> b) Eliminar el presupuesto de consultoría porque no aporta en febrero</label>
+          <label class="ex-option"><input type="radio" name="ei8" value="c"> c) Anticipar que en febrero habrá menor margen para cubrir costos fijos y planificar en consecuencia (reducir gastos discrecionales o asegurar reserva de efectivo)</label>
+          <label class="ex-option"><input type="radio" name="ei8" value="d"> d) Subir el precio de los contratos de monitoreo en enero para compensar</label>
+        </div>
+        <div class="ex-feedback" id="ef8"></div>
+      </div>
+
+      <button class="verify-btn" id="btnVerifyEx" onclick="verificarEjercicio()">Verificar Respuestas</button>
+      <div class="results-box" id="exResults">
+        <div class="results-score" id="exScore"></div>
+        <div class="results-percent" id="exPercent"></div>
+        <div class="progress-bar-wrap"><div class="progress-bar-fill" id="exBar" style="width:0%"></div></div>
+        <div class="results-emoji" id="exEmoji"></div>
+        <div class="results-msg" id="exMsg"></div>
+      </div>
+      <button class="reset-btn" id="btnResetEx" style="display:none" onclick="resetEjercicio()">🔄 Reiniciar Ejercicio</button>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================================= -->
+<!-- PANEL: CUESTIONARIO -->
+<!-- ======================================================= -->
+<div class="panel" id="panel-cuestionario">
+  <h2>Cuestionario — 10 Preguntas</h2>
+  <p class="section-intro">Responde todas las preguntas y luego presiona "Verificar respuestas". No se muestran resultados parciales hasta completar el cuestionario.</p>
+
+  <!-- P1 -->
+  <div class="quiz-item">
+    <div class="quiz-header">
+      <span class="quiz-num">1</span>
+      <span class="quiz-badge badge-teoria">Teórica</span>
+      <span class="quiz-q">¿Cuál es la diferencia fundamental entre un presupuesto y un pronóstico financiero?</span>
+    </div>
+    <div class="quiz-options">
+      <label class="quiz-option"><input type="radio" name="qi1" value="a"> a) El pronóstico incluye supuestos y el presupuesto no.</label>
+      <label class="quiz-option"><input type="radio" name="qi1" value="b"> b) El presupuesto es un plan formal con compromiso gerencial; el pronóstico es una estimación sin obligación de cumplimiento.</label>
+      <label class="quiz-option"><input type="radio" name="qi1" value="c"> c) El presupuesto se elabora con datos históricos y el pronóstico con datos futuros.</label>
+      <label class="quiz-option"><input type="radio" name="qi1" value="d"> d) No existe ninguna diferencia relevante entre ambos conceptos.</label>
+    </div>
+    <div class="quiz-feedback" id="qf1"></div>
+  </div>
+
+  <!-- P2 -->
+  <div class="quiz-item">
+    <div class="quiz-header">
+      <span class="quiz-num">2</span>
+      <span class="quiz-badge badge-teoria">Teórica</span>
+      <span class="quiz-q">¿Cuál es el sub-presupuesto que actúa como punto de partida del Presupuesto Maestro en una empresa de servicios?</span>
+    </div>
+    <div class="quiz-options">
+      <label class="quiz-option"><input type="radio" name="qi2" value="a"> a) Presupuesto de caja</label>
+      <label class="quiz-option"><input type="radio" name="qi2" value="b"> b) Presupuesto de gastos administrativos</label>
+      <label class="quiz-option"><input type="radio" name="qi2" value="c"> c) Presupuesto de ingresos</label>
+      <label class="quiz-option"><input type="radio" name="qi2" value="d"> d) Presupuesto de capital</label>
+    </div>
+    <div class="quiz-feedback" id="qf2"></div>
+  </div>
+
+  <!-- P3 -->
+  <div class="quiz-item">
+    <div class="quiz-header">
+      <span class="quiz-num">3</span>
+      <span class="quiz-badge badge-teoria">Teórica</span>
+      <span class="quiz-q">¿En qué se diferencia el presupuesto flexible del presupuesto estático (o fijo)?</span>
+    </div>
+    <div class="quiz-options">
+      <label class="quiz-option"><input type="radio" name="qi3" value="a"> a) El presupuesto flexible es más fácil de elaborar porque no requiere supuestos.</label>
+      <label class="quiz-option"><input type="radio" name="qi3" value="b"> b) El presupuesto flexible se recalcula según el nivel real de actividad, permitiendo una comparación justa del desempeño.</label>
+      <label class="quiz-option"><input type="radio" name="qi3" value="c"> c) El presupuesto flexible solo se usa en empresas manufactureras, no de servicios.</label>
+      <label class="quiz-option"><input type="radio" name="qi3" value="d"> d) El presupuesto flexible no incluye costos variables, solo costos fijos.</label>
+    </div>
+    <div class="quiz-feedback" id="qf3"></div>
+  </div>
+
+  <!-- P4 -->
+  <div class="quiz-item">
+    <div class="quiz-header">
+      <span class="quiz-num">4</span>
+      <span class="quiz-badge badge-teoria">Teórica</span>
+      <span class="quiz-q">¿Cuál de los siguientes es un propósito legítimo del presupuesto empresarial?</span>
+    </div>
+    <div class="quiz-options">
+      <label class="quiz-option"><input type="radio" name="qi4" value="a"> a) Garantizar que los resultados reales sean siempre iguales a los proyectados.</label>
+      <label class="quiz-option"><input type="radio" name="qi4" value="b"> b) Eliminar la necesidad de tomar decisiones gerenciales durante el año.</label>
+      <label class="quiz-option"><input type="radio" name="qi4" value="c"> c) Coordinar las acciones de los distintos departamentos de la empresa hacia objetivos comunes.</label>
+      <label class="quiz-option"><input type="radio" name="qi4" value="d"> d) Sustituir al contador financiero en la elaboración de estados financieros.</label>
+    </div>
+    <div class="quiz-feedback" id="qf4"></div>
+  </div>
+
+  <!-- P5 -->
+  <div class="quiz-item">
+    <div class="quiz-header">
+      <span class="quiz-num">5</span>
+      <span class="quiz-badge badge-teoria">Teórica</span>
+      <span class="quiz-q">¿Cuál es la principal ventaja del presupuesto base cero (PBC) frente al presupuesto incremental?</span>
+    </div>
+    <div class="quiz-options">
+      <label class="quiz-option"><input type="radio" name="qi5" value="a"> a) Es más rápido de elaborar porque parte de los datos del año anterior.</label>
+      <label class="quiz-option"><input type="radio" name="qi5" value="b"> b) Obliga a justificar cada partida desde cero, eliminando gastos innecesarios acumulados en años anteriores.</label>
+      <label class="quiz-option"><input type="radio" name="qi5" value="c"> c) No requiere supuestos ni proyecciones de mercado.</label>
+      <label class="quiz-option"><input type="radio" name="qi5" value="d"> d) Garantiza siempre presupuestos más bajos que el año anterior.</label>
+    </div>
+    <div class="quiz-feedback" id="qf5"></div>
+  </div>
+
+  <!-- P6 -->
+  <div class="quiz-item">
+    <div class="quiz-header">
+      <span class="quiz-num">6</span>
+      <span class="quiz-badge badge-teoria">Teórica</span>
+      <span class="quiz-q">En el Presupuesto Maestro, ¿de qué depende directamente el Presupuesto de Nómina de Guardias?</span>
+    </div>
+    <div class="quiz-options">
+      <label class="quiz-option"><input type="radio" name="qi6" value="a"> a) Del Presupuesto de Caja disponible</label>
+      <label class="quiz-option"><input type="radio" name="qi6" value="b"> b) Del número de contratos proyectados en el Presupuesto de Ingresos</label>
+      <label class="quiz-option"><input type="radio" name="qi6" value="c"> c) Del Presupuesto de Gastos Administrativos</label>
+      <label class="quiz-option"><input type="radio" name="qi6" value="d"> d) Del Balance General proyectado del año anterior</label>
+    </div>
+    <div class="quiz-feedback" id="qf6"></div>
+  </div>
+
+  <!-- P7 -->
+  <div class="quiz-item">
+    <div class="quiz-header">
+      <span class="quiz-num">7</span>
+      <span class="quiz-badge badge-teoria">Teórica</span>
+      <span class="quiz-q">¿Por qué el presupuesto de ingresos es especialmente crítico en una empresa de seguridad privada?</span>
+    </div>
+    <div class="quiz-options">
+      <label class="quiz-option"><input type="radio" name="qi7" value="a"> a) Porque los ingresos de seguridad privada están regulados por el gobierno y no pueden cambiar.</label>
+      <label class="quiz-option"><input type="radio" name="qi7" value="b"> b) Porque los costos son predominantemente fijos (nómina de guardias) y dependen directamente del número de contratos; perder contratos impacta de inmediato la rentabilidad.</label>
+      <label class="quiz-option"><input type="radio" name="qi7" value="c"> c) Porque la empresa de seguridad no tiene costos variables significativos.</label>
+      <label class="quiz-option"><input type="radio" name="qi7" value="d"> d) Porque el gobierno ecuatoriano exige que las empresas de seguridad publiquen su presupuesto.</label>
+    </div>
+    <div class="quiz-feedback" id="qf7"></div>
+  </div>
+
+  <!-- P8 — Análisis -->
+  <div class="quiz-item">
+    <div class="quiz-header">
+      <span class="quiz-num">8</span>
+      <span class="quiz-badge badge-analisis">Análisis</span>
+      <span class="quiz-q">Una empresa de catering proyectó ingresos de $50.000 para octubre. Al cierre del mes, los ingresos reales fueron $43.000. La gerencia concluye que "el presupuesto falló." ¿Cuál es la afirmación más técnicamente correcta?</span>
+    </div>
+    <div class="quiz-options">
+      <label class="quiz-option"><input type="radio" name="qi8" value="a"> a) El presupuesto efectivamente falló porque los números no coincidieron, por lo tanto debe eliminarse.</label>
+      <label class="quiz-option"><input type="radio" name="qi8" value="b"> b) La variación de $7.000 desfavorable es precisamente el valor del presupuesto: revela una desviación que la gerencia ahora debe analizar para identificar sus causas y tomar acciones correctivas.</label>
+      <label class="quiz-option"><input type="radio" name="qi8" value="c"> c) Como los ingresos reales fueron menores, la empresa debería haber usado un presupuesto base cero.</label>
+      <label class="quiz-option"><input type="radio" name="qi8" value="d"> d) El presupuesto de ingresos no es confiable y se recomienda reemplazarlo por pronósticos de mercado.</label>
+    </div>
+    <div class="quiz-feedback" id="qf8"></div>
+  </div>
+
+  <!-- P9 — Análisis -->
+  <div class="quiz-item">
+    <div class="quiz-header">
+      <span class="quiz-num">9</span>
+      <span class="quiz-badge badge-analisis">Análisis</span>
+      <span class="quiz-q">Una empresa de transporte proyecta sus ingresos multiplicando el número de viajes estimados × precio por viaje. En marzo proyecta 800 viajes a $35 c/u ($28.000), pero un competidor lanza una tarifa de $28. ¿Cómo debería ajustar su presupuesto de ingresos para reflejar este cambio en el supuesto de precio?</span>
+    </div>
+    <div class="quiz-options">
+      <label class="quiz-option"><input type="radio" name="qi9" value="a"> a) No debe cambiarse el presupuesto porque ya fue aprobado por la gerencia.</label>
+      <label class="quiz-option"><input type="radio" name="qi9" value="b"> b) Debe recalcular los ingresos con el nuevo supuesto de precio y evaluar el impacto en la rentabilidad; si no puede sostener el precio de $35, quizás deba ajustar su estrategia comercial.</label>
+      <label class="quiz-option"><input type="radio" name="qi9" value="c"> c) Debe eliminar el servicio de transporte porque ya no es competitivo.</label>
+      <label class="quiz-option"><input type="radio" name="qi9" value="d"> d) Solo debe ajustar el presupuesto de efectivo, no el de ingresos.</label>
+    </div>
+    <div class="quiz-feedback" id="qf9"></div>
+  </div>
+
+  <!-- P10 — Análisis -->
+  <div class="quiz-item">
+    <div class="quiz-header">
+      <span class="quiz-num">10</span>
+      <span class="quiz-badge badge-analisis">Análisis</span>
+      <span class="quiz-q">Una clínica privada tiene costos fijos mensuales de $18.000 (arrendamiento, personal administrativo, seguros). En su presupuesto de ingresos proyecta $22.000 para enero y $17.500 para febrero. ¿Qué decisión debería anticipar la gerencia para el mes de febrero?</span>
+    </div>
+    <div class="quiz-options">
+      <label class="quiz-option"><input type="radio" name="qi10" value="a"> a) No hacer nada, porque $17.500 es un ingreso razonable.</label>
+      <label class="quiz-option"><input type="radio" name="qi10" value="b"> b) Cerrar la clínica en febrero porque los ingresos no cubren los costos fijos.</label>
+      <label class="quiz-option"><input type="radio" name="qi10" value="c"> c) Anticipar que en febrero habrá un déficit operativo de $500 y planificar una reserva de caja desde enero para cubrirlo, además de analizar si puede aumentar servicios o reducir costos discrecionales.</label>
+      <label class="quiz-option"><input type="radio" name="qi10" value="d"> d) Subir los precios de todos los servicios en enero para compensar el mes de febrero.</label>
+    </div>
+    <div class="quiz-feedback" id="qf10"></div>
+  </div>
+
+  <button class="verify-btn" id="btnVerifyQ" onclick="verificarCuestionario()">Verificar Respuestas</button>
+  <div class="results-box" id="qResults">
+    <div class="results-score" id="qScore"></div>
+    <div class="results-percent" id="qPercent"></div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="qBar" style="width:0%"></div></div>
+    <div class="results-emoji" id="qEmoji"></div>
+    <div class="results-msg" id="qMsg"></div>
+  </div>
+  <button class="reset-btn" id="btnResetQ" style="display:none" onclick="resetCuestionario()">🔄 Reiniciar Cuestionario</button>
+</div>
+
+<!-- ======================================================= -->
+<!-- PANEL: ACTIVIDAD IA -->
+<!-- ======================================================= -->
+<div class="panel" id="panel-ia">
+  <h2>Actividad con Inteligencia Artificial</h2>
+
+  <div class="ai-section">
+    <div class="ai-header">
+      <h3>🤖 Actividad: El Presupuesto que Nadie Quería Cuestionar</h3>
+    </div>
+    <div class="ai-body">
+      <p>Esta actividad te invita a usar la IA no para que te diga las respuestas, sino como un <strong>interlocutor con quien pensar críticamente</strong>. La IA te ofrecerá argumentos; tú los evaluarás, cuestionarás y construirás tu propia posición.</p>
+
+      <h4>🔧 Herramienta Recomendada</h4>
+      <p>Usa <strong>Claude en <a href="https://claude.ai" target="_blank">claude.ai</a></strong> (es gratuito). Alternativas: ChatGPT (versión gratuita) o Gemini de Google.</p>
+
+      <h4>📋 Situación</h4>
+      <p>Una empresa de seguridad en Guayaquil presentó el siguiente presupuesto de ingresos para el primer semestre: proyecta crecer un 25% en contratos de guardias, un 40% en monitoreo y un 60% en consultoría, sin documentar ningún supuesto. El gerente general aprueba el presupuesto porque "el equipo de ventas es optimista". El contador gerencial —tú— tiene dudas.</p>
+
+      <h4>🗣️ Prompt Exacto para la IA</h4>
+      <div class="prompt-box">Actúa como un asesor gerencial experto en presupuestación. Analiza el siguiente escenario y dame argumentos concretos:
+
+Una empresa de seguridad privada en Ecuador proyecta en su presupuesto de ingresos un crecimiento del 25% en guardias, 40% en monitoreo y 60% en consultoría para el primer semestre, aprobado únicamente en base al optimismo del equipo comercial, sin supuestos documentados.
+
+1. ¿Qué riesgos concretos enfrenta esta empresa si esas proyecciones no se cumplen?
+2. ¿Qué supuestos específicos deberían haberse documentado antes de aprobar ese presupuesto?
+3. Dame un ejemplo de cómo un presupuesto de ingresos inflado puede generar una crisis de liquidez aunque la empresa "vea buenos números en el papel".
+
+Responde con ejemplos numéricos simples.</div>
+
+      <h4>📌 ¿Qué hago con la respuesta de la IA?</h4>
+      <ol>
+        <li><strong>Lee la respuesta completa</strong> antes de hacer nada más.</li>
+        <li><strong>Identifica</strong> cuáles de los riesgos mencionados ya aparecen en el material de este widget y cuáles son nuevos para ti.</li>
+        <li><strong>Cuestiona un argumento</strong>: elige uno de los riesgos que mencionó la IA y escribe en tu cuaderno por qué estás de acuerdo o en desacuerdo con él, con al menos una razón propia.</li>
+        <li><strong>Construye tu recomendación</strong>: redacta en 5–7 líneas lo que tú, como contador gerencial de SEGURECUADOR, le recomendarías al gerente general antes de aprobar ese presupuesto.</li>
+      </ol>
+
+      <div class="eval-criteria">
+        <h4>✅ Criterios de Evaluación: ¿Pensamiento Crítico o Copia Simple?</h4>
+        <table style="font-size:13px;min-width:0;">
+          <thead>
+            <tr><th>Nivel</th><th>¿Qué demuestra?</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>🏆 Pensamiento Crítico</strong></td>
+              <td>Identifica al menos 1 argumento de la IA con el que discrepa y explica por qué. Su recomendación al gerente general usa vocabulario técnico correcto (supuestos, variaciones, liquidez) y propone acciones específicas.</td>
+            </tr>
+            <tr>
+              <td><strong>📘 Comprensión Básica</strong></td>
+              <td>Puede resumir los puntos principales de la IA con sus propias palabras, aunque no cuestione ninguno.</td>
+            </tr>
+            <tr>
+              <td><strong>⚠️ Copia Simple</strong></td>
+              <td>Copia el texto de la IA sin transformarlo ni añadir perspectiva propia. Esto NO demuestra aprendizaje.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="warning-box">
+        <div class="box-label">💡 Nota importante</div>
+        <p>Esta actividad tiene valor por el proceso de pensar, no por "tener razón". No hay una respuesta única correcta. Lo que importa es que puedas <strong>argumentar tu posición</strong> con conceptos del material estudiado.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================================= -->
+<!-- PANEL: REFLEXIÓN -->
+<!-- ======================================================= -->
+<div class="panel" id="panel-reflexion">
+  <h2>Preguntas Reflexivas</h2>
+  <p class="section-intro">No hay respuestas buenas ni malas. Estas preguntas conectan los conceptos de presupuestos con tu vida real. El objetivo es descubrir que lo que aprendes aquí no está desconectado de quién eres.</p>
+
+  <div class="key-idea" style="margin-bottom:24px;">
+    <div class="box-label">💭 Propósito de esta sección</div>
+    <p>Cada concepto que estudias en Contabilidad Gerencial tiene un equivalente en tu vida personal. Cuando logras ver esa conexión, dejas de estudiar "por obligación" y empiezas a aprender "porque tiene sentido". Tómate el tiempo de responder honestamente, aunque sea en tu mente o en tu diario.</p>
+  </div>
+
+  <div class="reflection-card">
+    <div class="q-num">Reflexión 1 — Planificación personal</div>
+    <p>Un presupuesto es un plan que convierte intenciones en números. ¿Tienes un presupuesto personal o familiar? ¿Lo sigues realmente, o lo abandonas después de la primera semana del mes? ¿Qué te impide mantenerlo? ¿Qué pasaría si trataste tu vida económica personal con la misma rigurosidad que SEGURECUADOR trata la suya?</p>
+  </div>
+
+  <div class="reflection-card">
+    <div class="q-num">Reflexión 2 — Supuestos de vida</div>
+    <p>El presupuesto de SEGURECUADOR parte de supuestos documentados: "esperamos 3 contratos nuevos porque tenemos 2 licitaciones en proceso." ¿En qué decisiones importantes de tu vida has actuado sobre supuestos no examinados? ¿Alguna vez diste por hecho que algo iba a pasar (un trabajo, una relación, un ingreso) y no documentaste mentalmente por qué lo creías? ¿Qué consecuencias tuvo ese "presupuesto sin supuestos"?</p>
+  </div>
+
+  <div class="reflection-card">
+    <div class="q-num">Reflexión 3 — Variaciones y autocrítica saludable</div>
+    <p>Cuando la realidad no coincide con lo planeado, se produce una <em>variación</em>. En las empresas, esa variación se analiza sin drama para tomar decisiones correctivas. ¿Cómo reaccionas tú cuando lo que planificaste no ocurre? ¿Te culpas en exceso, ignoras la diferencia o la analizas para aprender? ¿Qué cambiaría en tu vida si practicaras el "análisis de variaciones personal" con la misma objetividad que propone la contabilidad gerencial?</p>
+  </div>
+
+  <div class="reflection-card">
+    <div class="q-num">Reflexión 4 — Coordinación y relaciones</div>
+    <p>El presupuesto coordina a todos los departamentos de la empresa hacia un objetivo común: si ventas promete 120 contratos, operaciones debe estar lista para ejecutarlos. En tu vida cotidiana, ¿cuántas veces "ventas" (tú haciendo promesas o compromisos) y "operaciones" (tú cumpliendo esas promesas) no están sincronizadas? ¿Qué impacto tiene esa falta de coordinación en tus relaciones personales, familiares o académicas?</p>
+  </div>
+
+  <div class="reflection-card">
+    <div class="q-num">Reflexión 5 — Presupuesto de energía y tiempo</div>
+    <p>Así como una empresa tiene un presupuesto de dinero, tú tienes un presupuesto invisible pero real de energía, tiempo y atención. ¿Estás "gastando" esos recursos en lo que más importa para tus objetivos de vida? ¿Hay "partidas" a las que les dedicas recursos sin resultados (el equivalente a los gastos innecesarios que detecta el presupuesto base cero)? Si aplicaras el enfoque de presupuesto base cero a tu semana: ¿qué actividades eliminarías si tuvieras que justificarlas desde cero?</p>
+  </div>
+
+  <div class="reflection-card">
+    <div class="q-num">Reflexión 6 — Optimismo y realismo</div>
+    <p>En la actividad con IA analizamos el riesgo de un presupuesto construido sobre puro optimismo sin fundamentos. ¿Eres una persona tendiente al optimismo sin análisis, al pesimismo paralizante, o al realismo documentado? ¿Cómo esa tendencia ha afectado decisiones importantes en tu vida? ¿Qué herramientas de este curso podrías aplicar —aunque sea mentalmente— para equilibrar tu perspectiva natural?</p>
+  </div>
+
+  <div class="concept-box" style="margin-top:24px;">
+    <div class="box-label">🌟 Para llevar contigo</div>
+    <p>La Contabilidad Gerencial no enseña solo a calcular: enseña a <strong>planificar con rigor, coordinar con claridad, controlar con objetividad y decidir con evidencia</strong>. Todas esas son habilidades de vida, no solo habilidades contables. El contador gerencial que serás es también la persona que tomas decisiones todos los días. Ambas identidades se nutren mutuamente.</p>
+  </div>
+</div>
+
+<!-- ======================================================= -->
+<!-- PANEL: BIBLIOGRAFÍA -->
+<!-- ======================================================= -->
+<div class="panel" id="panel-biblio">
+  <h2>Bibliografía</h2>
+  <p class="section-intro">Referencias verificadas en formato APA 7.ª edición. Consulta cada fuente en Google Scholar o en el repositorio institucional antes de citarla en trabajos académicos.</p>
+
+  <div class="bib-card">
+    <div class="bib-authors">Horngren, C. T., Sundem, G. L., &amp; Stratton, W. O.</div>
+    <div class="bib-year">(2006)</div>
+    <div class="bib-title">Contabilidad administrativa (13.ª ed.)</div>
+    <div class="bib-source">Pearson Educación.</div>
+    <p style="font-size:13px;color:#555;margin-top:6px;">Capítulos 7 y 8 desarrollan en profundidad el presupuesto maestro, los presupuestos de operación y el presupuesto de caja. Referencia clásica e indispensable para la Unidad 3.</p>
+  </div>
+
+  <div class="bib-card">
+    <div class="bib-authors">Ramírez Padilla, D. N.</div>
+    <div class="bib-year">(2008)</div>
+    <div class="bib-title">Contabilidad administrativa (8.ª ed.)</div>
+    <div class="bib-source">McGraw-Hill Interamericana.</div>
+    <p style="font-size:13px;color:#555;margin-top:6px;">Tratamiento detallado de los tipos de presupuesto y el proceso de elaboración del presupuesto maestro, con aplicación al contexto latinoamericano.</p>
+  </div>
+
+  <div class="bib-card">
+    <div class="bib-authors">Hansen, D. R., &amp; Mowen, M. M.</div>
+    <div class="bib-year">(2007)</div>
+    <div class="bib-title">Administración de costos: contabilidad y control (5.ª ed.)</div>
+    <div class="bib-source">Cengage Learning.</div>
+    <p style="font-size:13px;color:#555;margin-top:6px;">Capítulo 8 explica el presupuesto flexible y su aplicación en empresas de servicios; directamente vinculado con los temas de la Semana 9.</p>
+  </div>
+
+  <div class="bib-card">
+    <div class="bib-authors">Welsch, G. A., Hilton, R. W., &amp; Gordon, P. N.</div>
+    <div class="bib-year">(2005)</div>
+    <div class="bib-title">Presupuestos: planificación y control (6.ª ed.)</div>
+    <div class="bib-source">Pearson Prentice Hall.</div>
+    <p style="font-size:13px;color:#555;margin-top:6px;">Obra de referencia especializada en presupuestación empresarial. Cubre los tipos de presupuesto, métodos de elaboración y control presupuestal con profundidad conceptual y práctica.</p>
+  </div>
+
+  <div class="bib-card">
+    <div class="bib-authors">Garrison, R. H., Noreen, E. W., &amp; Brewer, P. C.</div>
+    <div class="bib-year">(2017)</div>
+    <div class="bib-title">Contabilidad administrativa (16.ª ed.)</div>
+    <div class="bib-source">McGraw-Hill Education.</div>
+    <p style="font-size:13px;color:#555;margin-top:6px;">El capítulo sobre presupuestación desarrolla el presupuesto maestro con casos completos, incluyendo el presupuesto de ingresos, producción, gastos y caja. Ideal para ejercicios de integración.</p>
+  </div>
+
+  <div class="bib-card">
+    <div class="bib-authors">Burbano Ruiz, J. E.</div>
+    <div class="bib-year">(2011)</div>
+    <div class="bib-title">Presupuestos: enfoque de gestión, planeación y control de recursos (4.ª ed.)</div>
+    <div class="bib-source">McGraw-Hill Interamericana.</div>
+    <p style="font-size:13px;color:#555;margin-top:6px;">Referencia latinoamericana específica en presupuestación empresarial. Desarrolla tipos de presupuesto, métodos, elaboración y control con orientación práctica y ejemplos del contexto colombiano y regional.</p>
+  </div>
+
+  <div class="bib-note">
+    📌 <strong>Nota académica:</strong> Se recomienda verificar cada referencia en <a href="https://scholar.google.com" target="_blank">Google Scholar (scholar.google.com)</a> o en el repositorio institucional de la Universidad de Guayaquil antes de citar en trabajos académicos. Las ediciones y datos editoriales pueden variar según la fuente consultada.
+  </div>
+</div>
+
+<!-- ======================================================= -->
+<!-- JAVASCRIPT -->
+<!-- ======================================================= -->
+<script>
+// ===== TAB NAVIGATION =====
+document.getElementById('tabBar').addEventListener('click', function(e) {
+  const btn = e.target.closest('.tab-btn');
+  if (!btn) return;
+  const tabId = btn.getAttribute('data-tab');
+
+  // Deactivate all
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+
+  // Activate selected
+  btn.classList.add('active');
+  document.getElementById('panel-' + tabId).classList.add('active');
+
+  // Scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// ===== EXERCISE DATA =====
+const ejercicioCorrects = {
+  ei1: 'b',
+  ei2: 'c',
+  ei3: 'c',
+  ei4: 'b',
+  ei5: 'c',
+  ei6: 'b',
+  ei7: 'c',
+  ei8: 'c'
+};
+
+const ejercicioFeedbacks = {
+  ei1: {
+    correct: '✅ Correcto. Un supuesto documentado es la justificación explícita que respalda cada número del presupuesto. En este caso, "2 licitaciones en proceso + crecimiento histórico del sector" son los fundamentos que explican por qué se proyectan 3 contratos nuevos por trimestre.',
+    incorrect: '❌ Incorrecto. La afirmación de la gerente es un supuesto documentado: explica con evidencia concreta (licitaciones y tendencia del mercado) por qué se proyecta ese crecimiento. Sin supuestos así, el presupuesto sería solo una opinión sin respaldo.'
+  },
+  ei2: {
+    correct: '✅ Correcto. El Presupuesto Base Cero (PBC) exige justificar cada gasto desde cero, sin tomar el año anterior como referencia. Esto detecta ineficiencias, pero requiere más tiempo y análisis.',
+    incorrect: '❌ Incorrecto. El método descrito es el Presupuesto Base Cero: cada partida debe justificarse desde cero, sin asumir que "lo del año pasado era correcto". El incremental parte del año anterior + ajuste porcentual.'
+  },
+  ei3: {
+    correct: '✅ Correcto. El Presupuesto de Ingresos es el "motor" del Presupuesto Maestro: determina cuántos contratos habrá, y de ese número dependen la nómina, los equipos, la logística y todo lo demás.',
+    incorrect: '❌ Incorrecto. El Presupuesto de Ingresos es el punto de partida de todo el sistema. Si cambias el número de contratos proyectados, cambian también todos los demás sub-presupuestos que dependen de él.'
+  },
+  ei4: {
+    correct: '✅ Correcto. El Presupuesto Flexible se ajusta al nivel real de actividad. En este caso, se recalcula cuánto debió costar operar con 45 contratos (no 50) para hacer una comparación justa del desempeño del supervisor.',
+    incorrect: '❌ Incorrecto. La herramienta correcta es el Presupuesto Flexible: permite comparar los costos reales con lo que debería haber costado operar al nivel de actividad real (45 contratos), no con el presupuesto original de 50.'
+  },
+  ei5: {
+    correct: '✅ Correcto. El presupuesto NO elimina la incertidumbre: ninguna herramienta puede hacerlo. Lo que sí hace es preparar a la empresa para enfrentarla mejor, gracias a la planificación, coordinación y control.',
+    incorrect: '❌ Incorrecto. "Eliminar la incertidumbre" no es un propósito del presupuesto: eso es imposible. Los tres propósitos legítimos son planificación, coordinación y control. La incertidumbre persiste; el presupuesto ayuda a gestionarla, no a eliminarla.'
+  },
+  ei6: {
+    correct: '✅ Correcto. Una concentración del 87% en una sola línea de servicio representa un riesgo de dependencia alto. Si se pierden 3–5 contratos importantes de guardias, el impacto en los ingresos totales es inmediato y significativo.',
+    incorrect: '❌ Incorrecto. La implicación gerencial más importante de esta concentración es el riesgo: perder contratos de guardias afecta gravemente los ingresos totales porque esa línea representa casi todo el ingreso.'
+  },
+  ei7: {
+    correct: '✅ Correcto. El Presupuesto Continuo (Rolling) siempre mantiene un horizonte de 12 meses hacia adelante: al cerrar un mes, se agrega el mes siguiente. La empresa nunca se queda "sin presupuesto" por delante.',
+    incorrect: '❌ Incorrecto. La descripción corresponde al Presupuesto Continuo o Rolling: siempre cubre 12 meses hacia adelante, actualizándose mes a mes sin un "fin" fijo.'
+  },
+  ei8: {
+    correct: '✅ Correcto. La acción gerencial adecuada es anticiparse: planificar una reserva de caja desde enero y evaluar si se pueden reducir gastos discrecionales en febrero. El presupuesto existe precisamente para identificar estos meses críticos antes de que lleguen.',
+    incorrect: '❌ Incorrecto. Cuando el presupuesto revela un mes débil, la respuesta no es ignorarlo ni reaccionar de forma extrema: es planificar con anticipación. En este caso, significa tener reserva de caja y reducir gastos innecesarios en ese mes.'
+  }
+};
+
+// ===== QUIZ DATA =====
+const quizCorrects = {
+  qi1: 'b',
+  qi2: 'c',
+  qi3: 'b',
+  qi4: 'c',
+  qi5: 'b',
+  qi6: 'b',
+  qi7: 'b',
+  qi8: 'b',
+  qi9: 'b',
+  qi10: 'c'
+};
+
+const quizFeedbacks = {
+  qi1: {
+    correct: '✅ Correcto. El presupuesto implica un compromiso formal de la gerencia con un plan de acción. El pronóstico es solo una estimación de lo que podría ocurrir, sin compromiso de ejecución.',
+    incorrect: '❌ Incorrecto. La diferencia clave es el compromiso: el presupuesto es un plan aprobado que se usará para controlar el desempeño; el pronóstico es solo una estimación sin fuerza de control.'
+  },
+  qi2: {
+    correct: '✅ Correcto. En empresas de servicios, el Presupuesto de Ingresos (número de contratos × precio) es el punto de partida porque de él dependen todos los demás sub-presupuestos operativos.',
+    incorrect: '❌ Incorrecto. El Presupuesto de Ingresos es el punto de partida. En una empresa de servicios, si no sabes cuánto vas a vender, no puedes planificar nada más.'
+  },
+  qi3: {
+    correct: '✅ Correcto. El presupuesto flexible permite una comparación justa: si la actividad real fue menor a la planificada, se recalcula lo que debería haberse gastado a ese nivel real, antes de comparar con lo real.',
+    incorrect: '❌ Incorrecto. La ventaja del presupuesto flexible es precisamente que se ajusta al nivel real de actividad, permitiendo una evaluación justa del desempeño operativo.'
+  },
+  qi4: {
+    correct: '✅ Correcto. La coordinación interdepartamental es un propósito clave: el presupuesto asegura que todas las áreas trabajen hacia objetivos coherentes entre sí.',
+    incorrect: '❌ Incorrecto. Los propósitos del presupuesto son planificar, coordinar y controlar. Ninguno de ellos promete eliminar la incertidumbre, suprimir la toma de decisiones ni reemplazar estados financieros.'
+  },
+  qi5: {
+    correct: '✅ Correcto. El Presupuesto Base Cero obliga a justificar cada gasto como si fuera nuevo, eliminando ineficiencias históricas acumuladas que el incremental perpetúa sin cuestionarlas.',
+    incorrect: '❌ Incorrecto. La principal ventaja del PBC es obligar a justificar todo desde cero, lo que elimina gastos que se perpetúan año a año sin agregar valor real.'
+  },
+  qi6: {
+    correct: '✅ Correcto. La nómina de guardias depende directamente del número de contratos proyectados: más contratos = más guardias necesarios. Esa interdependencia es la esencia del Presupuesto Maestro.',
+    incorrect: '❌ Incorrecto. En el Presupuesto Maestro, la nómina operativa depende del presupuesto de ingresos: el número de contratos determina cuántos guardias se necesitan y por lo tanto cuánto costará la nómina.'
+  },
+  qi7: {
+    correct: '✅ Correcto. En seguridad privada, los costos son principalmente fijos (nómina de guardias). Perder contratos impacta directamente los ingresos, mientras los costos se mantienen, lo que comprime el margen rápidamente.',
+    incorrect: '❌ Incorrecto. El presupuesto de ingresos es crítico en seguridad privada porque los costos (nómina) son principalmente fijos. Si los contratos caen, los ingresos bajan pero los costos no: el margen se destruye de inmediato.'
+  },
+  qi8: {
+    correct: '✅ Correcto. Una variación desfavorable no es un fracaso del presupuesto: es exactamente la información que necesita la gerencia para actuar. El presupuesto cumple su función de control al revelar esa diferencia.',
+    incorrect: '❌ Incorrecto. La variación de $7.000 demuestra que el presupuesto funciona: revela una desviación concreta que la gerencia puede analizar. Eliminar el presupuesto por no acertar exactamente sería como tirar el mapa porque la carretera tenía obras.'
+  },
+  qi9: {
+    correct: '✅ Correcto. Los supuestos del presupuesto de ingresos deben actualizarse cuando cambia el entorno. Si el precio ya no es sostenible, la empresa debe recalcular el impacto y decidir si ajusta estrategia o acepta menor margen.',
+    incorrect: '❌ Incorrecto. El presupuesto debe actualizarse cuando cambian los supuestos relevantes (como el precio de mercado). Ignorar esa señal puede llevar a planificar sobre una realidad que ya no existe.'
+  },
+  qi10: {
+    correct: '✅ Correcto. El presupuesto revela con anticipación que en febrero los ingresos no cubrirán los costos fijos. La acción gerencial correcta es planificar una reserva desde enero y buscar formas de aumentar ingresos o reducir costos discrecionales en ese mes.',
+    incorrect: '❌ Incorrecto. Ni cerrar ni ignorar. El presupuesto identifica el problema con un mes de anticipación: $17.500 ingresos vs. $18.000 costos fijos = déficit de $500. La gerencia debe planificar una reserva y evaluar medidas correctivas con tiempo.'
+  }
+};
+
+// ===== EXERCISE FUNCTIONS =====
+function verificarEjercicio() {
+  const total = 8;
+  let respondidas = 0;
+  let correctas = 0;
+
+  for (let i = 1; i <= total; i++) {
+    const sel = document.querySelector(`input[name="ei${i}"]:checked`);
+    if (sel) respondidas++;
+  }
+
+  if (respondidas < total) {
+    alert(`Por favor responde todas las preguntas. Te faltan ${total - respondidas} por contestar.`);
+    return;
+  }
+
+  for (let i = 1; i <= total; i++) {
+    const sel = document.querySelector(`input[name="ei${i}"]:checked`);
+    const fb = document.getElementById(`ef${i}`);
+    const isCorrect = sel.value === ejercicioCorrects[`ei${i}`];
+    if (isCorrect) correctas++;
+    fb.className = `ex-feedback ${isCorrect ? 'correct' : 'incorrect'} active`;
+    fb.innerHTML = ejercicioFeedbacks[`ei${i}`][isCorrect ? 'correct' : 'incorrect'];
+
+    // Disable options
+    document.querySelectorAll(`input[name="ei${i}"]`).forEach(r => r.disabled = true);
+  }
+
+  const pct = Math.round((correctas / total) * 100);
+  const res = document.getElementById('exResults');
+  res.classList.add('active');
+  document.getElementById('exScore').textContent = `${correctas} / ${total}`;
+  document.getElementById('exPercent').textContent = `${pct}%`;
+  setTimeout(() => { document.getElementById('exBar').style.width = pct + '%'; }, 100);
+
+  let emoji = '📖', msg = 'Revisa el material y vuelve a intentarlo.';
+  if (pct === 100) { emoji = '🏆'; msg = '¡Perfecto! Dominas los conceptos de presupuestación.'; }
+  else if (pct >= 80) { emoji = '🎯'; msg = '¡Muy bien! Tienes sólida comprensión de los presupuestos.'; }
+  else if (pct >= 60) { emoji = '📘'; msg = 'Buen avance. Refuerza los conceptos donde fallaste.'; }
+  else if (pct >= 40) { emoji = '⚠️'; msg = 'Necesitas repasar el material antes del cuestionario.'; }
+
+  document.getElementById('exEmoji').textContent = emoji;
+  document.getElementById('exMsg').textContent = msg;
+  document.getElementById('btnVerifyEx').style.display = 'none';
+  document.getElementById('btnResetEx').style.display = 'block';
+  res.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function resetEjercicio() {
+  for (let i = 1; i <= 8; i++) {
+    document.querySelectorAll(`input[name="ei${i}"]`).forEach(r => { r.checked = false; r.disabled = false; });
+    const fb = document.getElementById(`ef${i}`);
+    fb.className = 'ex-feedback';
+    fb.innerHTML = '';
+  }
+  document.getElementById('exResults').classList.remove('active');
+  document.getElementById('btnVerifyEx').style.display = 'block';
+  document.getElementById('btnResetEx').style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ===== QUIZ FUNCTIONS =====
+function verificarCuestionario() {
+  const total = 10;
+  let respondidas = 0;
+  let correctas = 0;
+
+  for (let i = 1; i <= total; i++) {
+    const sel = document.querySelector(`input[name="qi${i}"]:checked`);
+    if (sel) respondidas++;
+  }
+
+  if (respondidas < total) {
+    alert(`Por favor responde todas las preguntas. Te faltan ${total - respondidas} por contestar.`);
+    return;
+  }
+
+  for (let i = 1; i <= total; i++) {
+    const sel = document.querySelector(`input[name="qi${i}"]:checked`);
+    const fb = document.getElementById(`qf${i}`);
+    const isCorrect = sel.value === quizCorrects[`qi${i}`];
+    if (isCorrect) correctas++;
+    fb.className = `quiz-feedback ${isCorrect ? 'correct' : 'incorrect'} active`;
+    fb.innerHTML = quizFeedbacks[`qi${i}`][isCorrect ? 'correct' : 'incorrect'];
+    document.querySelectorAll(`input[name="qi${i}"]`).forEach(r => r.disabled = true);
+  }
+
+  const pct = Math.round((correctas / total) * 100);
+  const res = document.getElementById('qResults');
+  res.classList.add('active');
+  document.getElementById('qScore').textContent = `${correctas} / ${total}`;
+  document.getElementById('qPercent').textContent = `${pct}%`;
+  setTimeout(() => { document.getElementById('qBar').style.width = pct + '%'; }, 100);
+
+  let emoji = '📖', msg = 'Revisa el material antes del examen.';
+  if (pct === 100) { emoji = '🏆'; msg = '¡Excelente! Dominio completo de la Semana 9.'; }
+  else if (pct >= 80) { emoji = '🎯'; msg = '¡Muy bien! Estás listo para el siguiente nivel.'; }
+  else if (pct >= 60) { emoji = '📘'; msg = 'Aprobado. Refuerza los temas en los que fallaste.'; }
+  else if (pct >= 40) { emoji = '⚠️'; msg = 'Necesitas repasar los conceptos clave de presupuestación.'; }
+
+  document.getElementById('qEmoji').textContent = emoji;
+  document.getElementById('qMsg').textContent = msg;
+  document.getElementById('btnVerifyQ').style.display = 'none';
+  document.getElementById('btnResetQ').style.display = 'block';
+  res.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function resetCuestionario() {
+  for (let i = 1; i <= 10; i++) {
+    document.querySelectorAll(`input[name="qi${i}"]`).forEach(r => { r.checked = false; r.disabled = false; });
+    const fb = document.getElementById(`qf${i}`);
+    fb.className = 'quiz-feedback';
+    fb.innerHTML = '';
+  }
+  document.getElementById('qResults').classList.remove('active');
+  document.getElementById('btnVerifyQ').style.display = 'block';
+  document.getElementById('btnResetQ').style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
