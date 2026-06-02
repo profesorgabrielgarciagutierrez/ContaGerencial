@@ -1,0 +1,1640 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semana 10 | Presupuesto de Operaciones y Flujo de Caja | Contabilidad Gerencial</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ===== RESET Y BASE ===== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: #f0f4f8;
+    color: #1a1a2e;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* ===== ENCABEZADO ===== */
+  header {
+    background: #003366;
+    color: #fff;
+    padding: 22px 28px 16px;
+  }
+  header .inst {
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    opacity: 0.82;
+    margin-bottom: 4px;
+  }
+  header h1 {
+    font-family: 'Lora', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 6px;
+  }
+  header .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 13px;
+    opacity: 0.88;
+    margin-top: 6px;
+  }
+  header .meta span {
+    background: rgba(255,255,255,0.15);
+    border-radius: 20px;
+    padding: 2px 12px;
+  }
+
+  /* ===== NAVEGACIÓN DE PESTAÑAS ===== */
+  .tab-bar-wrapper {
+    background: #87CEEB;
+    overflow-x: auto;
+    white-space: nowrap;
+    border-bottom: 3px solid #003366;
+  }
+  .tab-bar {
+    display: inline-flex;
+    min-width: 100%;
+  }
+  .tab-btn {
+    display: inline-block;
+    padding: 11px 18px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a1a2e;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    white-space: nowrap;
+    border-right: 1px solid rgba(0,51,102,0.18);
+    transition: background 0.2s;
+  }
+  .tab-btn:hover { background: rgba(255,255,255,0.5); }
+  .tab-btn.active {
+    background: #fff;
+    color: #003366;
+    font-weight: 700;
+    border-bottom: 3px solid #fff;
+    margin-bottom: -3px;
+  }
+
+  /* ===== CONTENIDO ===== */
+  .tab-content { display: none; padding: 30px 24px 50px; max-width: 980px; margin: 0 auto; }
+  .tab-content.active { display: block; }
+
+  /* ===== COMPONENTES VISUALES ===== */
+  h2 {
+    font-family: 'Lora', serif;
+    font-size: 1.4rem;
+    color: #003366;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #FFD700;
+  }
+  h3 {
+    font-family: 'Lora', serif;
+    font-size: 1.1rem;
+    color: #003366;
+    margin: 22px 0 10px;
+  }
+  p { margin-bottom: 14px; }
+
+  .concepto-box {
+    border-left: 5px solid #003366;
+    background: #f7f9ff;
+    padding: 16px 20px;
+    margin: 18px 0;
+    border-radius: 0 8px 8px 0;
+  }
+  .concepto-box strong { color: #003366; }
+
+  .ejemplo-box {
+    background: #dceeff;
+    border: 1px solid #b0d4f1;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 18px 0;
+  }
+  .ejemplo-box .ej-title {
+    font-weight: 700;
+    color: #003366;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+
+  .idea-clave {
+    background: #003366;
+    color: #fff;
+    border-radius: 8px;
+    padding: 16px 22px;
+    margin: 22px 0;
+  }
+  .idea-clave strong { color: #FFD700; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+  th {
+    background: #003366;
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+  }
+  td {
+    padding: 9px 12px;
+    border-bottom: 1px solid #dde4ef;
+  }
+  tr:nth-child(even) td { background: #f2f6fc; }
+  tr:hover td { background: #e8effa; }
+  .td-num { text-align: right; font-family: monospace; }
+  .td-total { font-weight: 700; background: #fff8dc !important; }
+
+  .alerta-box {
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    border-left: 5px solid #e6a200;
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: 15px;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 16px 0;
+  }
+  @media(max-width:650px){ .grid-2 { grid-template-columns: 1fr; } }
+
+  .card-mini {
+    background: #fff;
+    border: 1px solid #d0dce8;
+    border-top: 4px solid #003366;
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .card-mini h4 {
+    font-family: 'Lora', serif;
+    color: #003366;
+    font-size: 1rem;
+    margin-bottom: 8px;
+  }
+
+  /* ===== EJERCICIO Y CUESTIONARIO ===== */
+  .quiz-question {
+    background: #fff;
+    border: 1px solid #d0dce8;
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin-bottom: 16px;
+  }
+  .quiz-question p.qtext {
+    font-weight: 600;
+    color: #003366;
+    margin-bottom: 12px;
+  }
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 12px;
+    margin-bottom: 8px;
+    letter-spacing: 0.4px;
+  }
+  .badge-teo { background: #d0e8ff; color: #003366; }
+  .badge-ana { background: #ffe0a0; color: #7a4800; }
+  .badge-ej  { background: #d4f8e0; color: #1a6b35; }
+
+  .option-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 9px 12px;
+    border: 1px solid #d0dce8;
+    border-radius: 6px;
+    margin-bottom: 6px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .option-label:hover { background: #eef3fb; }
+  .option-label input { margin-top: 3px; flex-shrink: 0; }
+
+  .feedback-item {
+    margin-top: 10px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    display: none;
+  }
+  .feedback-correct { background: #d4edda; border-left: 4px solid #28a745; color: #155724; }
+  .feedback-incorrect { background: #f8d7da; border-left: 4px solid #dc3545; color: #721c24; }
+
+  .verify-btn {
+    display: block;
+    margin: 24px auto 10px;
+    background: #003366;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 13px 36px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .verify-btn:hover { background: #004a99; }
+  .reset-btn {
+    display: block;
+    margin: 8px auto;
+    background: #6c757d;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 28px;
+    font-size: 15px;
+    cursor: pointer;
+  }
+
+  .score-panel {
+    display: none;
+    background: #003366;
+    color: #fff;
+    border-radius: 12px;
+    padding: 22px 28px;
+    margin-top: 24px;
+    text-align: center;
+  }
+  .score-panel .big-score {
+    font-family: 'Lora', serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #FFD700;
+  }
+  .score-panel .score-msg { font-size: 1.1rem; margin: 8px 0; }
+  .progress-bar-wrap {
+    background: rgba(255,255,255,0.2);
+    border-radius: 20px;
+    height: 18px;
+    margin: 12px 0;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: #FFD700;
+    border-radius: 20px;
+    transition: width 0.8s ease;
+  }
+
+  /* ===== BIBLIOGRAFÍA ===== */
+  .ref-card {
+    background: #fff;
+    border: 1px solid #d0dce8;
+    border-left: 5px solid #003366;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 14px;
+  }
+  .ref-card .ref-author { font-weight: 700; color: #003366; font-size: 14px; }
+  .ref-card .ref-title { font-style: italic; color: #222; }
+  .ref-card .ref-source { font-size: 13px; color: #555; margin-top: 4px; }
+
+  .nota-pie {
+    font-size: 13px;
+    color: #555;
+    border-top: 1px solid #d0dce8;
+    padding-top: 12px;
+    margin-top: 20px;
+    font-style: italic;
+  }
+
+  /* ===== IA ===== */
+  .prompt-box {
+    background: #1a1a2e;
+    color: #e8f0ff;
+    border-radius: 10px;
+    padding: 20px 22px;
+    font-family: monospace;
+    font-size: 13.5px;
+    line-height: 1.6;
+    margin: 16px 0;
+    position: relative;
+  }
+  .copy-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: #FFD700;
+    color: #003366;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  /* ===== REFLEXIÓN ===== */
+  .reflexion-card {
+    background: #fff;
+    border: 1px solid #d0dce8;
+    border-top: 4px solid #FFD700;
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin-bottom: 14px;
+  }
+  .reflexion-card .rnum {
+    font-size: 11px;
+    font-weight: 700;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+  .reflexion-card p { margin: 0; font-size: 15px; color: #1a1a2e; }
+
+  /* ===== FLUJO ===== */
+  .flujo-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 14px;
+  }
+  .flujo-num {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    background: #003366;
+    color: #FFD700;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 15px;
+  }
+  .flujo-text strong { color: #003366; }
+
+  .pill-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 12px 0;
+  }
+  .pill {
+    background: #003366;
+    color: #fff;
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  /* barra scroll hint */
+  .scroll-hint {
+    text-align: center;
+    font-size: 12px;
+    color: #555;
+    padding: 4px;
+    background: #d0e8ff;
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== ENCABEZADO ===== -->
+<header>
+  <div class="inst">Universidad de Guayaquil &nbsp;|&nbsp; Facultad de Ciencias Administrativas &nbsp;|&nbsp; Carrera: Contabilidad y Auditoría</div>
+  <h1>Semana 10 &mdash; Presupuesto de Operaciones, Gastos Administrativos e Integración al Presupuesto Maestro</h1>
+  <div class="meta">
+    <span>📘 Contabilidad Gerencial</span>
+    <span>🏢 Unidad 3: Presupuestos y Control Gerencial</span>
+    <span>📅 Semana 10 de 16</span>
+    <span>🏢 Caso: Empresa de Seguridad Privada — Guayaquil</span>
+  </div>
+</header>
+
+<div class="scroll-hint">← Desliza el menú para ver todas las pestañas →</div>
+
+<!-- ===== BARRA DE PESTAÑAS ===== -->
+<div class="tab-bar-wrapper">
+  <div class="tab-bar" id="tabBar">
+    <button class="tab-btn active" data-tab="repaso">🔄 Repaso</button>
+    <button class="tab-btn" data-tab="t1">1. Presupuesto de Operaciones</button>
+    <button class="tab-btn" data-tab="t2">2. Nómina de Guardias</button>
+    <button class="tab-btn" data-tab="t3">3. Logística, Armamento y Equipos</button>
+    <button class="tab-btn" data-tab="t4">4. Gastos Adm. y de Ventas</button>
+    <button class="tab-btn" data-tab="t5">5. Estado de Resultados Proyectado</button>
+    <button class="tab-btn" data-tab="t6">6. Presupuesto de Caja</button>
+    <button class="tab-btn" data-tab="t7">7. Utilidad ≠ Efectivo</button>
+    <button class="tab-btn" data-tab="ejercicio">⚙️ Ejercicio Interactivo</button>
+    <button class="tab-btn" data-tab="quiz">📝 Cuestionario</button>
+    <button class="tab-btn" data-tab="ia">🤖 Actividad con IA</button>
+    <button class="tab-btn" data-tab="reflexion">💭 Reflexión</button>
+    <button class="tab-btn" data-tab="biblio">📚 Bibliografía</button>
+  </div>
+</div>
+
+<!-- ================================================================
+     PESTAÑA: REPASO
+     ================================================================ -->
+<div class="tab-content active" id="tab-repaso">
+  <h2>🔄 Repaso — Semanas 1 a 9</h2>
+
+  <div class="concepto-box">
+    <strong>¿Dónde estamos?</strong> Llegas a la Semana 10 habiendo construido las bases conceptuales y cuantitativas más importantes del semestre. Este repaso te recuerda el camino recorrido para que puedas conectar los presupuestos de costos operativos con todo lo aprendido.
+  </div>
+
+  <h3>Unidad 1 — El Contador como Asesor Gerencial (Semanas 1–4)</h3>
+  <p>Aprendiste que la <strong>Contabilidad Gerencial</strong> no reporta al pasado, sino que orienta el futuro. Mientras la Contabilidad Financiera produce estados para usuarios externos (SRI, bancos, accionistas), la Gerencial produce información interna para <em>tomar decisiones</em>. Clasificaste costos en fijos, variables, semivariables, directos e indirectos. Conociste los <strong>Sistemas de Información Gerencial (SIG)</strong> y sus tres niveles: operativo, táctico y estratégico. También reflexionaste sobre la ética del contador: competencia, objetividad, integridad y confidencialidad según el Código de Ética del Contador Ecuatoriano (CECE).</p>
+
+  <h3>Unidad 2 — Costos para la Toma de Decisiones (Semanas 5–7)</h3>
+  <p>Analizaste el <strong>comportamiento del costo</strong> ante cambios en actividad. Aprendiste a calcular el <strong>Margen de Contribución</strong> (Precio – Costo Variable) y el <strong>Punto de Equilibrio</strong> (Costos Fijos ÷ MC unitario). Construiste el <strong>análisis CVU</strong> para proyectar utilidades. Diferenciaste el <strong>Costeo Variable</strong> del <strong>Costeo por Absorción</strong> y aplicaste <em>costos relevantes</em> en decisiones como fabricar o comprar, aceptar pedidos especiales y eliminar líneas de servicio. Todo aplicado a la empresa de seguridad de Guayaquil.</p>
+
+  <h3>Unidad 3 — Presupuestos y Control Gerencial (Semana 9)</h3>
+  <p>En la Semana 9 iniciaste la Unidad 3. Comprendiste que un <strong>presupuesto</strong> es un plan cuantificado en dinero para un período futuro. Conociste los tipos: operativo, financiero, de inversión, base cero y flexible. Estudiaste la <strong>estructura del Presupuesto Maestro</strong>: un conjunto integrado de sub-presupuestos que culmina en tres estados financieros proyectados (Estado de Resultados, Balance General y Flujo de Caja). El primer sub-presupuesto fue el de <strong>ingresos</strong>, que proyecta contratos por línea de servicio (guardias, monitoreo, consultoría) durante 12 meses con supuestos de crecimiento documentados.</p>
+
+  <div class="idea-clave">
+    <strong>Conexión clave:</strong> Si en la Semana 9 construiste <em>cuánto vas a ganar</em> (ingresos), en la Semana 10 construirás <em>cuánto te costará operar</em> (costos operativos, gastos administrativos y flujo de caja). Solo con ambas piezas puedes saber si el negocio es viable.
+  </div>
+</div>
+
+
+<!-- ================================================================
+     PESTAÑA T1: PRESUPUESTO DE OPERACIONES — CONCEPTO
+     ================================================================ -->
+<div class="tab-content" id="tab-t1">
+  <h2>1. ¿Qué es el Presupuesto de Operaciones?</h2>
+
+  <div class="concepto-box">
+    <strong>Definición precisa:</strong> El <em>presupuesto de operaciones</em> es el plan detallado y cuantificado de todos los costos directamente necesarios para producir o prestar el servicio durante el período presupuestado. En una empresa de seguridad privada, estos costos son los que se generan para que cada guardia esté en su puesto cada día.
+  </div>
+
+  <p>Mientras el <strong>presupuesto de ingresos</strong> (Semana 9) responde a: <em>¿cuánto vamos a cobrar?</em>, el presupuesto de operaciones responde a: <em>¿cuánto nos cuesta servir a esos clientes?</em>. Sin este segundo presupuesto, no existe forma de calcular si el negocio genera utilidad real.</p>
+
+  <h3>¿Por qué es tan importante en una empresa de seguridad?</h3>
+  <p>Las empresas de seguridad son intensivas en mano de obra. A diferencia de una fábrica donde los costos de maquinaria dominan, aquí el <strong>70–80 % del costo operativo</strong> corresponde a personal (guardias). Esto significa que pequeños errores en el presupuesto de nómina pueden generar pérdidas millonarias.</p>
+
+  <div class="grid-2">
+    <div class="card-mini">
+      <h4>📋 Componentes del Presupuesto de Operaciones</h4>
+      <ul style="margin-left:16px;">
+        <li>Nómina de guardias (salarios + beneficios IESS)</li>
+        <li>Logística (combustible, mantenimiento vehicular)</li>
+        <li>Armamento y munición (control regulado)</li>
+        <li>Uniformes y equipos de protección</li>
+        <li>Vehículos (depreciación o arrendamiento)</li>
+        <li>Comunicaciones (radios, celulares)</li>
+      </ul>
+    </div>
+    <div class="card-mini">
+      <h4>🔗 Relación con otros sub-presupuestos</h4>
+      <p style="font-size:14px;">El presupuesto de operaciones se alimenta del <em>presupuesto de ingresos</em> (¿cuántos guardias necesito según los contratos?) y alimenta al <em>Estado de Resultados Proyectado</em> (costos operativos totales) y al <em>Presupuesto de Caja</em> (¿cuándo se pagan?)</p>
+    </div>
+  </div>
+
+  <h3>Estructura lógica del Presupuesto Maestro</h3>
+  <div class="flujo-step">
+    <div class="flujo-num">1</div>
+    <div class="flujo-text"><strong>Presupuesto de Ingresos</strong> → define cuántos contratos y a qué precio (Semana 9)</div>
+  </div>
+  <div class="flujo-step">
+    <div class="flujo-num">2</div>
+    <div class="flujo-text"><strong>Presupuesto de Operaciones</strong> → cuánto cuesta servir esos contratos (Semana 10, Clase 1)</div>
+  </div>
+  <div class="flujo-step">
+    <div class="flujo-num">3</div>
+    <div class="flujo-text"><strong>Presupuesto de Gastos Adm. y Ventas</strong> → costos de administrar y vender (Semana 10, Clase 2)</div>
+  </div>
+  <div class="flujo-step">
+    <div class="flujo-num">4</div>
+    <div class="flujo-text"><strong>Estado de Resultados Proyectado</strong> → ¿hay utilidad? (Semana 10, Clase 2)</div>
+  </div>
+  <div class="flujo-step">
+    <div class="flujo-num">5</div>
+    <div class="flujo-text"><strong>Presupuesto de Caja</strong> → ¿hay efectivo disponible? (Semana 10, Clase 3)</div>
+  </div>
+
+  <div class="ejemplo-box">
+    <div class="ej-title">📌 Contexto empresarial — Empresa "SegurGuayas S.A."</div>
+    <p>Usaremos como caso la empresa ficticia <strong>SegurGuayas S.A.</strong>, con sede en Guayaquil, que presta servicios de: <br>
+    • <strong>Guardias físicos</strong> (70 guardias activos) <br>
+    • <strong>Monitoreo GPS de vehículos</strong> (140 unidades monitoreadas) <br>
+    • <strong>Consultoría en seguridad</strong> (4 proyectos/mes) <br>
+    El período presupuestado es <strong>enero–diciembre del año siguiente</strong>. Todos los valores usan el <strong>Salario Básico Unificado (SBU) de Ecuador: $460/mes en 2024</strong> y las contribuciones patronales al IESS del 12,15 %.</p>
+  </div>
+
+  <div class="idea-clave">
+    <strong>Idea clave:</strong> El presupuesto de operaciones no es una lista de gastos. Es un <em>compromiso cuantificado</em> que permite controlar si los costos reales se desvían del plan. Sin presupuesto, no hay control posible.
+  </div>
+</div>
+
+
+<!-- ================================================================
+     PESTAÑA T2: NÓMINA DE GUARDIAS
+     ================================================================ -->
+<div class="tab-content" id="tab-t2">
+  <h2>2. Presupuesto de Nómina de Guardias</h2>
+
+  <p>La <strong>nómina</strong> es el costo total del personal, incluyendo no solo el salario sino todos los <em>beneficios sociales y cargas patronales</em> que la ley ecuatoriana obliga a pagar. Ignorar alguno de estos componentes es un error contable grave.</p>
+
+  <h3>Componentes obligatorios del costo laboral en Ecuador</h3>
+  <table>
+    <thead>
+      <tr><th>Componente</th><th>Base de cálculo</th><th>%</th><th>Periodicidad</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Salario mensual</td><td>SBU o salario acordado</td><td>—</td><td>Mensual</td></tr>
+      <tr><td>Aporte patronal IESS</td><td>Salario mensual</td><td>12,15 %</td><td>Mensual</td></tr>
+      <tr><td>Décimo Tercer Sueldo</td><td>Remuneración anual ÷ 12</td><td>8,33 %</td><td>Mensual (provisionado)</td></tr>
+      <tr><td>Décimo Cuarto Sueldo</td><td>SBU ÷ 12</td><td>—</td><td>Mensual (provisionado)</td></tr>
+      <tr><td>Vacaciones</td><td>Remuneración anual ÷ 24</td><td>4,17 %</td><td>Mensual (provisionado)</td></tr>
+      <tr><td>Fondos de Reserva</td><td>Salario mensual</td><td>8,33 %</td><td>Mensual (si aplica)</td></tr>
+      <tr><td class="td-total" colspan="3"><strong>TOTAL CARGA LABORAL APROXIMADA</strong></td><td class="td-total td-num"><strong>~133–135 %</strong> del salario</td></tr>
+    </tbody>
+  </table>
+
+  <div class="concepto-box">
+    <strong>¿Qué significa eso?</strong> Si un guardia gana $500 al mes, el costo real para la empresa es aproximadamente $500 × 1,33 = <strong>$665/mes</strong>. El excedente cubre IESS patronal, provisiones de 13ro, 14to, vacaciones y fondos de reserva.
+  </div>
+
+  <h3>Cálculo detallado: Nómina mensual de SegurGuayas S.A.</h3>
+  <div class="alerta-box">
+    ⚠️ <strong>Supuesto del caso:</strong> Los guardias de turno ordinario ganan $500/mes (sobre el SBU de $460). Los supervisores de turno ganan $750/mes. Hay 70 guardias y 8 supervisores. Se trabajan turnos rotativos de 12 horas. Se incluye recargo del 25 % por horas en fines de semana (estimado en 20 % del total de horas trabajadas).
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>Categoría</th><th>N.º personas</th><th>Salario base</th><th>Recargo FDS (20 %×25 %)</th><th>IESS Patronal (12,15 %)</th><th>Décimos + Vac. (20,83 %)</th><th>Fondos Res. (8,33 %)</th><th>Costo total/persona</th><th>Subtotal</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Guardias</td><td>70</td><td>$500,00</td><td>$25,00</td><td>$63,68</td><td>$109,45</td><td>$44,17</td><td>$742,30</td>
+        <td class="td-num">$51.961</td>
+      </tr>
+      <tr>
+        <td>Supervisores</td><td>8</td><td>$750,00</td><td>$37,50</td><td>$95,51</td><td>$164,17</td><td>$65,63</td><td>$1.112,81</td>
+        <td class="td-num">$8.902</td>
+      </tr>
+      <tr class="td-total">
+        <td colspan="8"><strong>TOTAL NÓMINA MENSUAL</strong></td>
+        <td class="td-num"><strong>$60.863</strong></td>
+      </tr>
+      <tr class="td-total">
+        <td colspan="8"><strong>TOTAL NÓMINA ANUAL</strong></td>
+        <td class="td-num"><strong>$730.356</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="ejemplo-box">
+    <div class="ej-title">📌 Cómo leer esta tabla</div>
+    <p>El salario de $500 <em>no</em> es el costo. El costo real es $742,30 por guardia. La diferencia ($242,30) corresponde a las cargas sociales que la empresa paga al IESS o provisiona cada mes. Si la empresa le cobra al cliente $700 por un guardia, <strong>estaría perdiendo $42,30 por guardia por mes</strong>.</p>
+  </div>
+
+  <h3>Proyección mensual de nómina (enero–diciembre)</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Mes</th><th>Guardias activos</th><th>Nómina mensual</th><th>Variación</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Enero</td><td>70</td><td class="td-num">$60.863</td><td>Base</td></tr>
+      <tr><td>Febrero</td><td>70</td><td class="td-num">$60.863</td><td>—</td></tr>
+      <tr><td>Marzo</td><td>72</td><td class="td-num">$62.349</td><td>+2 nuevos contratos</td></tr>
+      <tr><td>Abril–Junio</td><td>72</td><td class="td-num">$62.349 c/u</td><td>Estable</td></tr>
+      <tr><td>Julio</td><td>75</td><td class="td-num">$64.583</td><td>+3 expansión</td></tr>
+      <tr><td>Agosto–Nov.</td><td>75</td><td class="td-num">$64.583 c/u</td><td>Estable</td></tr>
+      <tr><td>Diciembre</td><td>75</td><td class="td-num">$64.583</td><td>13ro pagado en dic.</td></tr>
+      <tr class="td-total"><td colspan="2"><strong>TOTAL ANUAL NÓMINA</strong></td><td class="td-num"><strong>$757.404</strong></td><td>Inc. crecimiento</td></tr>
+    </tbody>
+  </table>
+
+  <div class="idea-clave">
+    <strong>Idea clave:</strong> El presupuesto de nómina no es estático. Cambia con el número de contratos activos. Por eso el presupuesto de ingresos (Semana 9) <strong>determina directamente</strong> cuántos guardias necesitas, y eso determina el costo de nómina. Un buen presupuesto tiene esta lógica encadenada.
+  </div>
+</div>
+
+
+<!-- ================================================================
+     PESTAÑA T3: LOGÍSTICA, ARMAMENTO Y EQUIPOS
+     ================================================================ -->
+<div class="tab-content" id="tab-t3">
+  <h2>3. Logística, Armamento, Uniformes y Vehículos</h2>
+
+  <p>Además de la nómina, una empresa de seguridad tiene costos operativos adicionales que son indispensables para prestar el servicio. Estos costos deben presupuestarse con la misma rigurosidad que el personal.</p>
+
+  <h3>3.1 Logística — Combustible y Transporte</h3>
+
+  <div class="concepto-box">
+    <strong>¿Qué es el presupuesto de logística?</strong> Es la cuantificación del costo de movilizar guardias, realizar rondas de supervisión, responder incidentes y trasladar equipos. Incluye combustible, peajes, lubricantes y mantenimiento preventivo de vehículos.
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>Rubro logístico</th><th>Unidad</th><th>Cantidad/mes</th><th>Costo unit.</th><th>Total mensual</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Combustible — motos de ronda</td><td>Galones</td><td>320</td><td class="td-num">$2,40</td><td class="td-num">$768</td></tr>
+      <tr><td>Combustible — vehículos operativos</td><td>Galones</td><td>480</td><td class="td-num">$2,40</td><td class="td-num">$1.152</td></tr>
+      <tr><td>Mantenimiento preventivo vehículos</td><td>Servicios</td><td>4</td><td class="td-num">$180</td><td class="td-num">$720</td></tr>
+      <tr><td>Peajes y estacionamiento</td><td>Global</td><td>1</td><td class="td-num">$140</td><td class="td-num">$140</td></tr>
+      <tr><td>Lubricantes y consumibles</td><td>Global</td><td>1</td><td class="td-num">$90</td><td class="td-num">$90</td></tr>
+      <tr class="td-total"><td colspan="4"><strong>SUBTOTAL LOGÍSTICA MENSUAL</strong></td><td class="td-num"><strong>$2.870</strong></td></tr>
+    </tbody>
+  </table>
+
+  <h3>3.2 Armamento y Munición</h3>
+  <div class="alerta-box">
+    ⚠️ <strong>Regulación importante:</strong> En Ecuador, el armamento y munición de empresas de seguridad está regulado por la <strong>Dirección de Logística de la Policía Nacional (DINAPOLIC)</strong> y la Ley de Vigilancia y Seguridad Privada. El presupuesto debe considerar renovación de permisos anuales, revisión periódica de armas y reposición de munición de entrenamiento.
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>Rubro</th><th>Frecuencia</th><th>Costo</th><th>Costo mensual prorrateado</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Mantenimiento y limpieza de armas</td><td>Mensual</td><td>$320/mes</td><td class="td-num">$320</td></tr>
+      <tr><td>Munición de entrenamiento (práctica trimestral)</td><td>Trimestral</td><td>$960/trimestre</td><td class="td-num">$320</td></tr>
+      <tr><td>Renovación de permisos DINAPOLIC</td><td>Anual</td><td>$1.800/año</td><td class="td-num">$150</td></tr>
+      <tr><td>Seguros de armas</td><td>Anual</td><td>$600/año</td><td class="td-num">$50</td></tr>
+      <tr class="td-total"><td colspan="3"><strong>SUBTOTAL ARMAMENTO MENSUAL</strong></td><td class="td-num"><strong>$840</strong></td></tr>
+    </tbody>
+  </table>
+
+  <h3>3.3 Uniformes y Equipos de Protección Personal (EPP)</h3>
+  <table>
+    <thead>
+      <tr><th>Ítem</th><th>Personas</th><th>Dotación</th><th>Costo unit.</th><th>Total anual</th><th>Costo mensual</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Uniformes completos (camisa, pantalón, gorra)</td><td>78</td><td>2 por año</td><td class="td-num">$65</td><td class="td-num">$10.140</td><td class="td-num">$845</td></tr>
+      <tr><td>Botas de seguridad</td><td>78</td><td>1 par/año</td><td class="td-num">$38</td><td class="td-num">$2.964</td><td class="td-num">$247</td></tr>
+      <tr><td>Chalecos antibalas (revisión/reposición)</td><td>78</td><td>Revisión anual</td><td class="td-num">$30</td><td class="td-num">$2.340</td><td class="td-num">$195</td></tr>
+      <tr><td>Linternas, silbatos, esposas</td><td>78</td><td>Reposición 20 %/año</td><td class="td-num">$25</td><td class="td-num">$390</td><td class="td-num">$33</td></tr>
+      <tr class="td-total"><td colspan="5"><strong>SUBTOTAL EPP/UNIFORMES MENSUAL</strong></td><td class="td-num"><strong>$1.320</strong></td></tr>
+    </tbody>
+  </table>
+
+  <h3>3.4 Vehículos — Depreciación y Arrendamiento</h3>
+
+  <div class="concepto-box">
+    <strong>Depreciación:</strong> Es la distribución del costo de un activo (vehículo, moto) a lo largo de su vida útil. En Ecuador, el Reglamento a la Ley de Régimen Tributario Interno permite depreciar vehículos en 5 años (20 % anual). <br><br>
+    <strong>Ejemplo:</strong> Un vehículo de $28.000 se deprecia a razón de $28.000 × 20 % = $5.600/año = <strong>$467/mes</strong>.
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>Activo</th><th>Cantidad</th><th>Valor unitario</th><th>Dep. anual (20 %)</th><th>Dep. mensual</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Vehículo pick-up operativo</td><td>3</td><td class="td-num">$28.000</td><td class="td-num">$5.600</td><td class="td-num">$467</td></tr>
+      <tr><td>Motocicletas de ronda</td><td>6</td><td class="td-num">$4.200</td><td class="td-num">$840</td><td class="td-num">$70</td></tr>
+      <tr class="td-total"><td colspan="4"><strong>TOTAL DEPRECIACIÓN MENSUAL</strong></td><td class="td-num"><strong>$1.611</strong></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Resumen del Presupuesto de Operaciones (Costos Directos) — SegurGuayas S.A.</h3>
+  <table>
+    <thead>
+      <tr><th>Rubro</th><th>Mensual</th><th>Anual</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Nómina de guardias y supervisores</td><td class="td-num">$60.863</td><td class="td-num">$757.404</td></tr>
+      <tr><td>Logística (combustible, mantenimiento)</td><td class="td-num">$2.870</td><td class="td-num">$34.440</td></tr>
+      <tr><td>Armamento (mantenimiento, munición, permisos)</td><td class="td-num">$840</td><td class="td-num">$10.080</td></tr>
+      <tr><td>Uniformes y EPP</td><td class="td-num">$1.320</td><td class="td-num">$15.840</td></tr>
+      <tr><td>Depreciación vehículos y motos</td><td class="td-num">$1.611</td><td class="td-num">$19.332</td></tr>
+      <tr class="td-total"><td><strong>TOTAL COSTOS OPERATIVOS</strong></td><td class="td-num"><strong>$67.504</strong></td><td class="td-num"><strong>$837.096</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="idea-clave">
+    <strong>Idea clave:</strong> Los costos operativos directos incluyen <strong>tanto desembolsos en efectivo</strong> (combustible, nómina) <strong>como costos que no implican salida de caja en ese período</strong> (depreciación). Esta distinción es crucial para el Presupuesto de Caja que veremos en la Pestaña 6.
+  </div>
+</div>
+
+
+<!-- ================================================================
+     PESTAÑA T4: GASTOS ADMINISTRATIVOS Y DE VENTAS
+     ================================================================ -->
+<div class="tab-content" id="tab-t4">
+  <h2>4. Presupuesto de Gastos Administrativos y de Ventas</h2>
+
+  <div class="concepto-box">
+    <strong>Distinción clave:</strong> Los <em>costos operativos</em> (Pestaña 3) son los costos necesarios para <strong>prestar el servicio</strong> (guardia en su puesto). Los <em>gastos administrativos y de ventas</em> son los costos necesarios para <strong>administrar la empresa y conseguir clientes</strong>. Ambos reducen la utilidad, pero tienen naturaleza diferente.
+  </div>
+
+  <h3>4.1 Gastos Administrativos</h3>
+  <p>Son los costos de la estructura de apoyo que hace posible que la empresa funcione: gerencia, contabilidad, recursos humanos, servicios de oficina.</p>
+
+  <table>
+    <thead>
+      <tr><th>Rubro</th><th>Detalle</th><th>Mensual</th><th>Anual</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Nómina administrativa</td><td>Gerente General + 2 contadores + RRHH + asistente (carga laboral incluida)</td><td class="td-num">$8.400</td><td class="td-num">$100.800</td></tr>
+      <tr><td>Arriendo de oficinas</td><td>Local en Urdesa Norte, Guayaquil (150 m²)</td><td class="td-num">$1.200</td><td class="td-num">$14.400</td></tr>
+      <tr><td>Servicios básicos</td><td>Luz, agua, teléfono fijo</td><td class="td-num">$280</td><td class="td-num">$3.360</td></tr>
+      <tr><td>Internet corporativo</td><td>Fibra óptica 200 Mbps</td><td class="td-num">$120</td><td class="td-num">$1.440</td></tr>
+      <tr><td>Suministros de oficina</td><td>Papel, tóner, artículos varios</td><td class="td-num">$160</td><td class="td-num">$1.920</td></tr>
+      <tr><td>Software contable y RRHH</td><td>Licencia anual Módulos SRI + nómina</td><td class="td-num">$95</td><td class="td-num">$1.140</td></tr>
+      <tr><td>Seguros de la empresa</td><td>Póliza de responsabilidad civil</td><td class="td-num">$350</td><td class="td-num">$4.200</td></tr>
+      <tr><td>Depreciación — mobiliario y equipos</td><td>10 % anual sobre $36.000</td><td class="td-num">$300</td><td class="td-num">$3.600</td></tr>
+      <tr><td>Otros gastos administrativos</td><td>Notarías, registro, trámites legales</td><td class="td-num">$200</td><td class="td-num">$2.400</td></tr>
+      <tr class="td-total"><td colspan="2"><strong>SUBTOTAL GASTOS ADMINISTRATIVOS</strong></td><td class="td-num"><strong>$11.105</strong></td><td class="td-num"><strong>$133.260</strong></td></tr>
+    </tbody>
+  </table>
+
+  <h3>4.2 Gastos de Ventas</h3>
+  <p>Son los costos de conseguir y mantener clientes: comisiones, publicidad, visitas comerciales, elaboración de propuestas.</p>
+
+  <table>
+    <thead>
+      <tr><th>Rubro</th><th>Detalle</th><th>Mensual</th><th>Anual</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Sueldo asesor comercial</td><td>1 ejecutivo de ventas (con carga laboral)</td><td class="td-num">$1.460</td><td class="td-num">$17.520</td></tr>
+      <tr><td>Comisiones por contratos nuevos</td><td>2 % sobre valor primer mes de contrato</td><td class="td-num">$420</td><td class="td-num">$5.040</td></tr>
+      <tr><td>Publicidad y redes sociales</td><td>Pauta digital + diseñador freelance</td><td class="td-num">$380</td><td class="td-num">$4.560</td></tr>
+      <tr><td>Movilización y representación comercial</td><td>Visitas a clientes potenciales</td><td class="td-num">$220</td><td class="td-num">$2.640</td></tr>
+      <tr><td>Materiales de presentación</td><td>Brochures, carpetas, cotizaciones impresas</td><td class="td-num">$80</td><td class="td-num">$960</td></tr>
+      <tr class="td-total"><td colspan="2"><strong>SUBTOTAL GASTOS DE VENTAS</strong></td><td class="td-num"><strong>$2.560</strong></td><td class="td-num"><strong>$30.720</strong></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Resumen consolidado — Presupuesto de Gastos del Período</h3>
+  <table>
+    <thead>
+      <tr><th>Categoría</th><th>Mensual</th><th>Anual</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Gastos Administrativos</td><td class="td-num">$11.105</td><td class="td-num">$133.260</td></tr>
+      <tr><td>Gastos de Ventas</td><td class="td-num">$2.560</td><td class="td-num">$30.720</td></tr>
+      <tr class="td-total"><td><strong>TOTAL GASTOS DEL PERÍODO</strong></td><td class="td-num"><strong>$13.665</strong></td><td class="td-num"><strong>$163.980</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="idea-clave">
+    <strong>Idea clave:</strong> Los gastos administrativos y de ventas son <em>costos del período</em> — se reconocen cuando ocurren, independientemente de cuántos servicios se presten. Aunque no sirvan directamente al cliente, son <strong>indispensables para que la empresa exista</strong>.
+  </div>
+</div>
+
+
+<!-- ================================================================
+     PESTAÑA T5: ESTADO DE RESULTADOS PROYECTADO
+     ================================================================ -->
+<div class="tab-content" id="tab-t5">
+  <h2>5. Integración al Presupuesto Maestro: Estado de Resultados Proyectado</h2>
+
+  <div class="concepto-box">
+    <strong>¿Qué es el Estado de Resultados Proyectado?</strong> Es la primera "pantalla" del Presupuesto Maestro. Integra todos los ingresos presupuestados con todos los costos y gastos presupuestados para mostrar si la empresa espera obtener <strong>utilidad o pérdida</strong> en el período planificado.
+  </div>
+
+  <h3>Supuesto de ingresos — recordatorio de Semana 9</h3>
+  <p>La Semana 9 produjo el presupuesto de ingresos. Para integrar el Estado de Resultados, usamos los ingresos proyectados anuales de SegurGuayas S.A.:</p>
+
+  <table>
+    <thead>
+      <tr><th>Línea de servicio</th><th>Ingresos proyectados anuales</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Guardias físicos (70 guardias × $1.100/mes × 12)</td><td class="td-num">$924.000</td></tr>
+      <tr><td>Monitoreo GPS (140 unidades × $45/mes × 12)</td><td class="td-num">$75.600</td></tr>
+      <tr><td>Consultoría en seguridad (4 proy. × $2.500 × 12)</td><td class="td-num">$120.000</td></tr>
+      <tr class="td-total"><td><strong>TOTAL INGRESOS PROYECTADOS</strong></td><td class="td-num"><strong>$1.119.600</strong></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Estado de Resultados Proyectado — SegurGuayas S.A. (Año completo)</h3>
+  <table>
+    <thead>
+      <tr><th>Concepto</th><th>Anual</th><th>% Ingresos</th></tr>
+    </thead>
+    <tbody>
+      <tr style="background:#e8f4ff;"><td><strong>INGRESOS POR SERVICIOS</strong></td><td class="td-num"><strong>$1.119.600</strong></td><td class="td-num">100 %</td></tr>
+      <tr><td>(-) Costos Operativos Directos (Pestaña 3)</td><td class="td-num">($837.096)</td><td class="td-num">74,8 %</td></tr>
+      <tr style="background:#fff3cd;"><td><strong>= MARGEN BRUTO</strong></td><td class="td-num"><strong>$282.504</strong></td><td class="td-num"><strong>25,2 %</strong></td></tr>
+      <tr><td>(-) Gastos Administrativos (Pestaña 4)</td><td class="td-num">($133.260)</td><td class="td-num">11,9 %</td></tr>
+      <tr><td>(-) Gastos de Ventas (Pestaña 4)</td><td class="td-num">($30.720)</td><td class="td-num">2,7 %</td></tr>
+      <tr style="background:#d4edda;"><td><strong>= UTILIDAD OPERATIVA (EBIT)</strong></td><td class="td-num"><strong>$118.524</strong></td><td class="td-num"><strong>10,6 %</strong></td></tr>
+      <tr><td>(-) Gastos Financieros (préstamo vehicular)</td><td class="td-num">($8.400)</td><td class="td-num">0,8 %</td></tr>
+      <tr style="background:#d4edda;"><td><strong>= UTILIDAD ANTES DE IMPUESTOS</strong></td><td class="td-num"><strong>$110.124</strong></td><td class="td-num"><strong>9,8 %</strong></td></tr>
+      <tr><td>(-) Participación trabajadores 15 %</td><td class="td-num">($16.519)</td><td class="td-num">1,5 %</td></tr>
+      <tr><td>(-) Impuesto a la Renta (25 %)</td><td class="td-num">($23.401)</td><td class="td-num">2,1 %</td></tr>
+      <tr style="background:#003366; color:#FFD700;"><td><strong>= UTILIDAD NETA PROYECTADA</strong></td><td class="td-num"><strong>$70.204</strong></td><td class="td-num"><strong>6,3 %</strong></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Estado de Resultados Proyectado — Mensualizado (Resumen)</h3>
+  <table>
+    <thead>
+      <tr><th>Concepto</th><th>Ene</th><th>Feb</th><th>Mar</th><th>Abr–Jun (c/u)</th><th>Jul–Nov (c/u)</th><th>Dic</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Ingresos</td><td class="td-num">$93.300</td><td class="td-num">$93.300</td><td class="td-num">$95.800</td><td class="td-num">$95.800</td><td class="td-num">$99.200</td><td class="td-num">$99.200</td></tr>
+      <tr><td>Costos Operativos</td><td class="td-num">$67.504</td><td class="td-num">$67.504</td><td class="td-num">$69.759</td><td class="td-num">$69.759</td><td class="td-num">$72.614</td><td class="td-num">$72.614</td></tr>
+      <tr><td>Gastos Adm./Ventas</td><td class="td-num">$13.665</td><td class="td-num">$13.665</td><td class="td-num">$13.665</td><td class="td-num">$13.665</td><td class="td-num">$13.665</td><td class="td-num">$13.665</td></tr>
+      <tr class="td-total"><td><strong>Utilidad Op.</strong></td><td class="td-num"><strong>$12.131</strong></td><td class="td-num"><strong>$12.131</strong></td><td class="td-num"><strong>$12.376</strong></td><td class="td-num"><strong>$12.376</strong></td><td class="td-num"><strong>$12.921</strong></td><td class="td-num"><strong>$12.921</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="ejemplo-box">
+    <div class="ej-title">📌 ¿Cómo interpretar el Estado de Resultados Proyectado?</div>
+    <p>El <strong>Margen Bruto del 25,2 %</strong> indica que por cada $100 cobrados al cliente, $74,80 se van en costos de prestar el servicio. El <strong>Margen Operativo del 10,6 %</strong> muestra que, después de gastos de administración y ventas, queda $10,60 de cada $100. La <strong>Utilidad Neta del 6,3 %</strong> es lo que finalmente queda para los dueños después de impuestos. En el sector de seguridad privada en Ecuador, márgenes entre 5–12 % son normales.</p>
+  </div>
+
+  <div class="idea-clave">
+    <strong>Idea clave:</strong> El Estado de Resultados Proyectado integra <em>todos</em> los sub-presupuestos y responde a la pregunta más importante: <strong>¿ganará dinero la empresa el próximo año?</strong> Pero cuidado: tener utilidad en papel no garantiza tener efectivo disponible. Para eso necesitas el Presupuesto de Caja.
+  </div>
+</div>
+
+
+<!-- ================================================================
+     PESTAÑA T6: PRESUPUESTO DE CAJA
+     ================================================================ -->
+<div class="tab-content" id="tab-t6">
+  <h2>6. Presupuesto de Efectivo y Flujo de Caja Proyectado</h2>
+
+  <div class="concepto-box">
+    <strong>Definición:</strong> El <em>presupuesto de caja</em> (también llamado <em>flujo de caja proyectado</em>) es el plan que muestra <strong>cuándo entra y cuándo sale el dinero</strong> de la cuenta bancaria de la empresa, mes a mes. No se basa en cuando se gana o gasta, sino en cuando se <em>cobra y se paga</em>.
+  </div>
+
+  <h3>Estructura básica del Presupuesto de Caja</h3>
+
+  <div class="flujo-step">
+    <div class="flujo-num">1</div>
+    <div class="flujo-text"><strong>Saldo inicial de caja</strong> → ¿cuánto efectivo tiene la empresa al inicio del mes?</div>
+  </div>
+  <div class="flujo-step">
+    <div class="flujo-num">2</div>
+    <div class="flujo-text"><strong>(+) Entradas de efectivo</strong> → cobranzas a clientes, cobros de cartera atrasada, préstamos recibidos</div>
+  </div>
+  <div class="flujo-step">
+    <div class="flujo-num">3</div>
+    <div class="flujo-text"><strong>(-) Salidas de efectivo</strong> → pagos de nómina, proveedores, arriendo, impuestos, cuotas de préstamo, etc.</div>
+  </div>
+  <div class="flujo-step">
+    <div class="flujo-num">4</div>
+    <div class="flujo-text"><strong>= Saldo final de caja</strong> → ¿cuánto efectivo quedará al cerrar el mes?</div>
+  </div>
+
+  <h3>Supuestos de cobro y pago — SegurGuayas S.A.</h3>
+  <div class="grid-2">
+    <div class="card-mini">
+      <h4>📥 Supuestos de cobro</h4>
+      <ul style="font-size:14px; margin-left:16px;">
+        <li>Clientes corporativos: pago a <strong>30 días</strong> (cobro el mes siguiente)</li>
+        <li>Clientes residenciales: pago <strong>al contado</strong> (mes actual)</li>
+        <li>Consultoría: 50 % al inicio del proyecto, 50 % al finalizar</li>
+        <li>Distribución: 60 % corporativo, 40 % residencial</li>
+      </ul>
+    </div>
+    <div class="card-mini">
+      <h4>📤 Supuestos de pago</h4>
+      <ul style="font-size:14px; margin-left:16px;">
+        <li>Nómina: pagada el <strong>último día hábil</strong> del mes</li>
+        <li>Arriendo y servicios básicos: pagados el <strong>día 1</strong> del mes</li>
+        <li>Proveedores (combustible, uniformes): pago a <strong>15 días</strong></li>
+        <li>IESS y SRI: pagados hasta el <strong>día 15</strong> del mes siguiente</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Presupuesto de Caja — SegurGuayas S.A. (Enero–Junio)</h3>
+  <table>
+    <thead>
+      <tr><th>Concepto</th><th>Enero</th><th>Febrero</th><th>Marzo</th><th>Abril</th><th>Mayo</th><th>Junio</th></tr>
+    </thead>
+    <tbody>
+      <tr style="background:#e8f0ff;"><td><strong>Saldo inicial</strong></td><td class="td-num">$18.000</td><td class="td-num">$14.523</td><td class="td-num">$11.847</td><td class="td-num">$16.402</td><td class="td-num">$18.930</td><td class="td-num">$21.458</td></tr>
+      <tr><td colspan="7" style="background:#f7f9ff; font-weight:700; color:#003366;">ENTRADAS DE EFECTIVO</td></tr>
+      <tr><td>Cobros clientes corporativos (30 días)</td><td class="td-num">$44.760</td><td class="td-num">$55.980</td><td class="td-num">$55.980</td><td class="td-num">$57.480</td><td class="td-num">$57.480</td><td class="td-num">$57.480</td></tr>
+      <tr><td>Cobros clientes residenciales (contado)</td><td class="td-num">$37.320</td><td class="td-num">$37.320</td><td class="td-num">$38.320</td><td class="td-num">$38.320</td><td class="td-num">$38.320</td><td class="td-num">$38.320</td></tr>
+      <tr><td>Cobros consultoría</td><td class="td-num">$5.000</td><td class="td-num">$5.000</td><td class="td-num">$5.000</td><td class="td-num">$5.000</td><td class="td-num">$5.000</td><td class="td-num">$5.000</td></tr>
+      <tr style="background:#fff3cd;"><td><strong>TOTAL ENTRADAS</strong></td><td class="td-num"><strong>$87.080</strong></td><td class="td-num"><strong>$98.300</strong></td><td class="td-num"><strong>$99.300</strong></td><td class="td-num"><strong>$100.800</strong></td><td class="td-num"><strong>$100.800</strong></td><td class="td-num"><strong>$100.800</strong></td></tr>
+      <tr><td colspan="7" style="background:#fff0f0; font-weight:700; color:#800000;">SALIDAS DE EFECTIVO</td></tr>
+      <tr><td>Pago nómina operativa</td><td class="td-num">$60.863</td><td class="td-num">$60.863</td><td class="td-num">$62.349</td><td class="td-num">$62.349</td><td class="td-num">$62.349</td><td class="td-num">$62.349</td></tr>
+      <tr><td>Logística y armamento</td><td class="td-num">$3.710</td><td class="td-num">$3.710</td><td class="td-num">$3.710</td><td class="td-num">$3.710</td><td class="td-num">$3.710</td><td class="td-num">$3.710</td></tr>
+      <tr><td>Nómina administrativa</td><td class="td-num">$9.860</td><td class="td-num">$9.860</td><td class="td-num">$9.860</td><td class="td-num">$9.860</td><td class="td-num">$9.860</td><td class="td-num">$9.860</td></tr>
+      <tr><td>Arriendo + servicios + internet</td><td class="td-num">$1.600</td><td class="td-num">$1.600</td><td class="td-num">$1.600</td><td class="td-num">$1.600</td><td class="td-num">$1.600</td><td class="td-num">$1.600</td></tr>
+      <tr><td>Gastos de ventas (efectivo)</td><td class="td-num">$1.100</td><td class="td-num">$1.100</td><td class="td-num">$1.100</td><td class="td-num">$1.100</td><td class="td-num">$1.100</td><td class="td-num">$1.100</td></tr>
+      <tr><td>Cuota préstamo vehicular</td><td class="td-num">$700</td><td class="td-num">$700</td><td class="td-num">$700</td><td class="td-num">$700</td><td class="td-num">$700</td><td class="td-num">$700</td></tr>
+      <tr><td>IESS patronal (mes anterior)</td><td class="td-num">$7.395</td><td class="td-num">$7.395</td><td class="td-num">$7.395</td><td class="td-num">$7.577</td><td class="td-num">$7.577</td><td class="td-num">$7.577</td></tr>
+      <tr><td>IVA / Retenciones SRI</td><td class="td-num">$5.329</td><td class="td-num">$5.329</td><td class="td-num">$5.329</td><td class="td-num">$5.476</td><td class="td-num">$5.476</td><td class="td-num">$5.476</td></tr>
+      <tr style="background:#ffe0e0;"><td><strong>TOTAL SALIDAS</strong></td><td class="td-num"><strong>$90.557</strong></td><td class="td-num"><strong>$90.557</strong></td><td class="td-num"><strong>$92.043</strong></td><td class="td-num"><strong>$92.372</strong></td><td class="td-num"><strong>$92.372</strong></td><td class="td-num"><strong>$92.372</strong></td></tr>
+      <tr style="background:#003366; color:#FFD700;"><td><strong>SALDO FINAL DE CAJA</strong></td><td class="td-num"><strong>$14.523</strong></td><td class="td-num"><strong>$22.266</strong></td><td class="td-num"><strong>$19.104</strong></td><td class="td-num"><strong>$24.830</strong></td><td class="td-num"><strong>$27.358</strong></td><td class="td-num"><strong>$29.886</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="alerta-box">
+    ⚠️ <strong>¡Atención en enero!</strong> Aunque el Estado de Resultados muestra utilidad todos los meses, el saldo de caja de enero baja de $18.000 a $14.523. ¿Por qué? Porque la empresa cobra a 30 días a sus clientes corporativos, pero paga la nómina en el mismo mes. En enero, el efectivo cobrado no alcanza a cubrir todas las salidas. <strong>Este es el riesgo de liquidez.</strong>
+  </div>
+
+  <div class="idea-clave">
+    <strong>Idea clave:</strong> El Presupuesto de Caja revela periodos críticos de liquidez que el Estado de Resultados <em>oculta</em>. Una empresa puede ser rentable en papel y quedar sin efectivo para pagar la nómina. Por eso ambos documentos son indispensables.
+  </div>
+</div>
+
+
+<!-- ================================================================
+     PESTAÑA T7: UTILIDAD ≠ EFECTIVO
+     ================================================================ -->
+<div class="tab-content" id="tab-t7">
+  <h2>7. ¿Por qué Utilidad no es igual a Efectivo Disponible?</h2>
+
+  <div class="concepto-box">
+    <strong>Esta es una de las confusiones más comunes — y costosas — en la gestión empresarial.</strong> Muchos dueños de negocio miran la utilidad del Estado de Resultados y creen que eso es el dinero que tienen en el banco. Es un error que puede llevar a una empresa rentable a la quiebra.
+  </div>
+
+  <h3>Las tres razones principales por las que Utilidad ≠ Efectivo</h3>
+
+  <div class="flujo-step">
+    <div class="flujo-num">1</div>
+    <div class="flujo-text">
+      <strong>Diferencia de tiempos: devengado vs. cobrado</strong><br>
+      El Estado de Resultados registra ingresos cuando se <em>gana</em> el servicio (devengo), aunque el cliente aún no haya pagado. Si SegurGuayas S.A. factura $93.300 en enero pero el cliente paga en febrero, la utilidad de enero incluye ese ingreso, pero el efectivo llegará un mes después. Esta diferencia se llama <strong>cuentas por cobrar</strong> y es la causa más frecuente de crisis de liquidez.
+    </div>
+  </div>
+  <div class="flujo-step">
+    <div class="flujo-num">2</div>
+    <div class="flujo-text">
+      <strong>Costos que no son desembolso: la depreciación</strong><br>
+      La depreciación de vehículos ($1.611/mes en nuestro caso) <em>reduce la utilidad</em> en el Estado de Resultados, pero <strong>no representa ningún pago</strong> en ese mes. El dinero se pagó cuando se compró el vehículo. En el Presupuesto de Caja, la depreciación <em>no aparece</em> como salida de efectivo. Esto hace que la caja tenga más dinero del que sugiere la utilidad neta.
+    </div>
+  </div>
+  <div class="flujo-step">
+    <div class="flujo-num">3</div>
+    <div class="flujo-text">
+      <strong>Inversiones y pagos de deuda no pasan por el Estado de Resultados</strong><br>
+      Si la empresa compra una motocicleta nueva por $4.200 en efectivo, ese pago <em>no aparece como gasto</em> en el Estado de Resultados (sino como un activo que se deprecia). Pero sí sale del banco. Lo mismo ocurre con las cuotas de un préstamo: solo el interés es gasto; el capital pagado no afecta la utilidad pero sí reduce la caja.
+    </div>
+  </div>
+
+  <h3>Comparación visual: Utilidad vs. Efectivo en enero</h3>
+  <table>
+    <thead>
+      <tr><th>Concepto</th><th>Estado de Resultados (Utilidad)</th><th>Presupuesto de Caja (Efectivo)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Ingresos del mes</td><td class="td-num">$93.300 (devengados)</td><td class="td-num">$87.080 (cobrados)</td></tr>
+      <tr><td>Depreciación</td><td class="td-num">-$1.611 (gasto)</td><td class="td-num">$0 (no sale dinero)</td></tr>
+      <tr><td>Cuota de préstamo (capital)</td><td class="td-num">$0 (no es gasto)</td><td class="td-num">-$500 (sale dinero)</td></tr>
+      <tr><td>Pago IESS mes anterior</td><td class="td-num">Ya estaba como gasto</td><td class="td-num">-$7.395 (pago real)</td></tr>
+      <tr class="td-total"><td><strong>RESULTADO FINAL</strong></td><td class="td-num"><strong>Utilidad: ~$12.131</strong></td><td class="td-num"><strong>Efectivo: $14.523</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="ejemplo-box">
+    <div class="ej-title">📌 Caso real — La trampa de la rentabilidad sin liquidez</div>
+    <p>Una empresa de seguridad en Guayaquil tiene 80 guardias y factura $110.000/mes. Su Estado de Resultados muestra una utilidad de $13.000. El gerente, satisfecho, no controla el flujo de caja. En el mes 4, llega el día de pago de nómina ($68.000) y la empresa solo tiene $15.000 en el banco. Los clientes corporativos deben $95.000 pero no pagan hasta en 30 días. <strong>Resultado: la empresa no puede pagar a sus guardias aunque es rentable.</strong> Tuvo que pedir un préstamo de emergencia al 18 % anual. Esto es lo que el Presupuesto de Caja previene.</p>
+  </div>
+
+  <h3>¿Cómo se gestionan los periodos críticos de liquidez?</h3>
+  <div class="pill-row">
+    <span class="pill">Línea de crédito bancaria preventiva</span>
+    <span class="pill">Anticipo a clientes clave</span>
+    <span class="pill">Descuentos por pronto pago</span>
+    <span class="pill">Negociar plazos con proveedores</span>
+    <span class="pill">Colchón mínimo de caja (1.5× nómina)</span>
+  </div>
+
+  <div class="idea-clave">
+    <strong>Idea clave final:</strong> El Estado de Resultados mide el desempeño económico. El Presupuesto de Caja mide la supervivencia financiera. <strong>Una empresa necesita ambos para tomar decisiones gerenciales correctas.</strong> Tener utilidad sin efectivo es como tener comida en el refrigerador con la puerta trabada: existe, pero no puedes acceder a ella cuando la necesitas.
+  </div>
+</div>
+
+
+<!-- ================================================================
+     PESTAÑA: EJERCICIO INTERACTIVO
+     ================================================================ -->
+<div class="tab-content" id="tab-ejercicio">
+  <h2>⚙️ Ejercicio Interactivo — Clasifica y Analiza el Presupuesto</h2>
+  <p>Lee cada situación con cuidado. Selecciona la respuesta correcta para cada ítem. <strong>Responde TODOS los ítems antes de presionar "Verificar".</strong></p>
+
+  <!-- ítem 1 -->
+  <div class="quiz-question" id="ei-q1">
+    <span class="badge badge-ej">Ejercicio</span>
+    <p class="qtext">1. SegurGuayas S.A. paga $500 de salario a un guardia. Considerando las cargas laborales ecuatorianas (IESS patronal 12,15 %, décimos, vacaciones, fondos de reserva), ¿cuál es el costo mensual real aproximado para la empresa?</p>
+    <label class="option-label"><input type="radio" name="ei1" value="a"> a) $500,00 — solo el salario pactado</label>
+    <label class="option-label"><input type="radio" name="ei1" value="b"> b) $550,00 — salario más IESS patronal</label>
+    <label class="option-label"><input type="radio" name="ei1" value="c"> c) $665,00 — salario más todas las cargas laborales (~133 %)</label>
+    <label class="option-label"><input type="radio" name="ei1" value="d"> d) $800,00 — salario más horas extra y bonificaciones</label>
+    <div class="feedback-item" id="fb-ei1"></div>
+  </div>
+
+  <!-- ítem 2 -->
+  <div class="quiz-question" id="ei-q2">
+    <span class="badge badge-ej">Ejercicio</span>
+    <p class="qtext">2. La depreciación mensual de los vehículos de SegurGuayas es $1.611. ¿Dónde aparece este valor en el presupuesto?</p>
+    <label class="option-label"><input type="radio" name="ei2" value="a"> a) Solo en el Presupuesto de Caja como salida de efectivo mensual</label>
+    <label class="option-label"><input type="radio" name="ei2" value="b"> b) Solo en el Estado de Resultados como gasto; en el Presupuesto de Caja NO aparece como salida mensual</label>
+    <label class="option-label"><input type="radio" name="ei2" value="c"> c) En ambos documentos como salida de dinero real</label>
+    <label class="option-label"><input type="radio" name="ei2" value="d"> d) En ninguno de los dos presupuestos</label>
+    <div class="feedback-item" id="fb-ei2"></div>
+  </div>
+
+  <!-- ítem 3 -->
+  <div class="quiz-question" id="ei-q3">
+    <span class="badge badge-ej">Ejercicio</span>
+    <p class="qtext">3. El gerente de SegurGuayas observa que el Estado de Resultados muestra una utilidad de $12.131 en enero, pero el saldo de caja bajó de $18.000 a $14.523. ¿Cuál es la explicación más correcta?</p>
+    <label class="option-label"><input type="radio" name="ei3" value="a"> a) La empresa tuvo gastos ocultos que el contador no registró</label>
+    <label class="option-label"><input type="radio" name="ei3" value="b"> b) Los clientes corporativos (60 % de ingresos) pagan a 30 días, por lo que el efectivo cobrado en enero es menor que los ingresos devengados</label>
+    <label class="option-label"><input type="radio" name="ei3" value="c"> c) La nómina fue pagada dos veces ese mes por error</label>
+    <label class="option-label"><input type="radio" name="ei3" value="d"> d) La utilidad del Estado de Resultados siempre es mayor que el efectivo</label>
+    <div class="feedback-item" id="fb-ei3"></div>
+  </div>
+
+  <!-- ítem 4 -->
+  <div class="quiz-question" id="ei-q4">
+    <span class="badge badge-ej">Ejercicio</span>
+    <p class="qtext">4. ¿Cuál de los siguientes es un gasto administrativo y NO un costo operativo directo en SegurGuayas S.A.?</p>
+    <label class="option-label"><input type="radio" name="ei4" value="a"> a) Sueldo de un guardia de seguridad</label>
+    <label class="option-label"><input type="radio" name="ei4" value="b"> b) Combustible de las motos de ronda</label>
+    <label class="option-label"><input type="radio" name="ei4" value="c"> c) Arriendo de las oficinas administrativas en Urdesa</label>
+    <label class="option-label"><input type="radio" name="ei4" value="d"> d) Mantenimiento de armas de servicio</label>
+    <div class="feedback-item" id="fb-ei4"></div>
+  </div>
+
+  <!-- ítem 5 -->
+  <div class="quiz-question" id="ei-q5">
+    <span class="badge badge-ej">Ejercicio</span>
+    <p class="qtext">5. Si SegurGuayas contrata 5 guardias adicionales en julio, ¿qué sub-presupuesto se verá DIRECTAMENTE afectado primero y de forma inmediata?</p>
+    <label class="option-label"><input type="radio" name="ei5" value="a"> a) Presupuesto de Gastos Administrativos</label>
+    <label class="option-label"><input type="radio" name="ei5" value="b"> b) Presupuesto de Nómina Operativa (parte del Presupuesto de Operaciones)</label>
+    <label class="option-label"><input type="radio" name="ei5" value="c"> c) Presupuesto de Gastos de Ventas</label>
+    <label class="option-label"><input type="radio" name="ei5" value="d"> d) Estado de Resultados directamente, sin pasar por otro sub-presupuesto</label>
+    <div class="feedback-item" id="fb-ei5"></div>
+  </div>
+
+  <!-- ítem 6 -->
+  <div class="quiz-question" id="ei-q6">
+    <span class="badge badge-ej">Ejercicio</span>
+    <p class="qtext">6. El Margen Bruto proyectado de SegurGuayas S.A. es del 25,2 %. ¿Qué significa esto para la gestión?</p>
+    <label class="option-label"><input type="radio" name="ei6" value="a"> a) Que la empresa gana $25,20 por cada contrato firmado</label>
+    <label class="option-label"><input type="radio" name="ei6" value="b"> b) Que por cada $100 cobrados, $74,80 se usan en costos operativos directos y quedan $25,20 para cubrir gastos administrativos, ventas e impuestos</label>
+    <label class="option-label"><input type="radio" name="ei6" value="c"> c) Que el 25,2 % de los clientes pagan a tiempo</label>
+    <label class="option-label"><input type="radio" name="ei6" value="d"> d) Que la empresa puede crecer un 25,2 % el próximo año</label>
+    <div class="feedback-item" id="fb-ei6"></div>
+  </div>
+
+  <!-- ítem 7 -->
+  <div class="quiz-question" id="ei-q7">
+    <span class="badge badge-ej">Ejercicio</span>
+    <p class="qtext">7. Una empresa de seguridad tiene utilidad neta proyectada de $70.000 anuales, pero su saldo de caja cae por debajo del mínimo en marzo. ¿Cuál es la acción gerencial más adecuada?</p>
+    <label class="option-label"><input type="radio" name="ei7" value="a"> a) Ignorarlo porque hay utilidad positiva en el año</label>
+    <label class="option-label"><input type="radio" name="ei7" value="b"> b) Renegociar plazos de cobro con clientes, gestionar una línea de crédito o aplazar pagos no urgentes para ese mes</label>
+    <label class="option-label"><input type="radio" name="ei7" value="c"> c) Recortar la nómina de guardias ese mes</label>
+    <label class="option-label"><input type="radio" name="ei7" value="d"> d) Emitir más facturas aunque no se haya prestado el servicio</label>
+    <div class="feedback-item" id="fb-ei7"></div>
+  </div>
+
+  <!-- ítem 8 -->
+  <div class="quiz-question" id="ei-q8">
+    <span class="badge badge-ej">Ejercicio</span>
+    <p class="qtext">8. ¿Cuál es el orden correcto de elaboración de los sub-presupuestos del Presupuesto Maestro en SegurGuayas S.A.?</p>
+    <label class="option-label"><input type="radio" name="ei8" value="a"> a) Estado de Resultados → Presupuesto de Ingresos → Presupuesto de Caja</label>
+    <label class="option-label"><input type="radio" name="ei8" value="b"> b) Presupuesto de Caja → Presupuesto de Operaciones → Presupuesto de Ingresos</label>
+    <label class="option-label"><input type="radio" name="ei8" value="c"> c) Presupuesto de Ingresos → Presupuesto de Operaciones → Gastos Adm./Ventas → Estado de Resultados → Presupuesto de Caja</label>
+    <label class="option-label"><input type="radio" name="ei8" value="d"> d) Presupuesto de Operaciones → Presupuesto de Ingresos → Estado de Resultados</label>
+    <div class="feedback-item" id="fb-ei8"></div>
+  </div>
+
+  <button class="verify-btn" id="verifyEj">✅ Verificar respuestas</button>
+  <div class="score-panel" id="scorePanelEj">
+    <div class="big-score" id="scoreTxtEj"></div>
+    <div class="score-msg" id="scoreMsgEj"></div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="scoreBarEj" style="width:0%"></div></div>
+  </div>
+  <button class="reset-btn" id="resetEj" style="display:none">🔄 Reiniciar ejercicio</button>
+</div>
+
+
+<!-- ================================================================
+     PESTAÑA: CUESTIONARIO
+     ================================================================ -->
+<div class="tab-content" id="tab-quiz">
+  <h2>📝 Cuestionario — 10 Preguntas de Opción Múltiple</h2>
+  <p>Selecciona una respuesta por pregunta. Responde <strong>todas</strong> antes de verificar.</p>
+
+  <!-- Q1 -->
+  <div class="quiz-question">
+    <span class="badge badge-teo">Teórica</span>
+    <p class="qtext">1. ¿Qué componente NO forma parte del presupuesto de operaciones en una empresa de seguridad privada?</p>
+    <label class="option-label"><input type="radio" name="qi1" value="a"> a) Nómina de guardias con cargas laborales</label>
+    <label class="option-label"><input type="radio" name="qi1" value="b"> b) Combustible para vehículos de ronda</label>
+    <label class="option-label"><input type="radio" name="qi1" value="c"> c) Sueldo del Gerente General</label>
+    <label class="option-label"><input type="radio" name="qi1" value="d"> d) Depreciación de motos de supervisión</label>
+    <div class="feedback-item" id="fb-qi1"></div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="quiz-question">
+    <span class="badge badge-teo">Teórica</span>
+    <p class="qtext">2. En Ecuador, el aporte patronal al IESS que debe presupuestar la empresa sobre el salario mensual del trabajador es:</p>
+    <label class="option-label"><input type="radio" name="qi2" value="a"> a) 9,45 %</label>
+    <label class="option-label"><input type="radio" name="qi2" value="b"> b) 12,15 %</label>
+    <label class="option-label"><input type="radio" name="qi2" value="c"> c) 8,33 %</label>
+    <label class="option-label"><input type="radio" name="qi2" value="d"> d) 15,00 %</label>
+    <div class="feedback-item" id="fb-qi2"></div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="quiz-question">
+    <span class="badge badge-teo">Teórica</span>
+    <p class="qtext">3. El presupuesto de gastos de ventas incluye típicamente:</p>
+    <label class="option-label"><input type="radio" name="qi3" value="a"> a) Arriendo de oficinas y servicios básicos</label>
+    <label class="option-label"><input type="radio" name="qi3" value="b"> b) Nómina de guardias y mantenimiento de armas</label>
+    <label class="option-label"><input type="radio" name="qi3" value="c"> c) Comisiones de ventas, publicidad y movilización comercial</label>
+    <label class="option-label"><input type="radio" name="qi3" value="d"> d) Depreciación de vehículos operativos</label>
+    <div class="feedback-item" id="fb-qi3"></div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="quiz-question">
+    <span class="badge badge-teo">Teórica</span>
+    <p class="qtext">4. El Estado de Resultados Proyectado integra información de:</p>
+    <label class="option-label"><input type="radio" name="qi4" value="a"> a) Solo el presupuesto de ingresos y el presupuesto de caja</label>
+    <label class="option-label"><input type="radio" name="qi4" value="b"> b) El presupuesto de ingresos, el presupuesto de operaciones y el presupuesto de gastos administrativos y de ventas</label>
+    <label class="option-label"><input type="radio" name="qi4" value="c"> c) Solo el presupuesto de operaciones</label>
+    <label class="option-label"><input type="radio" name="qi4" value="d"> d) El presupuesto de caja y el balance general proyectado</label>
+    <div class="feedback-item" id="fb-qi4"></div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="quiz-question">
+    <span class="badge badge-teo">Teórica</span>
+    <p class="qtext">5. ¿Por qué la depreciación de vehículos NO aparece como salida de efectivo en el Presupuesto de Caja?</p>
+    <label class="option-label"><input type="radio" name="qi5" value="a"> a) Porque es un gasto ilegal en Ecuador</label>
+    <label class="option-label"><input type="radio" name="qi5" value="b"> b) Porque la depreciación es un costo calculado que distribuye el costo original ya pagado; no implica un desembolso en el período corriente</label>
+    <label class="option-label"><input type="radio" name="qi5" value="c"> c) Porque los vehículos no se incluyen en el presupuesto de operaciones</label>
+    <label class="option-label"><input type="radio" name="qi5" value="d"> d) Porque el SRI no permite deducirla</label>
+    <div class="feedback-item" id="fb-qi5"></div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="quiz-question">
+    <span class="badge badge-teo">Teórica</span>
+    <p class="qtext">6. ¿Cuál es la diferencia entre un gasto del período y un costo operativo directo?</p>
+    <label class="option-label"><input type="radio" name="qi6" value="a"> a) No hay diferencia; son términos intercambiables</label>
+    <label class="option-label"><input type="radio" name="qi6" value="b"> b) El costo operativo directo está relacionado directamente con prestar el servicio; el gasto del período se incurre para administrar o vender, independientemente del volumen de servicio</label>
+    <label class="option-label"><input type="radio" name="qi6" value="c"> c) El gasto del período siempre es mayor que el costo operativo</label>
+    <label class="option-label"><input type="radio" name="qi6" value="d"> d) Los costos operativos se pagan en efectivo; los gastos del período se registran pero no se pagan</label>
+    <div class="feedback-item" id="fb-qi6"></div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="quiz-question">
+    <span class="badge badge-teo">Teórica</span>
+    <p class="qtext">7. El Presupuesto de Caja registra los ingresos cuando:</p>
+    <label class="option-label"><input type="radio" name="qi7" value="a"> a) Se firma el contrato con el cliente</label>
+    <label class="option-label"><input type="radio" name="qi7" value="b"> b) Se emite la factura</label>
+    <label class="option-label"><input type="radio" name="qi7" value="c"> c) El efectivo ingresa efectivamente a la cuenta bancaria de la empresa</label>
+    <label class="option-label"><input type="radio" name="qi7" value="d"> d) Se presta el servicio, con o sin cobro</label>
+    <div class="feedback-item" id="fb-qi7"></div>
+  </div>
+
+  <!-- Q8 — Análisis -->
+  <div class="quiz-question">
+    <span class="badge badge-ana">Análisis</span>
+    <p class="qtext">8. Una empresa de seguridad tiene ingresos mensuales de $80.000, costos operativos de $58.000 y gastos administrativos de $12.000. ¿Cuál es su Margen Bruto y su Utilidad Operativa respectivamente?</p>
+    <label class="option-label"><input type="radio" name="qi8" value="a"> a) Margen Bruto: $22.000 (27,5 %); Utilidad Operativa: $10.000 (12,5 %)</label>
+    <label class="option-label"><input type="radio" name="qi8" value="b"> b) Margen Bruto: $10.000 (12,5 %); Utilidad Operativa: $22.000 (27,5 %)</label>
+    <label class="option-label"><input type="radio" name="qi8" value="c"> c) Margen Bruto: $68.000 (85 %); Utilidad Operativa: $70.000</label>
+    <label class="option-label"><input type="radio" name="qi8" value="d"> d) Margen Bruto: $80.000 (100 %); Utilidad Operativa: $10.000</label>
+    <div class="feedback-item" id="fb-qi8"></div>
+  </div>
+
+  <!-- Q9 — Análisis -->
+  <div class="quiz-question">
+    <span class="badge badge-ana">Análisis</span>
+    <p class="qtext">9. En enero, una empresa de seguridad tiene saldo inicial de $20.000, cobra $75.000 de clientes y paga $82.000 en costos y gastos. Su Estado de Resultados muestra utilidad de $8.000 ese mes. ¿Cuál es el saldo final de caja y cuál es la situación real?</p>
+    <label class="option-label"><input type="radio" name="qi9" value="a"> a) Saldo de caja: $28.000; la empresa está en excelente situación</label>
+    <label class="option-label"><input type="radio" name="qi9" value="b"> b) Saldo de caja: $13.000; la empresa es rentable pero tiene menor efectivo del que la utilidad sugiere, debido a cobros diferidos y pagos al contado</label>
+    <label class="option-label"><input type="radio" name="qi9" value="c"> c) Saldo de caja: $8.000; el efectivo siempre iguala a la utilidad</label>
+    <label class="option-label"><input type="radio" name="qi9" value="d"> d) Saldo de caja: $0; la empresa está en quiebra</label>
+    <div class="feedback-item" id="fb-qi9"></div>
+  </div>
+
+  <!-- Q10 — Análisis -->
+  <div class="quiz-question">
+    <span class="badge badge-ana">Análisis</span>
+    <p class="qtext">10. El gerente de una empresa de seguridad dice: "Tenemos utilidad todos los meses, así que no necesitamos hacer un Presupuesto de Caja". ¿Cuál es la respuesta correcta desde la perspectiva de la Contabilidad Gerencial?</p>
+    <label class="option-label"><input type="radio" name="qi10" value="a"> a) Tiene razón; si hay utilidad, siempre habrá efectivo suficiente</label>
+    <label class="option-label"><input type="radio" name="qi10" value="b"> b) Está equivocado; la utilidad no garantiza disponibilidad de efectivo porque los tiempos de cobro y pago son diferentes, la depreciación no es un flujo real y los pagos de capital de deuda no afectan la utilidad</label>
+    <label class="option-label"><input type="radio" name="qi10" value="c"> c) Tiene parcialmente razón; el Presupuesto de Caja solo es necesario si la empresa tiene deudas</label>
+    <label class="option-label"><input type="radio" name="qi10" value="d"> d) El Presupuesto de Caja es opcional y solo lo usan empresas muy grandes</label>
+    <div class="feedback-item" id="fb-qi10"></div>
+  </div>
+
+  <button class="verify-btn" id="verifyQuiz">✅ Verificar respuestas</button>
+  <div class="score-panel" id="scorePanelQuiz">
+    <div class="big-score" id="scoreTxtQuiz"></div>
+    <div class="score-msg" id="scoreMsgQuiz"></div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="scoreBarQuiz" style="width:0%"></div></div>
+  </div>
+  <button class="reset-btn" id="resetQuiz" style="display:none">🔄 Reiniciar cuestionario</button>
+</div>
+
+
+<!-- ================================================================
+     PESTAÑA: ACTIVIDAD CON IA
+     ================================================================ -->
+<div class="tab-content" id="tab-ia">
+  <h2>🤖 Actividad con Inteligencia Artificial</h2>
+
+  <div class="concepto-box">
+    <strong>Herramienta recomendada:</strong> <a href="https://claude.ai" target="_blank" style="color:#003366;">Claude en claude.ai</a> (Anthropic). También puedes usar ChatGPT (chatgpt.com) o Gemini (gemini.google.com). Todas son gratuitas en su versión básica.
+  </div>
+
+  <h3>🎯 Actividad: "Diseño del Presupuesto de Caja de una empresa real"</h3>
+  <p><strong>Objetivo:</strong> Utilizar la IA como consultor financiero para diseñar un Presupuesto de Caja y luego evaluar críticamente sus respuestas aplicando lo aprendido en clase.</p>
+
+  <h3>Paso 1 — Usa este prompt exacto con la IA</h3>
+  <div class="prompt-box" id="promptIA">
+    <button class="copy-btn" onclick="copyPrompt()">📋 Copiar</button>
+Actúa como consultor financiero especializado en empresas de servicios en Ecuador. Voy a darte información de una empresa de seguridad privada llamada "SegurGuayas S.A." con sede en Guayaquil. Necesito que me ayudes a construir y analizar su Presupuesto de Caja para el mes de enero.
+
+DATOS DE LA EMPRESA:
+- Ingresos proyectados enero: $93.300
+  · 60% corresponde a clientes corporativos que pagan a 30 días
+  · 40% a clientes residenciales que pagan al contado
+- La empresa cobró en diciembre $55.980 de clientes corporativos (se cobran en enero)
+- Nómina operativa (guardias + supervisores): $60.863 — se paga el último día del mes
+- Nómina administrativa: $9.860 — se paga el último día del mes
+- Logística y armamento: $3.710 — pago a 15 días (mitad en enero, mitad en febrero)
+- Arriendo oficinas: $1.200 — se paga el día 1
+- IESS patronal de diciembre (se paga hasta el 15 de enero): $7.395
+- Cuota préstamo vehicular: $700 — se paga el día 5
+- Saldo inicial de caja: $18.000
+
+POR FAVOR:
+1. Construye el Presupuesto de Caja de enero con este formato: saldo inicial + entradas de efectivo - salidas de efectivo = saldo final
+2. Identifica si hay riesgo de liquidez en algún momento del mes
+3. Propón 3 estrategias concretas para mejorar el flujo de caja si el saldo cae por debajo de $10.000
+4. Explica brevemente por qué el presupuesto de caja puede mostrar resultados diferentes al Estado de Resultados
+  </div>
+
+  <h3>Paso 2 — ¿Qué hacer con la respuesta de la IA?</h3>
+  <ol style="margin-left:20px; margin-bottom:16px;">
+    <li style="margin-bottom:8px;"><strong>Compara los números:</strong> ¿El Presupuesto de Caja que generó la IA coincide con los cálculos del widget? Si hay diferencias, ¿por qué? ¿La IA aplicó los supuestos correctamente (60/40, cobro diferido)?</li>
+    <li style="margin-bottom:8px;"><strong>Evalúa las estrategias propuestas:</strong> De las 3 estrategias que sugirió la IA, ¿cuáles son realistas para una empresa de seguridad mediana en Guayaquil? ¿Alguna no aplica al contexto ecuatoriano?</li>
+    <li style="margin-bottom:8px;"><strong>Cuestiona la explicación:</strong> ¿La IA explicó correctamente la diferencia entre utilidad y efectivo? ¿Mencionó la depreciación? ¿Habló de los diferentes tiempos de cobro y pago?</li>
+    <li style="margin-bottom:8px;"><strong>Escribe tu evaluación:</strong> En 150 palabras, señala qué hizo bien la IA, qué mejorarías de su respuesta y qué aprendiste al comparar su análisis con el contenido del widget.</li>
+  </ol>
+
+  <h3>Criterio de evaluación — ¿Qué demuestra pensamiento crítico?</h3>
+  <div class="grid-2">
+    <div class="card-mini" style="border-top-color:#28a745;">
+      <h4 style="color:#28a745;">✅ Pensamiento crítico</h4>
+      <ul style="font-size:14px; margin-left:14px;">
+        <li>Detecta si la IA cometió errores de cálculo</li>
+        <li>Señala si los supuestos fueron respetados</li>
+        <li>Evalúa si las estrategias son viables en Ecuador</li>
+        <li>Añade algo que la IA no dijo usando el widget</li>
+        <li>Compara dos respuestas de IA diferente</li>
+      </ul>
+    </div>
+    <div class="card-mini" style="border-top-color:#dc3545;">
+      <h4 style="color:#dc3545;">❌ Copia simple</h4>
+      <ul style="font-size:14px; margin-left:14px;">
+        <li>Copiar y pegar la respuesta de la IA sin análisis</li>
+        <li>No comparar con los datos del widget</li>
+        <li>Aceptar todo lo que dijo la IA sin cuestionarlo</li>
+        <li>No mencionar ninguna diferencia o error</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="alerta-box">
+    💡 <strong>Recuerda:</strong> La IA puede cometer errores. Tu rol es el de un contador gerencial que <em>verifica y evalúa</em> la información, no el de alguien que la acepta ciegamente. Eso es exactamente lo que hace un profesional en el mundo real.
+  </div>
+</div>
+
+
+<!-- ================================================================
+     PESTAÑA: REFLEXIÓN
+     ================================================================ -->
+<div class="tab-content" id="tab-reflexion">
+  <h2>💭 Reflexión — Conectando los Presupuestos con tu Vida</h2>
+
+  <p>Las siguientes preguntas no tienen respuestas correctas o incorrectas. Son invitaciones a pensar. El objetivo es que descubras que los conceptos de esta semana no son solo herramientas para empresas: son parte de tu vida diaria.</p>
+
+  <div class="reflexion-card">
+    <div class="rnum">Reflexión 1 — Presupuesto Personal</div>
+    <p>Sin darte cuenta, tú también "presupuestas" cada mes: sabes aproximadamente cuánto recibirás (ingreso familiar, mesada, beca) y cuánto necesitas gastar (comida, transporte, materiales). <strong>¿Alguna vez has tenido un mes donde tenías "utilidad" en papel (ingresó más de lo que estimabas gastar) pero te quedaste sin efectivo antes del siguiente ingreso?</strong> ¿Qué pasó exactamente? ¿Hubo algún gasto que no habías considerado? ¿Se te "olvidó" incluir algo en tu plan?</p>
+  </div>
+
+  <div class="reflexion-card">
+    <div class="rnum">Reflexión 2 — Utilidad vs. Efectivo en tu vida diaria</div>
+    <p>La diferencia entre "tener derecho a cobrar algo" y "tenerlo en tu bolsillo" es idéntica a la diferencia entre utilidad y efectivo. <strong>¿Tienes amigos o familiares que te deben dinero? ¿Alguna vez contaste ese dinero como "disponible" para algo y luego no llegó a tiempo?</strong> ¿Cómo te sentiste? ¿Qué harías diferente la próxima vez para que tu "presupuesto de caja personal" no falle?</p>
+  </div>
+
+  <div class="reflexion-card">
+    <div class="rnum">Reflexión 3 — Las cargas laborales y el valor del trabajo</div>
+    <p>Aprendiste que un guardia que gana $500 le cuesta a la empresa $665. Esto significa que su trabajo tiene un valor real mayor al que recibe en el sobre de pago. <strong>¿Conoces tus derechos laborales como futuro trabajador profesional? ¿Sabes qué representa el IESS para tu jubilación y tu salud?</strong> ¿Qué piensas de empresas que evaden las cargas laborales para "reducir costos"? ¿Qué consecuencias tiene eso para el trabajador y para la sociedad?</p>
+  </div>
+
+  <div class="reflexion-card">
+    <div class="rnum">Reflexión 4 — Planeación y autoconocimiento</div>
+    <p>El presupuesto requiere disciplina, honestidad y la capacidad de proyectar el futuro basándose en datos reales. <strong>¿Eres una persona que planifica o que improvisa?</strong> No hay respuesta incorrecta, pero sí una pregunta más profunda: ¿Qué aspectos de tu vida —académica, financiera, personal— se beneficiarían si aplicaras la lógica del presupuesto? ¿Qué te impide planificar más? ¿Es la incertidumbre, la falta de información o quizás el miedo a comprometerte con un plan?</p>
+  </div>
+
+  <div class="reflexion-card">
+    <div class="rnum">Reflexión 5 — Inteligencia emocional y gestión financiera</div>
+    <p>Una investigación de la Universidad de Duke (EE.UU.) encontró que las personas con mayor autocontrol emocional toman mejores decisiones financieras. El presupuesto es, en parte, un ejercicio de inteligencia emocional: implica postergar gratificaciones, tolerar incertidumbre y actuar con datos en lugar de con impulso. <strong>¿Cuándo fue la última vez que tomaste una decisión económica movido por la emoción del momento y no por un análisis frío?</strong> ¿Qué resultó de eso? ¿Qué habrías hecho diferente con la mentalidad de un contador gerencial?</p>
+  </div>
+
+  <div class="reflexion-card">
+    <div class="rnum">Reflexión 6 — El lenguaje del dinero como lenguaje de poder</div>
+    <p>Las personas que saben leer un Estado de Resultados y un Flujo de Caja tienen acceso a un nivel de información que la mayoría no comprende. Los empresarios, los banqueros, los inversores y los gobernantes hablan este lenguaje. <strong>¿Sientes que aprender Contabilidad Gerencial te está dando poder sobre tu propia vida?</strong> ¿En qué decisiones concretas de tu vida —personal, familiar o futura como profesional— podrías aplicar lo que aprendiste esta semana?</p>
+  </div>
+
+  <div class="idea-clave">
+    <strong>Para cerrar:</strong> Los presupuestos no son papeles burocráticos. Son promesas que hacemos al futuro. Comprometerte con un plan — aunque luego cambie — es un acto de madurez, responsabilidad y autoconocimiento. La persona que presupuesta su vida personal, laboral y profesional tiene una ventaja que muy pocos entienden: <em>sabe adónde va antes de llegar</em>.
+  </div>
+</div>
+
+
+<!-- ================================================================
+     PESTAÑA: BIBLIOGRAFÍA
+     ================================================================ -->
+<div class="tab-content" id="tab-biblio">
+  <h2>📚 Bibliografía — Formato APA 7.ª Edición</h2>
+
+  <div class="ref-card">
+    <div class="ref-author">Hansen, D. R., &amp; Mowen, M. M.</div>
+    <div class="ref-title">(2007). <em>Administración de costos: contabilidad y control</em> (5.ª ed.).</div>
+    <div class="ref-source">Cengage Learning.</div>
+  </div>
+
+  <div class="ref-card">
+    <div class="ref-author">Horngren, C. T., Datar, S. M., &amp; Rajan, M. V.</div>
+    <div class="ref-title">(2012). <em>Contabilidad de costos: un enfoque gerencial</em> (14.ª ed.).</div>
+    <div class="ref-source">Pearson Educación.</div>
+  </div>
+
+  <div class="ref-card">
+    <div class="ref-author">Ramírez Padilla, D. N.</div>
+    <div class="ref-title">(2013). <em>Contabilidad administrativa: un enfoque estratégico para competir</em> (9.ª ed.).</div>
+    <div class="ref-source">McGraw-Hill.</div>
+  </div>
+
+  <div class="ref-card">
+    <div class="ref-author">Welsch, G. A., Hilton, R. W., Gordon, P. N., &amp; Rivera, C.</div>
+    <div class="ref-title">(2005). <em>Presupuestos: planificación y control</em> (6.ª ed.).</div>
+    <div class="ref-source">Pearson Educación.</div>
+  </div>
+
+  <div class="ref-card">
+    <div class="ref-author">Instituto Ecuatoriano de Seguridad Social (IESS).</div>
+    <div class="ref-title">(2024). <em>Tabla de aportaciones y beneficios del seguro general obligatorio</em>.</div>
+    <div class="ref-source">IESS. https://www.iess.gob.ec</div>
+  </div>
+
+  <div class="ref-card">
+    <div class="ref-author">Ministerio del Trabajo del Ecuador.</div>
+    <div class="ref-title">(2024). <em>Acuerdo ministerial de salarios mínimos sectoriales y salario básico unificado</em>.</div>
+    <div class="ref-source">Ministerio del Trabajo. https://www.trabajo.gob.ec</div>
+  </div>
+
+  <div class="ref-card">
+    <div class="ref-author">Brealey, R. A., Myers, S. C., &amp; Allen, F.</div>
+    <div class="ref-title">(2020). <em>Principios de finanzas corporativas</em> (13.ª ed.).</div>
+    <div class="ref-source">McGraw-Hill.</div>
+  </div>
+
+  <div class="nota-pie">
+    📌 <strong>Nota:</strong> Se recomienda verificar cada referencia en Google Scholar (<a href="https://scholar.google.com" target="_blank">scholar.google.com</a>) o en el repositorio institucional de la Universidad de Guayaquil antes de citar en trabajos académicos. Las normativas del IESS y del Ministerio del Trabajo están sujetas a actualización anual.
+  </div>
+</div>
+
+
+<!-- ================================================================
+     JAVASCRIPT
+     ================================================================ -->
+<script>
+// ===== NAVEGACIÓN DE PESTAÑAS =====
+document.getElementById('tabBar').addEventListener('click', function(e) {
+  const btn = e.target.closest('.tab-btn');
+  if (!btn) return;
+  const target = btn.dataset.tab;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-' + target).classList.add('active');
+  window.scrollTo(0, 0);
+});
+
+// ===== COPIAR PROMPT =====
+function copyPrompt() {
+  const text = document.getElementById('promptIA').innerText.replace('📋 Copiar','').trim();
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = '✅ Copiado';
+    setTimeout(() => btn.textContent = '📋 Copiar', 2000);
+  });
+}
+
+// ===== RESPUESTAS CORRECTAS — EJERCICIO =====
+const ejCorrects = {
+  ei1: 'c',
+  ei2: 'b',
+  ei3: 'b',
+  ei4: 'c',
+  ei5: 'b',
+  ei6: 'b',
+  ei7: 'b',
+  ei8: 'c'
+};
+
+const ejFeedbacks = {
+  ei1: {
+    c: '✅ Correcto. El costo laboral real incluye el salario más IESS patronal (12,15 %), décimo tercer sueldo (8,33 % mensual), décimo cuarto, vacaciones (4,17 %) y fondos de reserva (8,33 %), lo que eleva el costo total a aproximadamente el 133 % del salario. $500 × 1,33 ≈ $665.',
+    wrong: '❌ Incorrecto. El costo laboral real no es solo el salario. Incluye cargas patronales obligatorias (IESS, décimos, vacaciones, fondos de reserva) que elevan el costo a aproximadamente $665 ($500 × 1,33).'
+  },
+  ei2: {
+    b: '✅ Correcto. La depreciación es un gasto contable que distribuye el costo original del activo. No implica un pago en efectivo en el período corriente (el dinero ya se pagó cuando se compró el vehículo), por eso no aparece como salida en el Presupuesto de Caja.',
+    wrong: '❌ Incorrecto. La depreciación aparece en el Estado de Resultados como gasto, pero NO en el Presupuesto de Caja como salida de efectivo, porque no representa un pago real en ese mes.'
+  },
+  ei3: {
+    b: '✅ Correcto. El 60 % de los ingresos de enero ($93.300 × 0,60 = $55.980) corresponde a clientes corporativos que pagan a 30 días, es decir, ese dinero no ingresa en enero sino en febrero. Por eso, aunque la utilidad es positiva, el efectivo cobrado es menor que los costos pagados.',
+    wrong: '❌ Incorrecto. La causa es el cobro diferido: los clientes corporativos (60 % de ingresos) pagan a 30 días. En enero se cobra menos efectivo del que se devenga como ingreso, generando menor saldo de caja a pesar de la utilidad positiva.'
+  },
+  ei4: {
+    c: '✅ Correcto. El arriendo de oficinas administrativas es un gasto del período, necesario para administrar la empresa pero no directamente vinculado a prestar el servicio de seguridad. Va en el presupuesto de gastos administrativos, no en el de operaciones.',
+    wrong: '❌ Incorrecto. Los sueldos de guardias, combustible de rondas y mantenimiento de armas son costos operativos directos. El arriendo de oficinas administrativas es un gasto del período, clasificado como gasto administrativo.'
+  },
+  ei5: {
+    b: '✅ Correcto. Contratar guardias adicionales impacta directamente el presupuesto de nómina operativa, que es el componente principal del presupuesto de operaciones. Ese cambio luego fluye al Estado de Resultados como mayor costo operativo.',
+    wrong: '❌ Incorrecto. La contratación de guardias impacta directamente el presupuesto de nómina operativa (parte del presupuesto de operaciones). Los gastos administrativos y de ventas no cambian por contratar más guardias operativos.'
+  },
+  ei6: {
+    b: '✅ Correcto. El Margen Bruto del 25,2 % significa que de cada $100 cobrados, $74,80 se destinan a cubrir los costos operativos directos (guardias, logística, armamento, uniformes, vehículos) y quedan $25,20 para cubrir gastos administrativos, ventas e impuestos.',
+    wrong: '❌ Incorrecto. El Margen Bruto es un porcentaje sobre los ingresos. El 25,2 % significa que por cada $100 de ingresos, quedan $25,20 después de pagar los costos operativos directos, para cubrir gastos de administración, ventas e impuestos.'
+  },
+  ei7: {
+    b: '✅ Correcto. La acción gerencial correcta es gestionar proactivamente la liquidez: renegociar plazos con clientes, tramitar una línea de crédito preventiva o aplazar pagos no críticos. Ignorar una crisis de caja o recortar ilegalmente la nómina son opciones inaceptables.',
+    wrong: '❌ Incorrecto. La respuesta correcta es gestionar la liquidez proactivamente: negociar plazos de cobro, solicitar una línea de crédito o aplazar pagos no urgentes. Ignorar la situación puede llevar a insolvencia; recortar nómina puede ser ilegal; emitir facturas falsas es un delito.'
+  },
+  ei8: {
+    c: '✅ Correcto. El orden lógico del Presupuesto Maestro comienza siempre con los ingresos (¿cuánto se venderá?), luego los costos operativos (¿cuánto costará prestar el servicio?), después los gastos administrativos y de ventas, con todo eso se construye el Estado de Resultados y finalmente el Presupuesto de Caja.',
+    wrong: '❌ Incorrecto. El orden correcto es: Presupuesto de Ingresos → Presupuesto de Operaciones → Gastos Adm./Ventas → Estado de Resultados Proyectado → Presupuesto de Caja. El presupuesto de ingresos siempre va primero porque determina el nivel de actividad.'
+  }
+};
+
+// ===== RESPUESTAS CORRECTAS — CUESTIONARIO =====
+const quizCorrects = {
+  qi1: 'c',
+  qi2: 'b',
+  qi3: 'c',
+  qi4: 'b',
+  qi5: 'b',
+  qi6: 'b',
+  qi7: 'c',
+  qi8: 'a',
+  qi9: 'b',
+  qi10: 'b'
+};
+
+const quizFeedbacks = {
+  qi1: {
+    c: '✅ Correcto. El sueldo del Gerente General es un gasto administrativo, no un costo operativo directo. Los costos operativos directos son los necesarios para que el guardia preste el servicio (nómina operativa, combustible, armamento, uniformes, depreciación de vehículos de servicio).',
+    wrong: '❌ Incorrecto. El sueldo del Gerente General es un gasto administrativo del período, no un costo operativo directo. Los costos operativos son los vinculados directamente a prestar el servicio de seguridad.'
+  },
+  qi2: {
+    b: '✅ Correcto. El aporte patronal al IESS en Ecuador es del 12,15 % sobre la remuneración mensual del trabajador. Este es uno de los componentes del costo laboral que los empleadores deben pagar mensualmente.',
+    wrong: '❌ Incorrecto. El aporte patronal al IESS en Ecuador es del 12,15 %. El 9,45 % corresponde al aporte personal del trabajador. El 8,33 % es la provisión mensual del décimo tercer sueldo. El 15 % es la participación de trabajadores en utilidades.'
+  },
+  qi3: {
+    c: '✅ Correcto. Los gastos de ventas incluyen comisiones por nuevos contratos, publicidad y pauta digital, movilización del ejecutivo comercial y materiales de presentación. Son los costos necesarios para conseguir y mantener clientes.',
+    wrong: '❌ Incorrecto. Los gastos de ventas corresponden a la función comercial: comisiones, publicidad, visitas a clientes. El arriendo es un gasto administrativo; la nómina de guardias y el mantenimiento de armas son costos operativos directos.'
+  },
+  qi4: {
+    b: '✅ Correcto. El Estado de Resultados Proyectado integra los tres grandes bloques: ingresos (Semana 9), costos operativos directos (Presupuesto de Operaciones), y gastos del período (administrativos y de ventas). La diferencia entre ellos da la utilidad operativa.',
+    wrong: '❌ Incorrecto. El Estado de Resultados Proyectado requiere tres entradas: el presupuesto de ingresos, el presupuesto de operaciones (costos directos) y el presupuesto de gastos administrativos y de ventas. No se construye solo con ingresos ni solo con caja.'
+  },
+  qi5: {
+    b: '✅ Correcto. La depreciación es un método de distribución contable del costo histórico de un activo. El desembolso de efectivo ocurrió cuando se compró el bien. En períodos posteriores, la depreciación reduce la utilidad contable pero no implica ningún pago adicional.',
+    wrong: '❌ Incorrecto. La depreciación no aparece en el Presupuesto de Caja porque no es un pago en el período actual. Es una distribución contable del costo del activo a lo largo de su vida útil. El efectivo ya se pagó cuando se adquirió el bien.'
+  },
+  qi6: {
+    b: '✅ Correcto. El costo operativo directo está vinculado con la producción del servicio y varía según el volumen (si hay más contratos, hay más guardias y más costo). El gasto del período (administrativo o de ventas) ocurre independientemente del número de contratos activos.',
+    wrong: '❌ Incorrecto. Los costos operativos directos están relacionados con prestar el servicio y cambian con el volumen. Los gastos del período (administrativos y de ventas) son costos de estructura que ocurren independientemente del nivel de servicio.'
+  },
+  qi7: {
+    c: '✅ Correcto. El Presupuesto de Caja registra los ingresos cuando el efectivo efectivamente ingresa a la cuenta bancaria (cobro real), no cuando se emite la factura ni cuando se presta el servicio. Esta es la base del registro de caja vs. la base devengada del Estado de Resultados.',
+    wrong: '❌ Incorrecto. El Presupuesto de Caja se basa en flujos de efectivo reales. Los ingresos se registran cuando el cliente paga, no cuando se firma el contrato, se emite la factura ni cuando se presta el servicio.'
+  },
+  qi8: {
+    a: '✅ Correcto. Margen Bruto = $80.000 - $58.000 = $22.000 (27,5 % de $80.000). Utilidad Operativa = $22.000 - $12.000 = $10.000 (12,5 % de $80.000). El margen bruto descuenta solo los costos operativos directos; la utilidad operativa descuenta además los gastos administrativos.',
+    wrong: '❌ Incorrecto. Margen Bruto = Ingresos - Costos Operativos = $80.000 - $58.000 = $22.000 (27,5 %). Utilidad Operativa = Margen Bruto - Gastos Administrativos = $22.000 - $12.000 = $10.000 (12,5 %).'
+  },
+  qi9: {
+    b: '✅ Correcto. Saldo final = Saldo inicial + Entradas - Salidas = $20.000 + $75.000 - $82.000 = $13.000. La empresa tiene utilidad ($8.000) pero cobra menos de lo que paga en ese mes porque parte de sus ingresos devengados aún no se han cobrado. Esto ilustra perfectamente la diferencia entre utilidad y efectivo.',
+    wrong: '❌ Incorrecto. El saldo final de caja = $20.000 (inicial) + $75.000 (cobros) - $82.000 (pagos) = $13.000. La empresa es rentable (utilidad $8.000) pero su saldo de caja bajó porque cobró menos de lo que pagó, ya que parte de sus ingresos devengados aún no se cobró.'
+  },
+  qi10: {
+    b: '✅ Correcto. El gerente está equivocado. Utilidad y efectivo son conceptos distintos por tres razones: (1) los tiempos de cobro y pago son diferentes; (2) la depreciación es un gasto que no implica salida de caja; (3) los pagos de capital de deuda salen de la caja pero no son gasto en el Estado de Resultados. Empresas rentables pueden quebrar por falta de liquidez.',
+    wrong: '❌ Incorrecto. El gerente está equivocado. Una empresa puede tener utilidad positiva y quedarse sin efectivo porque: (1) cobra a 30 días pero paga de inmediato; (2) la depreciación no es un flujo real de caja; (3) los pagos de capital de deuda no son gastos pero sí salen del banco.'
+  }
+};
+
+// ===== FUNCIÓN GENÉRICA DE VERIFICACIÓN =====
+function verificar(prefix, corrects, feedbacks, totalItems, panelId, txtId, barId, msgId, resetId, verifyBtnId) {
+  // Verificar que todo esté respondido
+  let allAnswered = true;
+  for (let i = 1; i <= totalItems; i++) {
+    const sel = document.querySelector(`input[name="${prefix}${i}"]:checked`);
+    if (!sel) { allAnswered = false; break; }
+  }
+  if (!allAnswered) {
+    alert('Por favor responde todas las preguntas antes de verificar.');
+    return;
+  }
+
+  let correct = 0;
+  for (let i = 1; i <= totalItems; i++) {
+    const name = prefix + i;
+    const sel = document.querySelector(`input[name="${name}"]:checked`);
+    const val = sel ? sel.value : null;
+    const fbEl = document.getElementById('fb-' + name);
+    const correctAns = corrects[name];
+    const fbData = feedbacks[name];
+
+    if (val === correctAns) {
+      correct++;
+      fbEl.textContent = fbData[correctAns] || '✅ Correcto.';
+      fbEl.className = 'feedback-item feedback-correct';
+    } else {
+      fbEl.textContent = fbData['wrong'] || '❌ Incorrecto.';
+      fbEl.className = 'feedback-item feedback-incorrect';
+    }
+    fbEl.style.display = 'block';
+  }
+
+  const pct = Math.round((correct / totalItems) * 100);
+  const panel = document.getElementById(panelId);
+  panel.style.display = 'block';
+  document.getElementById(txtId).textContent = correct + '/' + totalItems + ' — ' + pct + '%';
+  setTimeout(() => { document.getElementById(barId).style.width = pct + '%'; }, 100);
+
+  let emoji = '📖', msg = 'Sigue estudiando el material. ¡Tú puedes!';
+  if (pct === 100) { emoji = '🏆'; msg = '¡Perfecto! Dominas completamente el tema.'; }
+  else if (pct >= 80) { emoji = '🎯'; msg = '¡Muy bien! Tienes un sólido dominio del contenido.'; }
+  else if (pct >= 60) { emoji = '📘'; msg = 'Bien encaminado. Repasa las preguntas incorrectas.'; }
+  else if (pct >= 40) { emoji = '⚠️'; msg = 'Necesitas reforzar. Vuelve a leer los temas correspondientes.'; }
+  document.getElementById(msgId).textContent = emoji + ' ' + msg;
+
+  // Deshabilitar radios
+  document.querySelectorAll(`input[name^="${prefix}"]`).forEach(r => r.disabled = true);
+  document.getElementById(verifyBtnId).style.display = 'none';
+  document.getElementById(resetId).style.display = 'block';
+}
+
+// ===== FUNCIÓN REINICIAR =====
+function reiniciar(prefix, totalItems, panelId, barId, resetId, verifyBtnId) {
+  for (let i = 1; i <= totalItems; i++) {
+    const name = prefix + i;
+    document.querySelectorAll(`input[name="${name}"]`).forEach(r => { r.checked = false; r.disabled = false; });
+    const fbEl = document.getElementById('fb-' + name);
+    if (fbEl) { fbEl.style.display = 'none'; fbEl.textContent = ''; }
+  }
+  document.getElementById(panelId).style.display = 'none';
+  document.getElementById(barId).style.width = '0%';
+  document.getElementById(resetId).style.display = 'none';
+  document.getElementById(verifyBtnId).style.display = 'block';
+}
+
+// ===== EVENTOS =====
+document.getElementById('verifyEj').addEventListener('click', () => {
+  verificar('ei', ejCorrects, ejFeedbacks, 8,
+    'scorePanelEj','scoreTxtEj','scoreBarEj','scoreMsgEj','resetEj','verifyEj');
+});
+document.getElementById('resetEj').addEventListener('click', () => {
+  reiniciar('ei', 8, 'scorePanelEj','scoreBarEj','resetEj','verifyEj');
+});
+
+document.getElementById('verifyQuiz').addEventListener('click', () => {
+  verificar('qi', quizCorrects, quizFeedbacks, 10,
+    'scorePanelQuiz','scoreTxtQuiz','scoreBarQuiz','scoreMsgQuiz','resetQuiz','verifyQuiz');
+});
+document.getElementById('resetQuiz').addEventListener('click', () => {
+  reiniciar('qi', 10, 'scorePanelQuiz','scoreBarQuiz','resetQuiz','verifyQuiz');
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semana 10 — Taller Interactivo: Construye tu Presupuesto Maestro</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Source Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Source Sans 3', 'Segoe UI', sans-serif;
+  background: #eef2f7;
+  color: #1a1a2e;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* ENCABEZADO */
+header {
+  background: #003366;
+  color: #fff;
+  padding: 20px 24px 14px;
+}
+header .inst { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; opacity: 0.8; margin-bottom: 4px; }
+header h1 { font-family: 'Lora', serif; font-size: 1.4rem; font-weight: 700; margin-bottom: 4px; }
+header .sub { font-size: 13px; opacity: 0.85; }
+.badge-taller {
+  display: inline-block;
+  background: #FFD700;
+  color: #003366;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 14px;
+  border-radius: 20px;
+  margin-top: 8px;
+}
+
+/* NAV PASOS */
+.steps-nav {
+  background: #003366;
+  display: flex;
+  overflow-x: auto;
+  border-bottom: 3px solid #FFD700;
+}
+.step-btn {
+  flex: 1;
+  min-width: 120px;
+  padding: 12px 8px;
+  border: none;
+  background: transparent;
+  color: rgba(255,255,255,0.65);
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s;
+  border-right: 1px solid rgba(255,255,255,0.1);
+  position: relative;
+}
+.step-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+.step-btn.active { background: #fff; color: #003366; font-weight: 700; }
+.step-btn .snum {
+  display: block;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+.step-btn.done .snum::after { content: ' ✅'; font-size: 14px; }
+
+/* CONTENIDO */
+.step-content { display: none; padding: 28px 22px 60px; max-width: 1000px; margin: 0 auto; }
+.step-content.active { display: block; }
+
+/* HEADINGS */
+h2 { font-family: 'Lora', serif; color: #003366; font-size: 1.35rem; margin-bottom: 6px; padding-bottom: 6px; border-bottom: 2px solid #FFD700; }
+h3 { font-family: 'Lora', serif; color: #003366; font-size: 1.05rem; margin: 20px 0 8px; }
+p { margin-bottom: 12px; }
+
+/* CAJAS */
+.info-box {
+  background: #dceeff;
+  border: 1px solid #a8c8f0;
+  border-left: 5px solid #003366;
+  border-radius: 6px;
+  padding: 14px 18px;
+  margin: 14px 0;
+}
+.info-box.yellow { background: #fff8dc; border-color: #ffd700; border-left-color: #b8960a; }
+.info-box.green { background: #d4f8e0; border-color: #28a745; border-left-color: #1a6b35; }
+.info-box.red { background: #fde8e8; border-color: #dc3545; border-left-color: #8b0000; }
+
+/* FORMULARIOS DE ENTRADA */
+.input-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 14px 0;
+}
+@media(max-width: 640px) { .input-grid { grid-template-columns: 1fr; } }
+
+.field-group {
+  background: #fff;
+  border: 1px solid #d0dce8;
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+.field-group label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: #003366;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-bottom: 4px;
+}
+.field-group .hint { font-size: 11px; color: #777; margin-bottom: 6px; }
+.field-group input[type="number"], .field-group select {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1.5px solid #d0dce8;
+  border-radius: 6px;
+  font-size: 15px;
+  font-family: monospace;
+  color: #003366;
+  font-weight: 700;
+  background: #f7f9ff;
+  transition: border-color 0.2s;
+}
+.field-group input:focus, .field-group select:focus {
+  outline: none;
+  border-color: #003366;
+  background: #fff;
+}
+
+/* TABLA RESULTADOS */
+.result-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0;
+  font-size: 14px;
+}
+.result-table th {
+  background: #003366;
+  color: #fff;
+  padding: 10px 12px;
+  text-align: left;
+}
+.result-table td {
+  padding: 9px 12px;
+  border-bottom: 1px solid #dde4ef;
+}
+.result-table tr:nth-child(even) td { background: #f2f6fc; }
+.result-table .r-num { text-align: right; font-family: monospace; font-weight: 600; }
+.result-table .r-label { font-weight: 600; }
+.result-table .subtotal td { background: #fff8dc !important; font-weight: 700; }
+.result-table .total td { background: #003366 !important; color: #FFD700 !important; font-weight: 700; font-size: 15px; }
+.result-table .neg { color: #cc0000 !important; }
+.result-table .pos { color: #155724 !important; }
+
+/* BOTONES */
+.btn-primary {
+  background: #003366;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 32px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin: 8px 4px;
+}
+.btn-primary:hover { background: #004a99; }
+.btn-secondary {
+  background: #6c757d;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 8px 4px;
+}
+.btn-success {
+  background: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 32px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.btn-gold {
+  background: #FFD700;
+  color: #003366;
+  border: none;
+  border-radius: 8px;
+  padding: 13px 36px;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-gold:hover { background: #e6c200; }
+
+/* PROGRESS */
+.progress-wrap { background: #dde4ef; border-radius: 20px; height: 12px; margin: 8px 0 16px; overflow: hidden; }
+.progress-fill { height: 100%; background: #FFD700; border-radius: 20px; transition: width 0.5s ease; }
+
+/* SEMÁFORO */
+.semaforo {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 5px 14px;
+  border-radius: 20px;
+}
+.sem-verde { background: #d4edda; color: #155724; }
+.sem-amarillo { background: #fff3cd; color: #856404; }
+.sem-rojo { background: #f8d7da; color: #721c24; }
+
+/* CHART BAR */
+.chart-container { margin: 16px 0; }
+.chart-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.chart-bar-label { width: 150px; font-size: 12px; font-weight: 600; color: #003366; flex-shrink: 0; text-align: right; }
+.chart-bar-track { flex: 1; background: #dde4ef; border-radius: 6px; height: 22px; position: relative; overflow: hidden; }
+.chart-bar-fill { height: 100%; border-radius: 6px; transition: width 0.6s ease; position: relative; }
+.chart-bar-fill::after { content: attr(data-label); position: absolute; right: 6px; top: 50%; transform: translateY(-50%); font-size: 11px; font-weight: 700; color: #fff; white-space: nowrap; }
+
+/* RESUMEN FINAL */
+.kpi-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin: 16px 0;
+}
+@media(max-width: 640px){ .kpi-cards { grid-template-columns: 1fr 1fr; } }
+.kpi-card {
+  background: #fff;
+  border: 1px solid #d0dce8;
+  border-top: 4px solid #003366;
+  border-radius: 8px;
+  padding: 14px;
+  text-align: center;
+}
+.kpi-card .kval { font-family: 'Lora', serif; font-size: 1.6rem; font-weight: 700; color: #003366; }
+.kpi-card .klabel { font-size: 12px; color: #555; margin-top: 4px; }
+
+/* ALERTA */
+.alerta { background: #fff3cd; border: 1px solid #ffc107; border-left: 5px solid #e6a200; border-radius: 6px; padding: 12px 16px; margin: 12px 0; font-size: 14px; }
+
+/* STEP INDICATOR */
+.step-indicator {
+  text-align: center;
+  padding: 10px;
+  background: #fff;
+  border-bottom: 1px solid #d0dce8;
+  font-size: 13px;
+  color: #555;
+}
+.step-indicator strong { color: #003366; }
+
+/* NAV BUTTONS */
+.nav-buttons { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
+
+/* SCENARIO TABS */
+.scenario-tabs { display: flex; gap: 8px; margin: 14px 0; flex-wrap: wrap; }
+.sc-btn {
+  padding: 8px 18px;
+  border: 2px solid #003366;
+  border-radius: 20px;
+  background: #fff;
+  color: #003366;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.sc-btn.active, .sc-btn:hover { background: #003366; color: #FFD700; }
+
+/* TOOLTIP */
+.tooltip-icon { display: inline-block; background: #003366; color: #FFD700; border-radius: 50%; width: 18px; height: 18px; text-align: center; line-height: 18px; font-size: 12px; font-weight: 700; cursor: help; margin-left: 4px; }
+
+/* MODAL OVERLAY */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal-box {
+  background: #fff;
+  border-radius: 12px;
+  padding: 28px 32px;
+  max-width: 520px;
+  width: 90%;
+  text-align: center;
+  position: relative;
+}
+.modal-box h3 { font-family: 'Lora', serif; color: #003366; font-size: 1.4rem; margin-bottom: 12px; }
+.modal-close { position: absolute; top: 12px; right: 16px; font-size: 22px; cursor: pointer; color: #555; border: none; background: none; }
+</style>
+</head>
+<body>
+
+<!-- ENCABEZADO -->
+<header>
+  <div class="inst">Universidad de Guayaquil &nbsp;|&nbsp; Facultad de Ciencias Administrativas &nbsp;|&nbsp; Contabilidad y Auditoría</div>
+  <h1>🏗️ Taller Interactivo — Construye tu Presupuesto Maestro</h1>
+  <div class="sub">Semana 10 | Unidad 3: Presupuestos y Control Gerencial</div>
+  <div class="badge-taller">📐 Ejercicio Guiado Paso a Paso — Empresa de Seguridad Privada</div>
+</header>
+
+<div class="step-indicator">
+  Paso <strong id="currentStepLabel">1</strong> de <strong>6</strong> &nbsp;|&nbsp; Completa cada paso y presiona "Siguiente" para continuar
+</div>
+
+<!-- NAV DE PASOS -->
+<div class="steps-nav" id="stepsNav">
+  <button class="step-btn active" data-step="0">
+    <span class="snum">1</span>Escenario
+  </button>
+  <button class="step-btn" data-step="1">
+    <span class="snum">2</span>Ingresos
+  </button>
+  <button class="step-btn" data-step="2">
+    <span class="snum">3</span>Operaciones
+  </button>
+  <button class="step-btn" data-step="3">
+    <span class="snum">4</span>Gastos Adm.
+  </button>
+  <button class="step-btn" data-step="4">
+    <span class="snum">5</span>Est. Resultados
+  </button>
+  <button class="step-btn" data-step="5">
+    <span class="snum">6</span>Caja + Análisis
+  </button>
+</div>
+
+<!-- ============================================================
+     PASO 0: ESCENARIO
+     ============================================================ -->
+<div class="step-content active" id="step-0">
+  <h2>Paso 1 — Elige tu escenario de empresa</h2>
+  <p>Antes de construir el presupuesto, debes definir el <strong>tamaño y contexto de tu empresa</strong>. Elige un escenario preconfigurado o personaliza los parámetros manualmente.</p>
+
+  <div class="info-box">
+    💡 <strong>¿Qué es un escenario presupuestario?</strong> Es el conjunto de supuestos (tamaño de empresa, precios, costos) que determinan cómo será el presupuesto. Cambiar los supuestos produce resultados completamente diferentes — así funciona en la realidad empresarial.
+  </div>
+
+  <h3>Selecciona un escenario</h3>
+  <div class="scenario-tabs">
+    <button class="sc-btn active" onclick="loadScenario('pequeña', this)">🏠 Empresa Pequeña</button>
+    <button class="sc-btn" onclick="loadScenario('mediana', this)">🏢 Empresa Mediana</button>
+    <button class="sc-btn" onclick="loadScenario('grande', this)">🏙️ Empresa Grande</button>
+    <button class="sc-btn" onclick="loadScenario('personalizado', this)">⚙️ Personalizar</button>
+  </div>
+
+  <div id="scenarioDesc" style="margin:14px 0;">
+    <div class="info-box green">
+      <strong>Empresa Pequeña "SegurLocal S.A."</strong><br>
+      20 guardias activos | 1 supervisora | Sede en una ciudad mediana de Ecuador | Presupuesto mensual aprox. $18.000–$25.000 en ingresos
+    </div>
+  </div>
+
+  <div class="input-grid" id="scenarioInputs">
+    <div class="field-group">
+      <label>Nombre de la empresa <span class="tooltip-icon" title="Solo para identificar tu caso">?</span></label>
+      <input type="text" id="empresaNombre" value="SegurLocal S.A." style="font-family: inherit; font-size:14px; font-weight:600;">
+    </div>
+    <div class="field-group">
+      <label>N.º de guardias activos</label>
+      <div class="hint">Ajusta según el escenario elegido</div>
+      <input type="number" id="numGuardias" value="20" min="1" max="500">
+    </div>
+    <div class="field-group">
+      <label>N.º de supervisores</label>
+      <input type="number" id="numSupervisores" value="1" min="0" max="50">
+    </div>
+    <div class="field-group">
+      <label>Salario base guardia ($/mes)</label>
+      <div class="hint">Mínimo: $460 (SBU Ecuador 2024)</div>
+      <input type="number" id="salarioGuardia" value="480" min="460" max="2000">
+    </div>
+    <div class="field-group">
+      <label>Salario base supervisor ($/mes)</label>
+      <input type="number" id="salarioSupervisor" value="700" min="460" max="3000">
+    </div>
+    <div class="field-group">
+      <label>Tarifa mensual cobrada por guardia ($)</label>
+      <div class="hint">Lo que le cobras al cliente por cada guardia</div>
+      <input type="number" id="tarifaGuardia" value="900" min="500" max="5000">
+    </div>
+    <div class="field-group">
+      <label>Unidades de monitoreo GPS</label>
+      <input type="number" id="numMonitoreo" value="40" min="0" max="1000">
+    </div>
+    <div class="field-group">
+      <label>Tarifa monitoreo GPS ($/unidad/mes)</label>
+      <input type="number" id="tarifaMonitoreo" value="40" min="10" max="200">
+    </div>
+    <div class="field-group">
+      <label>Proyectos de consultoría/mes</label>
+      <input type="number" id="numConsultoria" value="1" min="0" max="20">
+    </div>
+    <div class="field-group">
+      <label>Valor promedio proyecto consultoría ($)</label>
+      <input type="number" id="tarifaConsultoria" value="1500" min="0" max="50000">
+    </div>
+    <div class="field-group">
+      <label>Saldo inicial de caja ($)</label>
+      <input type="number" id="saldoInicial" value="8000" min="0" max="500000">
+    </div>
+    <div class="field-group">
+      <label>% clientes corporativos (pagan a 30 días)</label>
+      <div class="hint">El resto paga al contado</div>
+      <input type="number" id="pctCorporativo" value="50" min="0" max="100">
+    </div>
+  </div>
+
+  <div class="nav-buttons">
+    <button class="btn-primary" onclick="goToStep(1)">Siguiente: Presupuesto de Ingresos →</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     PASO 1: INGRESOS
+     ============================================================ -->
+<div class="step-content" id="step-1">
+  <h2>Paso 2 — Presupuesto de Ingresos</h2>
+
+  <div class="info-box">
+    📌 <strong>¿Por qué empezar por los ingresos?</strong> El presupuesto de ingresos es el punto de partida de todo el Presupuesto Maestro. Define cuánto espera ganar la empresa, lo que a su vez determina cuántos guardias necesita (y por tanto, el costo de nómina). <strong>Sin ingresos proyectados, no se puede construir ningún otro sub-presupuesto con lógica.</strong>
+  </div>
+
+  <h3>Tus ingresos calculados automáticamente</h3>
+  <p>Con base en los datos del Paso 1, se calcula el presupuesto de ingresos mensual de tu empresa:</p>
+
+  <table class="result-table">
+    <thead><tr><th>Línea de servicio</th><th>Unidades</th><th>Tarifa unitaria</th><th>Ingreso mensual</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Guardias físicos</td>
+        <td id="ing-guardias-u" class="r-num">—</td>
+        <td id="ing-guardias-t" class="r-num">—</td>
+        <td id="ing-guardias-v" class="r-num">—</td>
+      </tr>
+      <tr>
+        <td>Monitoreo GPS</td>
+        <td id="ing-monitoreo-u" class="r-num">—</td>
+        <td id="ing-monitoreo-t" class="r-num">—</td>
+        <td id="ing-monitoreo-v" class="r-num">—</td>
+      </tr>
+      <tr>
+        <td>Consultoría</td>
+        <td id="ing-consul-u" class="r-num">—</td>
+        <td id="ing-consul-t" class="r-num">—</td>
+        <td id="ing-consul-v" class="r-num">—</td>
+      </tr>
+      <tr class="total"><td colspan="3">TOTAL INGRESOS MENSUALES</td><td id="ing-total" class="r-num">—</td></tr>
+      <tr class="subtotal"><td colspan="3">Proyección anual (×12)</td><td id="ing-anual" class="r-num">—</td></tr>
+    </tbody>
+  </table>
+
+  <h3>📊 Composición de ingresos</h3>
+  <div class="chart-container" id="chartIngresos"></div>
+
+  <div class="info-box yellow">
+    💡 <strong>Pregunta para reflexionar:</strong> ¿Qué línea de servicio representa el mayor porcentaje de tus ingresos? En la mayoría de empresas de seguridad, los guardias físicos son el 70–85 % de los ingresos. Eso los convierte en la línea más estratégica — pero también la más costosa.
+  </div>
+
+  <div class="nav-buttons">
+    <button class="btn-secondary" onclick="goToStep(0)">← Anterior</button>
+    <button class="btn-primary" onclick="goToStep(2)">Siguiente: Presupuesto de Operaciones →</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     PASO 2: OPERACIONES
+     ============================================================ -->
+<div class="step-content" id="step-2">
+  <h2>Paso 3 — Presupuesto de Operaciones</h2>
+
+  <div class="info-box">
+    📌 <strong>¿Qué incluye este presupuesto?</strong> Todos los costos necesarios para que los guardias estén en sus puestos: nómina con cargas sociales, combustible, armamento, uniformes y depreciación de vehículos. Estos son <em>costos directos del servicio</em>.
+  </div>
+
+  <h3>Nómina operativa (calculada automáticamente)</h3>
+  <p>Ecuador aplica cargas laborales de aproximadamente <strong>33 % adicional</strong> sobre el salario (IESS patronal 12,15 % + décimos 8,33 % + vacaciones 4,17 % + fondos de reserva 8,33 %).</p>
+
+  <table class="result-table">
+    <thead><tr><th>Categoría</th><th>N.º personas</th><th>Salario base</th><th>Recargo FDS (5 %)</th><th>Cargas laborales (33 %)</th><th>Costo/persona</th><th>Subtotal</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Guardias</td>
+        <td id="nom-g-n" class="r-num">—</td>
+        <td id="nom-g-s" class="r-num">—</td>
+        <td id="nom-g-fds" class="r-num">—</td>
+        <td id="nom-g-car" class="r-num">—</td>
+        <td id="nom-g-total" class="r-num">—</td>
+        <td id="nom-g-sub" class="r-num">—</td>
+      </tr>
+      <tr>
+        <td>Supervisores</td>
+        <td id="nom-s-n" class="r-num">—</td>
+        <td id="nom-s-s" class="r-num">—</td>
+        <td id="nom-s-fds" class="r-num">—</td>
+        <td id="nom-s-car" class="r-num">—</td>
+        <td id="nom-s-total" class="r-num">—</td>
+        <td id="nom-s-sub" class="r-num">—</td>
+      </tr>
+      <tr class="subtotal"><td colspan="6">SUBTOTAL NÓMINA OPERATIVA</td><td id="nom-total" class="r-num">—</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Otros costos operativos (ajusta si lo necesitas)</h3>
+  <div class="input-grid">
+    <div class="field-group">
+      <label>Combustible ($/mes)</label>
+      <div class="hint">Estimado: $25–$35 por vehículo/moto</div>
+      <input type="number" id="costoCombustible" value="0">
+    </div>
+    <div class="field-group">
+      <label>Mantenimiento vehículos ($/mes)</label>
+      <input type="number" id="costoMantVehiculo" value="0">
+    </div>
+    <div class="field-group">
+      <label>Armamento y munición ($/mes)</label>
+      <div class="hint">Incluye permisos y mantenimiento</div>
+      <input type="number" id="costoArmamento" value="0">
+    </div>
+    <div class="field-group">
+      <label>Uniformes y EPP ($/mes prorrateado)</label>
+      <div class="hint">Total anual ÷ 12</div>
+      <input type="number" id="costoUniformes" value="0">
+    </div>
+    <div class="field-group">
+      <label>Depreciación vehículos ($/mes)</label>
+      <div class="hint">Valor vehículo × 20% ÷ 12</div>
+      <input type="number" id="costoDepreciacion" value="0">
+    </div>
+    <div class="field-group">
+      <label>Comunicaciones — radios/celulares ($/mes)</label>
+      <input type="number" id="costoComunicaciones" value="0">
+    </div>
+  </div>
+
+  <div class="alerta">
+    💡 <strong>Sugerencia de valores para tu escenario:</strong> Puedes estimar el combustible como $20–$30 por guardia activo en ronda. El armamento suele rondar $8–$15 por guardia al mes (permisos, mantenimiento, práctica). Los uniformes, $10–$20 por guardia al año prorateados.
+  </div>
+
+  <button class="btn-success" onclick="calcularOperaciones()">⚙️ Calcular costos operativos totales</button>
+
+  <div id="resumenOperaciones" style="display:none; margin-top:16px;">
+    <table class="result-table">
+      <thead><tr><th>Rubro operativo</th><th>Mensual</th><th>Anual</th></tr></thead>
+      <tbody>
+        <tr><td>Nómina operativa</td><td id="op-nomina-m" class="r-num">—</td><td id="op-nomina-a" class="r-num">—</td></tr>
+        <tr><td>Logística y combustible</td><td id="op-logistica-m" class="r-num">—</td><td id="op-logistica-a" class="r-num">—</td></tr>
+        <tr><td>Armamento</td><td id="op-armamento-m" class="r-num">—</td><td id="op-armamento-a" class="r-num">—</td></tr>
+        <tr><td>Uniformes y EPP</td><td id="op-uniformes-m" class="r-num">—</td><td id="op-uniformes-a" class="r-num">—</td></tr>
+        <tr><td>Depreciación (no es caja)</td><td id="op-dep-m" class="r-num">—</td><td id="op-dep-a" class="r-num">—</td></tr>
+        <tr><td>Comunicaciones</td><td id="op-com-m" class="r-num">—</td><td id="op-com-a" class="r-num">—</td></tr>
+        <tr class="total"><td>TOTAL COSTOS OPERATIVOS</td><td id="op-total-m" class="r-num">—</td><td id="op-total-a" class="r-num">—</td></tr>
+      </tbody>
+    </table>
+
+    <div id="margenBrutoBox" class="info-box" style="margin-top:12px;"></div>
+  </div>
+
+  <div class="nav-buttons">
+    <button class="btn-secondary" onclick="goToStep(1)">← Anterior</button>
+    <button class="btn-primary" onclick="goToStep(3)">Siguiente: Gastos Administrativos →</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     PASO 3: GASTOS ADMINISTRATIVOS
+     ============================================================ -->
+<div class="step-content" id="step-3">
+  <h2>Paso 4 — Presupuesto de Gastos Administrativos y de Ventas</h2>
+
+  <div class="info-box">
+    📌 <strong>Recuerda:</strong> Estos gastos son del <em>período</em>, no del servicio. Ocurren independientemente de cuántos guardias estén trabajando. Son los costos de que la empresa <em>exista y tenga clientes</em>.
+  </div>
+
+  <h3>Gastos Administrativos</h3>
+  <div class="input-grid">
+    <div class="field-group">
+      <label>Nómina administrativa ($/mes)</label>
+      <div class="hint">Gerente + contadora + RRHH (con cargas)</div>
+      <input type="number" id="gadm-nomina" value="0">
+    </div>
+    <div class="field-group">
+      <label>Arriendo de oficinas ($/mes)</label>
+      <input type="number" id="gadm-arriendo" value="0">
+    </div>
+    <div class="field-group">
+      <label>Servicios básicos ($/mes)</label>
+      <div class="hint">Luz, agua, teléfono fijo</div>
+      <input type="number" id="gadm-servicios" value="0">
+    </div>
+    <div class="field-group">
+      <label>Internet corporativo ($/mes)</label>
+      <input type="number" id="gadm-internet" value="0">
+    </div>
+    <div class="field-group">
+      <label>Seguros y pólizas ($/mes)</label>
+      <input type="number" id="gadm-seguros" value="0">
+    </div>
+    <div class="field-group">
+      <label>Software y licencias ($/mes)</label>
+      <input type="number" id="gadm-software" value="0">
+    </div>
+    <div class="field-group">
+      <label>Suministros de oficina ($/mes)</label>
+      <input type="number" id="gadm-suministros" value="0">
+    </div>
+    <div class="field-group">
+      <label>Otros gastos adm. ($/mes)</label>
+      <input type="number" id="gadm-otros" value="0">
+    </div>
+  </div>
+
+  <h3>Gastos de Ventas</h3>
+  <div class="input-grid">
+    <div class="field-group">
+      <label>Sueldo ejecutivo comercial ($/mes)</label>
+      <div class="hint">Con cargas laborales</div>
+      <input type="number" id="gven-sueldo" value="0">
+    </div>
+    <div class="field-group">
+      <label>Comisiones por ventas ($/mes)</label>
+      <input type="number" id="gven-comisiones" value="0">
+    </div>
+    <div class="field-group">
+      <label>Publicidad y marketing ($/mes)</label>
+      <input type="number" id="gven-publicidad" value="0">
+    </div>
+    <div class="field-group">
+      <label>Otros gastos de ventas ($/mes)</label>
+      <input type="number" id="gven-otros" value="0">
+    </div>
+  </div>
+
+  <button class="btn-success" onclick="calcularGastosAdm()">⚙️ Calcular gastos del período</button>
+
+  <div id="resumenGastosAdm" style="display:none; margin-top:16px;">
+    <table class="result-table">
+      <thead><tr><th>Categoría</th><th>Mensual</th><th>Anual</th></tr></thead>
+      <tbody>
+        <tr><td>Gastos administrativos</td><td id="ga-adm-m" class="r-num">—</td><td id="ga-adm-a" class="r-num">—</td></tr>
+        <tr><td>Gastos de ventas</td><td id="ga-ven-m" class="r-num">—</td><td id="ga-ven-a" class="r-num">—</td></tr>
+        <tr class="total"><td>TOTAL GASTOS DEL PERÍODO</td><td id="ga-total-m" class="r-num">—</td><td id="ga-total-a" class="r-num">—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="nav-buttons">
+    <button class="btn-secondary" onclick="goToStep(2)">← Anterior</button>
+    <button class="btn-primary" onclick="goToStep(4)">Siguiente: Estado de Resultados →</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     PASO 4: ESTADO DE RESULTADOS
+     ============================================================ -->
+<div class="step-content" id="step-4">
+  <h2>Paso 5 — Estado de Resultados Proyectado</h2>
+
+  <div class="info-box">
+    📌 <strong>Este es el momento de la verdad:</strong> Con todos los datos ingresados, el sistema integra el Estado de Resultados Proyectado completo. Podrás ver si tu empresa genera utilidad o pérdida, y cuánto le queda a los dueños después de impuestos.
+  </div>
+
+  <div id="estadoResultados">
+    <!-- Se llena dinámicamente -->
+  </div>
+
+  <div id="alertaResultado" style="margin-top:14px;"></div>
+
+  <h3>📊 Estructura de costos y márgenes</h3>
+  <div id="chartMargenes" class="chart-container"></div>
+
+  <div class="info-box yellow" id="interpretacionER">
+    <!-- Interpretación dinámica -->
+  </div>
+
+  <div class="nav-buttons">
+    <button class="btn-secondary" onclick="goToStep(3)">← Anterior</button>
+    <button class="btn-primary" onclick="goToStep(5)">Siguiente: Flujo de Caja →</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     PASO 5: FLUJO DE CAJA + ANÁLISIS FINAL
+     ============================================================ -->
+<div class="step-content" id="step-5">
+  <h2>Paso 6 — Presupuesto de Caja y Análisis Final</h2>
+
+  <div class="info-box">
+    📌 <strong>¿Por qué necesitamos esto si ya tenemos el Estado de Resultados?</strong> Porque el Estado de Resultados muestra si hay <em>utilidad</em>, pero el Presupuesto de Caja muestra si hay <em>dinero disponible</em> para pagar nómina, arriendo y proveedores. Una empresa puede tener utilidad y no tener efectivo.
+  </div>
+
+  <h3>Presupuesto de Caja — Mes 1</h3>
+  <p>Basado en tus datos y los supuestos de cobro/pago:</p>
+
+  <div id="presupuestoCaja"></div>
+
+  <div id="alertaCaja" style="margin-top:12px;"></div>
+
+  <h3 style="margin-top:24px;">📊 Panel de Indicadores Clave</h3>
+  <div class="kpi-cards" id="kpiPanel"></div>
+
+  <h3 style="margin-top:24px;">🔍 Análisis de situación y recomendaciones</h3>
+  <div id="analisisFinal"></div>
+
+  <h3 style="margin-top:24px;">🎓 Tu aprendizaje de hoy</h3>
+  <div class="info-box green">
+    <strong>¡Acabas de construir un Presupuesto Maestro completo!</strong> Pasaste por los mismos pasos que usa un contador gerencial profesional:
+    <ol style="margin: 10px 0 0 18px;">
+      <li>Definiste supuestos y escenario</li>
+      <li>Construiste el presupuesto de ingresos</li>
+      <li>Calculaste los costos operativos directos (nómina + logística)</li>
+      <li>Estimaste los gastos del período (administrativos y ventas)</li>
+      <li>Integraste el Estado de Resultados Proyectado</li>
+      <li>Construiste el Presupuesto de Caja y analizaste la liquidez</li>
+    </ol>
+    <br>Ahora puedes <strong>cambiar cualquier supuesto del Paso 1</strong> y observar cómo se propagan los cambios por todo el presupuesto. Eso es el <em>análisis de sensibilidad</em>.
+  </div>
+
+  <div class="nav-buttons">
+    <button class="btn-secondary" onclick="goToStep(4)">← Anterior</button>
+    <button class="btn-gold" onclick="reiniciarTaller()">🔄 Reiniciar con otro escenario</button>
+  </div>
+</div>
+
+<!-- MODAL DE VALIDACIÓN -->
+<div class="modal-overlay" id="validationModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h3>⚠️ Atención</h3>
+    <p id="modalMsg" style="margin:12px 0 18px; font-size:15px;"></p>
+    <button class="btn-primary" onclick="closeModal()">Entendido</button>
+  </div>
+</div>
+
+<script>
+// ===== ESTADO GLOBAL =====
+const state = {
+  empresa: 'SegurLocal S.A.',
+  numGuardias: 20,
+  numSupervisores: 1,
+  salarioGuardia: 480,
+  salarioSupervisor: 700,
+  tarifaGuardia: 900,
+  numMonitoreo: 40,
+  tarifaMonitoreo: 40,
+  numConsultoria: 1,
+  tarifaConsultoria: 1500,
+  saldoInicial: 8000,
+  pctCorporativo: 50,
+  // ingresos
+  ingGuardias: 0, ingMonitoreo: 0, ingConsultoria: 0, ingTotal: 0,
+  // operaciones
+  nominaGuardias: 0, nominaSupervisores: 0, nominaTotal: 0,
+  costoLogistica: 0, costoArmamento: 0, costoUniformes: 0, costoDepreciacion: 0, costoComunicaciones: 0,
+  totalOperaciones: 0,
+  // gastos adm
+  gastoAdm: 0, gastoVen: 0, totalGastosPeriodo: 0
+};
+
+const CARGA_LABORAL = 0.33; // 33% sobre salario
+const RECARGO_FDS = 0.05;   // 5% recargo fin de semana (simplificado)
+const IESS_PATRONAL = 0.1215;
+const IR_TASA = 0.25;
+const PT_TASA = 0.15;
+
+// ===== HELPERS =====
+function fmt(n) { return '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+function pct(n, total) { return total > 0 ? ((n/total)*100).toFixed(1) + '%' : '0%'; }
+function fmtPct(n) { return n.toFixed(1) + '%'; }
+function showModal(msg) { document.getElementById('modalMsg').textContent = msg; document.getElementById('validationModal').classList.add('open'); }
+function closeModal() { document.getElementById('validationModal').classList.remove('open'); }
+
+// ===== ESCENARIOS =====
+const scenarios = {
+  pequeña: {
+    nombre: 'SegurLocal S.A.', guardias: 20, supervisores: 1, salG: 480, salS: 700,
+    tarifaG: 900, monitoreo: 40, tarifaM: 40, consultoria: 1, tarifaC: 1500,
+    saldo: 8000, pctCorp: 50,
+    desc: '<div class="info-box green"><strong>Empresa Pequeña "SegurLocal S.A."</strong><br>20 guardias activos | 1 supervisora | Sede en ciudad mediana de Ecuador | Ingresos aprox. $18.000–$25.000/mes</div>'
+  },
+  mediana: {
+    nombre: 'SegurGuayas S.A.', guardias: 70, supervisores: 8, salG: 500, salS: 750,
+    tarifaG: 1100, monitoreo: 140, tarifaM: 45, consultoria: 4, tarifaC: 2500,
+    saldo: 18000, pctCorp: 60,
+    desc: '<div class="info-box green"><strong>Empresa Mediana "SegurGuayas S.A."</strong><br>70 guardias | 8 supervisores | Guayaquil | Ingresos aprox. $90.000–$100.000/mes</div>'
+  },
+  grande: {
+    nombre: 'SegurEcuador S.A.', guardias: 250, supervisores: 25, salG: 520, salS: 850,
+    tarifaG: 1200, monitoreo: 400, tarifaM: 50, consultoria: 10, tarifaC: 4000,
+    saldo: 60000, pctCorp: 70,
+    desc: '<div class="info-box green"><strong>Empresa Grande "SegurEcuador S.A."</strong><br>250 guardias | 25 supervisores | Operaciones a nivel nacional | Ingresos aprox. $360.000/mes</div>'
+  },
+  personalizado: {
+    nombre: 'Mi Empresa S.A.', guardias: 30, supervisores: 2, salG: 460, salS: 680,
+    tarifaG: 950, monitoreo: 0, tarifaM: 45, consultoria: 0, tarifaC: 0,
+    saldo: 10000, pctCorp: 60,
+    desc: '<div class="info-box yellow"><strong>Modo personalizado</strong><br>Ingresa tus propios valores para todos los campos. Puedes simular cualquier tamaño de empresa.</div>'
+  }
+};
+
+function loadScenario(key, btn) {
+  document.querySelectorAll('.sc-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const sc = scenarios[key];
+  document.getElementById('scenarioDesc').innerHTML = sc.desc;
+  document.getElementById('empresaNombre').value = sc.nombre;
+  document.getElementById('numGuardias').value = sc.guardias;
+  document.getElementById('numSupervisores').value = sc.supervisores;
+  document.getElementById('salarioGuardia').value = sc.salG;
+  document.getElementById('salarioSupervisor').value = sc.salS;
+  document.getElementById('tarifaGuardia').value = sc.tarifaG;
+  document.getElementById('numMonitoreo').value = sc.monitoreo;
+  document.getElementById('tarifaMonitoreo').value = sc.tarifaM;
+  document.getElementById('numConsultoria').value = sc.consultoria;
+  document.getElementById('tarifaConsultoria').value = sc.tarifaC;
+  document.getElementById('saldoInicial').value = sc.saldo;
+  document.getElementById('pctCorporativo').value = sc.pctCorp;
+
+  // Sugerir valores de costos operativos
+  const gRatio = sc.guardias;
+  document.getElementById('costoCombustible').value = Math.round(gRatio * 28);
+  document.getElementById('costoMantVehiculo').value = Math.round(gRatio * 8);
+  document.getElementById('costoArmamento').value = Math.round(gRatio * 10);
+  document.getElementById('costoUniformes').value = Math.round(gRatio * 12);
+  document.getElementById('costoDepreciacion').value = Math.round(gRatio * 15);
+  document.getElementById('costoComunicaciones').value = Math.round(gRatio * 5);
+
+  // Gastos adm según tamaño
+  const adm = sc.guardias <= 25 ? { nom:2500, arr:500, serv:120, inet:60, seg:100, soft:40, sum:60, ot:80, gven_s:900, gven_c:150, gven_p:100, gven_o:50 }
+    : sc.guardias <= 100 ? { nom:8400, arr:1200, serv:280, inet:120, seg:350, soft:95, sum:160, ot:200, gven_s:1460, gven_c:420, gven_p:380, gven_o:150 }
+    : { nom:22000, arr:2800, serv:600, inet:250, seg:900, soft:300, sum:400, ot:500, gven_s:4200, gven_c:1200, gven_p:1200, gven_o:400 };
+
+  document.getElementById('gadm-nomina').value = adm.nom;
+  document.getElementById('gadm-arriendo').value = adm.arr;
+  document.getElementById('gadm-servicios').value = adm.serv;
+  document.getElementById('gadm-internet').value = adm.inet;
+  document.getElementById('gadm-seguros').value = adm.seg;
+  document.getElementById('gadm-software').value = adm.soft;
+  document.getElementById('gadm-suministros').value = adm.sum;
+  document.getElementById('gadm-otros').value = adm.ot;
+  document.getElementById('gven-sueldo').value = adm.gven_s;
+  document.getElementById('gven-comisiones').value = adm.gven_c;
+  document.getElementById('gven-publicidad').value = adm.gven_p;
+  document.getElementById('gven-otros').value = adm.gven_o;
+}
+
+// ===== NAVEGACIÓN =====
+let currentStep = 0;
+
+function goToStep(idx) {
+  if (idx === 1) readStep0();
+  if (idx === 2) calcularNomina();
+  if (idx === 4) buildEstadoResultados();
+  if (idx === 5) buildCaja();
+
+  document.querySelectorAll('.step-content').forEach((el, i) => {
+    el.classList.toggle('active', i === idx);
+  });
+  document.querySelectorAll('.step-btn').forEach((btn, i) => {
+    btn.classList.remove('active');
+    if (i < idx) btn.classList.add('done');
+    if (i === idx) btn.classList.add('active');
+  });
+  currentStep = idx;
+  document.getElementById('currentStepLabel').textContent = idx + 1;
+  window.scrollTo(0, 0);
+}
+
+// Click en nav de pasos
+document.getElementById('stepsNav').addEventListener('click', function(e) {
+  const btn = e.target.closest('.step-btn');
+  if (!btn) return;
+  const idx = parseInt(btn.dataset.step);
+  goToStep(idx);
+});
+
+// ===== PASO 0 → leer datos =====
+function readStep0() {
+  state.empresa = document.getElementById('empresaNombre').value;
+  state.numGuardias = parseFloat(document.getElementById('numGuardias').value) || 0;
+  state.numSupervisores = parseFloat(document.getElementById('numSupervisores').value) || 0;
+  state.salarioGuardia = parseFloat(document.getElementById('salarioGuardia').value) || 460;
+  state.salarioSupervisor = parseFloat(document.getElementById('salarioSupervisor').value) || 460;
+  state.tarifaGuardia = parseFloat(document.getElementById('tarifaGuardia').value) || 0;
+  state.numMonitoreo = parseFloat(document.getElementById('numMonitoreo').value) || 0;
+  state.tarifaMonitoreo = parseFloat(document.getElementById('tarifaMonitoreo').value) || 0;
+  state.numConsultoria = parseFloat(document.getElementById('numConsultoria').value) || 0;
+  state.tarifaConsultoria = parseFloat(document.getElementById('tarifaConsultoria').value) || 0;
+  state.saldoInicial = parseFloat(document.getElementById('saldoInicial').value) || 0;
+  state.pctCorporativo = parseFloat(document.getElementById('pctCorporativo').value) || 0;
+
+  // Calcular ingresos
+  state.ingGuardias = state.numGuardias * state.tarifaGuardia;
+  state.ingMonitoreo = state.numMonitoreo * state.tarifaMonitoreo;
+  state.ingConsultoria = state.numConsultoria * state.tarifaConsultoria;
+  state.ingTotal = state.ingGuardias + state.ingMonitoreo + state.ingConsultoria;
+
+  // Llenar paso 1
+  document.getElementById('ing-guardias-u').textContent = state.numGuardias;
+  document.getElementById('ing-guardias-t').textContent = fmt(state.tarifaGuardia);
+  document.getElementById('ing-guardias-v').textContent = fmt(state.ingGuardias);
+  document.getElementById('ing-monitoreo-u').textContent = state.numMonitoreo;
+  document.getElementById('ing-monitoreo-t').textContent = fmt(state.tarifaMonitoreo);
+  document.getElementById('ing-monitoreo-v').textContent = fmt(state.ingMonitoreo);
+  document.getElementById('ing-consul-u').textContent = state.numConsultoria;
+  document.getElementById('ing-consul-t').textContent = fmt(state.tarifaConsultoria);
+  document.getElementById('ing-consul-v').textContent = fmt(state.ingConsultoria);
+  document.getElementById('ing-total').textContent = fmt(state.ingTotal);
+  document.getElementById('ing-anual').textContent = fmt(state.ingTotal * 12);
+
+  // Chart ingresos
+  buildBarChart('chartIngresos', [
+    { label: 'Guardias', val: state.ingGuardias, color: '#003366' },
+    { label: 'Monitoreo', val: state.ingMonitoreo, color: '#0057A8' },
+    { label: 'Consultoría', val: state.ingConsultoria, color: '#FFD700' }
+  ], state.ingTotal);
+}
+
+// ===== PASO 2 → nómina =====
+function calcularNomina() {
+  const salG = state.salarioGuardia;
+  const salS = state.salarioSupervisor;
+  const recG = salG * RECARGO_FDS;
+  const recS = salS * RECARGO_FDS;
+  const carG = salG * CARGA_LABORAL;
+  const carS = salS * CARGA_LABORAL;
+  const totalG = salG + recG + carG;
+  const totalS = salS + recS + carS;
+
+  state.nominaGuardias = totalG * state.numGuardias;
+  state.nominaSupervisores = totalS * state.numSupervisores;
+  state.nominaTotal = state.nominaGuardias + state.nominaSupervisores;
+
+  document.getElementById('nom-g-n').textContent = state.numGuardias;
+  document.getElementById('nom-g-s').textContent = fmt(salG);
+  document.getElementById('nom-g-fds').textContent = fmt(recG);
+  document.getElementById('nom-g-car').textContent = fmt(carG);
+  document.getElementById('nom-g-total').textContent = fmt(totalG);
+  document.getElementById('nom-g-sub').textContent = fmt(state.nominaGuardias);
+
+  document.getElementById('nom-s-n').textContent = state.numSupervisores;
+  document.getElementById('nom-s-s').textContent = fmt(salS);
+  document.getElementById('nom-s-fds').textContent = fmt(recS);
+  document.getElementById('nom-s-car').textContent = fmt(carS);
+  document.getElementById('nom-s-total').textContent = fmt(totalS);
+  document.getElementById('nom-s-sub').textContent = fmt(state.nominaSupervisores);
+
+  document.getElementById('nom-total').textContent = fmt(state.nominaTotal);
+}
+
+function calcularOperaciones() {
+  const logistica = (parseFloat(document.getElementById('costoCombustible').value)||0) +
+                    (parseFloat(document.getElementById('costoMantVehiculo').value)||0);
+  const armamento = parseFloat(document.getElementById('costoArmamento').value)||0;
+  const uniformes = parseFloat(document.getElementById('costoUniformes').value)||0;
+  const depreciacion = parseFloat(document.getElementById('costoDepreciacion').value)||0;
+  const comunicaciones = parseFloat(document.getElementById('costoComunicaciones').value)||0;
+
+  state.costoLogistica = logistica;
+  state.costoArmamento = armamento;
+  state.costoUniformes = uniformes;
+  state.costoDepreciacion = depreciacion;
+  state.costoComunicaciones = comunicaciones;
+  state.totalOperaciones = state.nominaTotal + logistica + armamento + uniformes + depreciacion + comunicaciones;
+
+  const margenBruto = state.ingTotal - state.totalOperaciones;
+  const pctMB = state.ingTotal > 0 ? (margenBruto / state.ingTotal * 100) : 0;
+
+  document.getElementById('op-nomina-m').textContent = fmt(state.nominaTotal);
+  document.getElementById('op-nomina-a').textContent = fmt(state.nominaTotal * 12);
+  document.getElementById('op-logistica-m').textContent = fmt(logistica);
+  document.getElementById('op-logistica-a').textContent = fmt(logistica * 12);
+  document.getElementById('op-armamento-m').textContent = fmt(armamento);
+  document.getElementById('op-armamento-a').textContent = fmt(armamento * 12);
+  document.getElementById('op-uniformes-m').textContent = fmt(uniformes);
+  document.getElementById('op-uniformes-a').textContent = fmt(uniformes * 12);
+  document.getElementById('op-dep-m').textContent = fmt(depreciacion);
+  document.getElementById('op-dep-a').textContent = fmt(depreciacion * 12);
+  document.getElementById('op-com-m').textContent = fmt(comunicaciones);
+  document.getElementById('op-com-a').textContent = fmt(comunicaciones * 12);
+  document.getElementById('op-total-m').textContent = fmt(state.totalOperaciones);
+  document.getElementById('op-total-a').textContent = fmt(state.totalOperaciones * 12);
+
+  const mbBox = document.getElementById('margenBrutoBox');
+  const mbClass = margenBruto >= 0 ? 'green' : 'red';
+  mbBox.className = `info-box ${mbClass}`;
+  mbBox.innerHTML = `<strong>Margen Bruto:</strong> ${fmt(margenBruto)} mensuales (${fmtPct(pctMB)} de los ingresos)<br>
+    ${margenBruto >= 0 ? '✅ Los ingresos superan los costos operativos directos. Hay margen para gastos de administración.' : '❌ Los costos operativos superan los ingresos. Revisa la estructura de precios o costos.'}`;
+
+  document.getElementById('resumenOperaciones').style.display = 'block';
+}
+
+function calcularGastosAdm() {
+  const adm = (parseFloat(document.getElementById('gadm-nomina').value)||0)
+    + (parseFloat(document.getElementById('gadm-arriendo').value)||0)
+    + (parseFloat(document.getElementById('gadm-servicios').value)||0)
+    + (parseFloat(document.getElementById('gadm-internet').value)||0)
+    + (parseFloat(document.getElementById('gadm-seguros').value)||0)
+    + (parseFloat(document.getElementById('gadm-software').value)||0)
+    + (parseFloat(document.getElementById('gadm-suministros').value)||0)
+    + (parseFloat(document.getElementById('gadm-otros').value)||0);
+
+  const ven = (parseFloat(document.getElementById('gven-sueldo').value)||0)
+    + (parseFloat(document.getElementById('gven-comisiones').value)||0)
+    + (parseFloat(document.getElementById('gven-publicidad').value)||0)
+    + (parseFloat(document.getElementById('gven-otros').value)||0);
+
+  state.gastoAdm = adm;
+  state.gastoVen = ven;
+  state.totalGastosPeriodo = adm + ven;
+
+  document.getElementById('ga-adm-m').textContent = fmt(adm);
+  document.getElementById('ga-adm-a').textContent = fmt(adm * 12);
+  document.getElementById('ga-ven-m').textContent = fmt(ven);
+  document.getElementById('ga-ven-a').textContent = fmt(ven * 12);
+  document.getElementById('ga-total-m').textContent = fmt(state.totalGastosPeriodo);
+  document.getElementById('ga-total-a').textContent = fmt(state.totalGastosPeriodo * 12);
+
+  document.getElementById('resumenGastosAdm').style.display = 'block';
+}
+
+// ===== PASO 4 → ESTADO DE RESULTADOS =====
+function buildEstadoResultados() {
+  const ingresos = state.ingTotal;
+  const costoOp = state.totalOperaciones;
+  const margenBruto = ingresos - costoOp;
+  const pctMB = ingresos > 0 ? margenBruto / ingresos * 100 : 0;
+
+  const utilOp = margenBruto - state.totalGastosPeriodo;
+  const pctUO = ingresos > 0 ? utilOp / ingresos * 100 : 0;
+
+  const gastoFin = 0; // No tenemos datos de préstamos en el taller simplificado
+  const uat = utilOp - gastoFin;
+  const pt = Math.max(0, uat * PT_TASA);
+  const baseIR = Math.max(0, uat - pt);
+  const ir = Math.max(0, baseIR * IR_TASA);
+  const utilNeta = uat - pt - ir;
+  const pctUN = ingresos > 0 ? utilNeta / ingresos * 100 : 0;
+
+  // Guardar para caja
+  state.utilNeta = utilNeta;
+  state.utilOp = utilOp;
+  state.margenBruto = margenBruto;
+
+  const color = (val) => val >= 0 ? 'pos' : 'neg';
+
+  document.getElementById('estadoResultados').innerHTML = `
+    <table class="result-table">
+      <thead><tr><th>Estado de Resultados Proyectado — ${state.empresa}</th><th>Mensual</th><th>Anual</th><th>% Ingresos</th></tr></thead>
+      <tbody>
+        <tr style="background:#e8f4ff;"><td class="r-label"><strong>INGRESOS POR SERVICIOS</strong></td><td class="r-num"><strong>${fmt(ingresos)}</strong></td><td class="r-num"><strong>${fmt(ingresos*12)}</strong></td><td class="r-num">100,0 %</td></tr>
+        <tr><td>(-) Costos Operativos Directos</td><td class="r-num neg">(${fmt(costoOp)})</td><td class="r-num neg">(${fmt(costoOp*12)})</td><td class="r-num">${fmtPct(ingresos>0?costoOp/ingresos*100:0)}</td></tr>
+        <tr class="subtotal"><td><strong>= MARGEN BRUTO</strong></td><td class="r-num ${color(margenBruto)}"><strong>${fmt(margenBruto)}</strong></td><td class="r-num ${color(margenBruto)}"><strong>${fmt(margenBruto*12)}</strong></td><td class="r-num"><strong>${fmtPct(pctMB)}</strong></td></tr>
+        <tr><td>(-) Gastos Administrativos</td><td class="r-num neg">(${fmt(state.gastoAdm)})</td><td class="r-num neg">(${fmt(state.gastoAdm*12)})</td><td class="r-num">${fmtPct(ingresos>0?state.gastoAdm/ingresos*100:0)}</td></tr>
+        <tr><td>(-) Gastos de Ventas</td><td class="r-num neg">(${fmt(state.gastoVen)})</td><td class="r-num neg">(${fmt(state.gastoVen*12)})</td><td class="r-num">${fmtPct(ingresos>0?state.gastoVen/ingresos*100:0)}</td></tr>
+        <tr class="subtotal"><td><strong>= UTILIDAD OPERATIVA (EBIT)</strong></td><td class="r-num ${color(utilOp)}"><strong>${fmt(utilOp)}</strong></td><td class="r-num ${color(utilOp)}"><strong>${fmt(utilOp*12)}</strong></td><td class="r-num"><strong>${fmtPct(pctUO)}</strong></td></tr>
+        <tr><td>(-) Participación trabajadores 15 %</td><td class="r-num neg">(${fmt(pt)})</td><td class="r-num neg">(${fmt(pt*12)})</td><td class="r-num">${fmtPct(ingresos>0?pt/ingresos*100:0)}</td></tr>
+        <tr><td>(-) Impuesto a la Renta 25 %</td><td class="r-num neg">(${fmt(ir)})</td><td class="r-num neg">(${fmt(ir*12)})</td><td class="r-num">${fmtPct(ingresos>0?ir/ingresos*100:0)}</td></tr>
+        <tr class="total"><td><strong>= UTILIDAD NETA PROYECTADA</strong></td><td class="r-num"><strong>${fmt(utilNeta)}</strong></td><td class="r-num"><strong>${fmt(utilNeta*12)}</strong></td><td class="r-num"><strong>${fmtPct(pctUN)}</strong></td></tr>
+      </tbody>
+    </table>
+  `;
+
+  // Alerta
+  const alEl = document.getElementById('alertaResultado');
+  if (utilNeta < 0) {
+    alEl.innerHTML = `<div class="info-box red">❌ <strong>Pérdida proyectada:</strong> Tu empresa perdería ${fmt(Math.abs(utilNeta))} mensuales. Revisa si los precios cubren los costos o si los costos pueden reducirse.</div>`;
+  } else if (pctUN < 5) {
+    alEl.innerHTML = `<div class="info-box yellow">⚠️ <strong>Margen ajustado:</strong> La utilidad neta de ${fmtPct(pctUN)} es baja. Cualquier imprevisto puede convertirla en pérdida. Evalúa aumentar precios o reducir costos.</div>`;
+  } else {
+    alEl.innerHTML = `<div class="info-box green">✅ <strong>Empresa rentable:</strong> Margen neto de ${fmtPct(pctUN)}. Esto es sostenible. Asegúrate de que también haya liquidez de caja.</div>`;
+  }
+
+  // Chart
+  buildBarChart('chartMargenes', [
+    { label: 'Costos operativos', val: costoOp, color: '#800000' },
+    { label: 'Gastos del período', val: state.totalGastosPeriodo, color: '#cc6600' },
+    { label: 'Impuestos y PT', val: pt + ir, color: '#888888' },
+    { label: 'Utilidad neta', val: Math.max(0, utilNeta), color: '#28a745' }
+  ], ingresos, false);
+
+  // Interpretación
+  document.getElementById('interpretacionER').innerHTML = `
+    <strong>📊 Cómo leer tu Estado de Resultados:</strong><br>
+    • De cada <strong>$100 que cobras</strong>, ${fmtPct(ingresos>0?costoOp/ingresos*100:0)} se van en costos de prestar el servicio (nómina de guardias, logística, etc.).<br>
+    • Después de gastos administrativos y ventas, queda una utilidad operativa de <strong>${fmt(utilOp)}</strong> por mes (${fmtPct(pctUO)} de los ingresos).<br>
+    • Después de impuestos y participación de trabajadores, la utilidad neta es <strong>${fmt(utilNeta)}</strong> por mes (${fmtPct(pctUN)} del ingreso).
+  `;
+}
+
+// ===== PASO 5 → CAJA =====
+function buildCaja() {
+  const pctCorp = state.pctCorporativo / 100;
+  const pctContado = 1 - pctCorp;
+
+  const ingresoContado = state.ingTotal * pctContado;
+  const ingresoCorpMesAnterior = state.ingTotal * pctCorp * 0.9; // aprox. lo que se cobró el mes anterior
+  const totalEntradas = ingresoContado + ingresoCorpMesAnterior;
+
+  // Salidas de caja (excluimos depreciación porque no es flujo)
+  const nominaTotal = state.nominaTotal + (parseFloat(document.getElementById('gadm-nomina').value)||0);
+  const logisticaCaja = state.costoLogistica + state.costoArmamento + state.costoUniformes + state.costoComunicaciones;
+  const gastosPeriodoCaja = state.gastoAdm - (parseFloat(document.getElementById('gadm-nomina').value)||0) + state.gastoVen;
+  const iessPatronal = state.nominaTotal * IESS_PATRONAL; // simplificado
+
+  const totalSalidas = nominaTotal + logisticaCaja + gastosPeriodoCaja + iessPatronal;
+  const saldoFinal = state.saldoInicial + totalEntradas - totalSalidas;
+
+  const saldoSemaforo = saldoFinal < 0 ? 'sem-rojo' : saldoFinal < state.nominaTotal * 0.5 ? 'sem-amarillo' : 'sem-verde';
+  const saldoIcon = saldoFinal < 0 ? '🔴' : saldoFinal < state.nominaTotal * 0.5 ? '🟡' : '🟢';
+
+  document.getElementById('presupuestoCaja').innerHTML = `
+    <table class="result-table">
+      <thead><tr><th>Concepto</th><th>Importe</th><th>Nota</th></tr></thead>
+      <tbody>
+        <tr style="background:#e8f4ff;"><td class="r-label">SALDO INICIAL DE CAJA</td><td class="r-num pos">${fmt(state.saldoInicial)}</td><td>Dato del Paso 1</td></tr>
+        <tr><td colspan="3" style="background:#d4f8e0; font-weight:700; color:#155724; padding:8px 12px;">📥 ENTRADAS DE EFECTIVO</td></tr>
+        <tr><td>Cobros al contado (${fmtPct((1-pctCorp)*100)} de ingresos)</td><td class="r-num pos">${fmt(ingresoContado)}</td><td>Clientes residenciales</td></tr>
+        <tr><td>Cobros corporativos del mes anterior (${fmtPct(pctCorp*100)} × 90 %)</td><td class="r-num pos">${fmt(ingresoCorpMesAnterior)}</td><td>Pago diferido 30 días</td></tr>
+        <tr class="subtotal"><td colspan="2">TOTAL ENTRADAS</td><td class="r-num pos">${fmt(totalEntradas)}</td></tr>
+        <tr><td colspan="3" style="background:#fde8e8; font-weight:700; color:#8b0000; padding:8px 12px;">📤 SALIDAS DE EFECTIVO</td></tr>
+        <tr><td>Pago de nómina total (operativa + adm.)</td><td class="r-num neg">(${fmt(nominaTotal)})</td><td>Último día hábil</td></tr>
+        <tr><td>Logística, armamento, uniformes, comunicaciones</td><td class="r-num neg">(${fmt(logisticaCaja)})</td><td>Efectivo — sin dep.</td></tr>
+        <tr><td>Gastos del período (sin nómina adm.)</td><td class="r-num neg">(${fmt(gastosPeriodoCaja)})</td><td>Arriendo, servicios, ventas</td></tr>
+        <tr><td>IESS patronal (se paga mes siguiente)</td><td class="r-num neg">(${fmt(iessPatronal)})</td><td>Hasta el 15 del mes sig.</td></tr>
+        <tr class="subtotal"><td colspan="2">TOTAL SALIDAS</td><td class="r-num neg">(${fmt(totalSalidas)})</td></tr>
+        <tr class="total"><td><strong>SALDO FINAL DE CAJA ${saldoIcon}</strong></td><td class="r-num ${saldoFinal>=0?'pos':'neg'}"><strong>${fmt(saldoFinal)}</strong></td><td><span class="semaforo ${saldoSemaforo}">${saldoFinal < 0 ? 'DÉFICIT' : saldoFinal < nominaTotal*0.5 ? 'RIESGO' : 'SALUDABLE'}</span></td></tr>
+      </tbody>
+    </table>
+    <div style="margin-top:10px; font-size:13px; color:#555;">
+      ⚠️ <em>Nota:</em> La depreciación (${fmt(state.costoDepreciacion)}/mes) NO aparece como salida de caja porque no implica un pago real en este período.
+    </div>
+  `;
+
+  // Alerta de caja
+  const acEl = document.getElementById('alertaCaja');
+  if (saldoFinal < 0) {
+    acEl.innerHTML = `<div class="info-box red">🔴 <strong>DÉFICIT DE CAJA:</strong> Tu empresa terminaría el mes sin efectivo suficiente. Necesitas tomar acción: cobrar antes, pedir una línea de crédito o aplazar pagos no urgentes.</div>`;
+  } else if (saldoFinal < nominaTotal * 0.5) {
+    acEl.innerHTML = `<div class="info-box yellow">🟡 <strong>LIQUIDEZ AJUSTADA:</strong> El saldo de caja es inferior al 50 % de tu nómina mensual. Si un cliente no paga, podrías quedar sin efectivo para el siguiente mes.</div>`;
+  } else {
+    acEl.innerHTML = `<div class="info-box green">🟢 <strong>LIQUIDEZ SALUDABLE:</strong> Tienes efectivo suficiente. El saldo de caja cubre más del 50 % de tu nómina mensual, que es el indicador mínimo recomendado.</div>`;
+  }
+
+  // KPI Cards
+  const pctMB = state.ingTotal > 0 ? state.margenBruto / state.ingTotal * 100 : 0;
+  const pctUN = state.ingTotal > 0 ? state.utilNeta / state.ingTotal * 100 : 0;
+  const coberturaNomina = state.nominaTotal > 0 ? saldoFinal / state.nominaTotal : 0;
+
+  document.getElementById('kpiPanel').innerHTML = `
+    <div class="kpi-card"><div class="kval">${fmtPct(pctMB)}</div><div class="klabel">Margen Bruto</div></div>
+    <div class="kpi-card"><div class="kval">${fmtPct(pctUN)}</div><div class="klabel">Utilidad Neta</div></div>
+    <div class="kpi-card"><div class="kval">${fmt(saldoFinal)}</div><div class="klabel">Saldo Final Caja</div></div>
+    <div class="kpi-card"><div class="kval">${coberturaNomina.toFixed(2)}x</div><div class="klabel">Cobertura de Nómina</div></div>
+    <div class="kpi-card"><div class="kval">${fmt(state.ingTotal)}</div><div class="klabel">Ingresos Mensuales</div></div>
+    <div class="kpi-card"><div class="kval">${fmt(state.ingTotal * 12)}</div><div class="klabel">Proyección Anual</div></div>
+  `;
+
+  // Análisis final
+  const rec = [];
+  if (pctMB < 15) rec.push('⚠️ Tu Margen Bruto es bajo (< 15 %). Considera revisar si las tarifas cubren adecuadamente los costos de nómina. Una regla práctica: el precio por guardia debe ser al menos 1,4 veces el costo total por guardia.');
+  if (pctUN < 5) rec.push('⚠️ Tu Utilidad Neta es menor al 5 %. Esto deja poco colchón ante imprevistos. Analiza reducir gastos administrativos o incrementar los ingresos de monitoreo y consultoría que tienen menores costos variables.');
+  if (saldoFinal < 0) rec.push('🔴 URGENTE: Déficit de caja. Implementa inmediatamente: (1) anticipo del 30 % a clientes nuevos, (2) gestiona una línea de crédito bancaria, (3) negocia plazos de 30 días con proveedores de uniformes y armamento.');
+  if (coberturaNomina < 1) rec.push('⚠️ Tu saldo de caja no cubre ni un mes de nómina. El mínimo recomendado es mantener 1.5 veces la nómina mensual como "colchón de seguridad".');
+  if (pctMB >= 25 && pctUN >= 8 && saldoFinal >= state.nominaTotal) rec.push('✅ Tu empresa tiene indicadores saludables. Considera usar el excedente de caja para invertir en equipos o abrir nuevas zonas de operación.');
+
+  if (rec.length === 0) rec.push('✅ Los indicadores de tu empresa son equilibrados.');
+
+  document.getElementById('analisisFinal').innerHTML = rec.map(r => `<div class="alerta" style="margin-bottom:10px;">${r}</div>`).join('');
+}
+
+// ===== CHART DE BARRAS =====
+function buildBarChart(containerId, items, total, showPct = true) {
+  const container = document.getElementById(containerId);
+  if (!container || total <= 0) return;
+  container.innerHTML = items.map(item => {
+    const pctVal = total > 0 ? (item.val / total * 100) : 0;
+    const w = Math.min(100, pctVal).toFixed(1);
+    const label = showPct ? `${item.label}: ${fmt(item.val)} (${pctVal.toFixed(1)}%)`
+      : `${item.label}: ${fmt(item.val)}`;
+    return `
+      <div class="chart-bar-row">
+        <div class="chart-bar-label">${item.label}</div>
+        <div class="chart-bar-track">
+          <div class="chart-bar-fill" style="width:${w}%; background:${item.color};" data-label="${fmt(item.val)} (${pctVal.toFixed(1)}%)"></div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ===== REINICIAR =====
+function reiniciarTaller() {
+  goToStep(0);
+  document.querySelectorAll('.step-btn').forEach(b => b.classList.remove('done', 'active'));
+  document.querySelector('.step-btn[data-step="0"]').classList.add('active');
+}
+
+// ===== INIT =====
+loadScenario('pequeña', document.querySelector('.sc-btn.active'));
+</script>
+</body>
+</html>
