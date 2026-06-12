@@ -1,0 +1,1892 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semana 11 | Análisis de Variaciones | Contabilidad Gerencial</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ===== RESET & BASE ===== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: #f0f4f8;
+    color: #1a1a2e;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    background: #003366;
+    color: #fff;
+    padding: 22px 28px 16px;
+    text-align: center;
+  }
+  .header .institution {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    opacity: 0.85;
+    margin-bottom: 6px;
+  }
+  .header h1 {
+    font-family: 'Lora', serif;
+    font-size: 1.7rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .header .sub {
+    font-size: 13px;
+    opacity: 0.8;
+    font-weight: 300;
+  }
+  .header .badges {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+  .badge {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #fff;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  /* ===== TAB BAR ===== */
+  .tab-bar-wrapper {
+    background: #87CEEB;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: thin;
+    scrollbar-color: #003366 #87CEEB;
+  }
+  .tab-bar-wrapper::-webkit-scrollbar { height: 4px; }
+  .tab-bar-wrapper::-webkit-scrollbar-track { background: #87CEEB; }
+  .tab-bar-wrapper::-webkit-scrollbar-thumb { background: #003366; border-radius: 4px; }
+  .tab-bar {
+    display: inline-flex;
+    min-width: 100%;
+    padding: 4px 6px 0;
+  }
+  .tab-btn {
+    background: transparent;
+    border: none;
+    padding: 10px 15px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #1a1a1a;
+    cursor: pointer;
+    white-space: nowrap;
+    border-radius: 6px 6px 0 0;
+    transition: all 0.2s;
+    letter-spacing: 0.3px;
+  }
+  .tab-btn:hover { background: rgba(255,255,255,0.5); }
+  .tab-btn.active {
+    background: #fff;
+    color: #003366;
+    font-weight: 700;
+    border-bottom: 3px solid #FFD700;
+  }
+
+  /* ===== CONTENT PANE ===== */
+  .content-area { display: none; padding: 28px 24px; max-width: 960px; margin: 0 auto; }
+  .content-area.active { display: block; }
+
+  /* ===== TYPOGRAPHY ===== */
+  h2 {
+    font-family: 'Lora', serif;
+    color: #003366;
+    font-size: 1.5rem;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #FFD700;
+  }
+  h3 {
+    font-family: 'Lora', serif;
+    color: #003366;
+    font-size: 1.15rem;
+    margin: 20px 0 10px;
+  }
+  p { margin-bottom: 12px; }
+
+  /* ===== BOXES ===== */
+  .concept-box {
+    border-left: 5px solid #003366;
+    background: #eef4fb;
+    padding: 16px 20px;
+    border-radius: 0 8px 8px 0;
+    margin: 16px 0;
+  }
+  .concept-box strong { color: #003366; }
+
+  .example-box {
+    background: #dbeeff;
+    border: 1px solid #87CEEB;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 16px 0;
+  }
+  .example-box .ex-title {
+    font-weight: 700;
+    color: #003366;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .key-idea {
+    background: #003366;
+    color: #fff;
+    padding: 16px 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+  }
+  .key-idea strong { color: #FFD700; }
+
+  .warning-box {
+    background: #fff3cd;
+    border-left: 5px solid #FFD700;
+    padding: 14px 18px;
+    border-radius: 0 8px 8px 0;
+    margin: 14px 0;
+  }
+
+  .favorable { color: #1a7a3e; font-weight: 700; }
+  .desfavorable { color: #c0392b; font-weight: 700; }
+  .neutral { color: #7f8c8d; }
+
+  /* ===== TABLES ===== */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+  th {
+    background: #003366;
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+  }
+  td {
+    padding: 9px 12px;
+    border-bottom: 1px solid #dde5f0;
+  }
+  tr:nth-child(even) td { background: #f5f8fc; }
+  tr:hover td { background: #eaf0fa; }
+  .text-right { text-align: right; }
+  .text-center { text-align: center; }
+  .table-title {
+    font-family: 'Lora', serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #003366;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+
+  /* ===== STEP CARDS ===== */
+  .step-card {
+    display: flex;
+    gap: 16px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 16px;
+    margin: 12px 0;
+    box-shadow: 0 2px 6px rgba(0,51,102,0.08);
+    border: 1px solid #dde5f0;
+  }
+  .step-number {
+    background: #003366;
+    color: #FFD700;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  /* ===== REPASO ===== */
+  .repaso-card {
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid #dde5f0;
+    padding: 16px 20px;
+    margin: 12px 0;
+    box-shadow: 0 2px 6px rgba(0,51,102,0.06);
+  }
+  .repaso-card .week-tag {
+    display: inline-block;
+    background: #003366;
+    color: #FFD700;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 12px;
+    margin-bottom: 8px;
+  }
+  .repaso-card h4 {
+    font-family: 'Lora', serif;
+    color: #003366;
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+  .repaso-card p { font-size: 13.5px; color: #444; margin: 0; }
+
+  /* ===== CENTROS DE RESPONSABILIDAD ===== */
+  .centro-card {
+    background: #fff;
+    border-radius: 10px;
+    border-top: 4px solid #003366;
+    padding: 18px;
+    margin: 12px 0;
+    box-shadow: 0 2px 8px rgba(0,51,102,0.1);
+  }
+  .centro-card.ing { border-top-color: #1a7a3e; }
+  .centro-card.util { border-top-color: #e67e22; }
+  .centro-card.inv { border-top-color: #8e44ad; }
+  .centro-card h4 { font-family: 'Lora', serif; font-size: 1rem; margin-bottom: 8px; }
+
+  /* ===== INTERACTIVE ===== */
+  .quiz-container { margin-top: 10px; }
+  .question-block {
+    background: #fff;
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin: 14px 0;
+    border: 2px solid #dde5f0;
+    box-shadow: 0 2px 6px rgba(0,51,102,0.06);
+    transition: border-color 0.3s;
+  }
+  .question-block.correct { border-color: #2ecc71; background: #f0fff4; }
+  .question-block.incorrect { border-color: #e74c3c; background: #fff5f5; }
+  .question-text {
+    font-weight: 600;
+    color: #003366;
+    margin-bottom: 14px;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .type-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-right: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .badge-teorica { background: #dbeeff; color: #003366; }
+  .badge-analisis { background: #fff3cd; color: #856404; }
+  .option-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    margin: 6px 0;
+    cursor: pointer;
+    border: 1.5px solid #dde5f0;
+    transition: all 0.2s;
+  }
+  .option-label:hover { background: #eef4fb; border-color: #87CEEB; }
+  .option-label input { margin-top: 2px; flex-shrink: 0; }
+  .feedback-block {
+    display: none;
+    margin-top: 12px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+  .feedback-block.correct-fb { background: #d4edda; border: 1px solid #2ecc71; color: #1a7a3e; }
+  .feedback-block.incorrect-fb { background: #f8d7da; border: 1px solid #e74c3c; color: #c0392b; }
+
+  /* SCORE */
+  .score-panel {
+    display: none;
+    background: #003366;
+    color: #fff;
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+    margin-top: 20px;
+  }
+  .score-panel .big-score { font-size: 2.5rem; font-weight: 700; color: #FFD700; }
+  .score-panel .score-msg { font-size: 1.1rem; margin: 8px 0; }
+  .progress-bar-wrap { background: rgba(255,255,255,0.2); border-radius: 20px; height: 14px; margin: 14px 0; overflow: hidden; }
+  .progress-bar-fill { height: 100%; background: #FFD700; border-radius: 20px; transition: width 0.8s ease; }
+
+  /* BUTTONS */
+  .btn-primary {
+    background: #003366;
+    color: #fff;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 16px;
+  }
+  .btn-primary:hover { background: #004080; }
+  .btn-reset {
+    background: #87CEEB;
+    color: #003366;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 12px;
+    transition: background 0.2s;
+  }
+  .btn-reset:hover { background: #6ab8db; }
+  .btn-copy {
+    background: #FFD700;
+    color: #003366;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s;
+  }
+  .btn-copy:hover { background: #e6c200; }
+
+  /* ===== ACTIVITY ===== */
+  .prompt-box {
+    background: #1a1a2e;
+    color: #e0e8f5;
+    border-radius: 10px;
+    padding: 20px;
+    font-family: monospace;
+    font-size: 13.5px;
+    line-height: 1.8;
+    position: relative;
+    margin: 16px 0;
+    white-space: pre-wrap;
+  }
+
+  /* ===== REFLECTIVE ===== */
+  .reflect-card {
+    background: #fff;
+    border-left: 5px solid #FFD700;
+    border-radius: 0 10px 10px 0;
+    padding: 18px 20px;
+    margin: 14px 0;
+    box-shadow: 0 2px 6px rgba(0,51,102,0.07);
+  }
+  .reflect-card .q-num {
+    font-size: 11px;
+    font-weight: 700;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .reflect-card p { color: #333; margin: 0; }
+
+  /* ===== BIBLIOGRAPHY ===== */
+  .ref-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 12px 0;
+    border: 1px solid #dde5f0;
+    box-shadow: 0 2px 6px rgba(0,51,102,0.06);
+  }
+  .ref-card .ref-authors { font-weight: 600; color: #003366; font-size: 14px; }
+  .ref-card .ref-title { font-style: italic; color: #333; font-size: 14px; }
+  .ref-card .ref-source { font-size: 13px; color: #666; margin-top: 4px; }
+  .ref-note {
+    background: #fff3cd;
+    border-left: 4px solid #FFD700;
+    padding: 12px 16px;
+    border-radius: 0 8px 8px 0;
+    font-size: 13px;
+    margin-top: 20px;
+    color: #555;
+  }
+
+  /* ===== EJERCICIO SELECCIÓN CUADRANTES ===== */
+  .var-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .var-tile {
+    background: #fff;
+    border: 2px solid #dde5f0;
+    border-radius: 10px;
+    padding: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+  .var-tile:hover { border-color: #87CEEB; background: #eef4fb; }
+  .var-tile.selected { border-color: #003366; background: #dbeeff; }
+  .var-tile .tile-num { font-size: 1.4rem; font-weight: 700; color: #003366; }
+  .var-tile .tile-label { font-size: 12px; color: #555; margin-top: 4px; }
+
+  /* DRAG CONTAINERS for ejercicio emparejar */
+  .match-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin: 8px 0;
+    border: 1.5px solid #dde5f0;
+  }
+  .match-term { width: 220px; font-weight: 600; color: #003366; font-size: 14px; }
+  .match-select {
+    flex: 1;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1.5px solid #dde5f0;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 14px;
+    background: #f8fafc;
+    cursor: pointer;
+    appearance: auto;
+  }
+  .match-select:focus { outline: 2px solid #87CEEB; }
+
+  /* VARIACION FORMULA VISUAL */
+  .formula-strip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: #003366;
+    color: #fff;
+    padding: 16px 24px;
+    border-radius: 10px;
+    margin: 16px 0;
+    flex-wrap: wrap;
+    font-size: 15px;
+  }
+  .formula-box {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 8px 16px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  .formula-box .fb-label { font-size: 10px; opacity: 0.75; text-transform: uppercase; letter-spacing: 1px; }
+  .formula-box .fb-value { font-size: 1.2rem; font-weight: 700; }
+  .formula-op { color: #FFD700; font-size: 1.5rem; font-weight: 700; }
+
+  /* TALLER TABLE */
+  .taller-table th.fav { background: #1a7a3e; }
+  .taller-table th.desf { background: #c0392b; }
+  .fav-cell { color: #1a7a3e; font-weight: 700; }
+  .desf-cell { color: #c0392b; font-weight: 700; }
+
+  @media (max-width: 640px) {
+    .header h1 { font-size: 1.3rem; }
+    .content-area { padding: 18px 14px; }
+    .match-row { flex-direction: column; align-items: flex-start; }
+    .formula-strip { gap: 8px; font-size: 13px; }
+    h2 { font-size: 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="header">
+  <div class="institution">Universidad de Guayaquil | Facultad de Ciencias Administrativas | Contabilidad y Auditoría</div>
+  <h1>Semana 11 · Análisis de Variaciones y Control Gerencial</h1>
+  <div class="sub">Contabilidad Gerencial | 5to Semestre CPA | Unidad 3: Presupuestos y Control Gerencial</div>
+  <div class="badges">
+    <span class="badge">📊 Variaciones Presupuestarias</span>
+    <span class="badge">🏢 Centros de Responsabilidad</span>
+    <span class="badge">🔍 Taller SEGURECUADOR</span>
+  </div>
+</header>
+
+<!-- ===== TAB BAR ===== -->
+<div class="tab-bar-wrapper">
+  <div class="tab-bar" id="mainTabBar">
+    <button class="tab-btn active" data-tab="repaso">📋 Repaso</button>
+    <button class="tab-btn" data-tab="t1">1. ¿Qué es una Variación?</button>
+    <button class="tab-btn" data-tab="t2">2. Tipos de Variaciones</button>
+    <button class="tab-btn" data-tab="t3">3. Interpretación Gerencial</button>
+    <button class="tab-btn" data-tab="t4">4. Taller SEGURECUADOR</button>
+    <button class="tab-btn" data-tab="t5">5. Centros de Responsabilidad</button>
+    <button class="tab-btn" data-tab="ejercicio">📝 Ejercicio</button>
+    <button class="tab-btn" data-tab="cuestionario">❓ Cuestionario</button>
+    <button class="tab-btn" data-tab="ia">🤖 Actividad IA</button>
+    <button class="tab-btn" data-tab="reflexion">💭 Reflexión</button>
+    <button class="tab-btn" data-tab="biblio">📚 Bibliografía</button>
+  </div>
+</div>
+
+<!-- ============================= REPASO ============================= -->
+<div class="content-area active" id="tab-repaso">
+  <h2>📋 Repaso: Semanas 1–10</h2>
+  <p style="color:#555; font-size:14px; margin-bottom:20px;">Este repaso condensa los conceptos clave de todo el semestre. Úsalo como punto de partida antes de avanzar al nuevo tema.</p>
+
+  <div class="repaso-card">
+    <span class="week-tag">Semanas 1–4 · Unidad 1</span>
+    <h4>El Contador como Asesor Gerencial</h4>
+    <p>Aprendimos que la Contabilidad Gerencial va más allá del registro: es la herramienta con la que la gerencia <strong>toma decisiones</strong>. Diferenciamos tres ramas (Financiera, Gerencial, de Costos), identificamos las limitaciones de los EE.FF. tradicionales (no muestran rentabilidad por línea, no revelan el punto de equilibrio, no anticipan flujos), dominamos los tipos de costos (fijos, variables, semivariables, directos, indirectos) y estudiamos la ética del CECE: competencia, objetividad, integridad y confidencialidad.</p>
+  </div>
+
+  <div class="repaso-card">
+    <span class="week-tag">Semanas 5–7 · Unidad 2</span>
+    <h4>Costos para la Toma de Decisiones</h4>
+    <p>Calculamos el <strong>margen de contribución</strong> (precio − costo variable) y el <strong>punto de equilibrio</strong> de SEGURECUADOR en sus tres líneas: guardias, monitoreo y consultoría. Construimos el modelo <strong>CVU</strong> para proyectar utilidades. Comparamos el costeo variable vs. por absorción y su impacto en el Estado de Resultados. Aplicamos costos relevantes para decisiones críticas: contratar guardias propios vs. externos, aceptar contratos de emergencia, eliminar o mantener líneas de servicio.</p>
+  </div>
+
+  <div class="repaso-card">
+    <span class="week-tag">Semana 9 · Unidad 3</span>
+    <h4>Presupuesto Maestro e Ingresos</h4>
+    <p>Iniciamos la Unidad 3 conociendo los <strong>tipos de presupuesto</strong> (operativo, financiero, de capital, maestro) y su papel como herramienta de planeación y control. Diseñamos la estructura del <strong>Presupuesto Maestro</strong> de SEGURECUADOR y elaboramos el presupuesto de ingresos mensualizado por línea de servicio, documentando supuestos de crecimiento del 5% trimestral para guardias, 8% para monitoreo y 3% para consultoría.</p>
+  </div>
+
+  <div class="repaso-card">
+    <span class="week-tag">Semana 10 · Unidad 3</span>
+    <h4>Presupuestos Operativos, Administrativos, ER Proyectado y Flujo de Caja</h4>
+    <p>Elaboramos el presupuesto de <strong>costos operativos</strong> (nómina de guardias con IESS 12.15%, equipamiento, vehículos, uniformes) y el de <strong>gastos administrativos y de ventas</strong>. Integramos todos los sub-presupuestos en un <strong>Estado de Resultados Proyectado</strong> mensual y anual. Construimos el <strong>presupuesto de efectivo</strong>, entendiendo que utilidad ≠ efectivo disponible: los cobros y pagos ocurren en momentos distintos, creando períodos críticos de liquidez que la gerencia debe anticipar.</p>
+  </div>
+
+  <div class="key-idea">
+    <strong>📌 Conexión con la Semana 11:</strong> Ya tenemos nuestro presupuesto maestro completo. Ahora llega el momento de confrontarlo con la realidad: ¿qué pasó realmente en el mes? ¿Cuánto nos desviamos? ¿Por qué? ¿Qué hacemos al respecto? Eso es precisamente el <strong>Análisis de Variaciones</strong>.
+  </div>
+</div>
+
+<!-- ============================= TEMA 1 ============================= -->
+<div class="content-area" id="tab-t1">
+  <h2>1. ¿Qué es una Variación Presupuestaria?</h2>
+
+  <div class="concept-box">
+    <strong>Definición:</strong> Una <strong>variación presupuestaria</strong> (también llamada desviación o diferencia) es la diferencia numérica entre un valor que se esperaba obtener según el presupuesto y el valor que efectivamente se obtuvo en la realidad. Es el "termómetro" del control de gestión: indica si la empresa está funcionando según lo planeado o si hay desvíos que requieren atención gerencial.
+  </div>
+
+  <p>Cuando una empresa elabora su presupuesto, está haciendo una promesa cuantificada a sus propietarios y directivos: "En los próximos 12 meses venderemos X, gastaremos Y y obtendremos una utilidad de Z." Pero la realidad rara vez coincide exactamente con el plan. Las variaciones son inevitables — lo que importa es <strong>detectarlas, medirlas, interpretarlas y actuar sobre ellas</strong>.</p>
+
+  <h3>La Fórmula Universal de la Variación</h3>
+
+  <div class="formula-strip">
+    <div class="formula-box">
+      <div class="fb-label">Variación</div>
+      <div class="fb-value">V</div>
+    </div>
+    <div class="formula-op">=</div>
+    <div class="formula-box">
+      <div class="fb-label">Valor Real</div>
+      <div class="fb-value">R</div>
+    </div>
+    <div class="formula-op">−</div>
+    <div class="formula-box">
+      <div class="fb-label">Valor Presupuestado</div>
+      <div class="fb-value">P</div>
+    </div>
+  </div>
+
+  <div class="warning-box">
+    ⚠️ <strong>Atención:</strong> La fórmula R − P aplica para <strong>ingresos y utilidades</strong>. Para <strong>costos y gastos</strong>, el signo se invierte en la interpretación: un costo real mayor al presupuestado es desfavorable, aunque numéricamente sea positivo. Ver sección siguiente.
+  </div>
+
+  <h3>¿Por qué el análisis de variaciones es una herramienta gerencial poderosa?</h3>
+
+  <div class="step-card">
+    <div class="step-number">1</div>
+    <div>
+      <strong>Retroalimentación y aprendizaje:</strong> Permite comparar lo que se planeó con lo que ocurrió, identificando qué supuestos fueron erróneos y por qué. Esa información mejora la calidad de los próximos presupuestos.
+    </div>
+  </div>
+  <div class="step-card">
+    <div class="step-number">2</div>
+    <div>
+      <strong>Asignación de responsabilidades:</strong> Permite identificar a qué área, departamento o gerente le corresponde explicar una desviación. No es una herramienta de castigo, sino de rendición de cuentas.
+    </div>
+  </div>
+  <div class="step-card">
+    <div class="step-number">3</div>
+    <div>
+      <strong>Anticipación de problemas:</strong> Un análisis mensual temprano revela tendencias antes de que se conviertan en crisis. Si en enero hay una pequeña variación desfavorable en ingresos, puede ser señal de algo mayor en marzo.
+    </div>
+  </div>
+  <div class="step-card">
+    <div class="step-number">4</div>
+    <div>
+      <strong>Toma de decisiones correctivas:</strong> No basta detectar la variación; el valor real está en las acciones concretas que se proponen para corregirla o aprovecharla.
+    </div>
+  </div>
+
+  <div class="example-box">
+    <div class="ex-title">📍 Contexto SEGURECUADOR S.A. — Guayaquil</div>
+    <p>SEGURECUADOR presupuestó ingresos por guardias de <strong>$42.000</strong> en octubre. Al cierre del mes, los ingresos reales fueron <strong>$39.500</strong>. La variación es:</p>
+    <p><strong>V = $39.500 − $42.000 = −$2.500</strong></p>
+    <p>Como es negativa en ingresos, es una variación <span class="desfavorable">DESFAVORABLE (D)</span>: la empresa cobró $2.500 menos de lo planificado. Esta información obliga a la gerencia a preguntarse: ¿perdimos un contrato? ¿un cliente pagó tarde? ¿cancelaron servicio?</p>
+  </div>
+
+  <div class="key-idea">
+    <strong>💡 Idea clave:</strong> El análisis de variaciones convierte el presupuesto de un documento estático en una herramienta viva de control. Sin él, el presupuesto sería solo un papel guardado en una carpeta. Con él, se convierte en el mapa con el que la gerencia navega la realidad cada mes.
+  </div>
+</div>
+
+<!-- ============================= TEMA 2 ============================= -->
+<div class="content-area" id="tab-t2">
+  <h2>2. Tipos de Variaciones y su Clasificación</h2>
+
+  <p>Las variaciones presupuestarias se clasifican desde múltiples ángulos. Conocer estas clasificaciones permite al gerente identificar exactamente qué tipo de problema está enfrentando y qué departamento debe responder.</p>
+
+  <h3>A. Por su resultado: Favorable vs. Desfavorable</h3>
+
+  <div class="concept-box">
+    <strong>Variación Favorable (F):</strong> Cuando el resultado real es mejor que lo presupuestado. En ingresos: ingresó más dinero del esperado. En costos: se gastó menos de lo planificado. Siempre beneficia a la utilidad.
+  </div>
+  <div class="concept-box">
+    <strong>Variación Desfavorable (D):</strong> Cuando el resultado real es peor que lo presupuestado. En ingresos: se cobró menos de lo esperado. En costos: se gastó más de lo planificado. Siempre reduce la utilidad.
+  </div>
+
+  <table>
+    <tr>
+      <th>Cuenta</th>
+      <th>Real > Presupuestado</th>
+      <th>Real < Presupuestado</th>
+    </tr>
+    <tr>
+      <td><strong>Ingresos</strong></td>
+      <td class="favorable">✅ FAVORABLE</td>
+      <td class="desfavorable">❌ DESFAVORABLE</td>
+    </tr>
+    <tr>
+      <td><strong>Costos y Gastos</strong></td>
+      <td class="desfavorable">❌ DESFAVORABLE</td>
+      <td class="favorable">✅ FAVORABLE</td>
+    </tr>
+    <tr>
+      <td><strong>Utilidad Neta</strong></td>
+      <td class="favorable">✅ FAVORABLE</td>
+      <td class="desfavorable">❌ DESFAVORABLE</td>
+    </tr>
+  </table>
+
+  <h3>B. Por su naturaleza: Variación de Precio vs. Variación de Cantidad/Volumen</h3>
+
+  <p>Esta es la clasificación más analítica. Permite separar <em>cuánto</em> del desvío se debe al precio (o tarifa) y cuánto se debe al volumen (número de unidades o contratos).</p>
+
+  <div class="example-box">
+    <div class="ex-title">📐 Descomposición de Variación de Ingresos — SEGURECUADOR</div>
+    <table>
+      <tr>
+        <th>Variable</th>
+        <th>Presupuestado</th>
+        <th>Real</th>
+        <th>Variación</th>
+      </tr>
+      <tr>
+        <td>Contratos de guardias activos</td>
+        <td class="text-right">70</td>
+        <td class="text-right">65</td>
+        <td class="text-right desfavorable">−5 (D)</td>
+      </tr>
+      <tr>
+        <td>Tarifa mensual por contrato</td>
+        <td class="text-right">$600</td>
+        <td class="text-right">$620</td>
+        <td class="text-right favorable">+$20 (F)</td>
+      </tr>
+      <tr>
+        <td><strong>Ingreso total</strong></td>
+        <td class="text-right"><strong>$42.000</strong></td>
+        <td class="text-right"><strong>$40.300</strong></td>
+        <td class="text-right desfavorable"><strong>−$1.700 (D)</strong></td>
+      </tr>
+    </table>
+    <p style="margin-top:10px; font-size:14px;"><strong>Variación de precio:</strong> 65 contratos × ($620−$600) = <span class="favorable">+$1.300 (F)</span> — subimos la tarifa.<br>
+    <strong>Variación de volumen:</strong> $600 × (65−70) = <span class="desfavorable">−$3.000 (D)</span> — perdimos 5 contratos.<br>
+    <strong>Total:</strong> +$1.300 − $3.000 = <span class="desfavorable">−$1.700 (D)</span> ✓</p>
+    <p style="font-size:14px; margin-top:8px;">Esta descomposición revela que aunque logramos cobrar más por contrato (buena noticia), perdimos volumen de clientes (mala noticia) — dos problemas distintos que requieren acciones diferentes.</p>
+  </div>
+
+  <h3>C. Por su área de impacto: Variaciones en Ingresos, Costos y Utilidad</h3>
+
+  <table>
+    <tr>
+      <th>Área</th>
+      <th>¿Qué mide?</th>
+      <th>Responsable típico</th>
+    </tr>
+    <tr>
+      <td><strong>Variación de ingresos</strong></td>
+      <td>Diferencia en ventas/cobros</td>
+      <td>Gerente comercial / ventas</td>
+    </tr>
+    <tr>
+      <td><strong>Variación de costos directos</strong></td>
+      <td>Desviación en nómina, equipos, logística</td>
+      <td>Jefe operativo</td>
+    </tr>
+    <tr>
+      <td><strong>Variación de gastos administrativos</strong></td>
+      <td>Desviación en alquiler, servicios, sueldos admin.</td>
+      <td>Gerente administrativo</td>
+    </tr>
+    <tr>
+      <td><strong>Variación de utilidad bruta</strong></td>
+      <td>Diferencia entre margen real y presupuestado</td>
+      <td>Dirección General</td>
+    </tr>
+    <tr>
+      <td><strong>Variación de utilidad neta</strong></td>
+      <td>Resultado final consolidado</td>
+      <td>Gerente General / Junta</td>
+    </tr>
+  </table>
+
+  <h3>D. Por su controlabilidad: Variaciones Controlables vs. No Controlables</h3>
+
+  <div class="concept-box">
+    <strong>Controlable:</strong> La gerencia pudo haberla evitado o reducido con decisiones oportunas. Ejemplo: un exceso de horas extra por mala planificación del turno.
+  </div>
+  <div class="concept-box">
+    <strong>No controlable:</strong> Causada por factores externos fuera del alcance de la empresa. Ejemplo: alza del precio del combustible que incrementó el costo de patrullaje.
+  </div>
+
+  <div class="warning-box">
+    ⚠️ <strong>Principio gerencial clave:</strong> Solo es justo responsabilizar a un gerente por variaciones que estaban bajo su control. Evaluar a alguien por factores externos genera desmotivación y distorsiona la información gerencial.
+  </div>
+
+  <div class="key-idea">
+    <strong>💡 Idea clave:</strong> No toda variación es mala ni toda variación favorable es buena señal. Una variación favorable en costos puede significar ahorro eficiente… o puede significar que se dejaron de hacer actividades necesarias. El análisis no termina en el número: siempre hay que buscar la causa real detrás de la cifra.
+  </div>
+</div>
+
+<!-- ============================= TEMA 3 ============================= -->
+<div class="content-area" id="tab-t3">
+  <h2>3. Interpretación Gerencial de las Variaciones</h2>
+
+  <p>Calcular la variación es el primer paso. El verdadero valor gerencial está en interpretarla correctamente y proponer acciones concretas. Un buen contador gerencial no reporta solo números: reporta <strong>causas, consecuencias y recomendaciones</strong>.</p>
+
+  <h3>El Proceso Completo del Análisis de Variaciones</h3>
+
+  <div class="step-card">
+    <div class="step-number">1</div>
+    <div>
+      <strong>Calcular:</strong> Aplicar la fórmula V = Real − Presupuestado para cada línea del Estado de Resultados. Expresar en valor absoluto ($) y en porcentaje (%).
+    </div>
+  </div>
+  <div class="step-card">
+    <div class="step-number">2</div>
+    <div>
+      <strong>Clasificar:</strong> Determinar si cada variación es Favorable (F) o Desfavorable (D), controlable o no controlable, de precio o de volumen.
+    </div>
+  </div>
+  <div class="step-card">
+    <div class="step-number">3</div>
+    <div>
+      <strong>Jerarquizar:</strong> No todas las variaciones tienen la misma importancia. Usar el <em>umbral de materialidad</em> (por ejemplo: variaciones > 5% del valor presupuestado o > $1.000) para priorizar qué analizar primero.
+    </div>
+  </div>
+  <div class="step-card">
+    <div class="step-number">4</div>
+    <div>
+      <strong>Investigar causas:</strong> Entrevistar a los responsables del área. ¿Qué ocurrió? ¿Fue un evento único o un problema recurrente? ¿Es señal de algo sistémico?
+    </div>
+  </div>
+  <div class="step-card">
+    <div class="step-number">5</div>
+    <div>
+      <strong>Proponer acciones:</strong> Acciones correctivas para variaciones desfavorables (reducir el problema) o acciones de aprovechamiento para variaciones favorables (replicar lo que funcionó bien).
+    </div>
+  </div>
+  <div class="step-card">
+    <div class="step-number">6</div>
+    <div>
+      <strong>Retroalimentar el presupuesto:</strong> Si la variación revela que el presupuesto original era irreal, ajustar las estimaciones del período siguiente. El análisis de variaciones mejora la precisión presupuestaria año a año.
+    </div>
+  </div>
+
+  <h3>Umbrales de Materialidad: ¿Cuándo me preocupo?</h3>
+
+  <p>No es eficiente investigar cada pequeña diferencia. Las empresas suelen definir un <strong>umbral de materialidad</strong>: el punto a partir del cual una variación justifica investigación y reporte.</p>
+
+  <table>
+    <tr>
+      <th>Magnitud de la Variación</th>
+      <th>Acción recomendada</th>
+    </tr>
+    <tr>
+      <td>Menos del 3%</td>
+      <td>Registrar; sin acción urgente</td>
+    </tr>
+    <tr>
+      <td>Entre 3% y 10%</td>
+      <td>Investigar causa; monitoreo mensual</td>
+    </tr>
+    <tr>
+      <td>Entre 10% y 20%</td>
+      <td>Informe gerencial + plan de acción en 15 días</td>
+    </tr>
+    <tr>
+      <td>Mayor al 20%</td>
+      <td>Reunión urgente de dirección + revisión del presupuesto</td>
+    </tr>
+  </table>
+
+  <h3>Causas Típicas de Variaciones en Empresas de Seguridad</h3>
+
+  <table>
+    <tr>
+      <th>Variación</th>
+      <th>Posibles causas</th>
+    </tr>
+    <tr>
+      <td>Ingresos por guardias < presupuesto</td>
+      <td>Cancelación de contrato, cliente en proceso legal, competencia agresiva en precio</td>
+    </tr>
+    <tr>
+      <td>Nómina > presupuesto</td>
+      <td>Horas extra no planificadas, reemplazos de personal, aumento del SBU</td>
+    </tr>
+    <tr>
+      <td>Gastos de combustible > presupuesto</td>
+      <td>Alza del precio del galón, rutas de patrullaje más largas, incidentes que requirieron movilización adicional</td>
+    </tr>
+    <tr>
+      <td>Ingresos de monitoreo > presupuesto</td>
+      <td>Nuevos contratos no previstos, upselling exitoso, referidos de clientes actuales</td>
+    </tr>
+    <tr>
+      <td>Gastos administrativos < presupuesto</td>
+      <td>Postergación de capacitaciones, negociación exitosa de arriendo, reducción de papelería por digitalización</td>
+    </tr>
+  </table>
+
+  <div class="example-box">
+    <div class="ex-title">📍 Interpretación Gerencial — SEGURECUADOR octubre</div>
+    <p><strong>Variación detectada:</strong> Costo de nómina operativa: Presupuesto $28.000 / Real $31.500 / Variación = <span class="desfavorable">+$3.500 (D)</span> → 12.5% de desviación.</p>
+    <p><strong>Causa investigada:</strong> En octubre se registraron 3 incidentes de seguridad que requirieron horas extra no planificadas. Además, dos guardias renunciaron y se contrató reemplazos temporales a mayor costo.</p>
+    <p><strong>Acción correctiva propuesta:</strong> (1) Revisar la plantilla de personal y reducir la rotación con ajuste salarial. (2) Crear una reserva presupuestaria del 5% para contingencias operativas. (3) Registrar la variación como "parcialmente no controlable" (incidentes externos) + "parcialmente controlable" (rotación evitable).</p>
+  </div>
+
+  <div class="key-idea">
+    <strong>💡 Idea clave:</strong> El informe de variaciones no es un acta de culpabilidad — es una herramienta de aprendizaje organizacional. El gerente que presenta variaciones con honestidad, causas documentadas y acciones concretas demuestra madurez gerencial. El que las oculta o minimiza genera problemas mayores en el futuro.
+  </div>
+</div>
+
+<!-- ============================= TEMA 4 ============================= -->
+<div class="content-area" id="tab-t4">
+  <h2>4. Taller: SEGURECUADOR cierra octubre</h2>
+
+  <p>A continuación encontrarás el cuadro de <strong>Presupuesto vs. Real</strong> de SEGURECUADOR S.A. correspondiente al mes de octubre. Analiza cada variación, determina si es Favorable o Desfavorable, calcula el porcentaje de desviación e identifica una posible causa y acción correctiva.</p>
+
+  <div class="example-box">
+    <div class="ex-title">ℹ️ Cómo leer esta tabla</div>
+    <ul style="font-size:14px; padding-left:18px; line-height:2;">
+      <li>Para ingresos: Real > Presupuesto = Favorable; Real < Presupuesto = Desfavorable</li>
+      <li>Para costos y gastos: Real > Presupuesto = Desfavorable; Real < Presupuesto = Favorable</li>
+      <li>Fórmula: V% = (Real − Presupuesto) / Presupuesto × 100</li>
+    </ul>
+  </div>
+
+  <p class="table-title">CUADRO DE VARIACIONES — SEGURECUADOR S.A. | OCTUBRE 20XX</p>
+  <table class="taller-table">
+    <thead>
+      <tr>
+        <th>Concepto</th>
+        <th class="text-right">Presupuestado ($)</th>
+        <th class="text-right">Real ($)</th>
+        <th class="text-right">Variación ($)</th>
+        <th class="text-right">Variación (%)</th>
+        <th class="text-center">F / D</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:#f0f6ff;">
+        <td colspan="6"><strong>INGRESOS</strong></td>
+      </tr>
+      <tr>
+        <td>Ingresos por guardias</td>
+        <td class="text-right">42.000</td>
+        <td class="text-right">39.500</td>
+        <td class="text-right desfavorable">−2.500</td>
+        <td class="text-right desfavorable">−5.95%</td>
+        <td class="text-center desfavorable">D</td>
+      </tr>
+      <tr>
+        <td>Ingresos por monitoreo</td>
+        <td class="text-right">15.000</td>
+        <td class="text-right">16.800</td>
+        <td class="text-right favorable">+1.800</td>
+        <td class="text-right favorable">+12.00%</td>
+        <td class="text-center favorable">F</td>
+      </tr>
+      <tr>
+        <td>Ingresos por consultoría</td>
+        <td class="text-right">5.000</td>
+        <td class="text-right">4.200</td>
+        <td class="text-right desfavorable">−800</td>
+        <td class="text-right desfavorable">−16.00%</td>
+        <td class="text-center desfavorable">D</td>
+      </tr>
+      <tr style="background:#e8f0fb; font-weight:700;">
+        <td>TOTAL INGRESOS</td>
+        <td class="text-right">62.000</td>
+        <td class="text-right">60.500</td>
+        <td class="text-right desfavorable">−1.500</td>
+        <td class="text-right desfavorable">−2.42%</td>
+        <td class="text-center desfavorable">D</td>
+      </tr>
+      <tr style="background:#f0f6ff;">
+        <td colspan="6"><strong>COSTOS DIRECTOS</strong></td>
+      </tr>
+      <tr>
+        <td>Nómina operativa (guardias)</td>
+        <td class="text-right">28.000</td>
+        <td class="text-right">31.500</td>
+        <td class="text-right desfavorable">+3.500</td>
+        <td class="text-right desfavorable">+12.50%</td>
+        <td class="text-center desfavorable">D</td>
+      </tr>
+      <tr>
+        <td>Combustible y vehículos</td>
+        <td class="text-right">3.200</td>
+        <td class="text-right">2.900</td>
+        <td class="text-right favorable">−300</td>
+        <td class="text-right favorable">−9.38%</td>
+        <td class="text-center favorable">F</td>
+      </tr>
+      <tr>
+        <td>Armamento y mantenimiento</td>
+        <td class="text-right">1.500</td>
+        <td class="text-right">1.500</td>
+        <td class="text-right neutral">0</td>
+        <td class="text-right neutral">0.00%</td>
+        <td class="text-center neutral">—</td>
+      </tr>
+      <tr>
+        <td>Uniformes y equipamiento</td>
+        <td class="text-right">1.800</td>
+        <td class="text-right">2.400</td>
+        <td class="text-right desfavorable">+600</td>
+        <td class="text-right desfavorable">+33.33%</td>
+        <td class="text-center desfavorable">D</td>
+      </tr>
+      <tr style="background:#f0f6ff;">
+        <td colspan="6"><strong>GASTOS ADMINISTRATIVOS</strong></td>
+      </tr>
+      <tr>
+        <td>Sueldos administrativos</td>
+        <td class="text-right">5.500</td>
+        <td class="text-right">5.500</td>
+        <td class="text-right neutral">0</td>
+        <td class="text-right neutral">0.00%</td>
+        <td class="text-center neutral">—</td>
+      </tr>
+      <tr>
+        <td>Alquiler de oficinas</td>
+        <td class="text-right">1.200</td>
+        <td class="text-right">1.200</td>
+        <td class="text-right neutral">0</td>
+        <td class="text-right neutral">0.00%</td>
+        <td class="text-center neutral">—</td>
+      </tr>
+      <tr>
+        <td>Servicios básicos y comunicaciones</td>
+        <td class="text-right">600</td>
+        <td class="text-right">540</td>
+        <td class="text-right favorable">−60</td>
+        <td class="text-right favorable">−10.00%</td>
+        <td class="text-center favorable">F</td>
+      </tr>
+      <tr>
+        <td>Capacitación y entrenamiento</td>
+        <td class="text-right">800</td>
+        <td class="text-right">200</td>
+        <td class="text-right">−600</td>
+        <td class="text-right">−75.00%</td>
+        <td class="text-center">❓</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="example-box">
+    <div class="ex-title">🤔 ¿Es la variación de capacitación favorable o desfavorable?</div>
+    <p>Numéricamente parece <strong>favorable</strong> (gastamos $600 menos). Pero un buen contador gerencial pregunta: <em>¿por qué se recortó el 75% de la capacitación?</em> Si fue una postergación planificada, es neutro. Si fue una omisión no intencional, puede generar riesgos operativos futuros: guardias menos entrenados = mayor probabilidad de incidentes = costos futuros más altos. Esta variación requiere investigación antes de clasificarla.</p>
+    <p><strong>Este es el pensamiento crítico que distingue al contador gerencial del contador de registro.</strong></p>
+  </div>
+
+  <h3>Informe de Acciones Correctivas — Extracto</h3>
+
+  <table>
+    <tr>
+      <th>Variación</th>
+      <th>Causa probable</th>
+      <th>Acción correctiva propuesta</th>
+      <th>Plazo</th>
+    </tr>
+    <tr>
+      <td>Guardias −$2.500 (D)</td>
+      <td>No renovación de 3 contratos pequeños</td>
+      <td>Activar campaña de fidelización; ofrecer descuento por renovación anticipada</td>
+      <td>30 días</td>
+    </tr>
+    <tr>
+      <td>Monitoreo +$1.800 (F)</td>
+      <td>Campaña digital en redes atrajo 4 nuevos clientes</td>
+      <td>Mantener y ampliar campaña digital en noviembre</td>
+      <td>Inmediato</td>
+    </tr>
+    <tr>
+      <td>Nómina +$3.500 (D)</td>
+      <td>3 incidentes + 2 renuncias imprevistas</td>
+      <td>Revisión plan de retención; fondo de contingencia operativa 5%</td>
+      <td>60 días</td>
+    </tr>
+    <tr>
+      <td>Uniformes +$600 (D)</td>
+      <td>Reposición urgente por daños en incidentes</td>
+      <td>Política de inventario de reposición trimestral anticipada</td>
+      <td>Próximo trimestre</td>
+    </tr>
+  </table>
+
+  <div class="key-idea">
+    <strong>💡 Idea clave:</strong> El informe de variaciones tiene tres partes inseparables: (1) el número, (2) la causa, y (3) la acción. Un informe que solo tiene números es un estado de cuentas. Un informe que tiene las tres partes es una herramienta de gestión. El contador gerencial siempre entrega las tres.
+  </div>
+</div>
+
+<!-- ============================= TEMA 5 ============================= -->
+<div class="content-area" id="tab-t5">
+  <h2>5. Contabilidad por Centros de Responsabilidad</h2>
+
+  <p>El análisis de variaciones cobra pleno sentido cuando existe una estructura organizacional clara que define <strong>quién responde por qué</strong>. La Contabilidad por Centros de Responsabilidad es el sistema que hace posible esa rendición de cuentas.</p>
+
+  <div class="concept-box">
+    <strong>Definición:</strong> Un <strong>centro de responsabilidad</strong> es cualquier unidad de la organización —área, departamento, proceso o sucursal— cuyo gerente o jefe tiene autoridad y responsabilidad sobre un conjunto específico de recursos o resultados, y que puede ser evaluado por lo que controla.
+  </div>
+
+  <p>La lógica es simple pero poderosa: si nadie es responsable de nada, todos son responsables de todo — lo que en la práctica significa que nadie rinde cuentas. Los centros de responsabilidad crean zonas claras de gestión y evaluación.</p>
+
+  <h3>Los Cuatro Tipos de Centros de Responsabilidad</h3>
+
+  <div class="centro-card">
+    <h4>🔵 1. Centro de Costos</h4>
+    <p><strong>¿Qué controla?</strong> Solo costos y gastos. No genera ingresos directos ni maneja inversiones.</p>
+    <p><strong>¿Cómo se evalúa?</strong> Por la eficiencia en el uso de recursos: ¿gastó lo necesario sin excederse?</p>
+    <p><strong>Ejemplo en SEGURECUADOR:</strong> Departamento de Operaciones (gestiona la nómina de guardias, equipos, vehículos). No vende contratos, solo gestiona el costo de prestar el servicio.</p>
+    <p><strong>Métrica clave:</strong> Costo real vs. costo presupuestado por guardia activo.</p>
+  </div>
+
+  <div class="centro-card ing">
+    <h4>🟢 2. Centro de Ingresos</h4>
+    <p><strong>¿Qué controla?</strong> Solo ingresos (ventas / contratos). No controla los costos del servicio.</p>
+    <p><strong>¿Cómo se evalúa?</strong> Por el volumen y valor de ventas generadas frente a la meta.</p>
+    <p><strong>Ejemplo en SEGURECUADOR:</strong> Departamento Comercial. Su meta es firmar nuevos contratos y renovar los existentes. No decide cuánto cuesta prestar el servicio.</p>
+    <p><strong>Métrica clave:</strong> Número de contratos nuevos vs. meta mensual; ingresos reales vs. presupuestados.</p>
+  </div>
+
+  <div class="centro-card util">
+    <h4>🟠 3. Centro de Utilidades</h4>
+    <p><strong>¿Qué controla?</strong> Tanto ingresos como costos de su área. Es responsable de la rentabilidad de su unidad.</p>
+    <p><strong>¿Cómo se evalúa?</strong> Por la utilidad generada (ingresos − costos asignados a esa unidad).</p>
+    <p><strong>Ejemplo en SEGURECUADOR:</strong> Línea de servicio de Monitoreo Electrónico. El gerente de monitoreo controla cuánto vende (tarifas, nuevos clientes) y cuánto gasta (tecnología, operadores, licencias de software).</p>
+    <p><strong>Métrica clave:</strong> Margen de utilidad real vs. presupuestado por línea de servicio.</p>
+  </div>
+
+  <div class="centro-card inv">
+    <h4>🟣 4. Centro de Inversión</h4>
+    <p><strong>¿Qué controla?</strong> Ingresos, costos y las inversiones de capital del área. Es el nivel más completo de responsabilidad.</p>
+    <p><strong>¿Cómo se evalúa?</strong> Por el retorno sobre la inversión (ROI) o el rendimiento sobre activos (ROA) del área.</p>
+    <p><strong>Ejemplo en SEGURECUADOR:</strong> La empresa completa, bajo responsabilidad del Gerente General. También puede aplicar a una sucursal regional que administra su propia flota de vehículos y equipos.</p>
+    <p><strong>Métrica clave:</strong> ROI = Utilidad del área / Activos invertidos en el área.</p>
+  </div>
+
+  <h3>Estructura de Centros de Responsabilidad — SEGURECUADOR S.A.</h3>
+
+  <table>
+    <tr>
+      <th>Centro</th>
+      <th>Tipo</th>
+      <th>Responsable</th>
+      <th>Rinde cuentas por…</th>
+    </tr>
+    <tr>
+      <td>Gerencia General</td>
+      <td>Inversión</td>
+      <td>Gerente General</td>
+      <td>ROI total de la empresa</td>
+    </tr>
+    <tr>
+      <td>Línea Guardias</td>
+      <td>Utilidades</td>
+      <td>Jefe Operativo</td>
+      <td>Margen guardias vs. presupuesto</td>
+    </tr>
+    <tr>
+      <td>Línea Monitoreo</td>
+      <td>Utilidades</td>
+      <td>Jefe de Tecnología</td>
+      <td>Margen monitoreo vs. presupuesto</td>
+    </tr>
+    <tr>
+      <td>Línea Consultoría</td>
+      <td>Utilidades</td>
+      <td>Coord. Consultoría</td>
+      <td>Margen consultoría vs. presupuesto</td>
+    </tr>
+    <tr>
+      <td>Dep. Comercial</td>
+      <td>Ingresos</td>
+      <td>Gerente Comercial</td>
+      <td>Contratos nuevos + renovaciones</td>
+    </tr>
+    <tr>
+      <td>Dep. Administrativo</td>
+      <td>Costos</td>
+      <td>Gerente Administrativo</td>
+      <td>Gastos admin. vs. presupuesto</td>
+    </tr>
+    <tr>
+      <td>Flota y Logística</td>
+      <td>Costos</td>
+      <td>Jefe de Logística</td>
+      <td>Costos de vehículos y combustible</td>
+    </tr>
+  </table>
+
+  <div class="warning-box">
+    ⚠️ <strong>Error frecuente:</strong> Responsabilizar a un gerente por costos o ingresos que no controla. El Jefe de Logística no puede ser responsabilizado por el alza del precio del combustible, pero sí por el consumo innecesario por rutas mal planificadas.
+  </div>
+
+  <div class="key-idea">
+    <strong>💡 Idea clave:</strong> Los centros de responsabilidad convierten el análisis de variaciones de un ejercicio contable en un sistema de gestión organizacional. Cada área sabe exactamente qué se espera de ella, cómo se medirá su desempeño y ante quién rinde cuentas. Eso es la base de una cultura de resultados.
+  </div>
+</div>
+
+<!-- ============================= EJERCICIO ============================= -->
+<div class="content-area" id="tab-ejercicio">
+  <h2>📝 Ejercicio Interactivo: Análisis de Variaciones</h2>
+  <p style="color:#555; margin-bottom:20px;">Responde todas las preguntas y luego presiona <strong>"Verificar respuestas"</strong> para conocer tus resultados. El contenido de las pestañas anteriores contiene toda la información necesaria para responder.</p>
+
+  <div class="quiz-container" id="ejercicioContainer">
+
+    <!-- EI1 -->
+    <div class="question-block" id="ei1-block">
+      <div class="question-text">
+        <strong>1.</strong> SEGURECUADOR presupuestó un costo de nómina de $28.000 y registró un costo real de $31.500. ¿Cómo se clasifica esta variación?
+      </div>
+      <label class="option-label"><input type="radio" name="ei1" value="a"> a) Favorable, porque el costo real es mayor</label>
+      <label class="option-label"><input type="radio" name="ei1" value="b"> b) Desfavorable, porque el costo real superó lo presupuestado</label>
+      <label class="option-label"><input type="radio" name="ei1" value="c"> c) Favorable, porque el costo real es positivo</label>
+      <label class="option-label"><input type="radio" name="ei1" value="d"> d) Neutra, porque ambos valores están en la misma cuenta</label>
+      <div class="feedback-block" id="ei1-fb"></div>
+    </div>
+
+    <!-- EI2 -->
+    <div class="question-block" id="ei2-block">
+      <div class="question-text">
+        <strong>2.</strong> Los ingresos reales de monitoreo fueron $16.800 frente a un presupuesto de $15.000. ¿Cuál es el porcentaje de variación?
+      </div>
+      <label class="option-label"><input type="radio" name="ei2" value="a"> a) 10,71%</label>
+      <label class="option-label"><input type="radio" name="ei2" value="b"> b) 12,00%</label>
+      <label class="option-label"><input type="radio" name="ei2" value="c"> c) 11,90%</label>
+      <label class="option-label"><input type="radio" name="ei2" value="d"> d) 8,00%</label>
+      <div class="feedback-block" id="ei2-fb"></div>
+    </div>
+
+    <!-- EI3 -->
+    <div class="question-block" id="ei3-block">
+      <div class="question-text">
+        <strong>3.</strong> El Departamento de Logística de SEGURECUADOR reportó un gasto de combustible de $2.900 frente al presupuesto de $3.200. Numéricamente es favorable. Sin embargo, ¿en qué caso esta variación PODRÍA ser negativa en términos gerenciales?
+      </div>
+      <label class="option-label"><input type="radio" name="ei3" value="a"> a) Si los vehículos realizaron menos patrullajes de los planificados, afectando la calidad del servicio</label>
+      <label class="option-label"><input type="radio" name="ei3" value="b"> b) Si el precio del combustible bajó en el mercado</label>
+      <label class="option-label"><input type="radio" name="ei3" value="c"> c) Si los guardias usaron eficientemente las rutas asignadas</label>
+      <label class="option-label"><input type="radio" name="ei3" value="d"> d) Si el gerente de logística planificó correctamente</label>
+      <div class="feedback-block" id="ei3-fb"></div>
+    </div>
+
+    <!-- EI4 -->
+    <div class="question-block" id="ei4-block">
+      <div class="question-text">
+        <strong>4.</strong> Una empresa de seguridad presupuestó 80 contratos activos a $550 cada uno, pero logró 85 contratos a $530 cada uno. ¿Cuál fue la variación de VOLUMEN de ingresos?
+      </div>
+      <label class="option-label"><input type="radio" name="ei4" value="a"> a) +$2.750 Favorable</label>
+      <label class="option-label"><input type="radio" name="ei4" value="b"> b) −$1.700 Desfavorable</label>
+      <label class="option-label"><input type="radio" name="ei4" value="c"> c) +$2.750 usando el precio presupuestado × (contratos reales − presupuestados)</label>
+      <label class="option-label"><input type="radio" name="ei4" value="d"> d) −$1.600 Desfavorable</label>
+      <div class="feedback-block" id="ei4-fb"></div>
+    </div>
+
+    <!-- EI5 -->
+    <div class="question-block" id="ei5-block">
+      <div class="question-text">
+        <strong>5.</strong> ¿A qué tipo de centro de responsabilidad corresponde el Departamento Comercial de SEGURECUADOR, que solo gestiona contratos y ventas pero no controla los costos del servicio?
+      </div>
+      <label class="option-label"><input type="radio" name="ei5" value="a"> a) Centro de costos</label>
+      <label class="option-label"><input type="radio" name="ei5" value="b"> b) Centro de utilidades</label>
+      <label class="option-label"><input type="radio" name="ei5" value="c"> c) Centro de ingresos</label>
+      <label class="option-label"><input type="radio" name="ei5" value="d"> d) Centro de inversión</label>
+      <div class="feedback-block" id="ei5-fb"></div>
+    </div>
+
+    <!-- EI6 -->
+    <div class="question-block" id="ei6-block">
+      <div class="question-text">
+        <strong>6.</strong> La capacitación de personal registró solo $200 de gasto frente a $800 presupuestado (−75%). ¿Cuál es la interpretación gerencial más completa de esta variación?
+      </div>
+      <label class="option-label"><input type="radio" name="ei6" value="a"> a) Es claramente favorable porque se ahorró $600</label>
+      <label class="option-label"><input type="radio" name="ei6" value="b"> b) Es desfavorable porque toda reducción en gasto es mala</label>
+      <label class="option-label"><input type="radio" name="ei6" value="c"> c) Requiere investigación: podría generar riesgos operativos futuros por personal menos capacitado</label>
+      <label class="option-label"><input type="radio" name="ei6" value="d"> d) Es neutra porque la capacitación no afecta los resultados financieros</label>
+      <div class="feedback-block" id="ei6-fb"></div>
+    </div>
+
+    <!-- EI7 -->
+    <div class="question-block" id="ei7-block">
+      <div class="question-text">
+        <strong>7.</strong> ¿Cuál es el umbral de materialidad que, según el contenido del widget, justifica una "reunión urgente de dirección + revisión del presupuesto"?
+      </div>
+      <label class="option-label"><input type="radio" name="ei7" value="a"> a) Variaciones mayores al 3%</label>
+      <label class="option-label"><input type="radio" name="ei7" value="b"> b) Variaciones mayores al 10%</label>
+      <label class="option-label"><input type="radio" name="ei7" value="c"> c) Variaciones mayores al 20%</label>
+      <label class="option-label"><input type="radio" name="ei7" value="d"> d) Variaciones mayores al 15%</label>
+      <div class="feedback-block" id="ei7-fb"></div>
+    </div>
+
+    <!-- EI8 -->
+    <div class="question-block" id="ei8-block">
+      <div class="question-text">
+        <strong>8.</strong> Un informe de variaciones completo debe incluir siempre tres elementos. ¿Cuál es el conjunto correcto?
+      </div>
+      <label class="option-label"><input type="radio" name="ei8" value="a"> a) El número, la firma del responsable y la fecha</label>
+      <label class="option-label"><input type="radio" name="ei8" value="b"> b) El número, la causa investigada y la acción correctiva propuesta</label>
+      <label class="option-label"><input type="radio" name="ei8" value="c"> c) El porcentaje, el presupuesto original y el nombre del auditor</label>
+      <label class="option-label"><input type="radio" name="ei8" value="d"> d) El número, el comparativo del año anterior y el pronóstico</label>
+      <div class="feedback-block" id="ei8-fb"></div>
+    </div>
+
+  </div>
+
+  <button class="btn-primary" id="btnVerificarEj">✅ Verificar respuestas</button>
+  <div class="score-panel" id="ejScorePanel">
+    <div class="big-score" id="ejScoreText"></div>
+    <div class="score-msg" id="ejScoreMsg"></div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="ejProgressBar" style="width:0%"></div></div>
+    <button class="btn-reset" id="btnResetEj">🔄 Reiniciar ejercicio</button>
+  </div>
+</div>
+
+<!-- ============================= CUESTIONARIO ============================= -->
+<div class="content-area" id="tab-cuestionario">
+  <h2>❓ Cuestionario: 10 Preguntas de Evaluación</h2>
+  <p style="color:#555; margin-bottom:20px;">Selecciona una respuesta por pregunta y presiona <strong>"Verificar respuestas"</strong> al final. Las preguntas de análisis son autónomas y no requieren contexto previo.</p>
+
+  <div class="quiz-container" id="quizContainer">
+
+    <!-- QI1 -->
+    <div class="question-block" id="qi1-block">
+      <div class="question-text">
+        <span class="type-badge badge-teorica">Teórica</span>
+        <strong>1.</strong> ¿Cuál es la fórmula correcta para calcular una variación presupuestaria?
+      </div>
+      <label class="option-label"><input type="radio" name="qi1" value="a"> a) Presupuestado − Real</label>
+      <label class="option-label"><input type="radio" name="qi1" value="b"> b) Real − Presupuestado</label>
+      <label class="option-label"><input type="radio" name="qi1" value="c"> c) (Real + Presupuestado) / 2</label>
+      <label class="option-label"><input type="radio" name="qi1" value="d"> d) Real / Presupuestado × 100</label>
+      <div class="feedback-block" id="qi1-fb"></div>
+    </div>
+
+    <!-- QI2 -->
+    <div class="question-block" id="qi2-block">
+      <div class="question-text">
+        <span class="type-badge badge-teorica">Teórica</span>
+        <strong>2.</strong> Cuando los costos reales de una empresa son menores que los presupuestados, la variación es:
+      </div>
+      <label class="option-label"><input type="radio" name="qi2" value="a"> a) Desfavorable, porque se gastó menos de lo esperado</label>
+      <label class="option-label"><input type="radio" name="qi2" value="b"> b) Favorable, porque se gastó menos de lo presupuestado mejorando la utilidad</label>
+      <label class="option-label"><input type="radio" name="qi2" value="c"> c) Neutra, porque el costo siempre es fijo</label>
+      <label class="option-label"><input type="radio" name="qi2" value="d"> d) Desfavorable, porque indica que el presupuesto fue mal elaborado</label>
+      <div class="feedback-block" id="qi2-fb"></div>
+    </div>
+
+    <!-- QI3 -->
+    <div class="question-block" id="qi3-block">
+      <div class="question-text">
+        <span class="type-badge badge-teorica">Teórica</span>
+        <strong>3.</strong> La variación de precio en ingresos se calcula como:
+      </div>
+      <label class="option-label"><input type="radio" name="qi3" value="a"> a) (Precio real − Precio presupuestado) × Cantidad presupuestada</label>
+      <label class="option-label"><input type="radio" name="qi3" value="b"> b) (Precio real − Precio presupuestado) × Cantidad real</label>
+      <label class="option-label"><input type="radio" name="qi3" value="c"> c) Precio real × (Cantidad real − Cantidad presupuestada)</label>
+      <label class="option-label"><input type="radio" name="qi3" value="d"> d) (Precio presupuestado − Precio real) × Cantidad total</label>
+      <div class="feedback-block" id="qi3-fb"></div>
+    </div>
+
+    <!-- QI4 -->
+    <div class="question-block" id="qi4-block">
+      <div class="question-text">
+        <span class="type-badge badge-teorica">Teórica</span>
+        <strong>4.</strong> ¿Qué distingue a un centro de utilidades de un centro de costos?
+      </div>
+      <label class="option-label"><input type="radio" name="qi4" value="a"> a) El centro de utilidades solo controla costos; el de costos controla más variables</label>
+      <label class="option-label"><input type="radio" name="qi4" value="b"> b) El centro de utilidades controla tanto ingresos como costos; el de costos solo controla egresos</label>
+      <label class="option-label"><input type="radio" name="qi4" value="c"> c) Ambos son equivalentes: la diferencia es solo de nombre</label>
+      <label class="option-label"><input type="radio" name="qi4" value="d"> d) El centro de costos también controla inversiones de capital</label>
+      <div class="feedback-block" id="qi4-fb"></div>
+    </div>
+
+    <!-- QI5 -->
+    <div class="question-block" id="qi5-block">
+      <div class="question-text">
+        <span class="type-badge badge-teorica">Teórica</span>
+        <strong>5.</strong> Una variación se considera "NO controlable" cuando:
+      </div>
+      <label class="option-label"><input type="radio" name="qi5" value="a"> a) Es inferior al 5% del valor presupuestado</label>
+      <label class="option-label"><input type="radio" name="qi5" value="b"> b) Fue causada por factores externos que el gerente no podía prever ni evitar</label>
+      <label class="option-label"><input type="radio" name="qi5" value="c"> c) Se detecta después del cierre del período contable</label>
+      <label class="option-label"><input type="radio" name="qi5" value="d"> d) Afecta solo a los ingresos, no a los costos</label>
+      <div class="feedback-block" id="qi5-fb"></div>
+    </div>
+
+    <!-- QI6 -->
+    <div class="question-block" id="qi6-block">
+      <div class="question-text">
+        <span class="type-badge badge-teorica">Teórica</span>
+        <strong>6.</strong> ¿Cuál es el propósito del umbral de materialidad en el análisis de variaciones?
+      </div>
+      <label class="option-label"><input type="radio" name="qi6" value="a"> a) Garantizar que solo se reporten variaciones favorables</label>
+      <label class="option-label"><input type="radio" name="qi6" value="b"> b) Definir a partir de qué magnitud una variación justifica investigación y reporte gerencial</label>
+      <label class="option-label"><input type="radio" name="qi6" value="c"> c) Establecer el límite máximo de gasto por centro de responsabilidad</label>
+      <label class="option-label"><input type="radio" name="qi6" value="d"> d) Determinar cuántos meses debe durar el análisis presupuestario</label>
+      <div class="feedback-block" id="qi6-fb"></div>
+    </div>
+
+    <!-- QI7 -->
+    <div class="question-block" id="qi7-block">
+      <div class="question-text">
+        <span class="type-badge badge-teorica">Teórica</span>
+        <strong>7.</strong> ¿Cuál es el centro de responsabilidad de mayor nivel de complejidad y responsabilidad?
+      </div>
+      <label class="option-label"><input type="radio" name="qi7" value="a"> a) Centro de costos, porque controla los recursos más críticos</label>
+      <label class="option-label"><input type="radio" name="qi7" value="b"> b) Centro de ingresos, porque las ventas son la fuente principal del negocio</label>
+      <label class="option-label"><input type="radio" name="qi7" value="c"> c) Centro de inversión, porque responde por ingresos, costos y los activos comprometidos</label>
+      <label class="option-label"><input type="radio" name="qi7" value="d"> d) Centro de utilidades, porque integra ingresos y costos simultáneamente</label>
+      <div class="feedback-block" id="qi7-fb"></div>
+    </div>
+
+    <!-- QI8 – ANÁLISIS -->
+    <div class="question-block" id="qi8-block">
+      <div class="question-text">
+        <span class="type-badge badge-analisis">Análisis</span>
+        <strong>8.</strong> Una empresa de servicios presupuestó ingresos de $100.000 y obtuvo $95.000 reales. Sus costos presupuestados eran $70.000 y los costos reales fueron $64.000. ¿Cuál fue la variación neta en la utilidad operativa?
+      </div>
+      <label class="option-label"><input type="radio" name="qi8" value="a"> a) −$5.000 desfavorable en utilidad</label>
+      <label class="option-label"><input type="radio" name="qi8" value="b"> b) +$1.000 favorable en utilidad</label>
+      <label class="option-label"><input type="radio" name="qi8" value="c"> c) −$11.000 desfavorable</td></label>
+      <label class="option-label"><input type="radio" name="qi8" value="d"> d) +$6.000 favorable en ingresos</label>
+      <div class="feedback-block" id="qi8-fb"></div>
+    </div>
+
+    <!-- QI9 – ANÁLISIS -->
+    <div class="question-block" id="qi9-block">
+      <div class="question-text">
+        <span class="type-badge badge-analisis">Análisis</span>
+        <strong>9.</strong> Una empresa presupuestó 100 contratos a $400 c/u ($40.000 total) y obtuvo 90 contratos a $450 c/u ($40.500 total). ¿Qué afirmación es correcta?
+      </div>
+      <label class="option-label"><input type="radio" name="qi9" value="a"> a) La variación total es favorable porque los ingresos reales superaron los presupuestados</label>
+      <label class="option-label"><input type="radio" name="qi9" value="b"> b) La variación de volumen es favorable porque se perdieron 10 contratos</label>
+      <label class="option-label"><input type="radio" name="qi9" value="c"> c) La variación total es desfavorable porque el precio subió</label>
+      <label class="option-label"><input type="radio" name="qi9" value="d"> d) No hay variación porque los ingresos son prácticamente iguales</label>
+      <div class="feedback-block" id="qi9-fb"></div>
+    </div>
+
+    <!-- QI10 – ANÁLISIS -->
+    <div class="question-block" id="qi10-block">
+      <div class="question-text">
+        <span class="type-badge badge-analisis">Análisis</span>
+        <strong>10.</strong> El Jefe de Logística de una empresa de seguridad reporta una variación desfavorable del 28% en combustible. Argumenta que el precio del diésel subió un 20% por decreto gubernamental. ¿Cómo debe clasificar el contador gerencial esta variación?
+      </div>
+      <label class="option-label"><input type="radio" name="qi10" value="a"> a) 100% controlable: el jefe debió anticipar el alza</label>
+      <label class="option-label"><input type="radio" name="qi10" value="b"> b) 100% no controlable: el precio es externo, no hay responsabilidad</label>
+      <label class="option-label"><input type="radio" name="qi10" value="c"> c) Parcialmente controlable: el alza de precio es no controlable, pero el consumo extra podría haberse evitado con mejor planificación de rutas</label>
+      <label class="option-label"><input type="radio" name="qi10" value="d"> d) No relevante: las variaciones de combustible nunca requieren análisis</label>
+      <div class="feedback-block" id="qi10-fb"></div>
+    </div>
+
+  </div>
+
+  <button class="btn-primary" id="btnVerificarQuiz">✅ Verificar respuestas</button>
+  <div class="score-panel" id="quizScorePanel">
+    <div class="big-score" id="quizScoreText"></div>
+    <div class="score-msg" id="quizScoreMsg"></div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="quizProgressBar" style="width:0%"></div></div>
+    <button class="btn-reset" id="btnResetQuiz">🔄 Reiniciar cuestionario</button>
+  </div>
+</div>
+
+<!-- ============================= ACTIVIDAD IA ============================= -->
+<div class="content-area" id="tab-ia">
+  <h2>🤖 Actividad con Inteligencia Artificial</h2>
+
+  <div class="concept-box">
+    <strong>Objetivo:</strong> Usar la IA como <em>consultor gerencial simulado</em> para analizar variaciones reales, cuestionar sus interpretaciones y desarrollar pensamiento crítico sobre el control presupuestario. <strong>Herramienta recomendada: Claude en <a href="https://claude.ai" target="_blank" style="color:#003366;">claude.ai</a></strong> (gratuito). También puedes usar ChatGPT o Gemini.
+  </div>
+
+  <h3>Contexto de la Actividad</h3>
+  <p>Has aprendido a calcular variaciones, clasificarlas e interpretarlas. Ahora vas a usar la IA para <strong>profundizar el análisis</strong>: pedirle que actúe como gerente financiero, que te proponga causas adicionales y acciones correctivas, y luego <strong>tú evaluarás críticamente sus respuestas</strong>.</p>
+
+  <h3>Prompt para usar con la IA</h3>
+  <p>Copia el siguiente texto exacto y pégalo en Claude (claude.ai) o en tu herramienta preferida:</p>
+
+  <div class="prompt-box" id="iaPrompt">Actúa como un consultor de Contabilidad Gerencial especializado en empresas de servicios de seguridad privada en Ecuador.
+
+Te presento el siguiente cuadro de variaciones del mes de octubre de SEGURECUADOR S.A., empresa ubicada en Guayaquil:
+
+INGRESOS:
+- Guardias: Presupuesto $42.000 / Real $39.500 → Variación: -$2.500 (D)
+- Monitoreo: Presupuesto $15.000 / Real $16.800 → Variación: +$1.800 (F)
+- Consultoría: Presupuesto $5.000 / Real $4.200 → Variación: -$800 (D)
+
+COSTOS DIRECTOS:
+- Nómina guardias: Presupuesto $28.000 / Real $31.500 → Variación: +$3.500 (D)
+- Combustible: Presupuesto $3.200 / Real $2.900 → Variación: -$300 (F)
+- Uniformes y equipamiento: Presupuesto $1.800 / Real $2.400 → Variación: +$600 (D)
+
+GASTOS ADMINISTRATIVOS:
+- Capacitación: Presupuesto $800 / Real $200 → Variación: -$600 (aparentemente F)
+
+Por favor:
+1. Para CADA variación, propón 3 causas posibles distintas a las que yo ya conozco (evita las causas obvias).
+2. Para las dos variaciones más críticas (nómina y guardias), propón un plan de acción correctiva detallado con pasos concretos, responsables y plazos.
+3. Identifica cuál de las variaciones aparentemente favorables podría convertirse en un riesgo futuro y explica por qué.
+4. ¿Qué indicadores adicionales recomendarías monitorear mensualmente para prevenir estas variaciones en el futuro?
+
+Responde en español, con lenguaje ejecutivo claro y ejemplos adaptados al contexto ecuatoriano.</div>
+
+  <button class="btn-copy" onclick="copiarPrompt()">📋 Copiar prompt</button>
+  <p id="copyMsg" style="color:#1a7a3e; font-weight:600; display:none; margin-top:8px;">✅ ¡Prompt copiado! Pégalo en Claude.ai o tu herramienta IA preferida.</p>
+
+  <h3 style="margin-top:24px;">¿Qué hacer con la respuesta de la IA?</h3>
+
+  <div class="step-card">
+    <div class="step-number">1</div>
+    <div><strong>Lee la respuesta completa</strong> sin interrumpirla. Toma nota de los elementos que te sorprendieron o que no habías considerado.</div>
+  </div>
+  <div class="step-card">
+    <div class="step-number">2</div>
+    <div><strong>Evalúa críticamente cada causa propuesta:</strong> ¿Es plausible en el contexto ecuatoriano? ¿La IA entendió la industria de seguridad privada? ¿Hay alguna causa que no aplicaría en Ecuador (ej.: referencia a legislación de otro país)?</div>
+  </div>
+  <div class="step-card">
+    <div class="step-number">3</div>
+    <div><strong>Elige las 3 causas más relevantes</strong> y escribe en tu cuaderno por qué las elegiste y por qué descartaste las otras.</div>
+  </div>
+  <div class="step-card">
+    <div class="step-number">4</div>
+    <div><strong>Redacta un párrafo de media página</strong> respondiendo: "¿En qué se equivocó la IA? ¿Qué no entendió del contexto de SEGURECUADOR?" Si la IA fue completamente correcta, explica qué añadirías tú como gerente que la IA no puede saber.</div>
+  </div>
+
+  <h3>Criterio de Evaluación</h3>
+
+  <table>
+    <tr>
+      <th>Nivel</th>
+      <th>Descripción</th>
+    </tr>
+    <tr>
+      <td>🏆 Pensamiento crítico</td>
+      <td>Identifica al menos 2 errores o imprecisiones de la IA, argumenta con fundamento teórico y propone mejoras concretas basadas en el contexto ecuatoriano.</td>
+    </tr>
+    <tr>
+      <td>🎯 Buen análisis</td>
+      <td>Selecciona causas relevantes, evalúa la respuesta con argumentos parciales y distingue lo aplicable de lo no aplicable.</td>
+    </tr>
+    <tr>
+      <td>📘 Análisis básico</td>
+      <td>Copia la respuesta de la IA con pequeñas modificaciones. No hay cuestionamiento ni postura propia.</td>
+    </tr>
+    <tr>
+      <td>⚠️ Sin valor crítico</td>
+      <td>Copia y pega la respuesta de la IA directamente sin ninguna evaluación.</td>
+    </tr>
+  </table>
+</div>
+
+<!-- ============================= REFLEXIÓN ============================= -->
+<div class="content-area" id="tab-reflexion">
+  <h2>💭 Preguntas Reflexivas: Lo Presupuestado y Lo Vivido</h2>
+
+  <p style="color:#555; margin-bottom:8px; font-size:15px;">Aquí no hay respuestas correctas ni incorrectas. El objetivo es conectar los conceptos de variaciones presupuestarias con situaciones reales de tu vida. Reflexiona con calma, preferiblemente por escrito en tu cuaderno.</p>
+
+  <div class="warning-box" style="margin-bottom:24px;">
+    💡 Estas preguntas son un espejo: los mismos principios que rigen el control presupuestario de una empresa rigen, en muchos sentidos, la gestión de tu propia vida. La Contabilidad Gerencial no es solo para las empresas.
+  </div>
+
+  <div class="reflect-card">
+    <div class="q-num">Reflexión 1 · Presupuesto personal</div>
+    <p>Cuando comienzas un mes, ¿tienes claro cuánto dinero tienes disponible y cuánto planeas gastar? ¿Has vivido el momento de llegar a fin de mes con menos dinero del esperado? ¿Cuál fue la "variación desfavorable" que más te sorprendió y cuál fue su causa real? ¿La habías previsto o la ignoraste inconscientemente?</p>
+  </div>
+
+  <div class="reflect-card">
+    <div class="q-num">Reflexión 2 · La trampa de las variaciones favorables</div>
+    <p>A veces "gastamos menos" en algo importante —salud, alimentación, tiempo con familia, descanso— y nos sentimos bien porque "ahorramos". Pero, ¿esas variaciones favorables en el corto plazo están generando costos mayores en el futuro? ¿Puedes identificar un área de tu vida donde recortar hoy te está costando más mañana?</p>
+  </div>
+
+  <div class="reflect-card">
+    <div class="q-num">Reflexión 3 · Centros de responsabilidad internos</div>
+    <p>En tu vida personal o en tu empresa, ¿tienes claramente definido quién es responsable de qué? ¿Alguna vez culpaste a alguien por algo que en realidad no estaba bajo su control? ¿O asumiste responsabilidad por algo que no podías controlar? ¿Cómo afectó eso a tu bienestar emocional y a tus relaciones?</p>
+  </div>
+
+  <div class="reflect-card">
+    <div class="q-num">Reflexión 4 · El umbral de materialidad en la vida</div>
+    <p>¿Cuándo decides que algo merece tu atención urgente y cuándo lo dejas pasar? ¿Tienes un "umbral de materialidad" personal o tiendes a preocuparte por todo con igual intensidad? La inteligencia emocional incluye saber diferenciar lo urgente de lo importante y lo controlable de lo incontrolable. ¿Cómo aplicas eso en tu vida cotidiana?</p>
+  </div>
+
+  <div class="reflect-card">
+    <div class="q-num">Reflexión 5 · Planes vs. realidad y la autocompasión</div>
+    <p>Los presupuestos rara vez se cumplen al 100%, y eso no significa que fueron mal elaborados. En tu vida personal, ¿cómo reaccionas cuando tus planes no se cumplen? ¿Te juzgas duramente como si fueras "el gerente responsable" de una variación desfavorable? La programación neurolingüística (PNL) enseña que el mapa no es el territorio: los planes son guías, no contratos inamovibles con el universo. ¿Qué cambia en ti cuando tratas tus desvíos personales con la misma objetividad analítica con la que analizarías las variaciones de una empresa?</p>
+  </div>
+
+  <div class="reflect-card">
+    <div class="q-num">Reflexión 6 · Acciones correctivas vs. autocastigo</div>
+    <p>Cuando una empresa detecta una variación desfavorable, no se paraliza ni se destruye internamente: analiza la causa y propone una acción correctiva. ¿Cuándo fue la última vez que en lugar de castigarte por un error, te preguntaste con calma: "¿qué causó esto?" y "¿qué haré diferente?" ¿Qué pasaría si aplicaras el método del informe de variaciones a tus propios errores y fracasos?</p>
+  </div>
+
+  <div class="key-idea">
+    <strong>🌟 Para cerrar:</strong> La Contabilidad Gerencial enseña que la diferencia entre lo planeado y lo real no es un fracaso: es <strong>información</strong>. La forma en que respondemos a esa información —con análisis, responsabilidad y acción— es lo que determina el rumbo futuro, tanto de una empresa como de una persona.
+  </div>
+</div>
+
+<!-- ============================= BIBLIOGRAFÍA ============================= -->
+<div class="content-area" id="tab-biblio">
+  <h2>📚 Bibliografía — Formato APA 7.ª Edición</h2>
+
+  <div class="ref-card">
+    <div class="ref-authors">Horngren, C. T., Datar, S. M., &amp; Rajan, M. V.</div>
+    <div>(2012). <span class="ref-title">Contabilidad de costos: Un enfoque gerencial</span> (14.ª ed.).</div>
+    <div class="ref-source">Pearson Educación.</div>
+  </div>
+
+  <div class="ref-card">
+    <div class="ref-authors">Hansen, D. R., &amp; Mowen, M. M.</div>
+    <div>(2007). <span class="ref-title">Administración de costos: Contabilidad y control</span> (5.ª ed.).</div>
+    <div class="ref-source">Cengage Learning.</div>
+  </div>
+
+  <div class="ref-card">
+    <div class="ref-authors">Ramírez Padilla, D. N.</div>
+    <div>(2013). <span class="ref-title">Contabilidad administrativa</span> (9.ª ed.).</div>
+    <div class="ref-source">McGraw-Hill Interamericana.</div>
+  </div>
+
+  <div class="ref-card">
+    <div class="ref-authors">Anthony, R. N., &amp; Govindarajan, V.</div>
+    <div>(2008). <span class="ref-title">Sistemas de control de gestión</span> (12.ª ed.).</div>
+    <div class="ref-source">McGraw-Hill.</div>
+  </div>
+
+  <div class="ref-card">
+    <div class="ref-authors">Welsch, G. A., Hilton, R. W., &amp; Gordon, P. N.</div>
+    <div>(2005). <span class="ref-title">Presupuestos: Planificación y control</span> (6.ª ed.).</div>
+    <div class="ref-source">Pearson Prentice Hall.</div>
+  </div>
+
+  <div class="ref-card">
+    <div class="ref-authors">Blocher, E. J., Stout, D. E., &amp; Cokins, G.</div>
+    <div>(2010). <span class="ref-title">Administración de costos: Un enfoque estratégico</span> (4.ª ed.).</div>
+    <div class="ref-source">McGraw-Hill.</div>
+  </div>
+
+  <div class="ref-card">
+    <div class="ref-authors">Instituto de Contabilidad y Auditoría de Cuentas (ICAC)</div>
+    <div>(2021). <span class="ref-title">Normas técnicas de contabilidad de gestión: Control presupuestario y análisis de desviaciones</span>.</div>
+    <div class="ref-source">Ministerio de Asuntos Económicos y Transformación Digital de España. https://www.icac.meh.es</div>
+  </div>
+
+  <div class="ref-note">
+    📌 <strong>Nota:</strong> Se recomienda verificar cada referencia en Google Scholar (<a href="https://scholar.google.com" target="_blank">scholar.google.com</a>) o en el repositorio institucional de la Universidad de Guayaquil antes de citar en trabajos académicos.
+  </div>
+</div>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+  // ========== TAB NAVIGATION ==========
+  document.getElementById('mainTabBar').addEventListener('click', function(e) {
+    const btn = e.target.closest('.tab-btn');
+    if (!btn) return;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.content-area').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // ========== EJERCICIO INTERACTIVO ==========
+  const ejercicioCorrects = {
+    ei1: 'b',
+    ei2: 'b',
+    ei3: 'a',
+    ei4: 'c',
+    ei5: 'c',
+    ei6: 'c',
+    ei7: 'c',
+    ei8: 'b'
+  };
+
+  const ejercicioFeedbacks = {
+    ei1: {
+      correct: '✅ Correcto. Para costos y gastos, cuando el valor real supera el presupuestado, la variación es DESFAVORABLE porque el exceso reduce la utilidad. En este caso: $31.500 − $28.000 = +$3.500 (D).',
+      incorrect: '❌ Incorrecto. Para costos y gastos, la regla se invierte: gasto real > presupuesto = desfavorable. El exceso de $3.500 en nómina reduce la utilidad esperada.'
+    },
+    ei2: {
+      correct: '✅ Correcto. V% = ($16.800 − $15.000) / $15.000 × 100 = $1.800 / $15.000 × 100 = 12,00%. Una variación favorable del 12% en monitoreo.',
+      incorrect: '❌ Incorrecto. La fórmula es: (Real − Presupuesto) / Presupuesto × 100. Aplicando: ($16.800 − $15.000) / $15.000 × 100 = 12,00%.'
+    },
+    ei3: {
+      correct: '✅ Correcto. Una variación favorable en combustible puede enmascarar una reducción de la calidad operativa: si se patrulló menos porque se recortaron rutas, la empresa está en riesgo aunque haya "ahorrado". El contador gerencial siempre pregunta el "por qué".',
+      incorrect: '❌ Incorrecto. Una variación numéricamente favorable no siempre es buena señal. Si el ahorro en combustible se debe a menos patrullajes, la calidad del servicio se ve comprometida — un riesgo mayor que el ahorro obtenido.'
+    },
+    ei4: {
+      correct: '✅ Correcto. La variación de volumen usa el precio presupuestado: $550 × (85 − 80) = $550 × 5 = +$2.750 Favorable. Se capturaron 5 contratos adicionales, lo cual, valorado al precio original, genera $2.750 más.',
+      incorrect: '❌ Incorrecto. La variación de volumen se calcula multiplicando el PRECIO PRESUPUESTADO por la diferencia de cantidades: $550 × (85 − 80) = +$2.750 Favorable. El precio real ($530) se usa para la variación de precio, no la de volumen.'
+    },
+    ei5: {
+      correct: '✅ Correcto. El Departamento Comercial solo genera y gestiona ingresos (contratos, renovaciones, ventas) pero no controla los costos operativos del servicio. Eso lo convierte en un CENTRO DE INGRESOS.',
+      incorrect: '❌ Incorrecto. El Departamento Comercial solo gestiona ventas/contratos sin controlar costos operativos. Eso es exactamente la definición de un centro de ingresos.'
+    },
+    ei6: {
+      correct: '✅ Correcto. La variación de capacitación (−75%) requiere investigación: si se postergó por error, el personal estará menos entrenado, lo que puede generar incidentes, rotación y costos mayores en el futuro. Lo que parece un ahorro puede ser un riesgo diferido.',
+      incorrect: '❌ Incorrecto. Un análisis superficial diría que es favorable (se gastó menos). Pero el pensamiento gerencial profundo pregunta: ¿por qué se recortó el 75%? El riesgo de personal sin capacitación puede generar costos futuros mayores que el ahorro actual.'
+    },
+    ei7: {
+      correct: '✅ Correcto. Según la tabla de umbrales presentada en el widget: variaciones mayores al 20% requieren "reunión urgente de dirección + revisión del presupuesto".',
+      incorrect: '❌ Incorrecto. Según la tabla de umbrales del widget: variaciones 0–3% = solo registrar; 3–10% = investigar; 10–20% = informe gerencial; MAYOR AL 20% = reunión urgente de dirección.'
+    },
+    ei8: {
+      correct: '✅ Correcto. Un informe de variaciones completo tiene: (1) el número de la variación, (2) la causa investigada que explica por qué ocurrió, y (3) la acción correctiva propuesta para mejorar. Sin las tres partes, es solo un estado de cuentas.',
+      incorrect: '❌ Incorrecto. Los tres elementos esenciales del informe de variaciones son: el número (la variación calculada), la causa investigada (¿por qué ocurrió?) y la acción correctiva (¿qué se hará al respecto?). Esto transforma el informe en herramienta de gestión.'
+    }
+  };
+
+  document.getElementById('btnVerificarEj').addEventListener('click', function() {
+    const total = 8;
+    let respondidas = 0;
+    let correctas = 0;
+
+    for (let i = 1; i <= total; i++) {
+      const sel = document.querySelector(`input[name="ei${i}"]:checked`);
+      if (sel) respondidas++;
+    }
+
+    if (respondidas < total) {
+      alert('⚠️ Por favor responde TODAS las preguntas antes de verificar.');
+      return;
+    }
+
+    for (let i = 1; i <= total; i++) {
+      const sel = document.querySelector(`input[name="ei${i}"]:checked`);
+      const block = document.getElementById(`ei${i}-block`);
+      const fb = document.getElementById(`ei${i}-fb`);
+      const isCorrect = sel.value === ejercicioCorrects[`ei${i}`];
+      if (isCorrect) correctas++;
+      block.classList.add(isCorrect ? 'correct' : 'incorrect');
+      fb.className = 'feedback-block ' + (isCorrect ? 'correct-fb' : 'incorrect-fb');
+      fb.textContent = ejercicioFeedbacks[`ei${i}`][isCorrect ? 'correct' : 'incorrect'];
+      fb.style.display = 'block';
+      document.querySelectorAll(`input[name="ei${i}"]`).forEach(r => r.disabled = true);
+    }
+
+    const pct = Math.round((correctas / total) * 100);
+    const panel = document.getElementById('ejScorePanel');
+    panel.style.display = 'block';
+    document.getElementById('ejScoreText').textContent = `${correctas}/${total} — ${pct}%`;
+    document.getElementById('ejProgressBar').style.width = pct + '%';
+
+    let msg = '';
+    if (pct === 100) msg = '🏆 ¡Perfecto! Dominas el análisis de variaciones presupuestarias.';
+    else if (pct >= 80) msg = '🎯 ¡Muy bien! Tienes una comprensión sólida del tema.';
+    else if (pct >= 60) msg = '📘 Buen trabajo. Repasa los conceptos de los ítems incorrectos.';
+    else if (pct >= 40) msg = '⚠️ Necesitas reforzar el tema. Vuelve a los contenidos anteriores.';
+    else msg = '📖 Te recomendamos releer todas las pestañas con calma antes de reintentar.';
+
+    document.getElementById('ejScoreMsg').textContent = msg;
+    panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    this.disabled = true;
+  });
+
+  document.getElementById('btnResetEj').addEventListener('click', function() {
+    for (let i = 1; i <= 8; i++) {
+      const block = document.getElementById(`ei${i}-block`);
+      block.classList.remove('correct', 'incorrect');
+      const fb = document.getElementById(`ei${i}-fb`);
+      fb.style.display = 'none';
+      document.querySelectorAll(`input[name="ei${i}"]`).forEach(r => { r.checked = false; r.disabled = false; });
+    }
+    document.getElementById('ejScorePanel').style.display = 'none';
+    document.getElementById('ejProgressBar').style.width = '0%';
+    document.getElementById('btnVerificarEj').disabled = false;
+  });
+
+  // ========== CUESTIONARIO ==========
+  const quizCorrects = {
+    qi1: 'b',
+    qi2: 'b',
+    qi3: 'b',
+    qi4: 'b',
+    qi5: 'b',
+    qi6: 'b',
+    qi7: 'c',
+    qi8: 'b',
+    qi9: 'a',
+    qi10: 'c'
+  };
+
+  const quizFeedbacks = {
+    qi1: {
+      correct: '✅ Correcto. V = Real − Presupuestado. Esta fórmula es universal para todas las líneas del estado de resultados.',
+      incorrect: '❌ Incorrecto. La fórmula estándar es V = Real − Presupuestado. El resultado positivo en ingresos es favorable; en costos, el resultado positivo es desfavorable.'
+    },
+    qi2: {
+      correct: '✅ Correcto. En costos, gastar menos de lo presupuestado es FAVORABLE porque incrementa la utilidad. La empresa fue más eficiente en el uso de sus recursos.',
+      incorrect: '❌ Incorrecto. Para costos y gastos, la regla es: real < presupuesto = favorable. Reducir costos sin comprometer la calidad mejora la utilidad operativa.'
+    },
+    qi3: {
+      correct: '✅ Correcto. La variación de precio en ingresos = (Precio real − Precio presupuestado) × Cantidad real. Se usa la cantidad real porque esa es la base sobre la que se cobra el precio diferente.',
+      incorrect: '❌ Incorrecto. La variación de precio de ingresos se calcula como (Precio real − Precio presupuestado) × Cantidad real. La cantidad real indica a cuántas unidades se aplicó el precio diferente.'
+    },
+    qi4: {
+      correct: '✅ Correcto. El centro de utilidades controla tanto ingresos como costos de su área, siendo evaluado por la rentabilidad. El centro de costos solo controla los egresos sin responsabilidad sobre los ingresos.',
+      incorrect: '❌ Incorrecto. La diferencia clave es que el centro de utilidades gestiona ambos lados de la ecuación (ingresos y costos), mientras que el centro de costos solo controla egresos.'
+    },
+    qi5: {
+      correct: '✅ Correcto. Una variación no controlable es aquella generada por factores externos como alzas de precios gubernamentales, desastres naturales, cambios legales o condiciones de mercado que el gerente no podía prever ni evitar.',
+      incorrect: '❌ Incorrecto. Una variación no controlable surge de causas externas a la empresa que el gerente no podía prever ni evitar. El criterio es la capacidad de control, no el porcentaje ni el momento de detección.'
+    },
+    qi6: {
+      correct: '✅ Correcto. El umbral de materialidad define el punto a partir del cual una variación justifica investigación y reporte. Evita que la gerencia dedique tiempo a diferencias insignificantes y concentra la atención en lo verdaderamente relevante.',
+      incorrect: '❌ Incorrecto. El umbral de materialidad es el criterio que determina cuándo una variación es suficientemente importante para ser investigada y reportada. No tiene que ver con el tipo de variación ni con el límite de gasto.'
+    },
+    qi7: {
+      correct: '✅ Correcto. El centro de inversión es el más completo: el responsable gestiona ingresos, costos y los activos comprometidos, siendo evaluado por el retorno sobre la inversión (ROI). Suele corresponder a la Dirección General.',
+      incorrect: '❌ Incorrecto. El centro de inversión supera al de utilidades porque además de ingresos y costos, controla también los activos de capital, siendo el nivel más alto de responsabilidad gerencial.'
+    },
+    qi8: {
+      correct: '✅ Correcto. Utilidad presupuestada = $100.000 − $70.000 = $30.000. Utilidad real = $95.000 − $64.000 = $31.000. Variación en utilidad = $31.000 − $30.000 = +$1.000 FAVORABLE. Aunque los ingresos cayeron $5.000, la reducción de costos de $6.000 generó una utilidad mayor.',
+      incorrect: '❌ Incorrecto. Calcula la utilidad en ambos escenarios: Presupuestada = $100K − $70K = $30.000; Real = $95K − $64K = $31.000. Variación = +$1.000 Favorable. El ahorro en costos ($6K) superó la caída en ingresos ($5K).'
+    },
+    qi9: {
+      correct: '✅ Correcto. Ingresos reales ($40.500) > presupuestados ($40.000), por lo tanto la variación TOTAL de ingresos es +$500 Favorable. Aunque se perdieron 10 contratos (variación de volumen desfavorable), el aumento de $50 en tarifa compensó con creces esa pérdida.',
+      incorrect: '❌ Incorrecto. Para ingresos, la variación favorable es cuando el real supera al presupuestado: $40.500 > $40.000, por tanto la variación TOTAL es +$500 Favorable. La variación de volumen (menos contratos) es desfavorable, pero fue más que compensada por la variación de precio.'
+    },
+    qi10: {
+      correct: '✅ Correcto. La clasificación correcta es PARCIALMENTE controlable. El alza del 20% del precio del diésel por decreto gubernamental es no controlable (factor externo). Sin embargo, el exceso del 28% total implica que un 8% adicional pudo ser controlado mediante mejor planificación de rutas y conducción eficiente.',
+      incorrect: '❌ Incorrecto. La variación debe clasificarse como PARCIALMENTE controlable. El alza gubernamental del combustible es no controlable, pero el consumo excesivo por rutas mal planificadas sí está bajo control del Jefe de Logística.'
+    }
+  };
+
+  document.getElementById('btnVerificarQuiz').addEventListener('click', function() {
+    const total = 10;
+    let respondidas = 0;
+    let correctas = 0;
+
+    for (let i = 1; i <= total; i++) {
+      const sel = document.querySelector(`input[name="qi${i}"]:checked`);
+      if (sel) respondidas++;
+    }
+
+    if (respondidas < total) {
+      alert('⚠️ Por favor responde TODAS las preguntas antes de verificar.');
+      return;
+    }
+
+    for (let i = 1; i <= total; i++) {
+      const sel = document.querySelector(`input[name="qi${i}"]:checked`);
+      const block = document.getElementById(`qi${i}-block`);
+      const fb = document.getElementById(`qi${i}-fb`);
+      const isCorrect = sel.value === quizCorrects[`qi${i}`];
+      if (isCorrect) correctas++;
+      block.classList.add(isCorrect ? 'correct' : 'incorrect');
+      fb.className = 'feedback-block ' + (isCorrect ? 'correct-fb' : 'incorrect-fb');
+      fb.textContent = quizFeedbacks[`qi${i}`][isCorrect ? 'correct' : 'incorrect'];
+      fb.style.display = 'block';
+      document.querySelectorAll(`input[name="qi${i}"]`).forEach(r => r.disabled = true);
+    }
+
+    const pct = Math.round((correctas / total) * 100);
+    const panel = document.getElementById('quizScorePanel');
+    panel.style.display = 'block';
+    document.getElementById('quizScoreText').textContent = `${correctas}/10 — ${pct}%`;
+    document.getElementById('quizProgressBar').style.width = pct + '%';
+
+    let msg = '';
+    if (pct === 100) msg = '🏆 ¡Resultado perfecto! Eres un experto en análisis de variaciones.';
+    else if (pct >= 80) msg = '🎯 ¡Muy bien! Sólido dominio del control presupuestario.';
+    else if (pct >= 60) msg = '📘 Aprobado. Revisa los conceptos de los ítems incorrectos.';
+    else if (pct >= 40) msg = '⚠️ Necesitas reforzar. Vuelve a leer el material del widget.';
+    else msg = '📖 Repasa todo el contenido con detenimiento antes de reintentar.';
+
+    document.getElementById('quizScoreMsg').textContent = msg;
+    panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    this.disabled = true;
+  });
+
+  document.getElementById('btnResetQuiz').addEventListener('click', function() {
+    for (let i = 1; i <= 10; i++) {
+      const block = document.getElementById(`qi${i}-block`);
+      block.classList.remove('correct', 'incorrect');
+      const fb = document.getElementById(`qi${i}-fb`);
+      fb.style.display = 'none';
+      document.querySelectorAll(`input[name="qi${i}"]`).forEach(r => { r.checked = false; r.disabled = false; });
+    }
+    document.getElementById('quizScorePanel').style.display = 'none';
+    document.getElementById('quizProgressBar').style.width = '0%';
+    document.getElementById('btnVerificarQuiz').disabled = false;
+  });
+
+  // ========== COPIAR PROMPT IA ==========
+  function copiarPrompt() {
+    const text = document.getElementById('iaPrompt').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      document.getElementById('copyMsg').style.display = 'block';
+      setTimeout(() => { document.getElementById('copyMsg').style.display = 'none'; }, 3500);
+    }).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      document.getElementById('copyMsg').style.display = 'block';
+      setTimeout(() => { document.getElementById('copyMsg').style.display = 'none'; }, 3500);
+    });
+  }
+</script>
+</body>
+</html>
