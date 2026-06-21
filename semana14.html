@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DCG | Semana 14 | El cambio climático y otros desafíos medioambientales</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --azul-oscuro:#003366;
+    --celeste:#87CEEB;
+    --azul-claro-fondo:#eaf4fb;
+    --verde-ok:#1e7e34;
+    --verde-ok-bg:#e6f7ea;
+    --rojo-error:#b02a2a;
+    --rojo-error-bg:#fdecea;
+    --gris-texto:#2b2b2b;
+    --gris-borde:#cfd8dc;
+    --ambar:#8a5b00;
+    --ambar-bg:#fff6e0;
+  }
+
+  *{box-sizing:border-box;}
+
+  body{
+    margin:0;
+    font-family:'Source Sans 3', sans-serif;
+    color:var(--gris-texto);
+    background:#f4f7f9;
+    line-height:1.6;
+  }
+
+  h1,h2,h3,h4{
+    font-family:'Lora', serif;
+    color:var(--azul-oscuro);
+    line-height:1.3;
+  }
+
+  /* ===================== ENCABEZADO ===================== */
+  header.cabecera{
+    background:var(--azul-oscuro);
+    color:#ffffff;
+    padding:18px 24px;
+    display:flex;
+    align-items:center;
+    gap:18px;
+    flex-wrap:wrap;
+  }
+  header.cabecera img.logo{
+    height:64px;
+    width:auto;
+    background:#ffffff;
+    border-radius:8px;
+    padding:4px 8px;
+    flex-shrink:0;
+  }
+  header.cabecera .titulos{flex:1; min-width:240px;}
+  header.cabecera .titulos p.institucion{
+    margin:0 0 2px 0;
+    font-size:0.82rem;
+    letter-spacing:.4px;
+    color:#cfe3f5;
+    text-transform:uppercase;
+  }
+  header.cabecera .titulos h1{
+    margin:2px 0;
+    color:#ffffff;
+    font-size:1.45rem;
+  }
+  header.cabecera .titulos p.subt{
+    margin:0;
+    font-size:0.95rem;
+    color:#e3f0fa;
+  }
+  header.cabecera .meta-semana{
+    background:rgba(255,255,255,0.12);
+    border:1px solid rgba(255,255,255,0.35);
+    border-radius:8px;
+    padding:8px 14px;
+    font-size:0.88rem;
+    color:#ffffff;
+    text-align:center;
+    min-width:150px;
+  }
+  header.cabecera .meta-semana strong{display:block; font-size:1.05rem;}
+
+  /* ===================== NAV PESTAÑAS ===================== */
+  nav.tabs-wrap{
+    background:var(--celeste);
+    position:sticky;
+    top:0;
+    z-index:50;
+    box-shadow:0 2px 6px rgba(0,0,0,0.12);
+  }
+  .tabs{
+    display:flex;
+    overflow-x:auto;
+    white-space:nowrap;
+    scrollbar-width:thin;
+    scrollbar-color:var(--azul-oscuro) var(--celeste);
+  }
+  .tabs::-webkit-scrollbar{height:8px;}
+  .tabs::-webkit-scrollbar-track{background:var(--celeste);}
+  .tabs::-webkit-scrollbar-thumb{background:var(--azul-oscuro); border-radius:6px;}
+  .tabs button{
+    flex:0 0 auto;
+    background:transparent;
+    border:none;
+    color:#0a0a0a;
+    font-family:'Source Sans 3', sans-serif;
+    font-weight:600;
+    font-size:0.88rem;
+    padding:14px 16px;
+    cursor:pointer;
+    border-bottom:3px solid transparent;
+    transition:background .15s ease;
+  }
+  .tabs button:hover{background:rgba(255,255,255,0.35);}
+  .tabs button.active{
+    background:#ffffff;
+    color:var(--azul-oscuro);
+    font-weight:700;
+    border-bottom:3px solid var(--azul-oscuro);
+  }
+
+  /* ===================== CONTENEDOR PRINCIPAL ===================== */
+  main{
+    max-width:980px;
+    margin:0 auto;
+    padding:22px 18px 60px 18px;
+  }
+  .panel{display:none; animation:fadeIn .25s ease;}
+  .panel.active{display:block;}
+  @keyframes fadeIn{from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:translateY(0);}}
+
+  .panel h2.titulo-tema{
+    font-size:1.55rem;
+    border-bottom:3px solid var(--celeste);
+    padding-bottom:8px;
+    margin-top:0;
+  }
+  .panel h3{font-size:1.18rem; margin-top:28px;}
+
+  p{margin:0 0 14px 0;}
+
+  /* Cajas */
+  .caja-concepto{
+    border-left:5px solid var(--azul-oscuro);
+    background:#ffffff;
+    padding:14px 18px;
+    margin:18px 0;
+    border-radius:0 8px 8px 0;
+    box-shadow:0 1px 4px rgba(0,0,0,0.06);
+  }
+  .caja-concepto h4{margin:0 0 6px 0; color:var(--azul-oscuro); font-size:1rem;}
+
+  .caja-ejemplo{
+    background:var(--azul-claro-fondo);
+    border:1px solid #b9d9ec;
+    padding:14px 18px;
+    margin:18px 0;
+    border-radius:8px;
+  }
+  .caja-ejemplo h4{margin:0 0 6px 0; color:var(--azul-oscuro); font-size:1rem;}
+  .caja-ejemplo h4 .tag{
+    background:var(--azul-oscuro);
+    color:#fff;
+    font-size:.7rem;
+    padding:2px 8px;
+    border-radius:10px;
+    margin-right:8px;
+    vertical-align:middle;
+    text-transform:uppercase;
+    letter-spacing:.4px;
+  }
+
+  .caja-clave{
+    background:var(--azul-oscuro);
+    color:#ffffff;
+    padding:14px 18px;
+    margin:20px 0;
+    border-radius:8px;
+  }
+  .caja-clave h4{margin:0 0 6px 0; color:#cfe3f5; font-size:.92rem; text-transform:uppercase; letter-spacing:.5px;}
+  .caja-clave p{margin:0; color:#ffffff;}
+
+  .caja-repaso{
+    background:#ffffff;
+    border:1px solid var(--gris-borde);
+    border-left:5px solid var(--celeste);
+    padding:14px 18px;
+    margin:14px 0;
+    border-radius:0 8px 8px 0;
+  }
+  .caja-repaso h4{margin:0 0 4px 0; font-size:1rem;}
+
+  table.tabla-comp{
+    width:100%;
+    border-collapse:collapse;
+    margin:18px 0;
+    font-size:0.92rem;
+    background:#fff;
+  }
+  table.tabla-comp th{
+    background:var(--azul-oscuro);
+    color:#fff;
+    padding:10px;
+    text-align:left;
+  }
+  table.tabla-comp td{
+    padding:10px;
+    border-bottom:1px solid var(--gris-borde);
+    vertical-align:top;
+  }
+  table.tabla-comp tr:nth-child(even) td{background:#f6fafd;}
+
+  ul.lista-visual{padding-left:0; list-style:none; margin:14px 0;}
+  ul.lista-visual li{
+    padding:8px 10px 8px 14px;
+    border-left:3px solid var(--celeste);
+    margin-bottom:8px;
+    background:#fff;
+    border-radius:0 6px 6px 0;
+  }
+
+  .badge-fila{display:flex; gap:8px; flex-wrap:wrap; margin:10px 0 18px 0;}
+  .badge{
+    background:var(--celeste);
+    color:#06324d;
+    font-size:.78rem;
+    font-weight:600;
+    padding:4px 10px;
+    border-radius:12px;
+  }
+
+  /* ===================== EJERCICIO / QUIZ ===================== */
+  .item-pregunta{
+    background:#fff;
+    border:1px solid var(--gris-borde);
+    border-radius:8px;
+    padding:16px 18px;
+    margin-bottom:16px;
+  }
+  .item-pregunta p.enunciado{font-weight:600; margin:0 0 10px 0; color:var(--azul-oscuro);}
+  .item-pregunta label.opcion{
+    display:block;
+    padding:8px 10px;
+    margin-bottom:6px;
+    border-radius:6px;
+    cursor:pointer;
+    border:1px solid #e1e8ec;
+    transition:background .15s;
+  }
+  .item-pregunta label.opcion:hover{background:#f1f7fb;}
+  .item-pregunta input[type=radio]{margin-right:8px;}
+
+  .item-pregunta.correcto{border:2px solid var(--verde-ok); background:var(--verde-ok-bg);}
+  .item-pregunta.incorrecto{border:2px solid var(--rojo-error); background:var(--rojo-error-bg);}
+  .resultado-item{
+    margin-top:10px;
+    padding:10px 12px;
+    border-radius:6px;
+    font-size:.92rem;
+    display:none;
+  }
+  .resultado-item.show{display:block;}
+  .resultado-item.ok{background:#d7f0dd; color:var(--verde-ok);}
+  .resultado-item.bad{background:#f9d9d6; color:var(--rojo-error);}
+
+  .tipo-badge{
+    display:inline-block;
+    font-size:.72rem;
+    font-weight:700;
+    padding:3px 9px;
+    border-radius:10px;
+    margin-bottom:8px;
+    text-transform:uppercase;
+    letter-spacing:.4px;
+  }
+  .tipo-teorica{background:#d7e8f7; color:var(--azul-oscuro);}
+  .tipo-analisis{background:#fde6c9; color:#8a4b00;}
+
+  .btn{
+    background:var(--azul-oscuro);
+    color:#fff;
+    border:none;
+    padding:12px 22px;
+    font-size:.95rem;
+    font-weight:600;
+    border-radius:8px;
+    cursor:pointer;
+    font-family:'Source Sans 3', sans-serif;
+    transition:opacity .15s;
+  }
+  .btn:hover{opacity:.88;}
+  .btn.secundario{background:#5a6b7a;}
+  .btn-row{display:flex; gap:12px; flex-wrap:wrap; margin-top:18px;}
+
+  .alerta-incompleto{
+    background:var(--ambar-bg);
+    color:var(--ambar);
+    border:1px solid #e6c27a;
+    padding:12px 16px;
+    border-radius:8px;
+    margin-top:14px;
+    display:none;
+    font-weight:600;
+  }
+  .alerta-incompleto.show{display:block;}
+
+  .resultado-final{
+    display:none;
+    margin-top:24px;
+    padding:22px;
+    border-radius:10px;
+    background:#ffffff;
+    border:2px solid var(--azul-oscuro);
+    text-align:center;
+  }
+  .resultado-final.show{display:block;}
+  .resultado-final .puntaje{font-size:2.2rem; font-weight:700; color:var(--azul-oscuro); font-family:'Lora', serif;}
+  .resultado-final .emoji{font-size:2.6rem; display:block; margin-bottom:6px;}
+  .barra-progreso-cont{
+    background:#e3e9ee;
+    border-radius:20px;
+    height:22px;
+    width:100%;
+    margin:14px 0;
+    overflow:hidden;
+  }
+  .barra-progreso{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg, var(--celeste), var(--azul-oscuro));
+    border-radius:20px;
+    transition:width 1.1s ease;
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    color:#fff;
+    font-size:.78rem;
+    font-weight:700;
+    padding-right:8px;
+  }
+  .mensaje-motivacional{font-size:1.02rem; margin-top:8px; font-weight:600;}
+
+  /* ===================== IA / REFLEXION ===================== */
+  .caja-ia{
+    background:#ffffff;
+    border:1px solid var(--gris-borde);
+    border-radius:10px;
+    padding:18px 20px;
+    margin:16px 0;
+  }
+  .caja-ia h4{margin-top:0; color:var(--azul-oscuro);}
+  .prompt-box{
+    background:#0d1f2d;
+    color:#d9f0ff;
+    padding:16px 18px;
+    border-radius:8px;
+    font-family:'Courier New', monospace;
+    font-size:.86rem;
+    white-space:pre-wrap;
+    margin:12px 0;
+    line-height:1.55;
+  }
+  .recomendado{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background:var(--celeste);
+    color:#06324d;
+    font-weight:700;
+    font-size:.82rem;
+    padding:4px 12px;
+    border-radius:14px;
+  }
+
+  .pregunta-reflexion{
+    background:#fff;
+    border-left:5px solid var(--celeste);
+    padding:14px 18px;
+    margin-bottom:14px;
+    border-radius:0 8px 8px 0;
+  }
+  .pregunta-reflexion span.num{
+    display:inline-block;
+    background:var(--azul-oscuro);
+    color:#fff;
+    width:26px; height:26px;
+    border-radius:50%;
+    text-align:center;
+    line-height:26px;
+    font-weight:700;
+    font-size:.85rem;
+    margin-right:10px;
+  }
+
+  /* ===================== BIBLIOGRAFIA ===================== */
+  .ref-card{
+    background:#fff;
+    border:1px solid var(--gris-borde);
+    border-left:5px solid var(--azul-oscuro);
+    border-radius:0 8px 8px 0;
+    padding:14px 18px;
+    margin-bottom:12px;
+  }
+  .ref-card p{margin:0; font-size:.94rem;}
+  .ref-card .ref-tipo{
+    font-size:.72rem;
+    font-weight:700;
+    color:#fff;
+    background:var(--azul-oscuro);
+    padding:2px 8px;
+    border-radius:10px;
+    display:inline-block;
+    margin-bottom:6px;
+    text-transform:uppercase;
+  }
+  .nota-pie{
+    font-size:.85rem;
+    font-style:italic;
+    color:#555;
+    margin-top:18px;
+    border-top:1px dashed var(--gris-borde);
+    padding-top:12px;
+  }
+
+  footer.pie{
+    text-align:center;
+    font-size:.8rem;
+    color:#7a8a96;
+    padding:20px;
+  }
+
+  @media (max-width:600px){
+    header.cabecera{padding:14px 14px;}
+    header.cabecera img.logo{height:48px;}
+    header.cabecera .titulos h1{font-size:1.15rem;}
+    .tabs button{font-size:.8rem; padding:12px 12px;}
+    main{padding:16px 12px 50px 12px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== ENCABEZADO ===================== -->
+<header class="cabecera">
+  <img class="logo" src="data:image/jpeg;base64,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AFFFFABWx4UcR+K9MY9PtCj8+Kx60fD52+I9NJ4H2qP/ANCFNOzuTJXi0e+UUHrRX05+ahRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABUkfQ1HT4vvN9BQgexyXxM/5FIf9fKfyavHK9i+Jv8AyKa/9fKfyavHa8fMf4q9P8z6/h//AHWX+J/kgooorzz3QooooAKKKKACtnSdCe82zXGUg6gd3/8ArVb0fQc7bm8XjqkR/mf8K6SvRwmBc/fqbfmebi8cqfuU9/yGRRRwxrHEgRF6KKfRRXtJJKyPEbbd2FFFFMAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACmSSLGOevYUksojGByxqoSWOScmsqlVR0W5vRoOer2FeRpDk/lTaKK5G23dnfGKirIKKKKRQUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQBm32kRXWZIsRy/o31rnJYmhlaN8blODg5roNV1P7Opghb96fvH+6P8a5wnJya87Fcil7u520OdrXYKKKK5ToCiiigAooooAK+/6+AK+/6APDR0H0ooHQfSivqEfmjCiiigQUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFeb/ABV+/pX0l/8AZa9Irzf4q/f0r6S/+y1y43+BL+up6eT/AO+w+f5M86ooorwT7kKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKt6UdusWTDtPGf/HhVSrWmf8hWz/67p/6EKAPoRvvH60lK33j9aSvqD8zCiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACnx/eb6D+tMqSMdTQDOQ+Jv8AyKif9fKfyavHa9h+J3/Iqp/18p/Jq8erxsx/ir0/zPr+H/8AdZf4n+SCiiiuA90KKKKAAAk4HJrqtG0MQBbm7XMvVYz/AA+596ND0byFW6uV/enlEP8AD7n3rer1MHg72qVNuiPKxuN5b06b16sKKKK9g8cKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKZJII19SegokkEY55PYVTZi7ZJ5rKpUUV5m1Gi5u72AksSSck0lFFcbdz0UklZBRRRQMKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKztU1IWieVGQZ2H/fI9afqWorZR7VwZmHyj09zXLu7SOXdizE5JPeuavX5Fyrc3o0ubV7CMxZizEknkk0lFFeadwUUUUAFFFFABRRRQAV9/18AV9/0AeGjoPpRQOg+lFfUI/NGFFFFAgooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK83+Kv39K+kv/stekV5v8Vfv6V9Jf/Za5cZ/Al/XU9PJ/wDfYfP8medUUUV4J9yFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFWtM/5Ctn/wBd0/8AQhVWrWmf8hWz/wCu6f8AoQoA+hG+8frSUrfeP1pK+oPzMKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKkj6Go6kj70IGcd8T/+RVj/AOvpP5NXj9ewfE//AJFaL/r6X/0Fq8frxsx/ir0/zPr+H/8AdX/if5IKKKK4D3QrpdB0fG28uV940P8AM1V0LSPtcn2mdf3CHgH+M/4V1telgcJz/vJ7fmebjsXyL2cN/wAgooor2jxAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigApksgjX1J6CiSQRrk9ewqmzFmJJyTWVSpyrTc2o0ed3ewMxZiT1NJRRXG3fU9FJJWQUUUUDCiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACqeoX6WMOeGkb7q/1p97ex2UBd+WP3V9TXKTzyXEzSyNlm/SsK9ZU1Zbm1Klzu72ElleaRpJGLMxySaZRRXmNtu7O9K2wUUUUgCiiigAooooAKKKKACvv+vgCvv+gDwqCTzbeKQfxoG/MU+szw5N9o8NabLxzboDj1Ax/StOvpacuaCl3PznEQ9nVlDs2vuYUUUVZiFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABXm/wAVfv6V9Jf/AGWvSK84+Kv39K+kv/stcuM/gS/rqenk/wDvsPn+TPOaKKK8E+5CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACrWmf8hWz/wCu6f8AoQqrVrTP+QrZ/wDXdP8A0IUAfQjfeP1pKVvvH60lfUH5mFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFSR9xUdOjPzke1AM4/4n/8AIrxf9fS/+gtXkFevfFD/AJFiH/r6X/0Fq8hrxsx/ir0/zPr+H/8AdX/if5IKv6VprajdbTkRLy7eg9PrVa1tpLu4SCJcsx/L3rurGzjsLVYI+3LN/ePrWeEwzrT12W56WLxKoQ03exNHGkUaxxqFRRgAdhTqKK+gSSVkfOttu7CiiimAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABTXcIpY04nAyelU5ZPMb2HSonNQVzSlTdSVhruXbcabRRXC227s9NJJWQUUUUDCiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACoLu6js4DLIfovcmnXFxHawtLKcKP1PpXKXl5JezmR+B0VewFY1qyprzNaVJzfkNurmS7nMsh5PQdgPSoaKK8uUnJ3Z3pJKyCiiikMKKKKACiiigAooooAKKKKACvv8Ar4Ar7/oA+Z/AFx9o8IWyk5MLvGfzyP0NdNXn/wALbvdZahZk8pIsoH1GD/IV6BX0GElzUYs+DzWn7PGTS73+/UKKKK6DzwooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK83+Kv39K+kv/ALLXpFecfFX7+lfSX/2WuXGfwJf11PTyf/fYfP8AJnnNFFFeCfchRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABVrTP+QrZ/wDXdP8A0IVVq1pn/IVs/wDrun/oQoA+hG+8frSUrfeP1pK+oPzMKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKdH/AKw/Sm0+PqTQBxvxQ/5FmD/r6X/0Fq8iVWdgqglicADvXrvxPBbw3bqoJJulAA/3WrjtE0X7IBc3C/vyPlU/wf8A168zF0ZVsQox7f5n1WS1o0cHKUv5n+SLGjaWNPt9zgG4cfMf7o9K06KK9KlSjSgoRMKtWVWbnIKKKK1MwooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiio5pPLXj7x6Um7K7Gk27IiuJMnYDwOtQUUVwzk5O56dOmoRsgoooqTQKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKZNMkETSyNtVeppZJEijZ3YKqjJJrltR1B72XjIiX7q/1NZVaqpq7NKdNzdht/fPezbjwg+6vpVSiivLlJyd2ehGKirIKKKKkYUUUUAFFFFABRRRQAUUUUAFFFFABX3/AF8AV9/0AfBVjqV7psjSWVzLbu42s0bYJHpV7/hKte/6C13/AN/DWPRVxqzirRbRjUw9Go+acE35pGx/wlWvf9Ba7/7+Gj/hKte/6C13/wB/DWPRVe3q/wAz+8j6lhv+fcfuR9BaVI82j2MsjFne3jZmPUkqMmrdUdG/5AWn/wDXtH/6CKvV9BSd4Rb7HweJSVeaW13+YUUUVZgFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAV5v8VPv6X9Jf8A2WvSK84+KnXS/pL/AOy1y4z+BL+up6eUf77D5/kzzmiiivBPuQooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAq1pn/IVs/+u6f+hCqtWtM/5Ctn/wBd0/8AQhQB9CN94/WkpW+8frSV9QfmYUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAU5DhsetNooGYni1l+y20ZAJ8wuMjpgY/rXK1t+JroTX0cKtnyVwfqf8isSrR6uFjy0kFFFFM6QooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigBCQASegqk7l3LGpriT+AfjVeuWtP7KO3DU7LnYUUUVgdYUUUUAFFFFABRRRQAUUUUAFFHQZqpNqVpBkNMpPovNJtLVgk3sW6KxZfECDiGAn3c4qlLrV5J911jH+ytYyxFOPU1jQm+h09RPcwR/fmjX6sK5GS5nl/1kzt9WNRVi8YuiNVhn1Z1b6vYp/wAtt3+6pNQPr1qPupK34AVzdFZvFz6JFrDRN5vEKZ+W3Y/VqjPiF+1uv4tWLRUPE1O5XsKfY1/+EguP+eMX60h8QXP/ADzi/I/41k0UfWavcfsKfY1v7fuf+ecX5H/Gl/4SC4/54xfr/jWRRR9Zq9w9hT7GyPEMmObdPwY1IviFf4rY/g//ANasKij6zV7i9hT7HRLr9sfvRyr+RqdNZsW/5aFf95TXLUVaxc/In6tA7BL60k+7cRn6tipwQwypBHsc1xFOV3Q5RmU+xxVrGd0S8N2Z21FclHqd7F924Yj0bn+dXI9fnX/WRI49uDWqxVN76Gbw81sdDRWXFr1q/EivGfpkVeivLef/AFUyMfTPP5VtGcZbMylCUd0TUUUVZIUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFIzKilmICgZJPalJABJOAOpNc3qupm6YwwnEKnk/3j/hWdSoqcbsuEHN2RHqepG8k2ISIVPA/ve5rPoory5zc3dnoRioqyCiiioKCiiigAooooAKKKKACiiigAooooAKKKKACvv8Ar4Ar7/oA+AKKKKACiiigD3/Rv+QFp/8A17R/+gir1UdG/wCQFp//AF7R/wDoIq9X0lL+HH0R+d4v/eJ+r/MKKKK0OcKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigArzn4qdNL/7af+y16NXnXxUHy6X9ZP8A2WubGfwJf11PSyj/AH2Hz/Jnm9FFFeAfdBRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABVrTP8AkK2f/XdP/QhVWrWmf8hWz/67p/6EKAPoRvvH60lK33j9aSvqD8zCiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACquo3i2Fk8x+90QerdqtVx+u3/wBsvfLQ5ihyo9z3NCVzahT9pOxlu7SOzscsxySe5pKKKs9hKwUUUUxhRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFNdwiFjTqq3D7n2joP51E5cquXThzysQkkkk9TRRRXCeolbRBRRRQMKKKKACiiigAorOutZtrfKofNf0U8fnWNc6rdXOQX2If4U4rGdeEN2awoykdBcaha23EkoLf3V5NZVxr8jZFvEFH95uTWNRXJPFTfw6HTHDxW+pNNd3Fwf3srN7Z4/KoaKK5nJyd2zZJLRBRRRSGFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAFmHULqD7kzY9Ccj9a0YPEDDAnhB90OP0rForWNacdmZypQlujrYNTtLjAWUK391+DVuuHqzb39zbf6uVtv8AdPI/KumGL/mRhLDfys6+isa219GwLiPaf7ycj8q1YZ4rhN0UiuPY11QqRn8LOeUJR3RJRRRVkhRRRQAUUUUAFFFFABRRWFq+qZ3W0DcdHcd/YVE5qCuyoQcnZEerap5xNvA37sfeYfxf/WrIoory6lR1JXZ6EIKCsgooorMsKKKKACiiigAooooAKKKKACiiigAooooAKKKKACvv+vgCvv8AoA+AKKKKACiiigD3/Rv+QFp//XtH/wCgir1UdG/5AWn/APXtH/6CKvV9JS/hx9EfneL/AN4n6v8AMKKKK0OcKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigArzv4p/wCr0z6yf+y16JXnnxU/1Omf70n/ALLXNjP4Ev66npZT/vsPn+TPNaKKK8A+6CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACrWmf8AIVs/+u6f+hCqtWtM/wCQrZ/9d0/9CFAH0I33j9aSlb7x+tJX1B+ZhRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFBIAJJwB1NAGbrd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ZRWOkTqgBcp8z9zX21WlSm4Wv1IhNTvY+AKKKKzLCiiigD3/AEb/AJAWn/8AXtH/AOgir1UdG/5AWn/9e0f/AKCKvV9JS/hx9EfneL/3ifq/zCiiitDnCiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK4D4p/wDHjpv/AF1f+Qrv68/+Kf8Ax46b/wBdH/kK5sX/AAZHo5T/AL5D+ujPMqKKK8A+7CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACrWmf8AIVs/+u6f+hCqtWtM/wCQrZ/9d0/9CFAH0I33j9aSlb7x+tJX1B+ZhRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAVn61d/ZNNkKnDyfIv49f0rQrlPEl15t8sAPyxLz/vH/IoRtQp880jFooorQ9kKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKOlAFW5bLhfSoaVm3MW9TSVwVJc0mz1KUeWCQVlavqX2dDbwn96w+Yj+Ef41a1C9Wyti/BduEHvXKO7SOzuSWY5JNcmIrci5VuddClzO72G0UUV5p3BRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABjNdPpNh9kg8xx++cc/7I9KoaLp/mOLqVfkU/ID3PrXQV24Wj9t/I5cRU+winqpxpk/0H8xX2nXxRrTY0xx6so/Wvtepxfxr0Kw3ws+AKKKK5DoCiiigD3/Rv+QFp/wD17R/+gir1UdG/5AWn/wDXtH/6CKvV9JS/hx9EfneL/wB4n6v8wooorQ5wooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACvP/in/wAeOm/9dH/kK9Arz/4p/wDHjpv/AF0f+Qrmxf8ABkejlX++Q/rozzKiiivAPuwooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAq1pn/ACFbP/run/oQqrVrTP8AkK2f/XdP/QhQB9CN94/WkpW+8frSV9QfmYUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUANd1jjaRjhVBY/QVwE8rTzyTN1dix/Guu1+48jSnUH5pSEH9f0FcbVRPRwUNHIKKKKo7gooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAqOdtsR9+Kkqtct8yr6c1E3aLZdKPNNIgpGZUQsxwoGSaWsXXbzaotUPJ5f6dhXnTmoRcmevCLk7Iy7+7a8uTIchBwo9BVWiivJlJyd2elGKirIKKKKkYUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABV3TrBr2fByIl5dv6VHZWcl7MEQYA+83YCuqt7eO2hWKIYUfr71vQouo7vYxq1eRabkiIqIEQAKowAO1LRRXppW2OBu5k6++LSNf7z5/IV9u18NeIZMywR+ilvz/wD1V9y15uKd6h34dWgfAFFFFc5sFFFFAHv2iMG0HTiDkfZo/wD0EVfrE8MTZ0m1iJ/5YIw/75Ga26+kov8Adx9EfnuMjbET9X+YUUUVocoUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABXn/wAU/wDjx03/AK6yfyFegVwHxT/48dN/66v/ACFc+L/gyPRyr/fIev6HmNFFFfPn3YUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAVa0z/kK2f/AF3T/wBCFVataZ/yFbP/AK7p/wChCgD6Eb7x+tJSt94/Wkr6g/MwooooAKKKKACiiigAooooAKKKKACiiigAooooA5rxRNmaCAH7qlz+PH9K5+tHXJfN1ef0UhB+ArOq1sezh48tNBRRRTNgooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAqlK26Rj71bc7UY+gqjXPXeiR1YWOrZHNMsELyv8AdUZrjppWnmeVzlmOTW1r91gJbKf9p/6VhV42LqXfIuh7WHhZcwUUUVyHSFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFKFLZwCcdcUlABRRTkRpHCopZj0AGaAG1csdPlvX4G2Mfec/0q/ZaGSRJd8D/nmD/M1uIixoERQqjgAdq6qWGctZaI56ldR0juR29vFawiOJcKPzP1qWiivQSSVkcbbbuwoopGYIjMeijJpiOX1iXzNSk9EwtfeFfAcrmWV5D1Zia+/K8epLmk2enBcsUj4AoooqCgooooA9l0KTyrLT27eTGD9NorqK5LTP8AkE2f/XBP/QRXUwP5lvG/qvNfRUPgXoj4LHr99J+b/MkooorY4AooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACuA+Kf8Ax46b/wBdX/kK7+uA+Kf/AB46b/11f+Qrnxf8GR6GVf75D1/Q8xooor58+8CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACrWmf8hWz/AOu6f+hCqtWtM/5Ctn/13T/0IUAfQjfeP1pKVvvH60lfUH5mFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFA60UyVtkLseiqT+lAHBXMnm3U0n952P61FRRVnvJWVgooopjCiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAIbg4jx6mqjMEUsxwoGSasXJy4HoKxtauPJsSgPzSnb+HeuHETSbb6HpYWF4pdzn7qc3NzJMf4jkewqGiivCbbd2e0lZWQUUUUhhRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFSR280xxHE7/QZq7Fol5J95VjH+0f8KqMZS2QnJLdmdRW/F4fjHMszN7KMVei0uzh6QKx9W5raOGqPyMn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X+/XdVwusHOsXWP79edmX8Fev6M9DLP4z9P1RRooorxD3QooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAUAsQAMk9AK6XS9NFogllGZmH/AHyPSoNG07Youph8x+4p7D1rZrtw1D7cjkr1fsxCs3UdVS0Bjiw836L9ai1TVvJzBbn950Zx/D7D3rGtbWW9n2JyerMe3ua0rYjlfLDcmlRv70thES4v7nAzJI3JJro7DTIrMBjh5u7Ht9KmtLOKzh2Rjn+Jj1NWKKOHt709WFStf3Y7BRRRXUc4UUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRSMwVSzEADqSaAFqOaaO3jMkrhFHc1m3muRRZS3HmP8A3j90f41hT3MtzJvlcsfftXPUxEYaLVm1OhKWr0RoX+syXGY4Mxx9z3b/AArKoorz51JTd5HZCEYKyClVSzBQCSTgAd6ltbWe9uUt7aJ5ZpDhUQZJr1zwh4Gh0QJe34WbUMfKOqw/T1Pv+VXRoTrStE58XjKWFhz1H6Lqyn4J8DCw8vVNVjBuvvQwMP8AVe7f7Xt2+td474470M2361FXu0aMaMeWJ8RjMZUxdTnqbdF2DrT4+p47daZT487vbFanKZfir/kU9V/69n/lX0HXz54q/wCRT1X/AK9n/lX0HXlZl8UT6rh3+FP1R8AUUUV5h9EFFFFAHsOnf8guz/64J/6CKs1W07/kF2n/AFwT/wBBFWa+gp/AvQ+IxH8aXq/zCiiirMi9ps+yQxMflbp9a1a50Eggg4IrctpxcQB/4ujD3q4voc9aP2iaiiiqOcKKKKACiiigAooooAKKKKACiiigAooooAK4f4of8gKz/wCvn/2U13FcP8UP+QDZ/wDXz/7KawxP8GXod2W/73T9Tyqiiivnj74KKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKtaZ/yFbP/run/oQqrVrTP+QrZ/8AXdP/AEIUAfQjfeP1pKVvvH60lfUH5mFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAQXv/HlL9P61h1t3v8Ax5yfQfzr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6f8AoQqrVrTP+QrZ/wDXdP8A0IUAfQjfeP1pKVvvH60lfUH5mFFFFABRRWbf61bWOUB82b+4p6fU9qCoxcnZGg7pGhd2CqOSxOAK53UvERbMVlkDoZT1/Af1rJvdRub98zP8o6IvAFVKpI76OES1mKSWYsxJJ5JPekooqjtCiiigYUUUUAFaGlt80q+oBrPq1p7bbtR/eBFTLYiavFmxRRRWBxhRRRQAUUUUAFFFFAGZqFrtJmQcH7wHY+tUK6EgEEEZB6isa7tjbycfcb7p/pWsJdDppTvoyvRRRWhsFFFFABRRRQAUUUUAFFFFABRRRQBy3imDbdwzgcOm0/Uf/rrArs/ENv5+lM4HzREOPp0NcZXgY+HLWb76nv5fPmopdtAoooriO4KKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAVfvD612/auIXhh9a7cHIBHSu3B/aOXFdArP1W/+xwbEP75xx7D1q3c3CWsDSyHgdvU+lcjcXD3M7SyH5mP5e1bV6vs42W7MqNPnd3sREknJoooAJOBXmHeSW9vNd3EdvBG0ksjbURRkk16/wCEvB0GgxLc3IWXUWHLdRF7L7+9ReCPCi6NaLfXkYN/MvAP/LJT2+p7/lXX162DwiSVSfyPl83zRtvD0Xp1f6f59/Tcooor0j5sKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKkjHU/hUdSR5wfShA9hXG6Nh6givba8Tc7UZvQE17ZXmZn9j5/ofS8Of8vfl+p8AUUUV5R9OFFFFAHsVj/yD7b/rin8hViq9j/yDrX/rin8hVivoKfwI+Hr/AMWXqwoooqzMKKKKACiiigAooooAKKKKACiiigAooooAKVWKkFSQR0IpKKANCDUmGFmG4f3h1rRjkSVdyMGHtXPU5JHjbcjFT6iqUjKVJPY6GuK+J3/Iu2//AF8j/wBBaujh1M9Jlz/tL/hXNfEmWObw1A0bhh9pX/0Fqzru9KXoy8FBxxVO/wDMvzPKaKKK+ePvgooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAq1pn/IVs/8Arun/AKEKq1a0z/kK2f8A13T/ANCFAH0I33j9aSlb7xrOu9asrTIMnmOP4I+f16V9QfmkYuWiNCqd5qdrYj97Jl/7i8t/9aucvPEF3c5WL9xGeyn5j+NZJJJJJyT1JppHZTwcnrPQ1b/Xrm7ykX7mI9lPJ+prKooqrHfCnGCtFBRRRTLCiiigAooooAKKKKACpIH2Txt6MKjopAdFRTIX3wo/qop9c5wNWdgooooAKKKKACiiigApksSzRlHGQf0p9FAJ2MGeFoJSjfgfUVHW7cW63Ee1uCPun0rEkjaJyjjDCtoyuddOfMhtFFFWaBRRRQAUUUUAFFFFABRRRQA2SNZYnjb7rqVP0NeezxNBPJE33kYqfwr0SuS8S2vlXyzqPlmXn/eHX+ledmVPmpqa6fqejltTlqOD6/oYlFFFeIe4FFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFdfaTq+nxTMwACDcT2x1rkKl+0S/ZxBvPlA7tvvW1Cr7Ntsyq0+dWLOp35vZsLkQr90evvVGiis5zc3zMuMVFWQV2nw88PjUdSbUbhM29oRsB6NJ2/Lr+VcXXu/hnTBpPh6ztcYfYHk93bk/4fhXRg6PtKmuyPOzbFPD4duO70X+f9dTWooor3j4YKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACpI84OemeKjqSPO059eKED2GXjiOxuHJwFiYk+nBr3Gvn/AMT3AtvC+pynHFu4GfUjH9a+gK8vM3rFev6H03DkXapL0/U+AKKKK8s+mCiiigD2Kw/5B1r/ANcU/kKsVW0850y0P/TFP/QRVmvoKfwL0PiK/wDFl6sKKKKsyCiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKRlVhhlDD0IzS0UAnYwfEtpYw6Fdz/Y7cSBAqsIwCCSBwfxrzOvRfHE3l6EkeeZZgPwAJ/wrzqvIxqSqJJdD6fKJSlRcpNvX/IKKKK4z1QooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACp7JzHf27jqsqkZ+oqCp7JS97Ao7uP50Aem3ep3l4T507FSfurwPyqnSK25Q3rS19WrdD5BQUPdSsFFFFMoKKKKACiiigAooooAKKKKACiiigAooooA19Ofdagd1JFW6zNLfEjp6jNadYTVmcdVWkFFFFSQFFFFABRRRQAUUUUAFQXVqtyno46H+lT0UJ2Gm07o590aNyrDDDgim1s3doLhdy8SDofX2rHZSjFWBBHUGt4yudcJqSEoooqiwooooAKKKKACiiigArO1u0+16ZIFGZI/nX8Ov6Vo0VE4KcXF9SoTcJKS6Hm9FX9YsvsWoSIBiNvnT6GqFfMzg4ScX0PqITU4qS2YUUUVBYUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAWLBFk1G1RhlWlQEexIr6GPU186RSNDKkiHDIwYH3Fe/wCmX8Wqabb3sJBSZA3HY9x+BzXp5a1eS9D5viKMnGnLor/p/ky3RRRXqny4UUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFSxnK/SoqkjPUUIHscl8Sr4W3hY24OHuplT8B8x/kPzr6br41+JerC919LKNsx2abTj++eT/QV9lV4ePqKday6aH2uSUHSwib+07/5flc+AKKKK4z1wooooA9g0z/kE2f8A1wT/ANBFWqoaIxbQrBj18hP5Vfr36X8OPoj4nE6V5+r/ADCiiitDEKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooA53xfY/brGBQxV1clfQnHevOXRo3ZHBDKcEGvVtbXNip9HH8jXCa7ZjC3SD/AGX/AKGvPxlG/vrc+jymr+65H3MKiiivMPZCiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK0NGj8zUoz2QFqz63fD8PyzTEdcKP5n+laUY800iKjtBs6a3OYh7HFS1Dbfcb61NX0lN3gj5qurVGFFFFaGQUUUUAFFFFABRRRQAUUUUAFFFFABRRRQBNayeXcxt2zg1uVztb0EnmwI/qOfrWVRdTn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CAQeoNZ9xp3VoP8Avg/0rRopptbFRm47HPMpVirAgjsaSt2a3jnXDrz2I6isyewlhyy/OnqOorVTTOmFRSKtFFFWaBRRRQBDc20V3btDMuUb8wfUVxWpabNp0+1/mjb7jjof/r13dRXFvFdQNDMgZG7enuK5MVhY11fZnXhcVKg7bxPPKK0dU0ibTn3cvAT8rgfofes6vAnCUJcslZn0EJxnHmi7oKKKKkoKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK0/Dq7/EmmL/08x/+hCsytjwqM+K9L/6+U/nTW5MnaLZ7qetFFFfTn5sFFFFAgooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACgdaKB1oGeA65xr+o/wDXzJ/6EaoVoa7x4g1H/r5k/wDQjWfXzdb+JL1Z+h4X+BD0X5BRRRWZ0BX3/XwBX3/QB8AUUUUAFFFFAAODkda9h0+4+16bbXA/5aRKx+uOa8er0jwXdefoAiJy0EhT8DyP5mu3AztUce55OcU+agp9n+f9I6KiiivWPmQooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigArL1yPdaRv/cf+dalVtQj82wmXvtyPw5pPY0oz5KkZeZy1FFFYH0YVm6ppgu1MsQAmA/76/wDr1pUVE4Kasxxk4u6OIZWRirAhhwQe1JXUajpiXi70wswHB7N9a5qWJ4ZDHIpVh1BrzKtKVN67HoU6imtBlFFFZGgUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRVqysJr18IMIPvOegppNuyE3bVkVvby3UwjiXLH8hXU2NjHZRbV5c/ef1p9raRWcWyIfVj1NT16FDD8nvS3OKrW5tI7BRRRXUYBVi2Xlm/Cq9XIV2xD35rSiryMMRK1N+ZJRRRXaecFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAVLby+TOr9gefpUVFIT1OioqtYS+bbAHqnymrNc7VnY4pKzsFFFFAgooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAK09lFPk42P6is2e0lg5Iyv94Vt0VSm0aRqtHO0VsTWEUu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" alt="Logo Universidad de Guayaquil">
+  <div class="titulos">
+    <p class="institucion">Universidad de Guayaquil · Facultad de Ciencias Administrativas · Carrera de Contabilidad y Auditoría</p>
+    <h1>Democracia, Ciudadanía y Globalización</h1>
+    <p class="subt">Unidad 4 — Transformaciones sociales, políticas y económicas</p>
+  </div>
+  <div class="meta-semana">
+    <strong>Semana 14</strong>
+    Cambio climático y desafíos medioambientales
+  </div>
+</header>
+
+<!-- ===================== NAV ===================== -->
+<nav class="tabs-wrap">
+  <div class="tabs" id="s14tabs">
+    <button class="active" data-tab="repaso" onclick="s14ShowTab('repaso', this)">Repaso</button>
+    <button data-tab="tema1" onclick="s14ShowTab('tema1', this)">Tema 1</button>
+    <button data-tab="tema2" onclick="s14ShowTab('tema2', this)">Tema 2</button>
+    <button data-tab="tema3" onclick="s14ShowTab('tema3', this)">Tema 3</button>
+    <button data-tab="tema4" onclick="s14ShowTab('tema4', this)">Tema 4</button>
+    <button data-tab="tema5" onclick="s14ShowTab('tema5', this)">Tema 5</button>
+    <button data-tab="ejercicio" onclick="s14ShowTab('ejercicio', this)">6. Ejercicio</button>
+    <button data-tab="quiz" onclick="s14ShowTab('quiz', this)">7. Cuestionario</button>
+    <button data-tab="ia" onclick="s14ShowTab('ia', this)">8. Actividad IA</button>
+    <button data-tab="reflexion" onclick="s14ShowTab('reflexion', this)">9. Reflexión</button>
+    <button data-tab="biblio" onclick="s14ShowTab('biblio', this)">10. Bibliografía</button>
+  </div>
+</nav>
+
+<main>
+
+<!-- ===================== PANEL: REPASO ===================== -->
+<section class="panel active" id="panel-repaso">
+  <h2 class="titulo-tema">Repaso: de la globalización a la crisis ambiental planetaria</h2>
+  <p>Antes de avanzar hacia el tema de esta semana, es importante recordar el camino conceptual que hemos recorrido en la <strong>Unidad 4 — Transformaciones sociales, políticas y económicas</strong>, porque cada bloque de contenido se apoya en el anterior.</p>
+
+  <div class="caja-repaso">
+    <h4>Semana 12 — La sociedad de la información y la cyberciudadanía</h4>
+    <p>Estudiamos cómo internet y las tecnologías digitales transformaron el ejercicio de la ciudadanía, generando la figura del <em>cyberciudadano</em>: una persona que ejerce derechos y deberes también en entornos digitales, bajo principios de ética digital, acceso al conocimiento y uso responsable de la información.</p>
+  </div>
+
+  <div class="caja-repaso">
+    <h4>Semana 13 — Valores y bienes públicos en la globalización; la agenda internacional</h4>
+    <p>Vimos que la globalización interconecta economías, culturas y decisiones políticas a escala mundial, y que existen <strong>bienes públicos globales</strong>: recursos o condiciones que benefician a toda la humanidad y que ningún país puede gestionar ni proteger en solitario (la paz, la salud global, la estabilidad financiera). También revisamos cómo organismos internacionales construyen una <em>agenda internacional</em> common para enfrentar problemas que trascienden fronteras.</p>
+  </div>
+
+  <div class="caja-clave">
+    <h4>El puente hacia la Semana 14</h4>
+    <p>Si la globalización nos enseñó que existen bienes que pertenecen a toda la humanidad, el ejemplo más urgente y tangible de un <strong>bien público global</strong> es el <strong>sistema climático del planeta</strong>: la atmósfera que respiramos, la estabilidad del clima y la biodiversidad no le pertenecen a un solo país, y su deterioro —o su cuidado— afecta a todos por igual. Esta semana aplicaremos los conceptos de ciudadanía global, democracia y responsabilidad institucional que hemos construido en las unidades anteriores al desafío ambiental más relevante del siglo XXI: <strong>el cambio climático</strong>.</p>
+  </div>
+
+  <p>Como verás, el contenido de esta semana no es ajeno a tu futura profesión: la contabilidad y la auditoría están siendo transformadas por la necesidad de medir, reportar y verificar el impacto ambiental de las organizaciones, exactamente con el mismo rigor ético que exige la información financiera tradicional.</p>
+</section>
+
+<!-- ===================== PANEL: TEMA 1 ===================== -->
+<section class="panel" id="panel-tema1">
+  <h2 class="titulo-tema">Tema 1. El cambio climático: fundamentos científicos y marco conceptual</h2>
+
+  <div class="caja-concepto">
+    <h4>Definición</h4>
+    <p>El <strong>Panel Intergubernamental de Cambio Climático (IPCC)</strong> —el organismo científico de la ONU encargado de evaluar la evidencia mundial sobre el clima— define el <strong>cambio climático</strong> como una variación del estado del clima que persiste durante décadas o periodos más largos, identificable a través de cambios en el promedio o en la variabilidad de sus propiedades (temperatura, precipitaciones, vientos, etc.), ya sea por procesos naturales internos o por causas externas, incluida la actividad humana.</p>
+  </div>
+
+  <p>Para comprender este fenómeno con precisión, primero debemos distinguir dos términos que en el lenguaje cotidiano se confunden constantemente:</p>
+
+  <table class="tabla-comp">
+    <tr><th>Tiempo atmosférico (clima diario)</th><th>Clima</th></tr>
+    <tr><td>Condiciones de la atmósfera en un lugar y momento específico (si lloverá mañana en Guayaquil).</td><td>Patrón estadístico promedio de esas condiciones durante un periodo prolongado, generalmente un mínimo de 30 años, según la Organización Meteorológica Mundial (OMM).</td></tr>
+    <tr><td>Cambia hora a hora o día a día.</td><td>Cambia de forma lenta y se mide en décadas.</td></tr>
+    <tr><td>Es lo que se predice en un pronóstico.</td><td>Es lo que se estudia para hablar de "cambio climático".</td></tr>
+  </table>
+
+  <h3>El efecto invernadero: un fenómeno natural alterado por el ser humano</h3>
+  <p>El efecto invernadero es, en su forma natural, un proceso indispensable para la vida: ciertos gases en la atmósfera —llamados <strong>gases de efecto invernadero (GEI)</strong>— retienen parte del calor del sol y mantienen la temperatura del planeta en niveles habitables. Sin este efecto natural, la temperatura promedio de la Tierra sería de aproximadamente -18°C.</p>
+  <p>El problema no es el efecto invernadero en sí, sino su <strong>intensificación acelerada por actividades humanas</strong>, principalmente desde la Revolución Industrial (finales del siglo XVIII). Los principales GEI de origen antropogénico (es decir, generados por el ser humano) son:</p>
+
+  <ul class="lista-visual">
+    <li><strong>Dióxido de carbono (CO₂):</strong> liberado al quemar combustibles fósiles (petróleo, carbón, gas natural) y por la deforestación.</li>
+    <li><strong>Metano (CH₄):</strong> producido por la ganadería intensiva, los rellenos sanitarios y la extracción de combustibles fósiles.</li>
+    <li><strong>Óxido nitroso (N₂O):</strong> emitido principalmente por fertilizantes agrícolas sintéticos.</li>
+    <li><strong>Gases fluorados:</strong> utilizados en sistemas de refrigeración y aire acondicionado, con un potencial de calentamiento miles de veces mayor que el CO₂.</li>
+  </ul>
+
+  <div class="caja-ejemplo">
+    <h4><span class="tag">Ejemplo aplicado</span>Los Andes ecuatorianos y el agua que desaparece</h4>
+    <p>Los glaciares de montañas como el Antisana, el Cotopaxi y el Chimborazo abastecen de agua dulce a millones de personas en la Sierra ecuatoriana, incluyendo a Quito. El aumento sostenido de la temperatura global ha acelerado el derretimiento de estos glaciares de forma medible en las últimas décadas, reduciendo las reservas naturales de agua. Adicionalmente, el cambio climático intensifica fenómenos como El Niño y La Niña, provocando inundaciones más severas en la Costa (Guayas, Manabí, El Oro) y sequías más prolongadas en otras zonas, con impacto directo en la agricultura, la economía y la salud pública del país.</p>
+  </div>
+
+  <div class="caja-clave">
+    <h4>Idea clave</h4>
+    <p>Según el Sexto Informe de Evaluación del IPCC (2023), es inequívoco que la influencia humana ha calentado la atmósfera, el océano y la tierra desde la era preindustrial, con un aumento de aproximadamente 1.1°C en la temperatura media global. El cambio climático no es una hipótesis futura: es un fenómeno medido, documentado científicamente y con consecuencias ya presentes en el territorio ecuatoriano.</p>
+  </div>
+</section>
+
+<!-- ===================== PANEL: TEMA 2 ===================== -->
+<section class="panel" id="panel-tema2">
+  <h2 class="titulo-tema">Tema 2. Marco jurídico e institucional: del compromiso internacional a la norma ecuatoriana</h2>
+
+  <p>Un desafío de escala planetaria como el cambio climático no puede enfrentarse solo con buenas intenciones individuales: requiere un entramado de tratados internacionales y leyes nacionales que conviertan los compromisos políticos en obligaciones exigibles. Recorramos este entramado desde lo global hasta lo local.</p>
+
+  <h3>El marco internacional</h3>
+  <ul class="lista-visual">
+    <li><strong>Convención Marco de las Naciones Unidas sobre el Cambio Climático (CMNUCC, 1992):</strong> tratado internacional que reconoció por primera vez al cambio climático como un problema que exige cooperación global, y creó la <strong>COP (Conferencia de las Partes)</strong>, la reunión anual donde los países negocian compromisos climáticos.</li>
+    <li><strong>Protocolo de Kioto (1997):</strong> primer acuerdo que estableció metas de reducción de emisiones obligatorias, aunque solo para países desarrollados.</li>
+    <li><strong>Acuerdo de París (2015, adoptado en la COP21):</strong> el tratado vigente más importante en la materia. Es <strong>jurídicamente vinculante</strong> y establece como meta limitar el aumento de la temperatura global muy por debajo de 2°C respecto a niveles preindustriales, haciendo esfuerzos para no superar 1.5°C.</li>
+  </ul>
+
+  <div class="caja-concepto">
+    <h4>Concepto clave: las NDC</h4>
+    <p>Las <strong>Contribuciones Determinadas a Nivel Nacional (NDC, por sus siglas en inglés)</strong> son los compromisos climáticos que cada país define voluntariamente bajo el Acuerdo de París, indicando cuánto reducirá sus emisiones y qué medidas de adaptación implementará. Deben actualizarse y revisarse cada cinco años, idealmente con metas cada vez más ambiciosas. Ecuador presenta su propia NDC ante la CMNUCC, comprometiéndose, entre otros aspectos, a fortalecer su matriz energética renovable y a conservar sus bosques nativos.</p>
+  </div>
+
+  <h3>Mitigación y adaptación: las dos estrategias frente al cambio climático</h3>
+  <p>Toda política climática se organiza alrededor de dos enfoques complementarios, no excluyentes:</p>
+
+  <table class="tabla-comp">
+    <tr><th>Mitigación</th><th>Adaptación</th></tr>
+    <tr><td>Conjunto de acciones orientadas a <strong>reducir o evitar</strong> las emisiones de gases de efecto invernadero, atacando las causas del problema.</td><td>Conjunto de acciones orientadas a <strong>ajustar los sistemas humanos y naturales</strong> para reducir la vulnerabilidad frente a los impactos del cambio climático que ya están ocurriendo.</td></tr>
+    <tr><td>Ejemplos: energías renovables, reforestación, transporte eléctrico, eficiencia energética.</td><td>Ejemplos: sistemas de alerta temprana, diques contra inundaciones, cultivos resistentes a la sequía, reubicación de comunidades vulnerables.</td></tr>
+  </table>
+
+  <h3>El marco normativo ecuatoriano</h3>
+  <ul class="lista-visual">
+    <li><strong>Constitución de la República del Ecuador (2008), artículos 71 al 74:</strong> Ecuador fue el primer país del mundo en reconocer constitucionalmente <strong>Derechos de la Naturaleza</strong> (también llamada Pacha Mama), otorgándole el derecho a que se respete integralmente su existencia y la restauración de sus ciclos vitales, independientemente de su utilidad para el ser humano. El artículo 14 además declara de interés público la preservación del ambiente y la prevención del daño ambiental.</li>
+    <li><strong>Ley Orgánica de Cambio Climático (2021):</strong> establece el marco de gobernanza climática del país, define mecanismos de mitigación y adaptación, crea instrumentos como el mercado de carbono nacional, y designa a la autoridad ambiental nacional como ente rector de la política climática.</li>
+    <li><strong>Ministerio del Ambiente, Agua y Transición Ecológica (MAATE):</strong> es la cartera de Estado responsable de diseñar, dirigir y supervisar la política ambiental y climática del Ecuador, incluyendo el cumplimiento de los compromisos internacionales del país.</li>
+  </ul>
+
+  <div class="caja-ejemplo">
+    <h4><span class="tag">Ejemplo aplicado</span>De la firma de un tratado a la obligación de una empresa</h4>
+    <p>Cuando Ecuador ratifica el Acuerdo de París, ese compromiso internacional se traduce, a través de la Ley Orgánica de Cambio Climático, en obligaciones concretas para sectores productivos del país: por ejemplo, empresas de ciertos sectores deben reportar sus emisiones, y el Estado puede establecer incentivos o restricciones según el desempeño ambiental. Esta es la <strong>cadena causal</strong> que ya hemos estudiado en unidades anteriores aplicada al ámbito ambiental: una decisión individual (consumir, producir, invertir) se conecta con la institucionalidad nacional, y esta a su vez con los compromisos democráticos asumidos por el país ante la comunidad internacional.</p>
+  </div>
+
+  <div class="caja-clave">
+    <h4>Idea clave</h4>
+    <p>El cambio climático dejó de ser un tema exclusivamente científico o ambiental para convertirse en un asunto jurídico y de gobernanza: existe un marco legal internacional (CMNUCC, Acuerdo de París) y nacional (Constitución, Ley Orgánica de Cambio Climático, MAATE) que convierte los compromisos climáticos en obligaciones verificables, con consecuencias directas para el sector público, privado y para el ejercicio profesional de la contabilidad y la auditoría.</p>
+  </div>
+</section>
+
+<!-- ===================== PANEL: TEMA 3 ===================== -->
+<section class="panel" id="panel-tema3">
+  <h2 class="titulo-tema">Tema 3. Más allá del clima: otros desafíos medioambientales y la Agenda 2030</h2>
+
+  <p>El cambio climático es el desafío ambiental más mediático, pero no es el único. Forma parte de un conjunto más amplio de crisis ecológicas interconectadas que la comunidad internacional ha intentado organizar en una agenda común.</p>
+
+  <h3>Otros desafíos medioambientales relevantes</h3>
+  <ul class="lista-visual">
+    <li><strong>Pérdida de biodiversidad:</strong> extinción acelerada de especies animales y vegetales debido a la destrucción de hábitats, la sobreexplotación y el cambio climático.</li>
+    <li><strong>Deforestación:</strong> en Ecuador, la Amazonía —una de las regiones de mayor biodiversidad del planeta— enfrenta presión por la expansión de la frontera agrícola, la minería y la extracción petrolera.</li>
+    <li><strong>Contaminación por plásticos y desechos:</strong> particularmente crítica en zonas costeras y marinas, afectando ecosistemas como Galápagos.</li>
+    <li><strong>Escasez y contaminación hídrica:</strong> el agua dulce es un recurso cada vez más disputado, afectado tanto por el cambio climático como por la contaminación industrial y agrícola.</li>
+    <li><strong>Degradación de suelos:</strong> pérdida de fertilidad agrícola por sobreexplotación y uso intensivo de agroquímicos.</li>
+  </ul>
+
+  <div class="caja-concepto">
+    <h4>Concepto clave: economía circular</h4>
+    <p>La <strong>economía circular</strong> es un modelo productivo que busca minimizar la generación de residuos mediante estrategias de reducción, reutilización y reciclaje, en contraste con la <strong>economía lineal tradicional</strong> (extraer, producir, usar y desechar). Aplicada a la práctica empresarial, implica diseñar productos y procesos que prolonguen la vida útil de los materiales y reduzcan la extracción de nuevos recursos naturales.</p>
+  </div>
+
+  <h3>La Agenda 2030 y los Objetivos de Desarrollo Sostenible (ODS)</h3>
+  <p>En 2015, la Organización de las Naciones Unidas adoptó la <strong>Agenda 2030 para el Desarrollo Sostenible</strong>, un plan de acción mundial compuesto por 17 Objetivos de Desarrollo Sostenible (ODS) que buscan erradicar la pobreza, proteger el planeta y garantizar la prosperidad para todas las personas. Varios de estos objetivos están directamente vinculados al tema de esta semana:</p>
+
+  <table class="tabla-comp">
+    <tr><th>ODS</th><th>Enfoque</th></tr>
+    <tr><td><strong>ODS 6</strong> — Agua limpia y saneamiento</td><td>Garantizar disponibilidad y gestión sostenible del agua.</td></tr>
+    <tr><td><strong>ODS 7</strong> — Energía asequible y no contaminante</td><td>Acceso a energías renovables y eficientes.</td></tr>
+    <tr><td><strong>ODS 12</strong> — Producción y consumo responsables</td><td>Promover patrones de producción que reduzcan el desperdicio y la huella ecológica (vinculado a la economía circular).</td></tr>
+    <tr><td><strong>ODS 13</strong> — Acción por el clima</td><td>Adoptar medidas urgentes para combatir el cambio climático y sus efectos.</td></tr>
+    <tr><td><strong>ODS 14</strong> — Vida submarina</td><td>Conservar y utilizar sosteniblemente los océanos y recursos marinos.</td></tr>
+    <tr><td><strong>ODS 15</strong> — Vida de ecosistemas terrestres</td><td>Proteger, restaurar y promover el uso sostenible de los ecosistemas terrestres, detener la deforestación.</td></tr>
+  </table>
+
+  <div class="caja-ejemplo">
+    <h4><span class="tag">Ejemplo aplicado</span>El canje de deuda por naturaleza en Galápagos</h4>
+    <p>En 2023, Ecuador concretó un innovador mecanismo financiero conocido como "canje de deuda por naturaleza" (debt-for-nature swap), mediante el cual el país recompró deuda externa a un valor reducido gracias al respaldo de organizaciones conservacionistas internacionales, comprometiéndose a destinar parte del ahorro generado a la conservación marina de las Islas Galápagos durante las próximas décadas. Este caso muestra cómo los instrumentos financieros y contables pueden convertirse en herramientas concretas de protección ambiental, conectando nuevamente el ámbito económico-financiero con la sostenibilidad.</p>
+  </div>
+
+  <div class="caja-clave">
+    <h4>Idea clave</h4>
+    <p>El cambio climático no ocurre de forma aislada: forma parte de una red de desafíos ambientales interconectados (biodiversidad, agua, contaminación, suelos) que la Agenda 2030 y sus 17 ODS intentan abordar de manera integral, reconociendo que el desarrollo económico, social y ambiental deben avanzar juntos, no en competencia.</p>
+  </div>
+</section>
+
+<!-- ===================== PANEL: TEMA 4 ===================== -->
+<section class="panel" id="panel-tema4">
+  <h2 class="titulo-tema">Tema 4. La respuesta desde la contabilidad y la auditoría: finanzas y reporte sostenible</h2>
+
+  <p>Como futuros profesionales de la contabilidad y la auditoría, este es el tema donde el cambio climático deja de ser un asunto "ajeno" a tu carrera y se convierte en una competencia profesional concreta. Cada vez más, la información ambiental de una organización se mide, reporta y audita con el mismo rigor que la información financiera.</p>
+
+  <div class="caja-concepto">
+    <h4>Concepto clave: huella de carbono</h4>
+    <p>La <strong>huella de carbono</strong> es la medición del total de gases de efecto invernadero emitidos, directa o indirectamente, por una persona, organización, producto o evento, expresada en una unidad común llamada "CO₂ equivalente". Una huella de carbono organizacional completa no solo mide las emisiones directas de una fábrica (Alcance 1), sino también las emisiones indirectas asociadas a la energía que consume (Alcance 2) y las generadas en toda su cadena de valor, como proveedores y transporte (Alcance 3).</p>
+  </div>
+
+  <h3>Los nuevos estándares de reporte de sostenibilidad</h3>
+  <ul class="lista-visual">
+    <li><strong>GRI Standards (Global Reporting Initiative):</strong> el marco de reporte de sostenibilidad más utilizado a nivel mundial, que permite a las organizaciones comunicar de forma estandarizada sus impactos económicos, ambientales y sociales.</li>
+    <li><strong>ISSB (International Sustainability Standards Board):</strong> organismo creado en 2021 por la Fundación IFRS —la misma que emite las normas contables NIIF— que en 2023 publicó las normas <strong>NIIF S1</strong> (divulgación general de información relacionada con sostenibilidad) y <strong>NIIF S2</strong> (divulgaciones específicas sobre riesgos y oportunidades relacionados con el clima), buscando que el reporte de sostenibilidad tenga el mismo nivel de rigor y comparabilidad que el reporte financiero tradicional.</li>
+    <li><strong>Criterios ESG (Environmental, Social, Governance):</strong> conjunto de criterios ambientales, sociales y de gobernanza que inversionistas de todo el mundo utilizan para evaluar el desempeño y los riesgos de una organización más allá de sus estados financieros.</li>
+  </ul>
+
+  <h3>El rol del auditor frente a la información ambiental</h3>
+  <p>Así como un auditor financiero verifica que los estados financieros reflejen razonablemente la situación de una empresa, la <strong>auditoría ambiental o de sostenibilidad</strong> verifica que las afirmaciones ambientales de una organización (reducción de emisiones, uso de energías limpias, gestión de residuos) estén respaldadas por evidencia real y metodologías verificables. Esto cobra especial relevancia frente a un fenómeno cada vez más común:</p>
+
+  <div class="caja-concepto">
+    <h4>Concepto clave: greenwashing (lavado verde)</h4>
+    <p>El <strong>greenwashing</strong> es la práctica de comunicar información ambiental falsa, exagerada o engañosa sobre los productos, políticas o el desempeño de una organización, con el objetivo de proyectar una imagen de responsabilidad ambiental que no corresponde a la realidad de sus prácticas. Detectar y prevenir el greenwashing es hoy una de las responsabilidades emergentes de los profesionales contables y de auditoría.</p>
+  </div>
+
+  <div class="caja-ejemplo">
+    <h4><span class="tag">Ejemplo aplicado</span>El sector exportador ecuatoriano ante las nuevas exigencias ambientales</h4>
+    <p>Sectores clave de la economía ecuatoriana, como la exportación de banano, camarón, cacao y flores hacia la Unión Europea, enfrentan crecientes exigencias normativas internacionales relacionadas con la deforestación y la huella de carbono de sus productos. Esto obliga a las empresas exportadoras a contar con sistemas de medición ambiental confiables y, cada vez más, con la verificación de auditores capacitados en sostenibilidad, para evitar sanciones comerciales y mantener el acceso a mercados internacionales.</p>
+  </div>
+
+  <div class="caja-clave">
+    <h4>Idea clave</h4>
+    <p>Los principios éticos que ya conoces del Código de Ética del IFAC —integridad, objetividad, competencia y diligencia profesional— se extienden hoy a la información ambiental. El profesional contable y auditor del siglo XXI no solo da fe de la salud financiera de una organización, sino también, cada vez con mayor frecuencia, de la veracidad de su compromiso ambiental.</p>
+  </div>
+</section>
+
+<!-- ===================== PANEL: TEMA 5 ===================== -->
+<section class="panel" id="panel-tema5">
+  <h2 class="titulo-tema">Tema 5. Casos emblemáticos en Ecuador: Yasuní-ITT y la democracia ambiental</h2>
+
+  <p>Ecuador ofrece uno de los casos más estudiados a nivel mundial sobre la intersección entre democracia, participación ciudadana y protección ambiental: la historia del bloque petrolero Yasuní-ITT.</p>
+
+  <h3>El Parque Nacional Yasuní y la Iniciativa ITT</h3>
+  <p>El Parque Nacional Yasuní, ubicado en la Amazonía ecuatoriana, es considerado uno de los lugares con mayor biodiversidad por hectárea del planeta y alberga a pueblos indígenas en aislamiento voluntario. Bajo su superficie se encuentra el bloque petrolero <strong>ITT (Ishpingo-Tambococha-Tiputini)</strong>, con importantes reservas de crudo.</p>
+  <p>Entre 2007 y 2013, el Estado ecuatoriano impulsó la <strong>Iniciativa Yasuní-ITT</strong>, una propuesta pionera a nivel mundial que ofrecía a la comunidad internacional dejar el petróleo permanentemente bajo tierra a cambio de una compensación económica equivalente a una parte del valor que se dejaría de percibir por su explotación. La iniciativa no logró recaudar los fondos comprometidos por la comunidad internacional y fue oficialmente abandonada en 2013.</p>
+
+  <div class="caja-concepto">
+    <h4>Concepto clave: consulta popular (referéndum)</h4>
+    <p>La <strong>consulta popular</strong> es un mecanismo de democracia directa, reconocido en la Constitución del Ecuador, mediante el cual la ciudadanía vota directamente sobre una pregunta de trascendencia nacional, sin intermediación de sus representantes electos. Es uno de los mecanismos de participación ciudadana que ya estudiamos en unidades anteriores al analizar los modelos de ciudadanía y la democracia participativa.</p>
+  </div>
+
+  <h3>La consulta popular de 2023: la ciudadanía decide</h3>
+  <p>En agosto de 2023, por primera vez en la historia del país, los ecuatorianos fueron convocados a una consulta popular para decidir directamente sobre un tema ambiental: si se debía mantener indefinidamente el crudo del bloque ITT bajo tierra. Con una votación mayoritaria a favor del "Sí", la ciudadanía ecuatoriana decidió detener la explotación petrolera en esa zona del Yasuní, en lo que se considera un hito histórico de democracia ambiental a nivel mundial.</p>
+
+  <div class="caja-ejemplo">
+    <h4><span class="tag">Ejemplo aplicado</span>De la teoría a la urna electoral</h4>
+    <p>Este caso conecta directamente con los contenidos de democracia y participación ciudadana de las unidades anteriores: aquí no fueron las autoridades ni los técnicos quienes tomaron la decisión final, sino la ciudadanía organizada a través de un mecanismo constitucional de democracia directa. Es un ejemplo concreto de cómo la <strong>cadena causal</strong> —decisión individual, institucionalidad democrática, impacto en un bien público global como la biodiversidad amazónica— se materializa en la vida real del país.</p>
+  </div>
+
+  <div class="caja-clave">
+    <h4>Idea clave</h4>
+    <p>El caso Yasuní-ITT demuestra que la protección ambiental y la democracia no son dos temas separados: cuando las instituciones democráticas funcionan adecuadamente, la ciudadanía puede ejercer un control real sobre decisiones que afectan al ambiente, incluso frente a intereses económicos poderosos. Esta es, en esencia, la aplicación práctica de todo lo que hemos estudiado sobre ciudadanía y democracia a lo largo del curso.</p>
+  </div>
+</section>
+
+<!-- ===================== PANEL: EJERCICIO ===================== -->
+<section class="panel" id="panel-ejercicio">
+  <h2 class="titulo-tema">6. Ejercicio interactivo</h2>
+  <p>Responde los siguientes 8 ítems utilizando lo que aprendiste en los cinco temas de esta semana. Selecciona <strong>todas</strong> tus respuestas y luego presiona el botón <strong>"Verificar respuestas"</strong> para conocer tu resultado y la explicación de cada ítem.</p>
+
+  <form id="s14FormEj">
+
+    <div class="item-pregunta" id="s14EjItem-ei1">
+      <p class="enunciado">1. Verdadero o Falso: El Acuerdo de París establece una meta jurídicamente vinculante de limitar el aumento de la temperatura global muy por debajo de 2°C, con esfuerzos para no superar 1.5°C.</p>
+      <label class="opcion"><input type="radio" name="s14ei1" value="a"> Verdadero</label>
+      <label class="opcion"><input type="radio" name="s14ei1" value="b"> Falso</label>
+      <div class="resultado-item" id="s14EjFb-ei1"></div>
+    </div>
+
+    <div class="item-pregunta" id="s14EjItem-ei2">
+      <p class="enunciado">2. Verdadero o Falso: La Constitución del Ecuador de 2008 fue la primera constitución en el mundo en reconocer Derechos de la Naturaleza.</p>
+      <label class="opcion"><input type="radio" name="s14ei2" value="a"> Verdadero</label>
+      <label class="opcion"><input type="radio" name="s14ei2" value="b"> Falso</label>
+      <div class="resultado-item" id="s14EjFb-ei2"></div>
+    </div>
+
+    <div class="item-pregunta" id="s14EjItem-ei3">
+      <p class="enunciado">3. Clasifica la siguiente acción: "Reforestación de la cuenca del río Guayas con especies nativas".</p>
+      <label class="opcion"><input type="radio" name="s14ei3" value="a"> Es una estrategia de Mitigación</label>
+      <label class="opcion"><input type="radio" name="s14ei3" value="b"> Es una estrategia de Adaptación</label>
+      <div class="resultado-item" id="s14EjFb-ei3"></div>
+    </div>
+
+    <div class="item-pregunta" id="s14EjItem-ei4">
+      <p class="enunciado">4. Clasifica la siguiente acción: "Construcción de sistemas de alerta temprana ante inundaciones costeras intensificadas por El Niño".</p>
+      <label class="opcion"><input type="radio" name="s14ei4" value="a"> Es una estrategia de Mitigación</label>
+      <label class="opcion"><input type="radio" name="s14ei4" value="b"> Es una estrategia de Adaptación</label>
+      <div class="resultado-item" id="s14EjFb-ei4"></div>
+    </div>
+
+    <div class="item-pregunta" id="s14EjItem-ei5">
+      <p class="enunciado">5. ¿Qué organismo emitió en 2023 las normas NIIF S1 y NIIF S2 para estandarizar el reporte de información de sostenibilidad?</p>
+      <label class="opcion"><input type="radio" name="s14ei5" value="a"> GRI (Global Reporting Initiative)</label>
+      <label class="opcion"><input type="radio" name="s14ei5" value="b"> ISSB (International Sustainability Standards Board)</label>
+      <label class="opcion"><input type="radio" name="s14ei5" value="c"> IPCC (Panel Intergubernamental de Cambio Climático)</label>
+      <label class="opcion"><input type="radio" name="s14ei5" value="d"> SRI (Servicio de Rentas Internas)</label>
+      <div class="resultado-item" id="s14EjFb-ei5"></div>
+    </div>
+
+    <div class="item-pregunta" id="s14EjItem-ei6">
+      <p class="enunciado">6. Verdadero o Falso: La huella de carbono de una organización mide únicamente las emisiones directas de dióxido de carbono producidas en su planta o fábrica.</p>
+      <label class="opcion"><input type="radio" name="s14ei6" value="a"> Verdadero</label>
+      <label class="opcion"><input type="radio" name="s14ei6" value="b"> Falso</label>
+      <div class="resultado-item" id="s14EjFb-ei6"></div>
+    </div>
+
+    <div class="item-pregunta" id="s14EjItem-ei7">
+      <p class="enunciado">7. Una empresa exportadora ecuatoriana afirma en su página web ser "100% carbono neutral", sin presentar ninguna metodología verificable ni informe de auditoría independiente que lo respalde. ¿Qué práctica describe mejor esta situación?</p>
+      <label class="opcion"><input type="radio" name="s14ei7" value="a"> Auditoría ambiental</label>
+      <label class="opcion"><input type="radio" name="s14ei7" value="b"> Greenwashing (lavado verde)</label>
+      <label class="opcion"><input type="radio" name="s14ei7" value="c"> Economía circular</label>
+      <label class="opcion"><input type="radio" name="s14ei7" value="d"> Mitigación climática</label>
+      <div class="resultado-item" id="s14EjFb-ei7"></div>
+    </div>
+
+    <div class="item-pregunta" id="s14EjItem-ei8">
+      <p class="enunciado">8. ¿Qué mecanismo de participación ciudadana utilizó Ecuador en agosto de 2023 para decidir detener indefinidamente la extracción petrolera en el bloque ITT del Yasuní?</p>
+      <label class="opcion"><input type="radio" name="s14ei8" value="a"> Consulta popular (referéndum)</label>
+      <label class="opcion"><input type="radio" name="s14ei8" value="b"> Reforma a la Ley Orgánica de Cambio Climático</label>
+      <label class="opcion"><input type="radio" name="s14ei8" value="c"> Una nueva NDC ante la CMNUCC</label>
+      <label class="opcion"><input type="radio" name="s14ei8" value="d"> Una resolución de la COP</label>
+      <div class="resultado-item" id="s14EjFb-ei8"></div>
+    </div>
+
+  </form>
+
+  <div class="alerta-incompleto" id="s14EjAlerta">Por favor responde todos los ítems antes de verificar tus respuestas.</div>
+
+  <div class="btn-row">
+    <button class="btn" onclick="s14VerificarEjercicio()">Verificar respuestas</button>
+    <button class="btn secundario" onclick="s14ReiniciarEjercicio()">Reiniciar</button>
+  </div>
+
+  <div class="resultado-final" id="s14EjResultadoFinal">
+    <span class="emoji" id="s14EjEmoji"></span>
+    <div class="puntaje"><span id="s14EjPuntaje">0</span>/8</div>
+    <div class="barra-progreso-cont"><div class="barra-progreso" id="s14EjBarra">0%</div></div>
+    <div class="mensaje-motivacional" id="s14EjMensaje"></div>
+  </div>
+</section>
+
+<!-- ===================== PANEL: QUIZ ===================== -->
+<section class="panel" id="panel-quiz">
+  <h2 class="titulo-tema">7. Cuestionario</h2>
+  <p>Responde las 10 preguntas (7 teóricas + 3 de análisis de caso). Selecciona <strong>todas</strong> tus respuestas y luego presiona <strong>"Verificar respuestas"</strong> para ver tu calificación final.</p>
+
+  <form id="s14FormQuiz">
+
+    <div class="item-pregunta" id="s14QzItem-qi1">
+      <span class="tipo-badge tipo-teorica">Teórica</span>
+      <p class="enunciado">1. ¿Cuál es la diferencia fundamental entre "tiempo atmosférico" y "clima"?</p>
+      <label class="opcion"><input type="radio" name="s14qi1" value="a"> El clima cambia día a día, mientras que el tiempo atmosférico es un promedio de varias décadas.</label>
+      <label class="opcion"><input type="radio" name="s14qi1" value="b"> El tiempo atmosférico describe las condiciones de corto plazo en un lugar y momento determinado, mientras que el clima es el patrón estadístico promedio de esas condiciones durante un periodo prolongado (mínimo 30 años).</label>
+      <label class="opcion"><input type="radio" name="s14qi1" value="c"> Ambos términos son sinónimos y se pueden usar indistintamente.</label>
+      <label class="opcion"><input type="radio" name="s14qi1" value="d"> El clima solo se mide en zonas costeras, mientras que el tiempo atmosférico se mide en zonas andinas.</label>
+      <div class="resultado-item" id="s14QzFb-qi1"></div>
+    </div>
+
+    <div class="item-pregunta" id="s14QzItem-qi2">
+      <span class="tipo-badge tipo-teorica">Teórica</span>
+      <p class="enunciado">2. Según el IPCC (2023), ¿cuál ha sido la principal causa del incremento de la temperatura global desde la era preindustrial?</p>
+      <label class="opcion"><input type="radio" name="s14qi2" value="a"> Las erupciones volcánicas registradas en el último siglo.</label>
+      <label class="opcion"><input type="radio" name="s14qi2" value="b"> Los ciclos naturales de variación solar, exclusivamente.</label>
+      <label class="opcion"><input type="radio" name="s14qi2" value="c"> La influencia humana, principalmente a través de la quema de combustibles fósiles y la deforestación.</label>
+      <label class="opcion"><input type="radio" name="s14qi2" value="d"> Las corrientes oceánicas profundas, sin relación con la actividad humana.</label>
+      <div class="resultado-item" id="s14QzFb-qi2"></div>
+    </div>
+
+    <div class="item-pregunta" id="s14QzItem-qi3">
+      <span class="tipo-badge tipo-teorica">Teórica</span>
+      <p class="enunciado">3. ¿Qué establece el Acuerdo de París respecto a las Contribuciones Determinadas a Nivel Nacional (NDC)?</p>
+      <label class="opcion"><input type="radio" name="s14qi3" value="a"> Son sanciones económicas que la ONU impone a los países que no cumplen metas climáticas.</label>
+      <label class="opcion"><input type="radio" name="s14qi3" value="b"> Son los compromisos climáticos que cada país define voluntariamente y debe revisar cada cinco años.</label>
+      <label class="opcion"><input type="radio" name="s14qi3" value="c"> Son fondos de compensación económica entregados únicamente a países en desarrollo.</label>
+      <label class="opcion"><input type="radio" name="s14qi3" value="d"> Son auditorías obligatorias que el IPCC realiza anualmente a cada gobierno.</label>
+      <div class="resultado-item" id="s14QzFb-qi3"></div>
+    </div>
+
+    <div class="item-pregunta" id="s14QzItem-qi4">
+      <span class="tipo-badge tipo-teorica">Teórica</span>
+      <p class="enunciado">4. ¿Cuál es la diferencia entre mitigación y adaptación frente al cambio climático?</p>
+      <label class="opcion"><input type="radio" name="s14qi4" value="a"> La mitigación busca reducir las causas del cambio climático (las emisiones de GEI); la adaptación busca ajustar los sistemas humanos y naturales para reducir su vulnerabilidad frente a los efectos ya presentes.</label>
+      <label class="opcion"><input type="radio" name="s14qi4" value="b"> La mitigación y la adaptación son sinónimos de un mismo enfoque normativo.</label>
+      <label class="opcion"><input type="radio" name="s14qi4" value="c"> La mitigación se aplica solo en países desarrollados; la adaptación solo en países en desarrollo.</label>
+      <label class="opcion"><input type="radio" name="s14qi4" value="d"> La adaptación busca reducir las emisiones de GEI; la mitigación busca proteger comunidades vulnerables.</label>
+      <div class="resultado-item" id="s14QzFb-qi4"></div>
+    </div>
+
+    <div class="item-pregunta" id="s14QzItem-qi5">
+      <span class="tipo-badge tipo-teorica">Teórica</span>
+      <p class="enunciado">5. ¿Qué organismo es la autoridad ambiental rectora en Ecuador según la Ley Orgánica de Cambio Climático (2021)?</p>
+      <label class="opcion"><input type="radio" name="s14qi5" value="a"> El Servicio de Rentas Internas (SRI).</label>
+      <label class="opcion"><input type="radio" name="s14qi5" value="b"> La Contraloría General del Estado.</label>
+      <label class="opcion"><input type="radio" name="s14qi5" value="c"> El Ministerio del Ambiente, Agua y Transición Ecológica (MAATE).</label>
+      <label class="opcion"><input type="radio" name="s14qi5" value="d"> El Consejo Nacional Electoral (CNE).</label>
+      <div class="resultado-item" id="s14QzFb-qi5"></div>
+    </div>
+
+    <div class="item-pregunta" id="s14QzItem-qi6">
+      <span class="tipo-badge tipo-teorica">Teórica</span>
+      <p class="enunciado">6. ¿Qué mide la huella de carbono de una organización?</p>
+      <label class="opcion"><input type="radio" name="s14qi6" value="a"> Únicamente las emisiones directas generadas dentro de sus instalaciones.</label>
+      <label class="opcion"><input type="radio" name="s14qi6" value="b"> El total de emisiones de gases de efecto invernadero, directas e indirectas, expresadas en CO₂ equivalente.</label>
+      <label class="opcion"><input type="radio" name="s14qi6" value="c"> Solo el volumen de agua consumido por la organización.</label>
+      <label class="opcion"><input type="radio" name="s14qi6" value="d"> La cantidad de árboles plantados durante el año fiscal.</label>
+      <div class="resultado-item" id="s14QzFb-qi6"></div>
+    </div>
+
+    <div class="item-pregunta" id="s14QzItem-qi7">
+      <span class="tipo-badge tipo-teorica">Teórica</span>
+      <p class="enunciado">7. ¿Qué normas emitió el ISSB (International Sustainability Standards Board) en 2023 para estandarizar la divulgación de información relacionada con sostenibilidad?</p>
+      <label class="opcion"><input type="radio" name="s14qi7" value="a"> NIC 1 y NIC 2.</label>
+      <label class="opcion"><input type="radio" name="s14qi7" value="b"> NIIF S1 y NIIF S2.</label>
+      <label class="opcion"><input type="radio" name="s14qi7" value="c"> GRI 101 y GRI 102.</label>
+      <label class="opcion"><input type="radio" name="s14qi7" value="d"> ISO 9001 e ISO 14001.</label>
+      <div class="resultado-item" id="s14QzFb-qi7"></div>
+    </div>
+
+    <div class="item-pregunta" id="s14QzItem-qi8">
+      <span class="tipo-badge tipo-analisis">Análisis de caso</span>
+      <p class="enunciado">8. Una empresa agroindustrial publica en su sitio web que sus productos son "100% eco-amigables", sin presentar certificación, metodología de medición ni auditoría externa que respalde la afirmación, mientras continúa utilizando agroquímicos prohibidos en otros países por su impacto ambiental. ¿Qué fenómeno describe mejor esta situación?</p>
+      <label class="opcion"><input type="radio" name="s14qi8" value="a"> Economía circular.</label>
+      <label class="opcion"><input type="radio" name="s14qi8" value="b"> Greenwashing (lavado verde).</label>
+      <label class="opcion"><input type="radio" name="s14qi8" value="c"> Mitigación climática certificada.</label>
+      <label class="opcion"><input type="radio" name="s14qi8" value="d"> Auditoría ambiental exitosa.</label>
+      <div class="resultado-item" id="s14QzFb-qi8"></div>
+    </div>
+
+    <div class="item-pregunta" id="s14QzItem-qi9">
+      <span class="tipo-badge tipo-analisis">Análisis de caso</span>
+      <p class="enunciado">9. Un país insular en desarrollo enfrenta inundaciones costeras recurrentes debido al aumento del nivel del mar y decide invertir en diques, sistemas de drenaje y reubicación de comunidades vulnerables. ¿Qué tipo de estrategia frente al cambio climático está aplicando?</p>
+      <label class="opcion"><input type="radio" name="s14qi9" value="a"> Mitigación.</label>
+      <label class="opcion"><input type="radio" name="s14qi9" value="b"> Adaptación.</label>
+      <label class="opcion"><input type="radio" name="s14qi9" value="c"> Compensación de carbono.</label>
+      <label class="opcion"><input type="radio" name="s14qi9" value="d"> Greenwashing.</label>
+      <div class="resultado-item" id="s14QzFb-qi9"></div>
+    </div>
+
+    <div class="item-pregunta" id="s14QzItem-qi10">
+      <span class="tipo-badge tipo-analisis">Análisis de caso</span>
+      <p class="enunciado">10. En 2023, mediante un mecanismo de democracia directa, la ciudadanía de un país sudamericano decidió frenar indefinidamente la extracción petrolera en una reserva de biodiversidad excepcional ubicada en su territorio amazónico. ¿Qué mecanismo de participación ciudadana se utilizó?</p>
+      <label class="opcion"><input type="radio" name="s14qi10" value="a"> Consulta popular (referéndum).</label>
+      <label class="opcion"><input type="radio" name="s14qi10" value="b"> Decreto ejecutivo.</label>
+      <label class="opcion"><input type="radio" name="s14qi10" value="c"> Resolución de la Asamblea Nacional.</label>
+      <label class="opcion"><input type="radio" name="s14qi10" value="d"> Tratado internacional bilateral.</label>
+      <div class="resultado-item" id="s14QzFb-qi10"></div>
+    </div>
+
+  </form>
+
+  <div class="alerta-incompleto" id="s14QzAlerta">Por favor responde todas las preguntas antes de verificar tus respuestas.</div>
+
+  <div class="btn-row">
+    <button class="btn" onclick="s14VerificarQuiz()">Verificar respuestas</button>
+    <button class="btn secundario" onclick="s14ReiniciarQuiz()">Reiniciar</button>
+  </div>
+
+  <div class="resultado-final" id="s14QzResultadoFinal">
+    <span class="emoji" id="s14QzEmoji"></span>
+    <div class="puntaje"><span id="s14QzPuntaje">0</span>/10</div>
+    <div class="barra-progreso-cont"><div class="barra-progreso" id="s14QzBarra">0%</div></div>
+    <div class="mensaje-motivacional" id="s14QzMensaje"></div>
+  </div>
+</section>
+
+<!-- ===================== PANEL: IA ===================== -->
+<section class="panel" id="panel-ia">
+  <h2 class="titulo-tema">8. Actividad con Inteligencia Artificial</h2>
+  <p>Esta actividad busca que utilices una IA conversacional no como un atajo para obtener respuestas, sino como un <strong>interlocutor crítico</strong> que te ayude a analizar, con rigor profesional, una afirmación ambiental real.</p>
+
+  <p><span class="recomendado">🛠 Herramienta recomendada: Claude (claude.ai) — versión gratuita</span></p>
+  <p>También puedes utilizar ChatGPT (versión gratuita) o Gemini de Google si lo prefieres. La actividad funciona igual en cualquiera de las tres herramientas.</p>
+
+  <div class="caja-ia">
+    <h4>Paso 1 — Elige una afirmación ambiental real</h4>
+    <p>Busca en internet la página web, informe de sostenibilidad o red social de una empresa (ecuatoriana o internacional, del sector que prefieras) y copia textualmente una afirmación ambiental que haya publicado (por ejemplo: "somos carbono neutral", "nuestros empaques son 100% biodegradables", "reducimos nuestras emisiones en un 40%").</p>
+  </div>
+
+  <div class="caja-ia">
+    <h4>Paso 2 — Usa este prompt exacto con la IA</h4>
+    <div class="prompt-box">Actúa como un auditor especializado en sostenibilidad corporativa.
+
+Voy a compartirte una afirmación ambiental de la empresa [NOMBRE DE LA EMPRESA]:
+"[PEGAR AQUÍ LA AFIRMACIÓN TEXTUAL, tomada de su página web, red social o informe anual]"
+
+Por favor:
+1. Indica si esta afirmación es un compromiso específico y medible, o una declaración vaga/genérica.
+2. Señala qué evidencia documental o indicadores verificables (según los estándares GRI o las normas IFRS S1/S2 del ISSB) serían necesarios para sustentar esta afirmación.
+3. Clasifica el riesgo de que esta afirmación constituya "greenwashing" (bajo, medio o alto) y justifica tu respuesta con al menos tres criterios concretos.
+4. Sugiere tres preguntas que un auditor debería formular a la empresa para verificar la veracidad de la afirmación.</div>
+  </div>
+
+  <div class="caja-ia">
+    <h4>Paso 3 — Qué hacer con la respuesta de la IA</h4>
+    <p>No copies ni entregues la respuesta de la IA como si fuera tu trabajo. En un documento de máximo 200 palabras, redacta tu propia conclusión respondiendo:</p>
+    <ul class="lista-visual">
+      <li>¿Estás de acuerdo con la clasificación de riesgo que propuso la IA? ¿Por qué sí o por qué no?</li>
+      <li>¿Qué aspecto del contexto ecuatoriano (la Ley Orgánica de Cambio Climático, el rol del MAATE, o algún ejemplo visto esta semana) podría haber pasado por alto la IA y que tú, como futuro profesional contable, sí identificas?</li>
+      <li>Si fueras el auditor encargado, ¿qué evidencia exigirías primero a la empresa antes de validar su afirmación?</li>
+    </ul>
+  </div>
+
+  <div class="caja-concepto">
+    <h4>Criterio de evaluación: pensamiento crítico vs. copia simple</h4>
+    <table class="tabla-comp">
+      <tr><th>Evidencia pensamiento crítico (logrado)</th><th>Es solo copia de la IA (no logrado)</th></tr>
+      <tr><td>Cuestiona, matiza o complementa la clasificación de riesgo de la IA con argumentos propios.</td><td>Transcribe literalmente la respuesta de la IA sin agregar análisis propio.</td></tr>
+      <tr><td>Incorpora referencias específicas al marco legal ecuatoriano visto en el Tema 2 (Ley Orgánica de Cambio Climático, MAATE).</td><td>No menciona ningún elemento del contexto ecuatoriano ni de los contenidos del widget.</td></tr>
+      <tr><td>Propone evidencia o preguntas de auditoría adicionales, distintas o más específicas que las sugeridas por la IA.</td><td>Repite exactamente las mismas preguntas que generó la IA.</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ===================== PANEL: REFLEXION ===================== -->
+<section class="panel" id="panel-reflexion">
+  <h2 class="titulo-tema">9. Preguntas reflexivas</h2>
+  <p>Esta sección no tiene respuestas correctas ni incorrectas. Su propósito es ayudarte a conectar los contenidos académicos de esta semana con tu vida cotidiana, tus emociones y tu autoconocimiento. Tómate un momento para responder con honestidad, sin juzgarte.</p>
+
+  <div class="pregunta-reflexion"><span class="num">1</span>¿Qué hábitos cotidianos tuyos —consumo de plástico, uso de transporte, consumo de energía en casa— podrían estar relacionados, aunque sea de forma pequeña, con las causas del cambio climático que estudiaste hoy?</div>
+
+  <div class="pregunta-reflexion"><span class="num">2</span>Cuando escuchas hablar de "crisis climática", ¿qué emoción aparece primero en ti: esperanza, indiferencia, ansiedad o resignación? ¿Qué te dice esa emoción sobre tu relación actual con este tema?</div>
+
+  <div class="pregunta-reflexion"><span class="num">3</span>Recordando el caso de la consulta popular del Yasuní, ¿alguna vez has sentido que tu voto o tu voz individual realmente puede cambiar algo importante? ¿Qué aprendiste esta semana que podría fortalecer esa creencia?</div>
+
+  <div class="pregunta-reflexion"><span class="num">4</span>Si tu vida profesional futura como contador o contadora, o como auditor o auditora, tuviera que rendir cuentas no solo de cifras financieras sino también del impacto ambiental de las decisiones que avalas, ¿cómo te gustaría que te recordaran las próximas generaciones?</div>
+
+  <div class="pregunta-reflexion"><span class="num">5</span>¿Qué tan coherente sientes que es tu discurso sobre el cuidado del ambiente con tus acciones diarias? Sin culpa ni autocrítica excesiva, ¿qué pequeño ajuste podrías proponerte esta semana?</div>
+
+  <div class="pregunta-reflexion"><span class="num">6</span>Piensa en alguna situación en la que hayas notado una distancia entre lo que una persona —o tú mismo/a— dice valorar (la salud, la familia, el ambiente) y lo que realmente hace. ¿Qué te enseña esa observación sobre la coherencia entre los valores que declaramos y las acciones que tomamos?</div>
+</section>
+
+<!-- ===================== PANEL: BIBLIOGRAFIA ===================== -->
+<section class="panel" id="panel-biblio">
+  <h2 class="titulo-tema">10. Bibliografía</h2>
+  <p>Las siguientes referencias en formato APA 7.ª edición respaldan el contenido desarrollado en esta semana.</p>
+
+  <div class="ref-card">
+    <span class="ref-tipo">Informe científico</span>
+    <p>IPCC. (2023). <em>Climate Change 2023: Synthesis Report. Contribution of Working Groups I, II and III to the Sixth Assessment Report of the Intergovernmental Panel on Climate Change</em> (Core Writing Team, H. Lee y J. Romero, eds.). IPCC.</p>
+  </div>
+
+  <div class="ref-card">
+    <span class="ref-tipo">Tratado internacional</span>
+    <p>Naciones Unidas. (2015). <em>Acuerdo de París</em>. Convención Marco de las Naciones Unidas sobre el Cambio Climático (CMNUCC).</p>
+  </div>
+
+  <div class="ref-card">
+    <span class="ref-tipo">Documento internacional</span>
+    <p>Naciones Unidas. (2015). <em>Transformar nuestro mundo: la Agenda 2030 para el Desarrollo Sostenible</em>. Asamblea General de las Naciones Unidas.</p>
+  </div>
+
+  <div class="ref-card">
+    <span class="ref-tipo">Norma jurídica nacional</span>
+    <p>Asamblea Nacional del Ecuador. (2021). <em>Ley Orgánica de Cambio Climático</em>. Registro Oficial Suplemento No. 528.</p>
+  </div>
+
+  <div class="ref-card">
+    <span class="ref-tipo">Norma jurídica nacional</span>
+    <p>Constitución de la República del Ecuador. (2008). Registro Oficial No. 449.</p>
+  </div>
+
+  <div class="ref-card">
+    <span class="ref-tipo">Libro</span>
+    <p>Acosta, A. (2013). <em>El Buen Vivir: Sumak Kawsay, una oportunidad para imaginar otros mundos</em>. Icaria Editorial.</p>
+  </div>
+
+  <div class="ref-card">
+    <span class="ref-tipo">Norma profesional</span>
+    <p>International Federation of Accountants [IFAC]. (2021). <em>Manual del Código de Ética para Profesionales de la Contabilidad</em>. IFAC.</p>
+  </div>
+
+  <div class="ref-card">
+    <span class="ref-tipo">Estándar de reporte</span>
+    <p>International Sustainability Standards Board [ISSB]. (2023). <em>NIIF S1: Requerimientos generales para la divulgación de información financiera relacionada con la sostenibilidad</em>. IFRS Foundation.</p>
+  </div>
+
+  <div class="ref-card">
+    <span class="ref-tipo">Estándar de reporte</span>
+    <p>Global Reporting Initiative [GRI]. (2021). <em>Normas GRI: Normas Universales</em>. GRI.</p>
+  </div>
+
+  <p class="nota-pie">Se recomienda verificar cada referencia en Google Scholar (scholar.google.com) o en el repositorio institucional antes de citar en trabajos académicos.</p>
+</section>
+
+</main>
+
+<footer class="pie">Universidad de Guayaquil · Facultad de Ciencias Administrativas · Carrera de Contabilidad y Auditoría · Democracia, Ciudadanía y Globalización · Semana 14</footer>
+
+<script>
+/* ===================== NAVEGACIÓN DE PESTAÑAS ===================== */
+function s14ShowTab(tabId, btn){
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+  document.getElementById('panel-' + tabId).classList.add('active');
+  document.querySelectorAll('#s14tabs button').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* ===================== EJERCICIO INTERACTIVO ===================== */
+var s14EjCorrects = {
+  ei1:'a', ei2:'a', ei3:'a', ei4:'b', ei5:'b', ei6:'b', ei7:'b', ei8:'a'
+};
+
+var s14EjFeedbacks = {
+  ei1:"El Acuerdo de París (2015) es un tratado jurídicamente vinculante que fija como meta limitar el aumento de la temperatura global muy por debajo de 2°C, con esfuerzos para no superar 1.5°C. Respuesta correcta: Verdadero.",
+  ei2:"La Constitución del Ecuador de 2008, en sus artículos 71 a 74, fue la primera en el mundo en reconocer Derechos de la Naturaleza. Respuesta correcta: Verdadero.",
+  ei3:"La reforestación es una estrategia de Mitigación: busca reducir las emisiones netas de GEI absorbiendo CO₂ de la atmósfera, atacando una de las causas del cambio climático.",
+  ei4:"Los sistemas de alerta temprana son una estrategia de Adaptación: buscan reducir la vulnerabilidad de la población ante efectos del cambio climático que ya están ocurriendo, no reducir las emisiones.",
+  ei5:"El ISSB (International Sustainability Standards Board), creado por la Fundación IFRS, emitió en 2023 las normas NIIF S1 y NIIF S2 para estandarizar el reporte de sostenibilidad.",
+  ei6:"Falso. La huella de carbono mide el total de emisiones de GEI, directas e indirectas (Alcances 1, 2 y 3), expresadas en CO₂ equivalente, no solo las emisiones directas de una fábrica.",
+  ei7:"Afirmar ser 'carbono neutral' sin evidencia verificable ni auditoría independiente es un caso típico de Greenwashing (lavado verde): comunicación ambiental engañosa o no sustentada.",
+  ei8:"En agosto de 2023, Ecuador utilizó una Consulta popular (referéndum), un mecanismo de democracia directa, para decidir detener la extracción petrolera en el bloque ITT del Yasuní."
+};
+
+function s14VerificarEjercicio(){
+  var ids = ['ei1','ei2','ei3','ei4','ei5','ei6','ei7','ei8'];
+  var faltan = false;
+
+  ids.forEach(function(id){
+    var marcada = document.querySelector('input[name="s14' + id + '"]:checked');
+    if(!marcada) faltan = true;
+  });
+
+  var alerta = document.getElementById('s14EjAlerta');
+  if(faltan){
+    alerta.classList.add('show');
+    alerta.scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+  alerta.classList.remove('show');
+
+  var score = 0;
+  ids.forEach(function(id){
+    var marcada = document.querySelector('input[name="s14' + id + '"]:checked').value;
+    var correcta = s14EjCorrects[id];
+    var item = document.getElementById('s14EjItem-' + id);
+    var fb = document.getElementById('s14EjFb-' + id);
+
+    item.classList.remove('correcto','incorrecto');
+    fb.classList.remove('ok','bad');
+    fb.classList.add('show');
+
+    if(marcada === correcta){
+      score++;
+      item.classList.add('correcto');
+      fb.classList.add('ok');
+      fb.innerHTML = '✅ ¡Correcto! ' + s14EjFeedbacks[id];
+    } else {
+      item.classList.add('incorrecto');
+      fb.classList.add('bad');
+      fb.innerHTML = '❌ Incorrecto. ' + s14EjFeedbacks[id];
+    }
+  });
+
+  s14MostrarResultadoFinal(score, 8, 's14EjResultadoFinal','s14EjEmoji','s14EjPuntaje','s14EjBarra','s14EjMensaje');
+}
+
+function s14ReiniciarEjercicio(){
+  document.getElementById('s14FormEj').reset();
+  ['ei1','ei2','ei3','ei4','ei5','ei6','ei7','ei8'].forEach(function(id){
+    var item = document.getElementById('s14EjItem-' + id);
+    var fb = document.getElementById('s14EjFb-' + id);
+    item.classList.remove('correcto','incorrecto');
+    fb.classList.remove('show','ok','bad');
+    fb.innerHTML = '';
+  });
+  document.getElementById('s14EjAlerta').classList.remove('show');
+  document.getElementById('s14EjResultadoFinal').classList.remove('show');
+  document.getElementById('panel-ejercicio').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+/* ===================== CUESTIONARIO ===================== */
+var s14QuizCorrects = {
+  qi1:'b', qi2:'c', qi3:'b', qi4:'a', qi5:'c', qi6:'b', qi7:'b', qi8:'b', qi9:'b', qi10:'a'
+};
+
+var s14QuizFeedbacks = {
+  qi1:"El tiempo atmosférico describe condiciones de corto plazo; el clima es el patrón estadístico promedio sostenido durante al menos 30 años, según la Organización Meteorológica Mundial.",
+  qi2:"El IPCC (2023) concluye que es inequívoco que la influencia humana —principalmente la quema de combustibles fósiles y la deforestación— ha calentado la atmósfera, el océano y la tierra.",
+  qi3:"Las NDC son los compromisos climáticos que cada país define voluntariamente bajo el Acuerdo de París y debe revisar y actualizar cada cinco años.",
+  qi4:"La mitigación ataca las causas del cambio climático reduciendo emisiones; la adaptación ajusta los sistemas humanos y naturales para reducir su vulnerabilidad ante efectos ya presentes.",
+  qi5:"El MAATE (Ministerio del Ambiente, Agua y Transición Ecológica) es la autoridad ambiental rectora en Ecuador según la Ley Orgánica de Cambio Climático (2021).",
+  qi6:"La huella de carbono mide el total de emisiones de GEI, directas e indirectas, expresadas en CO₂ equivalente (Alcances 1, 2 y 3).",
+  qi7:"El ISSB emitió en 2023 las normas NIIF S1 (divulgación general de sostenibilidad) y NIIF S2 (divulgaciones relacionadas con el clima).",
+  qi8:"Afirmar ser '100% eco-amigable' sin evidencia verificable, mientras se usan agroquímicos prohibidos, es un caso claro de Greenwashing: comunicación ambiental engañosa.",
+  qi9:"Invertir en diques, drenaje y reubicación frente a inundaciones que ya ocurren es una estrategia de Adaptación: reduce la vulnerabilidad ante efectos presentes, no las emisiones.",
+  qi10:"Ecuador utilizó una Consulta popular (referéndum) en 2023, un mecanismo de democracia directa reconocido constitucionalmente, para decidir sobre la extracción petrolera en el Yasuní-ITT."
+};
+
+function s14VerificarQuiz(){
+  var ids = ['qi1','qi2','qi3','qi4','qi5','qi6','qi7','qi8','qi9','qi10'];
+  var faltan = false;
+
+  ids.forEach(function(id){
+    var marcada = document.querySelector('input[name="s14' + id + '"]:checked');
+    if(!marcada) faltan = true;
+  });
+
+  var alerta = document.getElementById('s14QzAlerta');
+  if(faltan){
+    alerta.classList.add('show');
+    alerta.scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+  alerta.classList.remove('show');
+
+  var score = 0;
+  ids.forEach(function(id){
+    var marcada = document.querySelector('input[name="s14' + id + '"]:checked').value;
+    var correcta = s14QuizCorrects[id];
+    var item = document.getElementById('s14QzItem-' + id);
+    var fb = document.getElementById('s14QzFb-' + id);
+
+    item.classList.remove('correcto','incorrecto');
+    fb.classList.remove('ok','bad');
+    fb.classList.add('show');
+
+    if(marcada === correcta){
+      score++;
+      item.classList.add('correcto');
+      fb.classList.add('ok');
+      fb.innerHTML = '✅ ¡Correcto! ' + s14QuizFeedbacks[id];
+    } else {
+      item.classList.add('incorrecto');
+      fb.classList.add('bad');
+      fb.innerHTML = '❌ Incorrecto. ' + s14QuizFeedbacks[id];
+    }
+  });
+
+  s14MostrarResultadoFinal(score, 10, 's14QzResultadoFinal','s14QzEmoji','s14QzPuntaje','s14QzBarra','s14QzMensaje');
+}
+
+function s14ReiniciarQuiz(){
+  document.getElementById('s14FormQuiz').reset();
+  ['qi1','qi2','qi3','qi4','qi5','qi6','qi7','qi8','qi9','qi10'].forEach(function(id){
+    var item = document.getElementById('s14QzItem-' + id);
+    var fb = document.getElementById('s14QzFb-' + id);
+    item.classList.remove('correcto','incorrecto');
+    fb.classList.remove('show','ok','bad');
+    fb.innerHTML = '';
+  });
+  document.getElementById('s14QzAlerta').classList.remove('show');
+  document.getElementById('s14QzResultadoFinal').classList.remove('show');
+  document.getElementById('panel-quiz').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+/* ===================== RESULTADO FINAL (compartido) ===================== */
+function s14MostrarResultadoFinal(score, total, idResultado, idEmoji, idPuntaje, idBarra, idMensaje){
+  var porcentaje = Math.round((score / total) * 100);
+  var emoji, mensaje;
+
+  if(porcentaje === 100){ emoji = '🏆'; mensaje = '¡Excelente! Dominas por completo los conceptos de esta semana.'; }
+  else if(porcentaje >= 80){ emoji = '🎯'; mensaje = '¡Muy buen trabajo! Tienes un dominio sólido del tema.'; }
+  else if(porcentaje >= 60){ emoji = '📘'; mensaje = 'Buen avance. Te recomendamos repasar los temas donde fallaste.'; }
+  else if(porcentaje >= 40){ emoji = '⚠️'; mensaje = 'Vas por buen camino, pero conviene reforzar varios conceptos antes de continuar.'; }
+  else { emoji = '📖'; mensaje = 'Te recomendamos volver a leer los temas de esta semana con calma antes de avanzar.'; }
+
+  document.getElementById(idEmoji).textContent = emoji;
+  document.getElementById(idPuntaje).textContent = score;
+  document.getElementById(idMensaje).textContent = mensaje;
+
+  var barra = document.getElementById(idBarra);
+  var resultado = document.getElementById(idResultado);
+  resultado.classList.add('show');
+
+  setTimeout(function(){
+    barra.style.width = porcentaje + '%';
+    barra.textContent = porcentaje + '%';
+  }, 100);
+
+  resultado.scrollIntoView({behavior:'smooth', block:'center'});
+}
+</script>
+
+</body>
+</html>

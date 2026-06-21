@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semana 13 | Democracia, Ciudadanía y Globalización | Universidad de Guayaquil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --azul-oscuro:#003366;
+    --celeste:#87CEEB;
+    --celeste-claro:#eaf6fc;
+    --azul-claro-fondo:#e7f1fa;
+    --azul-medio:#0a5ca8;
+    --gris-texto:#2c2c2c;
+    --verde-ok:#1d7a3a;
+    --verde-bg:#e7f7ec;
+    --rojo-no:#a32424;
+    --rojo-bg:#fbeaea;
+    --borde-suave:#d3dde6;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Source Sans 3', sans-serif;
+    color:var(--gris-texto);
+    background:#f4f7fa;
+    line-height:1.65;
+  }
+  h1,h2,h3,h4{font-family:'Lora', serif; color:var(--azul-oscuro);}
+
+  /* ===== HEADER ===== */
+  .header{
+    background:var(--azul-oscuro);
+    color:#ffffff;
+    padding:18px 24px;
+    display:flex;
+    align-items:center;
+    gap:20px;
+    flex-wrap:wrap;
+  }
+  .ug-logo{
+    height:64px;
+    width:auto;
+    flex-shrink:0;
+  }
+  .header-text{flex:1; min-width:260px;}
+  .header-text .institucion{
+    font-size:0.95rem;
+    margin:0 0 2px 0;
+    opacity:0.95;
+  }
+  .header-text .facultad{
+    font-size:0.85rem;
+    margin:0 0 10px 0;
+    opacity:0.85;
+  }
+  .header-text h1{
+    color:#ffffff;
+    font-size:1.5rem;
+    margin:0 0 4px 0;
+  }
+  .header-text .subtitulo{
+    font-size:1rem;
+    font-weight:600;
+    color:var(--celeste);
+    margin:0;
+  }
+  .header-badges{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-top:10px;
+  }
+  .header-badges span{
+    background:rgba(255,255,255,0.12);
+    border:1px solid rgba(255,255,255,0.35);
+    padding:4px 10px;
+    border-radius:14px;
+    font-size:0.78rem;
+  }
+
+  /* ===== TAB BAR ===== */
+  .tab-bar{
+    background:var(--celeste);
+    display:flex;
+    overflow-x:auto;
+    white-space:nowrap;
+    border-bottom:3px solid var(--azul-oscuro);
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:thin;
+  }
+  .tab-bar::-webkit-scrollbar{height:8px;}
+  .tab-bar::-webkit-scrollbar-thumb{background:var(--azul-oscuro); border-radius:4px;}
+  .tab-button{
+    background:transparent;
+    border:none;
+    color:#0b2e4d;
+    padding:13px 16px;
+    font-family:'Source Sans 3', sans-serif;
+    font-size:0.88rem;
+    font-weight:600;
+    cursor:pointer;
+    flex-shrink:0;
+    border-right:1px solid rgba(0,51,102,0.15);
+    transition:background 0.2s;
+  }
+  .tab-button:hover{background:rgba(255,255,255,0.35);}
+  .tab-button.active{
+    background:#ffffff;
+    color:var(--azul-oscuro);
+    font-weight:700;
+    box-shadow:inset 0 -3px 0 var(--azul-oscuro);
+  }
+
+  /* ===== CONTENT ===== */
+  .container{max-width:920px; margin:0 auto; padding:24px 18px 60px;}
+  .tab-content{display:none; animation:fadeIn 0.25s ease;}
+  .tab-content.active{display:block;}
+  @keyframes fadeIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+
+  .tab-content h2{
+    font-size:1.45rem;
+    border-bottom:3px solid var(--celeste);
+    padding-bottom:8px;
+    margin-bottom:18px;
+  }
+  .tab-content h3{
+    font-size:1.15rem;
+    margin-top:26px;
+    color:var(--azul-medio);
+  }
+  p{margin:10px 0;}
+  ul, ol{margin:10px 0; padding-left:24px;}
+  li{margin-bottom:6px;}
+
+  .concept-box{
+    background:#ffffff;
+    border-left:5px solid var(--azul-oscuro);
+    padding:14px 18px;
+    margin:18px 0;
+    border-radius:4px;
+    box-shadow:0 1px 3px rgba(0,0,0,0.07);
+  }
+  .concept-box .etiqueta{
+    font-weight:700;
+    color:var(--azul-oscuro);
+    text-transform:uppercase;
+    font-size:0.78rem;
+    letter-spacing:0.5px;
+    display:block;
+    margin-bottom:6px;
+  }
+
+  .example-box{
+    background:var(--azul-claro-fondo);
+    border:1px solid var(--borde-suave);
+    border-radius:6px;
+    padding:14px 18px;
+    margin:18px 0;
+  }
+  .example-box .etiqueta{
+    font-weight:700;
+    color:var(--azul-medio);
+    font-size:0.85rem;
+    display:block;
+    margin-bottom:6px;
+  }
+
+  .conclusion-box{
+    background:var(--azul-oscuro);
+    color:#ffffff;
+    border-radius:6px;
+    padding:16px 18px;
+    margin:20px 0 10px 0;
+  }
+  .conclusion-box .etiqueta{
+    font-weight:700;
+    color:var(--celeste);
+    font-size:0.85rem;
+    display:block;
+    margin-bottom:6px;
+  }
+  .conclusion-box p{margin:4px 0; color:#ffffff;}
+
+  table.comparativa{
+    width:100%;
+    border-collapse:collapse;
+    margin:18px 0;
+    font-size:0.92rem;
+    background:#fff;
+  }
+  table.comparativa th{
+    background:var(--azul-oscuro);
+    color:#fff;
+    padding:9px 10px;
+    text-align:left;
+  }
+  table.comparativa td{
+    padding:9px 10px;
+    border-bottom:1px solid var(--borde-suave);
+    vertical-align:top;
+  }
+  table.comparativa tr:nth-child(even) td{background:#f7fafc;}
+
+  .recap-card{
+    background:#fff;
+    border:1px solid var(--borde-suave);
+    border-left:5px solid var(--celeste);
+    border-radius:6px;
+    padding:12px 16px;
+    margin:12px 0;
+  }
+  .recap-card h4{margin:0 0 6px 0; color:var(--azul-oscuro); font-size:1rem;}
+  .bridge-box{
+    background:linear-gradient(135deg, var(--azul-oscuro), var(--azul-medio));
+    color:#fff;
+    border-radius:8px;
+    padding:18px;
+    margin-top:22px;
+  }
+  .bridge-box h3{color:var(--celeste); margin-top:0;}
+  .bridge-box p{color:#fff;}
+
+  /* ===== EJERCICIO / QUIZ ===== */
+  .instructions-box{
+    background:#fff8e6;
+    border:1px solid #f0d68a;
+    border-radius:6px;
+    padding:12px 16px;
+    margin-bottom:20px;
+    font-size:0.93rem;
+  }
+  .question-card{
+    background:#fff;
+    border:1px solid var(--borde-suave);
+    border-radius:8px;
+    padding:16px 18px;
+    margin-bottom:16px;
+  }
+  .question-card .q-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:10px;
+    margin-bottom:10px;
+  }
+  .question-card .q-text{font-weight:600; color:var(--azul-oscuro); flex:1;}
+  .badge{
+    font-size:0.7rem;
+    font-weight:700;
+    padding:3px 9px;
+    border-radius:10px;
+    white-space:nowrap;
+    flex-shrink:0;
+  }
+  .badge-teorica{background:#dceefb; color:var(--azul-medio);}
+  .badge-analisis{background:#fde9d4; color:#a35a06;}
+  .options label{
+    display:block;
+    background:#f7f9fb;
+    border:1px solid var(--borde-suave);
+    border-radius:5px;
+    padding:9px 12px;
+    margin-bottom:7px;
+    cursor:pointer;
+    font-size:0.92rem;
+    transition:background 0.15s;
+  }
+  .options label:hover{background:#eef4f9;}
+  .options input{margin-right:8px;}
+  .feedback-box{
+    display:none;
+    margin-top:10px;
+    padding:10px 14px;
+    border-radius:5px;
+    font-size:0.9rem;
+  }
+  .feedback-box.show{display:block;}
+  .feedback-correcto{background:var(--verde-bg); border-left:4px solid var(--verde-ok); color:#155522;}
+  .feedback-incorrecto{background:var(--rojo-bg); border-left:4px solid var(--rojo-no); color:#7a1d1d;}
+  .question-card.correcta{border-left:5px solid var(--verde-ok);}
+  .question-card.incorrecta{border-left:5px solid var(--rojo-no);}
+
+  .action-button{
+    background:var(--azul-oscuro);
+    color:#fff;
+    border:none;
+    padding:12px 26px;
+    font-size:1rem;
+    font-weight:600;
+    border-radius:6px;
+    cursor:pointer;
+    font-family:'Source Sans 3', sans-serif;
+    margin-top:6px;
+  }
+  .action-button:hover{background:var(--azul-medio);}
+  .restart-button{
+    background:#6b7280;
+  }
+  .restart-button:hover{background:#52575e;}
+
+  .score-summary{
+    display:none;
+    background:#fff;
+    border:2px solid var(--azul-oscuro);
+    border-radius:10px;
+    padding:20px;
+    margin-top:20px;
+    text-align:center;
+  }
+  .score-summary.show{display:block;}
+  .score-summary .puntaje{font-size:2.4rem; font-weight:700; color:var(--azul-oscuro); font-family:'Lora',serif;}
+  .score-summary .emoji{font-size:2.2rem;}
+  .progress-bar{
+    background:#e1e6ea;
+    border-radius:20px;
+    height:18px;
+    width:100%;
+    margin:14px 0;
+    overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;
+    background:linear-gradient(90deg, var(--azul-medio), var(--celeste));
+    width:0%;
+    transition:width 1.1s ease;
+    border-radius:20px;
+  }
+  .mensaje-motivacional{font-size:1.05rem; font-weight:600; margin-top:8px;}
+  .alerta-incompleto{
+    display:none;
+    background:var(--rojo-bg);
+    color:var(--rojo-no);
+    border:1px solid var(--rojo-no);
+    border-radius:6px;
+    padding:10px 14px;
+    margin-bottom:14px;
+    font-weight:600;
+  }
+  .alerta-incompleto.show{display:block;}
+
+  /* ===== IA ACTIVITY ===== */
+  .prompt-box{
+    background:#1d2733;
+    color:#e7f0fa;
+    border-radius:8px;
+    padding:16px 18px;
+    font-family:'Courier New', monospace;
+    font-size:0.87rem;
+    line-height:1.6;
+    margin:14px 0;
+    white-space:pre-wrap;
+  }
+  .herramientas{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin:14px 0;
+  }
+  .herramientas span{
+    background:var(--celeste-claro);
+    border:1px solid var(--celeste);
+    padding:6px 12px;
+    border-radius:16px;
+    font-size:0.85rem;
+    font-weight:600;
+    color:var(--azul-oscuro);
+  }
+  .herramientas span.recomendada{
+    background:var(--azul-oscuro);
+    color:#fff;
+    border-color:var(--azul-oscuro);
+  }
+  .criterio-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    margin:14px 0;
+  }
+  @media (max-width:640px){.criterio-grid{grid-template-columns:1fr;}}
+  .criterio-card{
+    border-radius:6px;
+    padding:14px;
+  }
+  .criterio-card.si{background:var(--verde-bg); border:1px solid var(--verde-ok);}
+  .criterio-card.no{background:var(--rojo-bg); border:1px solid var(--rojo-no);}
+  .criterio-card h4{margin-top:0; font-size:0.95rem;}
+  .criterio-card.si h4{color:var(--verde-ok);}
+  .criterio-card.no h4{color:var(--rojo-no);}
+
+  /* ===== REFLEXION ===== */
+  .reflexion-item{
+    background:#fff;
+    border-left:5px solid var(--celeste);
+    border-radius:6px;
+    padding:14px 18px;
+    margin-bottom:14px;
+  }
+  .reflexion-item .num{
+    display:inline-block;
+    background:var(--azul-oscuro);
+    color:#fff;
+    width:26px; height:26px;
+    border-radius:50%;
+    text-align:center;
+    line-height:26px;
+    font-size:0.85rem;
+    font-weight:700;
+    margin-right:8px;
+  }
+  .nota-reflexion{
+    background:var(--azul-claro-fondo);
+    border-radius:6px;
+    padding:12px 16px;
+    font-size:0.9rem;
+    margin-top:18px;
+    font-style:italic;
+  }
+
+  /* ===== BIBLIOGRAFIA ===== */
+  .biblio-card{
+    background:#fff;
+    border:1px solid var(--borde-suave);
+    border-left:5px solid var(--azul-oscuro);
+    border-radius:6px;
+    padding:14px 18px;
+    margin-bottom:12px;
+  }
+  .biblio-card .autor-anio{font-weight:700; color:var(--azul-oscuro);}
+  .biblio-card .titulo{font-style:italic; margin:4px 0;}
+  .biblio-card .fuente{font-size:0.88rem; color:#555;}
+  .footnote-biblio{
+    background:#fff8e6;
+    border:1px solid #f0d68a;
+    border-radius:6px;
+    padding:12px 16px;
+    margin-top:20px;
+    font-size:0.88rem;
+  }
+
+  footer.pie{
+    text-align:center;
+    padding:18px;
+    font-size:0.78rem;
+    color:#777;
+    background:#eef2f5;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <img src="data:image/png;base64,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" alt="Logo Universidad de Guayaquil" class="ug-logo">
+  <div class="header-text">
+    <p class="institucion">Universidad de Guayaquil — Facultad de Ciencias Administrativas</p>
+    <p class="facultad">Carrera en Contabilidad y Auditoría</p>
+    <h1>Democracia, Ciudadanía y Globalización (DCG)</h1>
+    <p class="subtitulo">Unidad 4 · Semana 13 — Valores y bienes públicos en la era de la globalización; la globalización y la agenda internacional</p>
+    <div class="header-badges">
+      <span>Modalidad virtual autónoma</span>
+      <span>Unidad 4: Transformaciones sociales, políticas y económicas</span>
+      <span>Semana 13 de 16</span>
+    </div>
+  </div>
+</div>
+
+<div class="tab-bar" id="s13TabBar">
+  <button class="tab-button active" onclick="s13ShowTab('repaso', this)">Repaso</button>
+  <button class="tab-button" onclick="s13ShowTab('t1', this)">Tema 1</button>
+  <button class="tab-button" onclick="s13ShowTab('t2', this)">Tema 2</button>
+  <button class="tab-button" onclick="s13ShowTab('t3', this)">Tema 3</button>
+  <button class="tab-button" onclick="s13ShowTab('t4', this)">Tema 4</button>
+  <button class="tab-button" onclick="s13ShowTab('t5', this)">Tema 5</button>
+  <button class="tab-button" onclick="s13ShowTab('ejercicio', this)">6. Ejercicio</button>
+  <button class="tab-button" onclick="s13ShowTab('quiz', this)">7. Cuestionario</button>
+  <button class="tab-button" onclick="s13ShowTab('ia', this)">8. Actividad IA</button>
+  <button class="tab-button" onclick="s13ShowTab('reflexion', this)">9. Reflexión</button>
+  <button class="tab-button" onclick="s13ShowTab('biblio', this)">10. Bibliografía</button>
+</div>
+
+<div class="container">
+
+<!-- ===================== REPASO ===================== -->
+<div class="tab-content active" id="repaso">
+  <h2>Repaso: el camino recorrido hasta la Unidad 4</h2>
+  <p>Antes de entrar al tema de esta semana conviene mirar hacia atrás y reconectar las piezas que ya construimos. El curso de <strong>Democracia, Ciudadanía y Globalización</strong> se ha desarrollado como una secuencia lógica: primero entendimos <em>dónde</em> vivimos (el Estado), luego <em>cómo</em> deberíamos convivir en él (la democracia) y <em>quiénes</em> somos dentro de esa convivencia (la ciudadanía). Esta semana damos un paso más: salimos de las fronteras del Estado-nación para preguntarnos qué pasa cuando ese Estado, esa democracia y esa ciudadanía se insertan en un mundo interconectado.</p>
+
+  <div class="recap-card">
+    <h4>Unidad 1 — El Estado ecuatoriano (Semanas 1 a 4)</h4>
+    <p>Estudiamos la organización política y administrativa del Ecuador, el concepto de soberanía estatal, el Estado de derecho frente a la realidad socioeconómica del país, y cerramos con una conceptualización crítica de la democracia: no basta con elecciones periódicas, la democracia exige instituciones que funcionen, rendición de cuentas y un Estado de derecho efectivo.</p>
+  </div>
+
+  <div class="recap-card">
+    <h4>Unidad 2 — La Democracia (Semanas 5 a 7)</h4>
+    <p>Analizamos los modelos de ciudadanía, la relación entre democracia y derechos humanos, la convivencia democrática como práctica diaria, y el derecho a la libre expresión, incluyendo sus particularidades y tensiones en el entorno digital e Internet.</p>
+  </div>
+
+  <div class="recap-card">
+    <h4>Unidad 3 — La Ciudadanía (Semanas 9 a 12)</h4>
+    <p>Profundizamos en la conceptualización crítica de "ciudadano" y "ciudadanía", revisamos distintos modelos de ciudadanía, clasificamos las competencias ciudadanas junto con la ética, los principios y los valores que las sostienen, y cerramos la unidad con el estudio de la nueva Sociedad de la Información: la cyberciudadanía, la ética digital y el acceso al conocimiento como condiciones de la ciudadanía contemporánea.</p>
+  </div>
+
+  <div class="bridge-box">
+    <h3>El puente hacia la Semana 13</h3>
+    <p>En la Semana 12 comprendimos que vivimos en una <strong>Sociedad de la Información</strong>: una sociedad atravesada por redes digitales, datos y conocimiento que circulan sin pausa entre fronteras. Esa sociedad de la información no es un fenómeno aislado: es, en realidad, <strong>una de las caras más visibles de un proceso mucho más amplio llamado globalización</strong>. La Unidad 4 nos invita a dar un paso atrás y mirar el cuadro completo: ¿qué es la globalización en todas sus dimensiones (no solo la tecnológica)?, ¿qué agenda internacional ha surgido de ella?, ¿qué valores deberían orientarnos cuando nuestras decisiones diarias —incluso las más pequeñas, como pagar un impuesto o cuidar un parque— tienen efectos que trascienden lo local? Y, sobre todo: ¿qué son los <strong>bienes públicos</strong>, esas cosas que nos pertenecen a todos y a nadie en particular, y cómo nos comportamos frente a ellos? Esa es la pregunta central de esta semana.</p>
+  </div>
+</div>
+
+<!-- ===================== TEMA 1 ===================== -->
+<div class="tab-content" id="t1">
+  <h2>Tema 1 · La globalización: dimensiones, motores y la nueva agenda internacional</h2>
+
+  <p>La <strong>globalización</strong> es el proceso histórico de creciente interconexión e interdependencia entre países, mercados, sociedades, culturas y personas, impulsado por la reducción de las barreras comerciales, el avance de las tecnologías de transporte y comunicación, y la circulación cada vez más rápida de capital, información, bienes y personas a escala planetaria. No es un evento puntual ni reciente: tiene raíces históricas profundas (las rutas comerciales antiguas, la expansión colonial, la revolución industrial), pero se intensificó de forma radical desde finales del siglo XX con la caída de barreras políticas (fin de la Guerra Fría) y la revolución digital que ya estudiamos en la semana anterior.</p>
+
+  <div class="concept-box">
+    <span class="etiqueta">Concepto clave</span>
+    <p>El sociólogo Manuel Castells —cuyo concepto de "sociedad red" ya utilizamos en la Semana 12— describe este fenómeno como un <strong>"espacio de flujos"</strong>: el poder y la riqueza ya no se organizan únicamente alrededor de territorios fijos, sino alrededor de redes de capital, información, tecnología y comunicación que conectan nodos estratégicos en distintos países, a veces con más fuerza entre sí que con su propio entorno geográfico inmediato.</p>
+  </div>
+
+  <h3>Las dimensiones de la globalización</h3>
+  <p>Para entenderla de forma completa, conviene distinguir al menos cinco dimensiones que avanzan de manera simultánea, aunque a ritmos distintos:</p>
+  <table class="comparativa">
+    <tr><th>Dimensión</th><th>Qué implica</th><th>Ejemplo</th></tr>
+    <tr><td><strong>Económica</strong></td><td>Comercio internacional, cadenas globales de valor, inversión extranjera directa, mercados financieros interconectados.</td><td>Un celular ensamblado en Asia con componentes de varios continentes, vendido en Guayaquil.</td></tr>
+    <tr><td><strong>Política</strong></td><td>Organismos multilaterales que coordinan (o limitan) la acción de los Estados; la soberanía absoluta que estudiamos en la Semana 2 se relativiza.</td><td>ONU, Organización Mundial del Comercio (OMC), Fondo Monetario Internacional (FMI).</td></tr>
+    <tr><td><strong>Cultural</strong></td><td>Circulación global de símbolos, valores, estilos de vida y consumo; tensión entre homogenización e hibridación cultural.</td><td>Plataformas de streaming globales conviviendo con producciones culturales locales.</td></tr>
+    <tr><td><strong>Tecnológica</strong></td><td>Infraestructura digital que conecta personas, instituciones y mercados en tiempo real (ya estudiada en la Semana 12).</td><td>Banca móvil, comercio electrónico, teletrabajo internacional.</td></tr>
+    <tr><td><strong>Ambiental</strong></td><td>Problemas que no respetan fronteras nacionales y exigen cooperación internacional (lo profundizaremos en la Semana 14).</td><td>Emisiones de gases de efecto invernadero, contaminación de cuencas hídricas compartidas.</td></tr>
+  </table>
+
+  <div class="example-box">
+    <span class="etiqueta">Ejemplo aplicado al Ecuador</span>
+    <p>Ecuador es un caso elocuente de interdependencia económica global: desde el año 2000 utiliza el dólar estadounidense como moneda oficial, lo que significa que el país <strong>no controla su propia política monetaria</strong> (decisiones que toma la Reserva Federal de Estados Unidos afectan directamente la economía ecuatoriana). Al mismo tiempo, productos como el camarón, el banano y el cacao dependen de la demanda y los precios de mercados internacionales. Esto ilustra de forma muy concreta lo que estudiamos en la Semana 2 sobre soberanía: en un mundo globalizado, la soberanía económica absoluta es, en la práctica, limitada por la interdependencia con otros actores.</p>
+  </div>
+
+  <h3>La nueva agenda internacional</h3>
+  <p>Durante buena parte del siglo XX, la "agenda internacional" —es decir, el conjunto de temas que los Estados discutían en foros multilaterales— giraba casi exclusivamente alrededor de la seguridad militar y los conflictos entre bloques de poder. La globalización transformó radicalmente esa agenda: hoy incluye temas que ningún país puede resolver en solitario, como los derechos humanos, el desarrollo sostenible, el cambio climático, las migraciones masivas, la ciberseguridad, las pandemias y la estabilidad financiera internacional.</p>
+
+  <p>La expresión más completa y actual de esta nueva agenda es la <strong>Agenda 2030 para el Desarrollo Sostenible</strong>, adoptada por la Organización de las Naciones Unidas en 2015, que articula 17 <strong>Objetivos de Desarrollo Sostenible (ODS)</strong> —entre ellos fin de la pobreza, educación de calidad, acción por el clima, paz, justicia e instituciones sólidas— como hoja de ruta común para todos los países, incluido Ecuador, que ha alineado instrumentos de planificación nacional con estos objetivos.</p>
+
+  <div class="conclusion-box">
+    <span class="etiqueta">Idea clave</span>
+    <p>La globalización no es solo "tener internet" o "comprar productos importados": es un cambio estructural en la forma en que el poder, la economía, la cultura y los problemas se organizan a escala planetaria. Comprenderla es indispensable para entender por qué hoy hablamos de valores compartidos y de bienes públicos que ya no son solo nacionales, sino también globales.</p>
+  </div>
+</div>
+
+<!-- ===================== TEMA 2 ===================== -->
+<div class="tab-content" id="t2">
+  <h2>Tema 2 · Los valores en la era global: entre el relativismo cultural y la ética cívica universal</h2>
+
+  <p>Un <strong>valor</strong> es una cualidad que atribuimos a algo o a alguien y que orienta nuestra conducta hacia lo que consideramos deseable, correcto o digno de ser buscado (la honestidad, la solidaridad, la libertad, la justicia). A diferencia de las normas jurídicas, que son externas y coercitivas (estudiadas en la Semana 3 al hablar del Estado de derecho), los valores son orientaciones internas: pueden inspirar leyes, pero existen incluso antes de que exista una ley que las respalde. Una persona puede ser honesta aunque ninguna ley se lo exija en ese momento específico.</p>
+
+  <h3>El reto de la globalización: ¿valores universales o relativismo cultural?</h3>
+  <p>La globalización pone en contacto permanente a personas, culturas y tradiciones distintas. Esto genera una tensión filosófica real que el estudiante debe poder identificar:</p>
+
+  <table class="comparativa">
+    <tr><th>Postura</th><th>Qué sostiene</th><th>Riesgo si se lleva al extremo</th></tr>
+    <tr><td><strong>Relativismo cultural</strong></td><td>Cada cultura define sus propios valores según su historia y contexto; no existe un parámetro universal válido para todas.</td><td>Puede usarse para justificar violaciones a la dignidad humana ("aquí así se hacen las cosas") sin posibilidad de crítica externa.</td></tr>
+    <tr><td><strong>Universalismo ético</strong></td><td>Existen valores que deberían respetarse en cualquier cultura porque protegen algo común a toda persona: su dignidad.</td><td>Si se impone sin respeto por la diversidad, puede convertirse en imposición cultural de un grupo sobre otro.</td></tr>
+  </table>
+
+  <div class="concept-box">
+    <span class="etiqueta">Concepto clave</span>
+    <p>La filósofa española Adela Cortina propone una salida a esta tensión con el concepto de <strong>ética cívica mínima</strong>: un conjunto reducido de valores (dignidad humana, igualdad, libertad, solidaridad, responsabilidad, tolerancia activa) que distintas culturas y tradiciones pueden compartir, no porque una imponga su visión a la otra, sino porque esos valores son la <em>condición misma</em> para que el diálogo, la cooperación y la convivencia entre culturas diferentes sea posible. Sin un mínimo común, ni siquiera podríamos discutir nuestras diferencias.</p>
+  </div>
+
+  <h3>Solidaridad auténtica frente a colectivismo impuesto: una distinción importante</h3>
+  <p>Dentro del debate sobre los valores compartidos, es importante distinguir dos formas muy distintas de entender la "solidaridad", porque suelen confundirse:</p>
+  <ul>
+    <li><strong>Solidaridad auténtica:</strong> nace de una decisión libre de la persona, que reconoce la dignidad del otro y elige actuar en su favor (ayudar a un vecino, declarar impuestos correctamente sabiendo que financian servicios para otros, donar tiempo o recursos). Es una virtud porque compromete la voluntad individual.</li>
+    <li><strong>Colectivismo impuesto:</strong> ocurre cuando una autoridad obliga a la redistribución o a la conducta "solidaria" sin dejar espacio a la decisión moral de la persona. Algunas corrientes de pensamiento (comunitaristas o socialdemócratas) defienden que cierto grado de obligatoriedad es necesario para garantizar bienes esenciales a toda la población; otras corrientes (liberales o personalistas) advierten que la solidaridad forzada deja de ser una virtud y se convierte en mera obediencia.</li>
+  </ul>
+  <p>Este debate sigue abierto en la filosofía política contemporánea y no tiene una única respuesta correcta; lo importante, para efectos de este curso, es que el futuro profesional sepa identificar la diferencia entre actuar bien porque "me obligan" y actuar bien porque "internamente reconozco que es lo correcto". Esta distinción será central cuando analicemos, más adelante, la conducta ética del contador y auditor frente a los bienes públicos.</p>
+
+  <div class="example-box">
+    <span class="etiqueta">Ejemplo aplicado a la práctica profesional</span>
+    <p>Los principios fundamentales del <strong>Código de Ética para Profesionales de la Contabilidad</strong> de la Federación Internacional de Contadores (IFAC) —integridad, objetividad, competencia y diligencia profesional, confidencialidad y comportamiento profesional— son un ejemplo concreto de "ética cívica mínima" aplicada a una profesión globalizada: un contador en Ecuador, en Colombia o en España comparte el mismo núcleo ético, sin que eso elimine las particularidades de cada legislación nacional (en Ecuador, por ejemplo, las normas del Servicio de Rentas Internas, SRI).</p>
+  </div>
+
+  <div class="conclusion-box">
+    <span class="etiqueta">Idea clave</span>
+    <p>En un mundo globalizado no se trata de elegir entre "todo es relativo" o "una sola cultura tiene la razón". Se trata de identificar un núcleo mínimo de valores compartidos —anclados en la dignidad humana— que permitan convivir y cooperar en medio de la diversidad, distinguiendo siempre entre el valor que se vive por convicción propia y la norma que simplemente se obedece por obligación externa.</p>
+  </div>
+</div>
+
+<!-- ===================== TEMA 3 ===================== -->
+<div class="tab-content" id="t3">
+  <h2>Tema 3 · Los bienes públicos: qué son, cómo se clasifican y por qué nos pertenecen a todos</h2>
+
+  <p>En el lenguaje cotidiano, "bien público" suele usarse para referirse a cualquier cosa administrada por el Estado (un hospital público, una escuela pública). Sin embargo, en este tema usaremos el concepto en su sentido <strong>técnico-económico</strong>, formulado clásicamente por el economista Paul Samuelson (1954), porque es el que permite entender por qué ciertos bienes requieren una gestión colectiva distinta a la de un bien cualquiera que se compra y se vende en el mercado.</p>
+
+  <div class="concept-box">
+    <span class="etiqueta">Concepto clave</span>
+    <p>Un <strong>bien público puro</strong> se define por dos características simultáneas:</p>
+    <ul>
+      <li><strong>No rivalidad en el consumo:</strong> que una persona lo use no reduce la cantidad disponible para que otra también lo use (que yo respire aire limpio no significa que tú tengas menos aire limpio disponible).</li>
+      <li><strong>No exclusión:</strong> no es posible, o resulta extremadamente costoso, impedir que alguien lo use aunque no haya pagado por él (no se puede poner una "puerta" al alumbrado público para que solo lo disfrute quien pagó el impuesto predial).</li>
+    </ul>
+  </div>
+
+  <h3>Una matriz para clasificar cualquier bien</h3>
+  <p>Combinando estas dos características (rivalidad y exclusión) obtenemos cuatro categorías posibles. Esta matriz es la herramienta que usarás en el ejercicio interactivo de esta semana:</p>
+
+  <table class="comparativa">
+    <tr><th>Tipo de bien</th><th>Rivalidad</th><th>Exclusión</th><th>Ejemplo ecuatoriano</th></tr>
+    <tr><td><strong>Bien privado</strong></td><td>Sí (rival)</td><td>Sí (excluible)</td><td>Un par de zapatos, un plan de datos móviles personal.</td></tr>
+    <tr><td><strong>Bien de club</strong></td><td>No (hasta cierto límite de capacidad)</td><td>Sí (excluible)</td><td>Una suscripción de streaming, una autopista de peaje.</td></tr>
+    <tr><td><strong>Recurso común (bien común)</strong></td><td>Sí (rival; se puede agotar)</td><td>No (difícil de excluir)</td><td>Un banco pesquero sin regulación, el agua de un canal de riego comunitario.</td></tr>
+    <tr><td><strong>Bien público puro</strong></td><td>No (no rival)</td><td>No (no excluible)</td><td>El alumbrado público, la defensa nacional, el conocimiento científico de acceso abierto.</td></tr>
+  </table>
+
+  <h3>El problema del "polizón" (free-rider problem)</h3>
+  <p>Precisamente porque un bien público puro no permite excluir a quien no contribuyó a financiarlo, surge un incentivo racional —aunque éticamente cuestionable— a no contribuir y "viajar gratis" aprovechando el esfuerzo de los demás. A esto se le llama <strong>problema del polizón</strong>. Si todos razonaran así, el bien terminaría sin financiamiento y dejaría de existir para todos, incluidos quienes intentaron aprovecharse de él sin pagar.</p>
+
+  <div class="example-box">
+    <span class="etiqueta">Ejemplo aplicado al Ecuador</span>
+    <p>El alumbrado público de una ciudad como Guayaquil se financia principalmente con el impuesto predial y otras tasas municipales. Ninguna persona puede ser excluida de caminar por una calle iluminada de noche aunque no haya pagado ese impuesto, y el hecho de que un vecino disfrute de la iluminación no reduce la luz disponible para los demás. Por eso este tipo de bien no puede depender únicamente de la "buena voluntad" individual de pagar: requiere un mecanismo colectivo de financiamiento —los tributos administrados por el Servicio de Rentas Internas (SRI) y los gobiernos locales— precisamente porque el problema del polizón haría inviable depender solo de aportes voluntarios.</p>
+  </div>
+
+  <div class="conclusion-box">
+    <span class="etiqueta">Idea clave</span>
+    <p>Los bienes públicos no son "regalos" del Estado: son bienes que, por su propia naturaleza económica (no rivalidad y no exclusión), el mercado no puede proveer de forma eficiente por sí solo, y que por lo tanto requieren mecanismos de financiamiento y gestión colectiva. Entender esta lógica es la base para comprender, más adelante en esta unidad, por qué la evasión tributaria no es un asunto "privado" entre el contribuyente y el SRI, sino una decisión que afecta directamente la disponibilidad de bienes públicos para toda la sociedad.</p>
+  </div>
+</div>
+
+<!-- ===================== TEMA 4 ===================== -->
+<div class="tab-content" id="t4">
+  <h2>Tema 4 · Bienes públicos globales: el reto de cuidar lo que es de todos y de nadie</h2>
+
+  <p>Así como existen bienes públicos dentro de un país, la globalización ha hecho evidente la existencia de <strong>bienes públicos globales</strong>: bienes cuyos beneficios (o cuyos daños, si se deterioran) trascienden las fronteras nacionales, las generaciones y los grupos de población. El concepto fue formalizado por Inge Kaul, Isabelle Grunberg y Marc A. Stern en un influyente informe del Programa de las Naciones Unidas para el Desarrollo (PNUD) publicado en 1999.</p>
+
+  <div class="concept-box">
+    <span class="etiqueta">Concepto clave</span>
+    <p>Son ejemplos de bienes públicos globales: la <strong>estabilidad climática</strong>, la <strong>paz y seguridad internacional</strong>, la <strong>salud pública global</strong> (el control de pandemias, por ejemplo), el <strong>conocimiento científico abierto</strong>, la <strong>estabilidad financiera internacional</strong> y, cada vez más, la infraestructura básica de <strong>Internet</strong>. Ningún país, por poderoso que sea, puede garantizar estos bienes en solitario.</p>
+  </div>
+
+  <h3>¿Estamos condenados a la "tragedia de los comunes"?</h3>
+  <p>El biólogo Garrett Hardin planteó en 1968 la llamada <strong>tragedia de los comunes</strong>: si un recurso es de uso compartido y nadie es dueño exclusivo de él, cada individuo tiene un incentivo racional a sobreexplotarlo para su propio beneficio inmediato, aunque eso termine destruyendo el recurso para todos a largo plazo (el ejemplo clásico es un pastizal comunal sobrepastoreado hasta quedar inutilizable). A escala global, este mismo razonamiento explica por qué resulta tan difícil lograr acuerdos efectivos sobre emisiones de carbono o sobrepesca: cada país (o cada persona) podría beneficiarse individualmente de "no cooperar" mientras espera que los demás sí lo hagan.</p>
+
+  <div class="concept-box">
+    <span class="etiqueta">Un matiz importante: Elinor Ostrom</span>
+    <p>La economista Elinor Ostrom —primera mujer en recibir el Premio Nobel de Economía (2009)— demostró, a partir de estudios empíricos en distintas partes del mundo, que la "tragedia de los comunes" <strong>no es un destino inevitable</strong>. Las comunidades pueden autoorganizarse para gestionar recursos comunes de forma sostenible, sin necesidad de que un Estado externo lo imponga todo ni de que el recurso se privatice por completo, siempre que existan reglas claras, mecanismos de monitoreo entre los propios usuarios y sanciones progresivas para quien incumple. A esto se le conoce como <strong>gobernanza comunitaria de los bienes comunes</strong>.</p>
+  </div>
+
+  <div class="example-box">
+    <span class="etiqueta">Ejemplo aplicado al Ecuador y la región andina</span>
+    <p>Las <strong>juntas de regantes</strong> o "juntas de agua" presentes en muchas comunidades de la sierra ecuatoriana son un ejemplo real de gobernanza tipo Ostrom: organizaciones comunitarias que distribuyen turnos para el uso del agua de riego, monitorean su cumplimiento entre los propios miembros y aplican sanciones acordadas colectivamente cuando alguien desperdicia el recurso o rompe el turno asignado, todo esto sin intervención permanente del Estado central. Por el contrario, casos como la sobreexplotación pesquera en algunas zonas del litoral o la deforestación de áreas de la Amazonía ecuatoriana sin sistemas efectivos de gobernanza ilustran lo que ocurre cuando ese tipo de instituciones comunitarias no logran consolidarse o son desplazadas por intereses de corto plazo.</p>
+  </div>
+
+  <div class="conclusion-box">
+    <span class="etiqueta">Idea clave</span>
+    <p>La globalización no solo crea problemas comunes a escala mundial (clima, salud, estabilidad financiera): también exige repensar cómo se gobiernan los bienes que son de todos y de nadie. La evidencia de Ostrom nos recuerda que la acción colectiva responsable —no solo la imposición estatal ni el mercado puro— es una vía real y comprobada para cuidar lo común, tanto a nivel de una comunidad de regantes como, potencialmente, a escala planetaria.</p>
+  </div>
+</div>
+
+<!-- ===================== TEMA 5 ===================== -->
+<div class="tab-content" id="t5">
+  <h2>Tema 5 · La conducta profesional del contador y auditor frente a los valores y los bienes públicos</h2>
+
+  <p>Llegamos al punto donde todo lo estudiado esta semana se conecta directamente con tu futuro ejercicio profesional. La profesión contable y de auditoría ocupa un lugar único en la sociedad: sus profesionales son, en buena medida, los <strong>guardianes de la confianza</strong> en la información financiera que sostiene mercados, decisiones de inversión y, de forma muy directa, la recaudación tributaria que financia los bienes públicos estudiados en el Tema 3.</p>
+
+  <h3>La cadena causal: de la decisión individual a la salud democrática</h3>
+  <p>A lo largo del curso hemos insistido en un concepto que vuelve a aparecer con fuerza esta semana: la <strong>cadena causal</strong> que conecta decisiones aparentemente pequeñas con efectos institucionales y democráticos amplios:</p>
+  <p style="text-align:center; font-weight:600; color:var(--azul-oscuro);">Decisión profesional individual → Integridad institucional → Disponibilidad de bienes públicos → Salud democrática y social</p>
+  <p>Cuando un contador declara correctamente los impuestos de una empresa, o cuando un auditor mantiene su independencia frente a presiones para ocultar una irregularidad, esa decisión —tomada en privado, sin que nadie más lo vea— termina siendo, en una escala muy real, un aporte al financiamiento de hospitales, escuelas y carreteras. Cuando ocurre lo contrario (evasión fiscal, fraude, auditorías complacientes), el efecto es el inverso: se erosiona la confianza institucional y se reducen los recursos disponibles para bienes públicos de los que la propia sociedad —incluido quien cometió la falta— depende.</p>
+
+  <h3>El principio de "interés público" en el Código de Ética de IFAC</h3>
+  <p>El Código Internacional de Ética para Profesionales de la Contabilidad, emitido por la Federación Internacional de Contadores (IFAC), no se limita a exigir cumplimiento técnico: exige que el profesional actúe <strong>en interés público</strong>, es decir, que proteja la confianza de la sociedad en la información financiera incluso cuando eso entre en tensión con los intereses inmediatos de un cliente o un empleador. Esto se articula junto a cinco principios fundamentales: integridad, objetividad, competencia y diligencia profesional, confidencialidad y comportamiento profesional.</p>
+
+  <div class="concept-box">
+    <span class="etiqueta">Concepto clave</span>
+    <p>El "interés público" en este contexto no es un valor abstracto ni decorativo: es el reconocimiento de que la información financiera confiable es, en sí misma, un <strong>bien público</strong> (no rival: que un inversionista la use no impide que otro también la consulte; difícil de excluir: una vez que la confianza institucional se construye, beneficia al sistema en su conjunto). Por eso un fraude contable no solo perjudica a una empresa puntual: deteriora la confianza generalizada en los estados financieros como herramienta social.</p>
+  </div>
+
+  <div class="example-box">
+    <span class="etiqueta">Ejemplo aplicado al Ecuador</span>
+    <p>El sistema de <strong>facturación electrónica</strong> del SRI —que estudiamos en parte en la Semana 12 dentro de la cyberciudadanía digital— es un ejemplo de infraestructura pública construida precisamente para reducir el problema del polizón en materia tributaria: al hacer más difícil ocultar transacciones, fortalece la capacidad del Estado para financiar bienes públicos. La <strong>Contraloría General del Estado</strong>, por su parte, ejerce auditoría externa sobre el uso de recursos públicos, cumpliendo un rol institucional de control que complementa la responsabilidad ética individual de cada profesional contable que participa, directa o indirectamente, en la administración de esos recursos.</p>
+  </div>
+
+  <div class="conclusion-box">
+    <span class="etiqueta">Idea clave</span>
+    <p>En una economía globalizada, donde el capital y la información se mueven entre fronteras en segundos, la integridad del profesional contable y auditor deja de ser un asunto puramente local: cada decisión ética —o cada falta— se inserta en una red mucho más amplia de confianza institucional, de la que dependen tanto los bienes públicos nacionales como, cada vez más, los bienes públicos globales que estudiamos en el Tema 4.</p>
+  </div>
+</div>
+
+<!-- ===================== EJERCICIO INTERACTIVO ===================== -->
+<div class="tab-content" id="ejercicio">
+  <h2>6. Ejercicio Interactivo: Clasifica los bienes</h2>
+  <div class="instructions-box">
+    <strong>Instrucciones:</strong> Clasifica cada bien o servicio según su naturaleza económica, aplicando los criterios de <em>rivalidad</em> y <em>exclusión</em> estudiados en el Tema 3. Responde los 8 ítems y luego presiona "Verificar respuestas". Solo después de verificar podrás ver si acertaste y por qué.
+  </div>
+  <div class="alerta-incompleto" id="s13EjAlerta">⚠️ Debes responder los 8 ítems antes de verificar tus respuestas.</div>
+
+  <div id="s13EjContenedor">
+
+    <div class="question-card" id="s13EjCard1">
+      <div class="q-header"><span class="q-text">1. El alumbrado público de una calle en Guayaquil.</span></div>
+      <div class="options">
+        <label><input type="radio" name="ei1" value="a"> a) Bien público puro</label>
+        <label><input type="radio" name="ei1" value="b"> b) Bien de club</label>
+        <label><input type="radio" name="ei1" value="c"> c) Recurso común</label>
+        <label><input type="radio" name="ei1" value="d"> d) Bien privado</label>
+      </div>
+      <div class="feedback-box" id="s13EjFb1"></div>
+    </div>
+
+    <div class="question-card" id="s13EjCard2">
+      <div class="q-header"><span class="q-text">2. Un plan de datos móviles prepago de uso personal.</span></div>
+      <div class="options">
+        <label><input type="radio" name="ei2" value="a"> a) Bien público puro</label>
+        <label><input type="radio" name="ei2" value="b"> b) Bien de club</label>
+        <label><input type="radio" name="ei2" value="c"> c) Recurso común</label>
+        <label><input type="radio" name="ei2" value="d"> d) Bien privado</label>
+      </div>
+      <div class="feedback-box" id="s13EjFb2"></div>
+    </div>
+
+    <div class="question-card" id="s13EjCard3">
+      <div class="q-header"><span class="q-text">3. Una suscripción de streaming con cuenta familiar compartida.</span></div>
+      <div class="options">
+        <label><input type="radio" name="ei3" value="a"> a) Bien público puro</label>
+        <label><input type="radio" name="ei3" value="b"> b) Bien de club</label>
+        <label><input type="radio" name="ei3" value="c"> c) Recurso común</label>
+        <label><input type="radio" name="ei3" value="d"> d) Bien privado</label>
+      </div>
+      <div class="feedback-box" id="s13EjFb3"></div>
+    </div>
+
+    <div class="question-card" id="s13EjCard4">
+      <div class="q-header"><span class="q-text">4. El banco pesquero de una zona costera sin regulación ni control de extracción.</span></div>
+      <div class="options">
+        <label><input type="radio" name="ei4" value="a"> a) Bien público puro</label>
+        <label><input type="radio" name="ei4" value="b"> b) Bien de club</label>
+        <label><input type="radio" name="ei4" value="c"> c) Recurso común</label>
+        <label><input type="radio" name="ei4" value="d"> d) Bien privado</label>
+      </div>
+      <div class="feedback-box" id="s13EjFb4"></div>
+    </div>
+
+    <div class="question-card" id="s13EjCard5">
+      <div class="q-header"><span class="q-text">5. El conocimiento científico publicado en una revista de acceso abierto.</span></div>
+      <div class="options">
+        <label><input type="radio" name="ei5" value="a"> a) Bien público puro</label>
+        <label><input type="radio" name="ei5" value="b"> b) Bien de club</label>
+        <label><input type="radio" name="ei5" value="c"> c) Recurso común</label>
+        <label><input type="radio" name="ei5" value="d"> d) Bien privado</label>
+      </div>
+      <div class="feedback-box" id="s13EjFb5"></div>
+    </div>
+
+    <div class="question-card" id="s13EjCard6">
+      <div class="q-header"><span class="q-text">6. Una autopista de peaje.</span></div>
+      <div class="options">
+        <label><input type="radio" name="ei6" value="a"> a) Bien público puro</label>
+        <label><input type="radio" name="ei6" value="b"> b) Bien de club</label>
+        <label><input type="radio" name="ei6" value="c"> c) Recurso común</label>
+        <label><input type="radio" name="ei6" value="d"> d) Bien privado</label>
+      </div>
+      <div class="feedback-box" id="s13EjFb6"></div>
+    </div>
+
+    <div class="question-card" id="s13EjCard7">
+      <div class="q-header"><span class="q-text">7. El agua de un canal de riego gestionado por una junta de regantes comunitaria.</span></div>
+      <div class="options">
+        <label><input type="radio" name="ei7" value="a"> a) Bien público puro</label>
+        <label><input type="radio" name="ei7" value="b"> b) Bien de club</label>
+        <label><input type="radio" name="ei7" value="c"> c) Recurso común</label>
+        <label><input type="radio" name="ei7" value="d"> d) Bien privado</label>
+      </div>
+      <div class="feedback-box" id="s13EjFb7"></div>
+    </div>
+
+    <div class="question-card" id="s13EjCard8">
+      <div class="q-header"><span class="q-text">8. Un par de zapatos comprado en una tienda.</span></div>
+      <div class="options">
+        <label><input type="radio" name="ei8" value="a"> a) Bien público puro</label>
+        <label><input type="radio" name="ei8" value="b"> b) Bien de club</label>
+        <label><input type="radio" name="ei8" value="c"> c) Recurso común</label>
+        <label><input type="radio" name="ei8" value="d"> d) Bien privado</label>
+      </div>
+      <div class="feedback-box" id="s13EjFb8"></div>
+    </div>
+
+  </div>
+
+  <button class="action-button" onclick="s13CheckEjercicio()">Verificar respuestas</button>
+
+  <div class="score-summary" id="s13EjScoreBox">
+    <div class="emoji" id="s13EjEmoji"></div>
+    <div class="puntaje" id="s13EjPuntaje"></div>
+    <div class="progress-bar"><div class="progress-fill" id="s13EjBarra"></div></div>
+    <div class="mensaje-motivacional" id="s13EjMensaje"></div>
+    <button class="action-button restart-button" onclick="s13ResetEjercicio()">🔄 Reiniciar ejercicio</button>
+  </div>
+</div>
+
+<!-- ===================== CUESTIONARIO ===================== -->
+<div class="tab-content" id="quiz">
+  <h2>7. Cuestionario</h2>
+  <div class="instructions-box">
+    <strong>Instrucciones:</strong> Responde las 10 preguntas (7 teóricas + 3 de análisis de caso). Las preguntas teóricas pueden responderse con el contenido de los Temas 1 a 5; las de análisis de caso son autónomas y pueden resolverse con razonamiento propio. Selecciona todas tus respuestas y luego presiona "Verificar cuestionario".
+  </div>
+  <div class="alerta-incompleto" id="s13QzAlerta">⚠️ Debes responder las 10 preguntas antes de verificar el cuestionario.</div>
+
+  <div id="s13QzContenedor">
+
+    <div class="question-card" id="s13QzCard1">
+      <div class="q-header"><span class="q-text">1. ¿Cuáles son las dos características que, según la teoría económica clásica (Samuelson), definen a un bien público puro?</span><span class="badge badge-teorica">Teórica</span></div>
+      <div class="options">
+        <label><input type="radio" name="qi1" value="a"> a) Ser gratuito y estar disponible las 24 horas del día</label>
+        <label><input type="radio" name="qi1" value="b"> b) No rivalidad en el consumo y no exclusión de usuarios</label>
+        <label><input type="radio" name="qi1" value="c"> c) Ser administrado por el Estado y financiado con impuestos</label>
+        <label><input type="radio" name="qi1" value="d"> d) Tener alta demanda y bajo costo de producción</label>
+      </div>
+      <div class="feedback-box" id="s13QzFb1"></div>
+    </div>
+
+    <div class="question-card" id="s13QzCard2">
+      <div class="q-header"><span class="q-text">2. Un "bien de club" se diferencia de un bien público puro porque...</span><span class="badge badge-teorica">Teórica</span></div>
+      <div class="options">
+        <label><input type="radio" name="qi2" value="a"> a) No es rival en el consumo hasta cierto límite de capacidad, pero sí es excluible mediante pago o membresía</label>
+        <label><input type="radio" name="qi2" value="b"> b) Es rival en el consumo y no es excluible</label>
+        <label><input type="radio" name="qi2" value="c"> c) No tiene ningún costo de producción</label>
+        <label><input type="radio" name="qi2" value="d"> d) Solo puede ser disfrutado por instituciones del Estado</label>
+      </div>
+      <div class="feedback-box" id="s13QzFb2"></div>
+    </div>
+
+    <div class="question-card" id="s13QzCard3">
+      <div class="q-header"><span class="q-text">3. El "problema del polizón" (free-rider problem) se refiere a...</span><span class="badge badge-teorica">Teórica</span></div>
+      <div class="options">
+        <label><input type="radio" name="qi3" value="a"> a) La dificultad de transportar bienes públicos entre países</label>
+        <label><input type="radio" name="qi3" value="b"> b) El incentivo que tiene una persona a disfrutar de un bien sin contribuir a su financiamiento, sabiendo que no puede ser excluida de su uso</label>
+        <label><input type="radio" name="qi3" value="c"> c) La imposibilidad de medir el valor económico de cualquier bien</label>
+        <label><input type="radio" name="qi3" value="d"> d) El exceso de regulación estatal sobre los bienes privados</label>
+      </div>
+      <div class="feedback-box" id="s13QzFb3"></div>
+    </div>
+
+    <div class="question-card" id="s13QzCard4">
+      <div class="q-header"><span class="q-text">4. Según la investigación de Elinor Ostrom (Premio Nobel de Economía 2009), la gestión sostenible de los recursos comunes...</span><span class="badge badge-teorica">Teórica</span></div>
+      <div class="options">
+        <label><input type="radio" name="qi4" value="a"> a) Solo es posible si el Estado los nacionaliza por completo</label>
+        <label><input type="radio" name="qi4" value="b"> b) Solo es posible si se privatizan completamente</label>
+        <label><input type="radio" name="qi4" value="c"> c) Puede lograrse mediante instituciones comunitarias autoorganizadas, con reglas, monitoreo y sanciones graduales acordadas por los propios usuarios</label>
+        <label><input type="radio" name="qi4" value="d"> d) Es imposible a largo plazo según toda la evidencia empírica disponible</label>
+      </div>
+      <div class="feedback-box" id="s13QzFb4"></div>
+    </div>
+
+    <div class="question-card" id="s13QzCard5">
+      <div class="q-header"><span class="q-text">5. El concepto de "bienes públicos globales" (Kaul, Grunberg y Stern, PNUD 1999) se refiere a bienes cuyos beneficios o costos...</span><span class="badge badge-teorica">Teórica</span></div>
+      <div class="options">
+        <label><input type="radio" name="qi5" value="a"> a) Solo afectan a un barrio o ciudad específica</label>
+        <label><input type="radio" name="qi5" value="b"> b) Se limitan exclusivamente al sector privado de un país</label>
+        <label><input type="radio" name="qi5" value="c"> c) Trascienden fronteras nacionales, generaciones y grupos de población</label>
+        <label><input type="radio" name="qi5" value="d"> d) Dependen totalmente de un solo país para existir</label>
+      </div>
+      <div class="feedback-box" id="s13QzFb5"></div>
+    </div>
+
+    <div class="question-card" id="s13QzCard6">
+      <div class="q-header"><span class="q-text">6. La "ética cívica mínima" propuesta por Adela Cortina busca, principalmente...</span><span class="badge badge-teorica">Teórica</span></div>
+      <div class="options">
+        <label><input type="radio" name="qi6" value="a"> a) Imponer una sola cultura como superior a las demás</label>
+        <label><input type="radio" name="qi6" value="b"> b) Identificar un conjunto mínimo de valores compartibles entre culturas distintas, como condición para el diálogo y la cooperación</label>
+        <label><input type="radio" name="qi6" value="c"> c) Eliminar toda diferencia cultural en nombre de la globalización</label>
+        <label><input type="radio" name="qi6" value="d"> d) Sustituir las leyes nacionales por un código jurídico único mundial</label>
+      </div>
+      <div class="feedback-box" id="s13QzFb6"></div>
+    </div>
+
+    <div class="question-card" id="s13QzCard7">
+      <div class="q-header"><span class="q-text">7. El principio de "interés público" del Código de Ética de IFAC implica que el contador/auditor...</span><span class="badge badge-teorica">Teórica</span></div>
+      <div class="options">
+        <label><input type="radio" name="qi7" value="a"> a) Debe actuar primero en favor del cliente, sin importar el efecto sobre terceros</label>
+        <label><input type="radio" name="qi7" value="b"> b) Solo aplica a quienes trabajan en el sector público</label>
+        <label><input type="radio" name="qi7" value="c"> c) Debe actuar protegiendo la confianza de la sociedad en la información financiera, incluso cuando entre en tensión con los intereses inmediatos de un cliente o empleador</label>
+        <label><input type="radio" name="qi7" value="d"> d) Es un principio opcional que depende del país donde se ejerza la profesión</label>
+      </div>
+      <div class="feedback-box" id="s13QzFb7"></div>
+    </div>
+
+    <div class="question-card" id="s13QzCard8">
+      <div class="q-header"><span class="q-text">8. Un contador descubre que un cliente pequeño subdeclara ingresos ante el SRI, argumentando "somos una empresa chica, esto no afecta a nadie". ¿Cuál es la respuesta más adecuada desde la ética profesional?</span><span class="badge badge-analisis">Análisis</span></div>
+      <div class="options">
+        <label><input type="radio" name="qi8" value="a"> a) Aceptar la solicitud porque el monto es pequeño y no se notará</label>
+        <label><input type="radio" name="qi8" value="b"> b) Explicar que la evasión generalizada reduce los recursos disponibles para bienes públicos de los que la propia empresa también se beneficia, y negarse a participar en esa práctica</label>
+        <label><input type="radio" name="qi8" value="c"> c) Renunciar al cliente de inmediato sin explicarle nada</label>
+        <label><input type="radio" name="qi8" value="d"> d) Denunciar al cliente públicamente en redes sociales</label>
+      </div>
+      <div class="feedback-box" id="s13QzFb8"></div>
+    </div>
+
+    <div class="question-card" id="s13QzCard9">
+      <div class="q-header"><span class="q-text">9. Una comunidad de regantes organiza turnos de uso del agua, monitorea el cumplimiento entre sus propios miembros y aplica sanciones progresivas a quien la desperdicia, sin intervención directa del Estado. Esta situación ilustra mejor...</span><span class="badge badge-analisis">Análisis</span></div>
+      <div class="options">
+        <label><input type="radio" name="qi9" value="a"> a) La tragedia de los comunes en su forma más pura e inevitable</label>
+        <label><input type="radio" name="qi9" value="b"> b) Un fallo total e irreversible del mercado</label>
+        <label><input type="radio" name="qi9" value="c"> c) La gobernanza comunitaria de bienes comunes descrita por Ostrom, donde la acción colectiva autoorganizada logra una gestión sostenible</label>
+        <label><input type="radio" name="qi9" value="d"> d) Un bien público puro administrado exclusivamente por el gobierno central</label>
+      </div>
+      <div class="feedback-box" id="s13QzFb9"></div>
+    </div>
+
+    <div class="question-card" id="s13QzCard10">
+      <div class="q-header"><span class="q-text">10. Un auditor es presionado por su jefe para omitir, en su informe, un hallazgo de irregularidad detectado en una entidad pública, bajo el argumento de que "así se ha hecho siempre". Si accede a esa presión, ¿qué principio del Código de Ética estaría comprometiendo principalmente?</span><span class="badge badge-analisis">Análisis</span></div>
+      <div class="options">
+        <label><input type="radio" name="qi10" value="a"> a) Confidencialidad</label>
+        <label><input type="radio" name="qi10" value="b"> b) Competencia y diligencia profesional únicamente</label>
+        <label><input type="radio" name="qi10" value="c"> c) Objetividad e integridad</label>
+        <label><input type="radio" name="qi10" value="d"> d) Ningún principio, porque seguir órdenes del jefe siempre es correcto</label>
+      </div>
+      <div class="feedback-box" id="s13QzFb10"></div>
+    </div>
+
+  </div>
+
+  <button class="action-button" onclick="s13CheckQuiz()">Verificar cuestionario</button>
+
+  <div class="score-summary" id="s13QzScoreBox">
+    <div class="emoji" id="s13QzEmoji"></div>
+    <div class="puntaje" id="s13QzPuntaje"></div>
+    <div class="progress-bar"><div class="progress-fill" id="s13QzBarra"></div></div>
+    <div class="mensaje-motivacional" id="s13QzMensaje"></div>
+    <button class="action-button restart-button" onclick="s13ResetQuiz()">🔄 Reiniciar cuestionario</button>
+  </div>
+</div>
+
+<!-- ===================== ACTIVIDAD CON IA ===================== -->
+<div class="tab-content" id="ia">
+  <h2>8. Actividad con Inteligencia Artificial</h2>
+  <p>Esta actividad no busca que la IA te dé "la respuesta correcta": busca que la uses como un interlocutor que te ayude a pensar críticamente sobre tu propia relación con los bienes públicos y los valores que defiendes.</p>
+
+  <div class="herramientas">
+    <span class="recomendada">✅ Recomendada: Claude (claude.ai) — versión gratuita</span>
+    <span>ChatGPT (versión gratuita)</span>
+    <span>Gemini de Google</span>
+  </div>
+
+  <h3>Actividad: "Diagnóstico personal de bienes públicos con IA como contraparte crítica"</h3>
+  <p><strong>Paso 1.</strong> Elige tres bienes públicos, bienes de club o recursos comunes que uses en tu vida diaria (por ejemplo: el agua potable, las calles de tu barrio, el wifi de la universidad, el silencio en la biblioteca, un parque, el transporte público). Piensa con honestidad cómo te comportas frente a cada uno.</p>
+  <p><strong>Paso 2.</strong> Copia el siguiente prompt en Claude (claude.ai) y complétalo con tu información antes de enviarlo:</p>
+
+  <div class="prompt-box">Actúa como un facilitador de pensamiento crítico en ética cívica y bienes públicos, no como alguien que da consejos ni juicios morales directos.
+
+Te voy a describir tres bienes públicos, bienes de club o recursos comunes que uso en mi vida diaria y cómo me comporto frente a cada uno:
+
+1. [Describe el bien y tu comportamiento real frente a él]
+2. [Describe el bien y tu comportamiento real frente a él]
+3. [Describe el bien y tu comportamiento real frente a él]
+
+Con base en esto, quiero que:
+
+1) Identifiques, para cada caso, si mi comportamiento se acerca más a una lógica de "¿qué puedo obtener yo?" o a una lógica de corresponsabilidad colectiva.
+
+2) Me hagas UNA pregunta incómoda pero respetuosa que cuestione alguna posible contradicción entre lo que digo valorar y cómo actúo realmente.
+
+3) Me expliques, usando un ejemplo distinto a los míos, qué pasaría con ese tipo de bien si TODAS las personas actuaran exactamente como yo actúo (razonamiento tipo "regla de oro").
+
+No me digas si estoy "bien" o "mal": ayúdame a pensarlo yo mismo con tus preguntas y ejemplos.</div>
+
+  <p><strong>Paso 3.</strong> Conversa con la IA al menos dos intercambios más: responde su pregunta incómoda con honestidad, pídele que profundice o que te ponga un contraejemplo si no estás de acuerdo con algo.</p>
+  <p><strong>Paso 4.</strong> Escribe una reflexión breve (máximo una página) donde contrastes lo que la IA te preguntó con lo que tú ya creías sobre ti mismo, y conectes al menos una conclusión con tu futuro ejercicio profesional como contador o auditor (por ejemplo: ¿qué implicaría para ti declarar impuestos con la misma lógica que usas frente a esos bienes cotidianos?).</p>
+
+  <div class="criterio-grid">
+    <div class="criterio-card si">
+      <h4>✅ Evidencia pensamiento crítico</h4>
+      <ul>
+        <li>Responde con honestidad a la pregunta incómoda de la IA, aunque la respuesta no sea favorable para sí mismo.</li>
+        <li>Argumenta, matiza o incluso discrepa de algo que dijo la IA, con razones propias.</li>
+        <li>Conecta el ejercicio con una conclusión profesional concreta y personal.</li>
+      </ul>
+    </div>
+    <div class="criterio-card no">
+      <h4>❌ Es copia simple, sin pensamiento crítico</h4>
+      <ul>
+        <li>Pega la respuesta de la IA tal cual, sin ningún comentario propio.</li>
+        <li>Inventa bienes públicos genéricos ("el aire", "el agua") sin describir su propio comportamiento real.</li>
+        <li>No menciona ninguna implicación para su futura vida profesional.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="conclusion-box">
+    <span class="etiqueta">Idea clave</span>
+    <p>La IA, usada de esta manera, no te da respuestas: te devuelve preguntas mejor formuladas sobre ti mismo. El verdadero aprendizaje de esta actividad no está en lo que la IA escribió, sino en lo que tú descubriste al tener que responderle con honestidad.</p>
+  </div>
+</div>
+
+<!-- ===================== REFLEXION ===================== -->
+<div class="tab-content" id="reflexion">
+  <h2>9. Preguntas Reflexivas</h2>
+  <p>No hay respuestas correctas ni incorrectas en esta sección. El objetivo es que conectes los conceptos de esta semana —valores y bienes públicos— con tu propia vida cotidiana, tu autoconocimiento y tu manera de tomar decisiones.</p>
+
+  <div class="reflexion-item"><span class="num">1</span>¿Qué bien público o bien común usas a diario sin darte cuenta de que lo es (agua, calles, wifi de la universidad, alumbrado)? ¿Alguna vez te detuviste a pensar quién lo financia y cómo?</div>
+
+  <div class="reflexion-item"><span class="num">2</span>Cuando nadie te observa, ¿tu comportamiento frente a esos bienes cambia respecto a cuando hay alguien mirando? ¿Qué te dice eso sobre la diferencia entre los valores que dices tener y los valores que realmente vives?</div>
+
+  <div class="reflexion-item"><span class="num">3</span>¿Alguna vez justificaste una pequeña falta (no declarar una propina, copiar una tarea, "colarte" en una fila) pensando "total, es solo una vez, no afecta a nadie"? ¿Qué creencia interna sostenía esa decisión en ese momento?</div>
+
+  <div class="reflexion-item"><span class="num">4</span>Si pudieras escuchar tu diálogo interno —esa voz que te justifica o te cuestiona— justo en el momento de una pequeña decisión ética, ¿qué suele decir generalmente? ¿Te exige más de lo que realmente cumples, o te perdona con demasiada facilidad?</div>
+
+  <div class="reflexion-item"><span class="num">5</span>Piensa en una persona que admires por su integridad frente a lo público (un familiar, un profesor, una figura conocida). ¿Qué hace diferente esa persona? ¿Qué crees que te impide a ti actuar con esa misma consistencia todo el tiempo?</div>
+
+  <div class="reflexion-item"><span class="num">6</span>Como futuro profesional de la contabilidad y auditoría, vas a tener acceso a información y a decisiones que otras personas no pueden tomar (declarar impuestos, certificar estados financieros, emitir un informe de auditoría). ¿Qué tipo de profesional te gustaría que te recordaran haber sido dentro de veinte años?</div>
+
+  <div class="reflexion-item"><span class="num">7</span>La globalización conecta decisiones locales con efectos que no siempre vemos: lo que declaras hoy en un formulario tributario eventualmente puede financiar un hospital, una escuela o una calle que usará alguien que nunca conocerás. ¿Sientes esa conexión como algo real o como algo abstracto y lejano? ¿Por qué crees que la sientes así?</div>
+
+  <div class="reflexion-item"><span class="num">8</span>Si tuvieras que explicarle a un niño o niña de ocho años por qué "cuidar lo de todos" importa, sin usar tecnicismos económicos, ¿qué ejemplo de tu propia vida usarías?</div>
+
+  <div class="nota-reflexion">Te invitamos a guardar tus respuestas en un documento personal. No es necesario entregarlas; su valor está en el ejercicio honesto de autoconocimiento que generan.</div>
+</div>
+
+<!-- ===================== BIBLIOGRAFIA ===================== -->
+<div class="tab-content" id="biblio">
+  <h2>10. Bibliografía</h2>
+
+  <div class="biblio-card">
+    <p class="autor-anio">Bauman, Z. (1999).</p>
+    <p class="titulo">La globalización: Consecuencias humanas.</p>
+    <p class="fuente">Fondo de Cultura Económica.</p>
+  </div>
+
+  <div class="biblio-card">
+    <p class="autor-anio">Cortina, A. (1997).</p>
+    <p class="titulo">Ciudadanos del mundo: Hacia una teoría de la ciudadanía.</p>
+    <p class="fuente">Alianza Editorial.</p>
+  </div>
+
+  <div class="biblio-card">
+    <p class="autor-anio">Federación Internacional de Contadores [IFAC]. (2021).</p>
+    <p class="titulo">Código Internacional de Ética para Profesionales de la Contabilidad (incluidas las Normas Internacionales de Independencia).</p>
+    <p class="fuente">International Federation of Accountants.</p>
+  </div>
+
+  <div class="biblio-card">
+    <p class="autor-anio">Kaul, I., Grunberg, I., & Stern, M. A. (Eds.). (1999).</p>
+    <p class="titulo">Global Public Goods: International Cooperation in the 21st Century.</p>
+    <p class="fuente">Oxford University Press / Programa de las Naciones Unidas para el Desarrollo (PNUD).</p>
+  </div>
+
+  <div class="biblio-card">
+    <p class="autor-anio">Organización de las Naciones Unidas [ONU]. (2015).</p>
+    <p class="titulo">Transformar nuestro mundo: la Agenda 2030 para el Desarrollo Sostenible.</p>
+    <p class="fuente">Resolución A/RES/70/1, Asamblea General de las Naciones Unidas.</p>
+  </div>
+
+  <div class="biblio-card">
+    <p class="autor-anio">Ostrom, E. (2000).</p>
+    <p class="titulo">El gobierno de los bienes comunes: La evolución de las instituciones de acción colectiva.</p>
+    <p class="fuente">Fondo de Cultura Económica / Universidad Nacional Autónoma de México.</p>
+  </div>
+
+  <div class="biblio-card">
+    <p class="autor-anio">Sen, A. (2000).</p>
+    <p class="titulo">Desarrollo y libertad.</p>
+    <p class="fuente">Editorial Planeta.</p>
+  </div>
+
+  <div class="biblio-card">
+    <p class="autor-anio">Stiglitz, J. E. (2002).</p>
+    <p class="titulo">El malestar en la globalización.</p>
+    <p class="fuente">Taurus.</p>
+  </div>
+
+  <div class="footnote-biblio">📌 Se recomienda verificar cada referencia en Google Scholar (scholar.google.com) o en el repositorio institucional antes de citar en trabajos académicos.</div>
+</div>
+
+</div><!-- /container -->
+
+<footer class="pie">Universidad de Guayaquil · Facultad de Ciencias Administrativas · Carrera en Contabilidad y Auditoría · Democracia, Ciudadanía y Globalización · Semana 13 de 16</footer>
+
+<script>
+/* =========================================================
+   SEMANA 13 — Navegación de pestañas
+   ========================================================= */
+function s13ShowTab(tabId, btn){
+  var contents = document.querySelectorAll('.tab-content');
+  for (var i=0; i<contents.length; i++){ contents[i].classList.remove('active'); }
+  document.getElementById(tabId).classList.add('active');
+
+  var buttons = document.querySelectorAll('.tab-button');
+  for (var j=0; j<buttons.length; j++){ buttons[j].classList.remove('active'); }
+  if (btn) { btn.classList.add('active'); }
+
+  document.getElementById('s13TabBar').scrollLeft = 0;
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* =========================================================
+   EJERCICIO INTERACTIVO — Respuestas correctas y feedback
+   ========================================================= */
+var s13EjCorrects = {
+  ei1: 'a', // alumbrado público -> público puro
+  ei2: 'd', // plan de datos personal -> privado
+  ei3: 'b', // streaming compartido -> club
+  ei4: 'c', // banco pesquero sin regulación -> recurso común
+  ei5: 'a', // conocimiento científico abierto -> público puro
+  ei6: 'b', // autopista de peaje -> club
+  ei7: 'c', // canal de riego comunitario -> recurso común
+  ei8: 'd'  // zapatos -> privado
+};
+
+var s13EjFeedbacks = {
+  ei1: 'El alumbrado público es no rival (que tú lo uses no quita luz a otros) y no excluible (no se puede impedir que alguien camine por una calle iluminada aunque no haya pagado el predial). Por eso es un bien público puro.',
+  ei2: 'Un plan de datos personal es rival (los datos que tú consumes ya no están disponibles para otra persona) y excluible (solo lo usa quien pagó por él). Por eso es un bien privado.',
+  ei3: 'Una suscripción compartida no es rival entre los usuarios autorizados (hasta cierto límite de pantallas simultáneas), pero sí es excluible mediante el pago de la membresía. Por eso es un bien de club.',
+  ei4: 'Un banco pesquero sin regulación es rival (los peces que uno extrae ya no están disponibles para otro pescador) pero difícil de excluir (cualquiera puede pescar). Por eso es un recurso común, vulnerable a la sobreexplotación.',
+  ei5: 'El conocimiento publicado en acceso abierto no se agota cuando alguien lo lee (no rival) y no se puede impedir que cualquier persona con conexión a internet lo consulte (no excluible). Por eso es un bien público puro.',
+  ei6: 'Una autopista de peaje no es rival hasta que se congestiona, pero sí es excluible: quien no paga el peaje no puede transitar por ella. Por eso es un bien de club.',
+  ei7: 'El agua de un canal de riego comunitario es rival (el agua que usa un regante ya no está disponible para otro en ese turno) y difícil de excluir totalmente sin un sistema de gobernanza. Por eso es un recurso común, como los estudiados con Ostrom.',
+  ei8: 'Un par de zapatos es claramente rival (si tú los usas, nadie más los usa al mismo tiempo) y excluible (solo lo usa quien lo compró). Por eso es un bien privado.'
+};
+
+function s13CheckEjercicio(){
+  var total = 8;
+  var respondidas = 0;
+  var aciertos = 0;
+
+  for (var i=1; i<=total; i++){
+    var name = 'ei' + i;
+    var seleccionado = document.querySelector('input[name="' + name + '"]:checked');
+    if (seleccionado) { respondidas++; }
+  }
+
+  if (respondidas < total){
+    document.getElementById('s13EjAlerta').classList.add('show');
+    document.getElementById('s13EjAlerta').scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+  document.getElementById('s13EjAlerta').classList.remove('show');
+
+  for (var i=1; i<=total; i++){
+    var name = 'ei' + i;
+    var seleccionado = document.querySelector('input[name="' + name + '"]:checked');
+    var valor = seleccionado.value;
+    var correcto = s13EjCorrects[name];
+    var card = document.getElementById('s13EjCard' + i);
+    var fb = document.getElementById('s13EjFb' + i);
+
+    card.classList.remove('correcta','incorrecta');
+    fb.classList.remove('feedback-correcto','feedback-incorrecto');
+
+    if (valor === correcto){
+      aciertos++;
+      card.classList.add('correcta');
+      fb.classList.add('show','feedback-correcto');
+      fb.innerHTML = '✅ <strong>Correcto.</strong> ' + s13EjFeedbacks[name];
+    } else {
+      card.classList.add('incorrecta');
+      fb.classList.add('show','feedback-incorrecto');
+      fb.innerHTML = '❌ <strong>Incorrecto.</strong> ' + s13EjFeedbacks[name];
+    }
+  }
+
+  var porcentaje = Math.round((aciertos/total)*100);
+  document.getElementById('s13EjPuntaje').textContent = aciertos + ' / ' + total + ' (' + porcentaje + '%)';
+
+  var emoji, mensaje;
+  if (porcentaje === 100){ emoji='🏆'; mensaje='¡Excelente! Dominas perfectamente la clasificación de bienes públicos, de club, comunes y privados.'; }
+  else if (porcentaje >= 80){ emoji='🎯'; mensaje='¡Muy bien! Tienes un dominio sólido del tema, revisa el o los ítems fallados para perfeccionarlo.'; }
+  else if (porcentaje >= 60){ emoji='📘'; mensaje='Vas por buen camino. Te recomendamos releer el Tema 3 para afianzar la matriz de clasificación.'; }
+  else if (porcentaje >= 40){ emoji='⚠️'; mensaje='Necesitas reforzar este tema. Vuelve a leer el Tema 3 con calma antes de continuar.'; }
+  else { emoji='📖'; mensaje='Te recomendamos repasar el Tema 3 desde el inicio antes de avanzar; los conceptos de rivalidad y exclusión son la base de toda la unidad.'; }
+
+  document.getElementById('s13EjEmoji').textContent = emoji;
+  document.getElementById('s13EjMensaje').textContent = mensaje;
+  document.getElementById('s13EjScoreBox').classList.add('show');
+
+  setTimeout(function(){
+    document.getElementById('s13EjBarra').style.width = porcentaje + '%';
+  }, 80);
+
+  document.getElementById('s13EjScoreBox').scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+function s13ResetEjercicio(){
+  for (var i=1; i<=8; i++){
+    var name = 'ei' + i;
+    var radios = document.getElementsByName(name);
+    for (var r=0; r<radios.length; r++){ radios[r].checked = false; }
+    var card = document.getElementById('s13EjCard' + i);
+    card.classList.remove('correcta','incorrecta');
+    var fb = document.getElementById('s13EjFb' + i);
+    fb.classList.remove('show','feedback-correcto','feedback-incorrecto');
+    fb.innerHTML = '';
+  }
+  document.getElementById('s13EjScoreBox').classList.remove('show');
+  document.getElementById('s13EjBarra').style.width = '0%';
+  document.getElementById('s13EjAlerta').classList.remove('show');
+  document.getElementById('ejercicio').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+/* =========================================================
+   CUESTIONARIO — Respuestas correctas y feedback
+   ========================================================= */
+var s13QuizCorrects = {
+  qi1: 'b', qi2: 'a', qi3: 'b', qi4: 'c', qi5: 'c',
+  qi6: 'b', qi7: 'c', qi8: 'b', qi9: 'c', qi10: 'c'
+};
+
+var s13QuizFeedbacks = {
+  qi1: 'Un bien público puro se define técnicamente por la no rivalidad (el consumo de uno no reduce la disponibilidad para otros) y la no exclusión (no se puede impedir su uso aunque no se haya pagado). Que sea gratuito o estatal no son, en sí mismas, las características que lo definen.',
+  qi2: 'El bien de club no es rival hasta cierto límite de capacidad, pero sí es excluible: se puede impedir el acceso a quien no paga la membresía, suscripción o peaje. Esa combinación lo diferencia del bien público puro.',
+  qi3: 'El problema del polizón ocurre porque, al no poder excluirse a nadie del disfrute de un bien público, surge el incentivo racional a no contribuir a su financiamiento y "viajar gratis" aprovechando el aporte de los demás.',
+  qi4: 'Elinor Ostrom demostró empíricamente que las comunidades pueden gestionar recursos comunes de forma sostenible mediante instituciones autoorganizadas (reglas claras, monitoreo mutuo y sanciones progresivas), sin depender únicamente de la nacionalización estatal ni de la privatización total.',
+  qi5: 'Los bienes públicos globales (Kaul, Grunberg y Stern, PNUD 1999) se caracterizan precisamente porque sus beneficios o costos trascienden fronteras, generaciones y grupos de población; ningún país puede garantizarlos en solitario.',
+  qi6: 'La ética cívica mínima de Cortina busca un núcleo de valores compartibles (dignidad, igualdad, libertad, solidaridad) que permitan el diálogo y la cooperación entre culturas distintas, sin imponer una cultura sobre otra ni eliminar la diversidad.',
+  qi7: 'El principio de interés público del Código de Ética de IFAC exige que el profesional contable proteja la confianza social en la información financiera, incluso cuando eso entre en tensión con los intereses inmediatos de un cliente o empleador.',
+  qi8: 'La evasión, aunque provenga de una empresa pequeña, contribuye al mismo problema del polizón que erosiona el financiamiento de bienes públicos compartidos por toda la sociedad, incluida la propia empresa. El profesional ético debe explicar esto y negarse a participar, sin necesidad de gestos extremos como denunciar públicamente.',
+  qi9: 'Esta es exactamente la gobernanza comunitaria de bienes comunes descrita por Elinor Ostrom: reglas, monitoreo y sanciones acordadas por los propios usuarios, sin que la "tragedia de los comunes" sea un destino inevitable.',
+  qi10: 'Omitir un hallazgo de irregularidad por presión externa compromete directamente la objetividad (juicio libre de sesgos o presiones indebidas) y la integridad (honestidad y franqueza) del auditor, dos de los principios fundamentales del Código de Ética.'
+};
+
+function s13CheckQuiz(){
+  var total = 10;
+  var respondidas = 0;
+  var aciertos = 0;
+
+  for (var i=1; i<=total; i++){
+    var name = 'qi' + i;
+    var seleccionado = document.querySelector('input[name="' + name + '"]:checked');
+    if (seleccionado) { respondidas++; }
+  }
+
+  if (respondidas < total){
+    document.getElementById('s13QzAlerta').classList.add('show');
+    document.getElementById('s13QzAlerta').scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+  document.getElementById('s13QzAlerta').classList.remove('show');
+
+  for (var i=1; i<=total; i++){
+    var name = 'qi' + i;
+    var seleccionado = document.querySelector('input[name="' + name + '"]:checked');
+    var valor = seleccionado.value;
+    var correcto = s13QuizCorrects[name];
+    var card = document.getElementById('s13QzCard' + i);
+    var fb = document.getElementById('s13QzFb' + i);
+
+    card.classList.remove('correcta','incorrecta');
+    fb.classList.remove('feedback-correcto','feedback-incorrecto');
+
+    if (valor === correcto){
+      aciertos++;
+      card.classList.add('correcta');
+      fb.classList.add('show','feedback-correcto');
+      fb.innerHTML = '✅ <strong>Correcto.</strong> ' + s13QuizFeedbacks[name];
+    } else {
+      card.classList.add('incorrecta');
+      fb.classList.add('show','feedback-incorrecto');
+      fb.innerHTML = '❌ <strong>Incorrecto.</strong> ' + s13QuizFeedbacks[name];
+    }
+  }
+
+  var porcentaje = Math.round((aciertos/total)*100);
+  document.getElementById('s13QzPuntaje').textContent = aciertos + ' / ' + total + ' (' + porcentaje + '%)';
+
+  var emoji, mensaje;
+  if (porcentaje === 100){ emoji='🏆'; mensaje='¡Puntaje perfecto! Dominas con claridad los valores y bienes públicos en la era de la globalización.'; }
+  else if (porcentaje >= 80){ emoji='🎯'; mensaje='¡Muy buen resultado! Revisa los ítems fallados para cerrar los últimos detalles.'; }
+  else if (porcentaje >= 60){ emoji='📘'; mensaje='Resultado aceptable. Te conviene repasar los temas donde fallaste antes de la siguiente semana.'; }
+  else if (porcentaje >= 40){ emoji='⚠️'; mensaje='Necesitas reforzar varios conceptos. Vuelve a leer los Temas 1 a 5 antes de continuar.'; }
+  else { emoji='📖'; mensaje='Te recomendamos repasar todo el contenido de esta semana desde el inicio antes de avanzar a la Semana 14.'; }
+
+  document.getElementById('s13QzEmoji').textContent = emoji;
+  document.getElementById('s13QzMensaje').textContent = mensaje;
+  document.getElementById('s13QzScoreBox').classList.add('show');
+
+  setTimeout(function(){
+    document.getElementById('s13QzBarra').style.width = porcentaje + '%';
+  }, 80);
+
+  document.getElementById('s13QzScoreBox').scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+function s13ResetQuiz(){
+  for (var i=1; i<=10; i++){
+    var name = 'qi' + i;
+    var radios = document.getElementsByName(name);
+    for (var r=0; r<radios.length; r++){ radios[r].checked = false; }
+    var card = document.getElementById('s13QzCard' + i);
+    card.classList.remove('correcta','incorrecta');
+    var fb = document.getElementById('s13QzFb' + i);
+    fb.classList.remove('show','feedback-correcto','feedback-incorrecto');
+    fb.innerHTML = '';
+  }
+  document.getElementById('s13QzScoreBox').classList.remove('show');
+  document.getElementById('s13QzBarra').style.width = '0%';
+  document.getElementById('s13QzAlerta').classList.remove('show');
+  document.getElementById('quiz').scrollIntoView({behavior:'smooth', block:'start'});
+}
+</script>
+</body>
+</html>
