@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semana 12 | KPIs y Tablero de Control Gerencial — Contabilidad Gerencial</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ===== VARIABLES Y RESET ===== */
+:root {
+  --azul: #003366;
+  --celeste: #87CEEB;
+  --dorado: #FFD700;
+  --blanco: #ffffff;
+  --gris-claro: #f4f7fb;
+  --gris-borde: #dce3ee;
+  --verde: #1a7a3c;
+  --verde-claro: #d1fae5;
+  --rojo: #b91c1c;
+  --rojo-claro: #fee2e2;
+  --amarillo: #b45309;
+  --amarillo-claro: #fef3c7;
+  --texto: #1a2a3a;
+  --sombra: 0 2px 12px rgba(0,51,102,0.10);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Source Sans 3',sans-serif;background:var(--gris-claro);color:var(--texto);min-height:100vh;}
+
+/* ===== ENCABEZADO ===== */
+header{background:var(--azul);color:#fff;padding:20px 28px 16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.hdr-icon{font-size:2.6rem;}
+.hdr-info h1{font-family:'Lora',serif;font-size:1.4rem;font-weight:700;}
+.hdr-info p{font-size:0.88rem;color:var(--celeste);margin-top:3px;}
+.hdr-badge{margin-left:auto;background:var(--dorado);color:var(--azul);padding:5px 16px;border-radius:20px;font-size:0.82rem;font-weight:700;white-space:nowrap;}
+
+/* ===== BARRA DE PESTAÑAS ===== */
+.tab-bar{background:var(--celeste);overflow-x:auto;white-space:nowrap;border-bottom:2px solid #5aaed4;position:sticky;top:0;z-index:100;}
+.tab-bar::-webkit-scrollbar{height:4px;}
+.tab-bar::-webkit-scrollbar-thumb{background:var(--azul);border-radius:2px;}
+.tab-btn{display:inline-block;padding:13px 20px;cursor:pointer;font-family:'Source Sans 3',sans-serif;font-size:0.88rem;color:#1a2a3a;border:none;background:transparent;border-bottom:3px solid transparent;transition:all 0.18s;white-space:nowrap;}
+.tab-btn:hover{background:rgba(255,255,255,0.5);}
+.tab-btn.activo{background:#fff;color:var(--azul);font-weight:700;border-bottom:3px solid var(--azul);}
+
+/* ===== CONTENIDO ===== */
+.tab-panel{display:none;padding:28px 24px 50px;max-width:1000px;margin:0 auto;}
+.tab-panel.activo{display:block;}
+
+/* ===== CAJAS ===== */
+.caja-concepto{border-left:5px solid var(--azul);background:#e8f0fb;padding:16px 18px;margin:18px 0;border-radius:0 8px 8px 0;}
+.caja-concepto h4{font-family:'Lora',serif;color:var(--azul);margin-bottom:6px;font-size:1rem;}
+.caja-concepto p,.caja-concepto ul{font-size:0.95rem;line-height:1.7;}
+.caja-concepto ul{padding-left:18px;margin-top:6px;}
+.caja-ejemplo{background:#E8F4FD;border:1px solid #93c5fd;border-radius:10px;padding:16px 18px;margin:16px 0;}
+.caja-ejemplo h4{color:#1e40af;font-family:'Lora',serif;margin-bottom:8px;font-size:0.98rem;}
+.caja-ejemplo p,.caja-ejemplo ul{font-size:0.93rem;line-height:1.7;}
+.caja-ejemplo ul{padding-left:18px;}
+.caja-clave{background:linear-gradient(90deg,var(--azul) 0%,#1a5ca8 100%);color:#fff;border-radius:10px;padding:16px 20px;margin:20px 0;}
+.caja-clave h4{font-family:'Lora',serif;margin-bottom:5px;font-size:0.98rem;}
+.caja-clave p{font-size:0.92rem;line-height:1.6;color:#c8ddf5;}
+h2.titulo-seccion{font-family:'Lora',serif;color:var(--azul);font-size:1.25rem;margin:24px 0 12px;border-bottom:2px solid var(--gris-borde);padding-bottom:6px;}
+h3.subtitulo{font-family:'Lora',serif;color:var(--azul);font-size:1.08rem;margin:20px 0 8px;}
+p.parrafo{font-size:0.95rem;line-height:1.72;margin-bottom:10px;}
+
+/* ===== TABLA KPI ===== */
+.tabla-kpi{width:100%;border-collapse:collapse;margin:16px 0;font-size:0.88rem;}
+.tabla-kpi th{background:var(--azul);color:#fff;padding:10px 12px;text-align:left;}
+.tabla-kpi td{padding:9px 12px;border-bottom:1px solid #e2e8f0;vertical-align:top;}
+.tabla-kpi tr:nth-child(even) td{background:#f0f5fb;}
+.badge-fin{background:#dbeafe;color:#1e40af;padding:2px 10px;border-radius:12px;font-size:0.78rem;font-weight:700;}
+.badge-op{background:#dcfce7;color:#166534;padding:2px 10px;border-radius:12px;font-size:0.78rem;font-weight:700;}
+.badge-cli{background:#fef9c3;color:#713f12;padding:2px 10px;border-radius:12px;font-size:0.78rem;font-weight:700;}
+.semaforo{display:inline-block;width:14px;height:14px;border-radius:50%;vertical-align:middle;margin-right:4px;}
+.sem-verde{background:#16a34a;}
+.sem-amarillo{background:#d97706;}
+.sem-rojo{background:#dc2626;}
+
+/* ===== TABLERO INTERACTIVO ===== */
+.dashboard-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:20px 0;}
+.kpi-card{background:#fff;border-radius:12px;box-shadow:var(--sombra);padding:18px 16px;border-top:4px solid var(--azul);position:relative;}
+.kpi-card h4{font-family:'Lora',serif;font-size:0.92rem;color:#445;margin-bottom:8px;}
+.kpi-card .kpi-valor{font-size:1.8rem;font-weight:700;color:var(--azul);line-height:1.1;}
+.kpi-card .kpi-meta{font-size:0.78rem;color:#667;margin-top:4px;}
+.kpi-card .kpi-sem{position:absolute;top:14px;right:14px;width:20px;height:20px;border-radius:50%;}
+.kpi-card .kpi-barra{height:6px;background:#e2e8f0;border-radius:3px;margin-top:10px;overflow:hidden;}
+.kpi-card .kpi-barra-fill{height:100%;border-radius:3px;transition:width 1s ease;}
+.kpi-card.verde{border-top-color:#16a34a;}
+.kpi-card.amarillo{border-top-color:#d97706;}
+.kpi-card.rojo{border-top-color:#dc2626;}
+
+/* ===== CALCULADORA KPI ===== */
+.calc-box{background:#fff;border-radius:12px;box-shadow:var(--sombra);padding:22px 20px;margin:16px 0;}
+.calc-box h4{font-family:'Lora',serif;color:var(--azul);margin-bottom:14px;}
+.form-fila{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:12px;}
+.form-group{flex:1;min-width:160px;}
+.form-group label{display:block;font-size:0.85rem;font-weight:600;color:#334;margin-bottom:4px;}
+.form-group input,.form-group select{width:100%;padding:8px 11px;border:1.5px solid var(--gris-borde);border-radius:7px;font-size:0.93rem;font-family:'Source Sans 3',sans-serif;transition:border 0.18s;}
+.form-group input:focus,.form-group select:focus{border-color:var(--azul);outline:none;}
+.btn-calc{background:var(--azul);color:#fff;border:none;padding:10px 26px;border-radius:24px;font-size:0.93rem;font-weight:700;cursor:pointer;font-family:'Source Sans 3',sans-serif;transition:background 0.18s;}
+.btn-calc:hover{background:#1a5ca8;}
+.btn-sec{background:#e8f0fb;color:var(--azul);border:1.5px solid var(--azul);padding:10px 20px;border-radius:24px;font-size:0.9rem;cursor:pointer;font-family:'Source Sans 3',sans-serif;margin-left:8px;transition:all 0.18s;}
+.btn-sec:hover{background:var(--azul);color:#fff;}
+.resultado-calc{display:none;margin-top:14px;background:var(--gris-claro);border:1.5px solid var(--gris-borde);border-radius:8px;padding:14px 16px;}
+.resultado-calc.visible{display:block;}
+
+/* ===== EJERCICIO Y CUESTIONARIO ===== */
+.pregunta-bloque{background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,51,102,0.07);padding:18px 18px 14px;margin-bottom:14px;}
+.pregunta-bloque .num{font-size:0.78rem;font-weight:700;color:var(--azul);text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px;}
+.pregunta-bloque p.enunciado{font-size:0.95rem;line-height:1.6;margin-bottom:10px;}
+.pregunta-bloque .mini-caso{background:#f0f5fb;border-left:4px solid var(--celeste);padding:10px 14px;border-radius:0 8px 8px 0;font-size:0.88rem;line-height:1.6;margin-bottom:10px;}
+.opciones label{display:flex;align-items:flex-start;gap:8px;padding:6px 8px;border-radius:6px;cursor:pointer;font-size:0.9rem;line-height:1.5;margin-bottom:4px;transition:background 0.15s;}
+.opciones label:hover{background:#f0f5fb;}
+.opciones input[type=radio]{margin-top:3px;flex-shrink:0;accent-color:var(--azul);}
+.feedback-item{display:none;margin-top:8px;padding:9px 14px;border-radius:6px;font-size:0.88rem;line-height:1.5;}
+.feedback-item.correcto{background:var(--verde-claro);border-left:4px solid var(--verde);}
+.feedback-item.incorrecto{background:var(--rojo-claro);border-left:4px solid var(--rojo);}
+.feedback-item.visible{display:block;}
+.panel-resultado{display:none;background:#fff;border-radius:12px;box-shadow:var(--sombra);padding:24px;margin-top:20px;text-align:center;}
+.panel-resultado.visible{display:block;}
+.panel-resultado .puntaje{font-family:'Lora',serif;font-size:2.2rem;color:var(--azul);font-weight:700;}
+.barra-puntaje-track{background:#e2e8f0;border-radius:6px;height:18px;overflow:hidden;margin:14px auto;max-width:400px;}
+.barra-puntaje-fill{height:100%;border-radius:6px;transition:width 1.2s ease;background:var(--azul);}
+.emoji-result{font-size:2.8rem;margin-bottom:6px;}
+.msg-result{font-size:1.05rem;font-weight:600;color:var(--azul);margin-bottom:6px;}
+.msg-sub{font-size:0.9rem;color:#556;}
+.btn-reiniciar{margin-top:16px;background:var(--azul);color:#fff;border:none;padding:10px 28px;border-radius:24px;font-size:0.95rem;font-weight:700;cursor:pointer;font-family:'Source Sans 3',sans-serif;}
+.alerta-quiz{color:var(--rojo);font-size:0.88rem;font-weight:700;margin-top:8px;display:none;}
+.btn-verificar{background:var(--verde);color:#fff;border:none;padding:12px 32px;border-radius:28px;font-size:1rem;font-weight:700;cursor:pointer;font-family:'Source Sans 3',sans-serif;margin-top:16px;transition:background 0.18s;}
+.btn-verificar:hover{background:#15643a;}
+.badge-tipo{font-size:0.72rem;font-weight:700;padding:2px 9px;border-radius:10px;vertical-align:middle;margin-left:6px;}
+.badge-teorica{background:#dbeafe;color:#1e40af;}
+.badge-analisis{background:#fef9c3;color:#713f12;}
+
+/* ===== ACTIVIDAD IA ===== */
+.prompt-box{background:#1a2a3a;color:#87CEEB;border-radius:10px;padding:18px 20px;font-family:monospace;font-size:0.88rem;line-height:1.7;position:relative;margin:14px 0;}
+.btn-copiar{position:absolute;top:10px;right:10px;background:var(--celeste);color:var(--azul);border:none;padding:5px 14px;border-radius:14px;font-size:0.8rem;font-weight:700;cursor:pointer;font-family:'Source Sans 3',sans-serif;}
+.rubrica-fila{display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--gris-borde);font-size:0.9rem;}
+.rubrica-fila:last-child{border-bottom:none;}
+.rubrica-pct{font-weight:700;color:var(--azul);min-width:36px;}
+
+/* ===== REFLEXIVAS ===== */
+.reflexiva-card{background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,51,102,0.07);padding:18px 18px 16px;margin-bottom:12px;border-left:4px solid var(--dorado);}
+.reflexiva-card p{font-size:0.95rem;line-height:1.68;}
+
+/* ===== BIBLIOGRAFÍA ===== */
+.ref-item{padding:10px 0;border-bottom:1px solid var(--gris-borde);font-size:0.9rem;line-height:1.65;}
+.ref-item:last-child{border-bottom:none;}
+.nota-bib{background:#f0f5fb;border-radius:8px;padding:12px 16px;font-size:0.83rem;color:#445;margin-top:18px;line-height:1.6;}
+
+/* ===== FOOTER ===== */
+footer{text-align:center;padding:22px;background:var(--azul);color:var(--celeste);font-size:0.82rem;margin-top:30px;}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:640px){
+  header{padding:14px 16px;}
+  .hdr-info h1{font-size:1.1rem;}
+  .tab-panel{padding:18px 14px 40px;}
+  .dashboard-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== ENCABEZADO ===== -->
+<header>
+  <div class="hdr-icon">📊</div>
+  <div class="hdr-info">
+    <h1>Semana 12 · KPIs y Tablero de Control Gerencial</h1>
+    <p>Contabilidad Gerencial · Unidad 3 · Universidad de Guayaquil — Fac. Ciencias Administrativas</p>
+  </div>
+  <div class="hdr-badge">Unidad 3 · Semana 12 / 16</div>
+</header>
+
+<!-- ===== BARRA DE PESTAÑAS ===== -->
+<div class="tab-bar" id="barraTab">
+  <button class="tab-btn activo" data-target="repaso">🔄 Repaso</button>
+  <button class="tab-btn" data-target="tema1">📌 Tema 1: KPIs</button>
+  <button class="tab-btn" data-target="tema2">📊 Tema 2: Dashboard</button>
+  <button class="tab-btn" data-target="tema3">🏁 Tema 3: Cierre Unidad 3</button>
+  <button class="tab-btn" data-target="ejercicio">✏️ Ejercicio Interactivo</button>
+  <button class="tab-btn" data-target="cuestionario">📝 Cuestionario</button>
+  <button class="tab-btn" data-target="ia">🤖 Actividad con IA</button>
+  <button class="tab-btn" data-target="reflexion">💭 Preguntas Reflexivas</button>
+  <button class="tab-btn" data-target="bibliografia">📚 Bibliografía</button>
+</div>
+
+<!-- ========================================================= -->
+<!-- PESTAÑA 1: REPASO -->
+<!-- ========================================================= -->
+<div class="tab-panel activo" id="repaso">
+  <h2 class="titulo-seccion">🔄 Repaso acumulado del semestre</h2>
+
+  <p class="parrafo">A lo largo de once semanas hemos construido, de manera progresiva, una visión integral del rol estratégico de la Contabilidad Gerencial. En la <strong>Unidad 1</strong> (semanas 1–4) aprendimos que el contador ya no es solo un registrador de hechos pasados, sino un asesor gerencial que domina la clasificación de costos, interpreta los estados financieros con ojo crítico y actúa con ética profesional. Herramientas como Excel, los Sistemas de Información Gerencial y los indicadores básicos de liquidez, rentabilidad y endeudamiento nos dieron el lenguaje para hablar con la gerencia.</p>
+
+  <p class="parrafo">La <strong>Unidad 2</strong> (semanas 5–7) nos reveló que el costo es la variable más estratégica del negocio. Comprendimos cómo se comportan los costos ante cambios en el volumen (fijos, variables, semivariables), calculamos márgenes de contribución y puntos de equilibrio para <em>SEGURECUADOR S.A.</em>, y analizamos decisiones difíciles: ¿fabricar o subcontratar? ¿aceptar un contrato especial? ¿eliminar una línea de servicio? El análisis Costo-Volumen-Utilidad nos dotó de una herramienta de simulación poderosa.</p>
+
+  <p class="parrafo">La <strong>Unidad 3</strong> (semanas 9–12) nos introdujo al mundo de la planeación y el control presupuestario. Elaboramos el Presupuesto Maestro de SEGURECUADOR —ingresos por línea de servicio, nómina operativa, gastos administrativos, flujo de caja—, aprendimos a detectar variaciones entre lo presupuestado y lo real (semana 11), y ahora, en la semana 12, cerramos la unidad con la herramienta que convierte toda esa información en <strong>señales de acción gerencial</strong>: los Indicadores Clave de Desempeño (KPIs) y el Tablero de Control (Dashboard).</p>
+
+  <div class="caja-clave">
+    <h4>🧭 Hilo conductor de la Unidad 3</h4>
+    <p>Presupuestar → Ejecutar → Medir variaciones → Construir KPIs → Visualizar en un Dashboard → Tomar decisiones correctivas. Este ciclo es el corazón del control gerencial moderno.</p>
+  </div>
+
+  <table class="tabla-kpi" style="margin-top:10px;">
+    <thead>
+      <tr><th>Semana</th><th>Contenido clave</th><th>Herramienta principal</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>9</td><td>Tipos de presupuestos; Presupuesto Maestro; presupuesto de ingresos</td><td>Estructura del Presupuesto Maestro</td></tr>
+      <tr><td>10</td><td>Presupuesto operativo, admin., ventas; estado de resultados proyectado; flujo de caja</td><td>Integración al P. Maestro</td></tr>
+      <tr><td>11</td><td>Análisis de variaciones presup. vs. real; centros de responsabilidad</td><td>Informe de variaciones</td></tr>
+      <tr><td><strong>12</strong></td><td><strong>KPIs financieros y no financieros; Dashboard con semáforos; cierre Unidad 3</strong></td><td><strong>Tablero de Control Gerencial</strong></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ========================================================= -->
+<!-- PESTAÑA 2: TEMA 1 — KPIs -->
+<!-- ========================================================= -->
+<div class="tab-panel" id="tema1">
+  <h2 class="titulo-seccion">📌 Tema 1: KPIs financieros y no financieros para empresas de seguridad</h2>
+
+  <h3 class="subtitulo">¿Qué es un KPI?</h3>
+  <p class="parrafo">Un <strong>KPI</strong> (Key Performance Indicator, o Indicador Clave de Desempeño) es una medida cuantificable que muestra qué tan bien una organización está logrando sus objetivos estratégicos. No es cualquier indicador: es uno <em>clave</em>, es decir, tiene un impacto directo en los resultados que importan a la gerencia.</p>
+
+  <div class="caja-concepto">
+    <h4>Definición formal</h4>
+    <p>Un KPI es una métrica vinculada a un objetivo estratégico, expresada mediante una fórmula específica, medida con cierta frecuencia y comparada contra una meta predefinida. Garrison, Noreen y Brewer (2018) señalan que las medidas de desempeño operativo deben alinearse con la estrategia de la organización y servir tanto para la planificación como para el control.</p>
+  </div>
+
+  <h3 class="subtitulo">¿Por qué los estados financieros no son suficientes?</h3>
+  <p class="parrafo">Los estados financieros tradicionales (Balance General, Estado de Resultados) muestran resultados del pasado, generalmente con semanas o meses de retraso. Un gerente de seguridad necesita saber <em>hoy</em>: ¿cuántos puestos tenemos activos? ¿cuál es el nivel de ausentismo de los guardias? ¿cuántos incidentes registramos este mes? Esa información no aparece en el Estado de Resultados. Los KPIs llenan ese vacío.</p>
+
+  <div class="caja-ejemplo">
+    <h4>Ejemplo: SEGURECUADOR S.A.</h4>
+    <p>El gerente financiero de SEGURECUADOR revisa el Estado de Resultados de enero y ve que la utilidad neta fue de $8.200. ¿Es bueno o malo? Sin KPIs no puede saberlo. Con KPIs sabe que:</p>
+    <ul>
+      <li>La utilidad presupuestada era $9.500 → variación negativa de $1.300 (−13,7%)</li>
+      <li>El margen operacional fue 18% cuando la meta era 22%</li>
+      <li>Se perdieron 3 contratos de guardia por baja calidad de servicio</li>
+    </ul>
+    <p style="margin-top:6px">Ahora sí puede tomar decisiones.</p>
+  </div>
+
+  <h3 class="subtitulo">Clasificación de los KPIs</h3>
+  <p class="parrafo">Los KPIs se dividen en dos grandes grupos, y una empresa de seguridad de calidad gerencial los usa ambos:</p>
+
+  <div class="caja-concepto">
+    <h4>KPIs Financieros</h4>
+    <p>Miden el desempeño económico y financiero de la empresa. Responden la pregunta: <em>¿Estamos siendo rentables y financieramente sostenibles?</em></p>
+    <ul>
+      <li><strong>Margen operacional:</strong> Utilidad operativa / Ingresos × 100</li>
+      <li><strong>Margen neto:</strong> Utilidad neta / Ingresos × 100</li>
+      <li><strong>ROI (Retorno sobre la Inversión):</strong> Utilidad neta / Inversión total × 100</li>
+      <li><strong>Liquidez corriente:</strong> Activo corriente / Pasivo corriente</li>
+      <li><strong>Costo por puesto de guardia:</strong> Costo total operativo / N.º de puestos</li>
+      <li><strong>Variación presupuestal de ingresos:</strong> (Real − Presupuestado) / Presupuestado × 100</li>
+    </ul>
+  </div>
+
+  <div class="caja-concepto">
+    <h4>KPIs No Financieros (Operativos y de Cliente)</h4>
+    <p>Miden la calidad del servicio, la eficiencia operativa y la satisfacción del cliente. Responden: <em>¿Estamos operando bien y satisfaciendo a nuestros clientes?</em></p>
+    <ul>
+      <li><strong>Tasa de ausentismo de guardias:</strong> Guardias ausentes / Total guardias × 100</li>
+      <li><strong>Incidentes de seguridad por mes:</strong> N.º de incidentes registrados en el período</li>
+      <li><strong>Tasa de retención de clientes:</strong> Clientes al final del período / Clientes al inicio × 100</li>
+      <li><strong>Tiempo de respuesta a incidentes:</strong> Tiempo promedio desde alerta hasta respuesta (minutos)</li>
+      <li><strong>Satisfacción del cliente (NPS):</strong> % promotores − % detractores</li>
+      <li><strong>Cumplimiento de rondas:</strong> Rondas realizadas / Rondas programadas × 100</li>
+    </ul>
+  </div>
+
+  <h3 class="subtitulo">Los 8 KPIs clave de SEGURECUADOR S.A.</h3>
+  <p class="parrafo">A continuación, la tabla completa de KPIs recomendados para SEGURECUADOR, con su fórmula, frecuencia de medición y meta:</p>
+
+  <table class="tabla-kpi">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>KPI</th>
+        <th>Tipo</th>
+        <th>Fórmula</th>
+        <th>Frecuencia</th>
+        <th>Meta</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>1</strong></td>
+        <td>Margen Operacional</td>
+        <td><span class="badge-fin">Financiero</span></td>
+        <td>Utilidad Op. / Ingresos × 100</td>
+        <td>Mensual</td>
+        <td>≥ 20%</td>
+      </tr>
+      <tr>
+        <td><strong>2</strong></td>
+        <td>Costo por Puesto de Guardia</td>
+        <td><span class="badge-fin">Financiero</span></td>
+        <td>Costo Op. Total / N.º Puestos</td>
+        <td>Mensual</td>
+        <td>≤ $850/mes</td>
+      </tr>
+      <tr>
+        <td><strong>3</strong></td>
+        <td>Variación Presupuestal de Ingresos</td>
+        <td><span class="badge-fin">Financiero</span></td>
+        <td>(Real − Presup.) / Presup. × 100</td>
+        <td>Mensual</td>
+        <td>≥ −5%</td>
+      </tr>
+      <tr>
+        <td><strong>4</strong></td>
+        <td>ROI Operativo</td>
+        <td><span class="badge-fin">Financiero</span></td>
+        <td>Util. Neta / Inversión Total × 100</td>
+        <td>Trimestral</td>
+        <td>≥ 15%</td>
+      </tr>
+      <tr>
+        <td><strong>5</strong></td>
+        <td>Tasa de Ausentismo de Guardias</td>
+        <td><span class="badge-op">Operativo</span></td>
+        <td>Guardias Ausentes / Total × 100</td>
+        <td>Semanal</td>
+        <td>≤ 3%</td>
+      </tr>
+      <tr>
+        <td><strong>6</strong></td>
+        <td>Incidentes de Seguridad por Mes</td>
+        <td><span class="badge-op">Operativo</span></td>
+        <td>N.º de incidentes registrados</td>
+        <td>Mensual</td>
+        <td>≤ 2</td>
+      </tr>
+      <tr>
+        <td><strong>7</strong></td>
+        <td>Tasa de Retención de Clientes</td>
+        <td><span class="badge-cli">Cliente</span></td>
+        <td>Clientes Final / Clientes Inicio × 100</td>
+        <td>Trimestral</td>
+        <td>≥ 90%</td>
+      </tr>
+      <tr>
+        <td><strong>8</strong></td>
+        <td>Tiempo de Respuesta a Incidentes</td>
+        <td><span class="badge-op">Operativo</span></td>
+        <td>Promedio minutos de respuesta</td>
+        <td>Mensual</td>
+        <td>≤ 8 min</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 class="subtitulo">¿Cómo interpretar un KPI? El ciclo de control</h3>
+  <div class="caja-ejemplo">
+    <h4>Paso a paso: KPI de Margen Operacional en SEGURECUADOR</h4>
+    <ul>
+      <li><strong>Medir:</strong> Enero 2026 → Utilidad operativa = $7.200 / Ingresos = $42.000 → Margen = 17,1%</li>
+      <li><strong>Comparar con meta:</strong> Meta = 20% → Desviación = −2,9 puntos porcentuales</li>
+      <li><strong>Semáforo:</strong> 🔴 Rojo (debajo del umbral mínimo del 18%)</li>
+      <li><strong>Investigar causa:</strong> Se detectó sobrecosto en horas extra del personal de guardia</li>
+      <li><strong>Acción correctiva:</strong> Revisar planificación de turnos y política de horas extra</li>
+      <li><strong>Seguimiento:</strong> Medir en febrero para verificar mejora</li>
+    </ul>
+  </div>
+
+  <div class="caja-clave">
+    <h4>💡 Idea Clave</h4>
+    <p>Un KPI sin meta es solo un dato. Un KPI sin acción correctiva es solo una fotografía. El valor real de los KPIs está en el ciclo completo: Medir → Comparar → Alertar → Investigar → Corregir → Volver a medir.</p>
+  </div>
+
+  <!-- CALCULADORA KPI -->
+  <h3 class="subtitulo" style="margin-top:28px;">🧮 Calculadora de KPIs financieros — SEGURECUADOR</h3>
+  <div class="calc-box">
+    <h4>Ingresa los datos reales del período y calcula los KPIs financieros clave</h4>
+    <div class="form-fila">
+      <div class="form-group">
+        <label>Ingresos totales del mes (USD)</label>
+        <input type="number" id="k-ingresos" placeholder="Ej: 42000" min="0">
+      </div>
+      <div class="form-group">
+        <label>Costo de operación del servicio (USD)</label>
+        <input type="number" id="k-costos" placeholder="Ej: 28000" min="0">
+      </div>
+      <div class="form-group">
+        <label>Gastos administrativos (USD)</label>
+        <input type="number" id="k-gastos" placeholder="Ej: 6800" min="0">
+      </div>
+    </div>
+    <div class="form-fila">
+      <div class="form-group">
+        <label>Inversión total de la empresa (USD)</label>
+        <input type="number" id="k-inversion" placeholder="Ej: 120000" min="0">
+      </div>
+      <div class="form-group">
+        <label>N.º de puestos de guardia activos</label>
+        <input type="number" id="k-puestos" placeholder="Ej: 35" min="1">
+      </div>
+      <div class="form-group">
+        <label>Ingresos presupuestados del mes (USD)</label>
+        <input type="number" id="k-presup" placeholder="Ej: 45000" min="0">
+      </div>
+    </div>
+    <button class="btn-calc" onclick="calcularKPIs()">Calcular KPIs</button>
+    <button class="btn-sec" onclick="resetKPIs()">Limpiar</button>
+    <div class="resultado-calc" id="res-kpi"></div>
+  </div>
+</div>
+
+<!-- ========================================================= -->
+<!-- PESTAÑA 3: TEMA 2 — DASHBOARD -->
+<!-- ========================================================= -->
+<div class="tab-panel" id="tema2">
+  <h2 class="titulo-seccion">📊 Tema 2: Tablero de control gerencial (Dashboard) con semáforos</h2>
+
+  <h3 class="subtitulo">¿Qué es un Dashboard gerencial?</h3>
+  <p class="parrafo">Un <strong>dashboard</strong> o tablero de control es una representación visual y resumida de los KPIs más importantes de una organización, diseñada para que la gerencia pueda comprender el estado del negocio de un solo vistazo. Es el equivalente gerencial del tablero de instrumentos de un vehículo: muestra velocidad, temperatura, combustible y alertas en tiempo real, sin que el conductor tenga que revisar el motor.</p>
+
+  <div class="caja-concepto">
+    <h4>Principios de un buen Dashboard gerencial</h4>
+    <ul>
+      <li><strong>Focalización:</strong> Máximo 6–8 KPIs. Mostrar todo es no mostrar nada.</li>
+      <li><strong>Semáforos automáticos:</strong> Verde = en meta | Amarillo = en riesgo | Rojo = fuera de meta. Evitan leer tablas de números.</li>
+      <li><strong>Comparación:</strong> Siempre mostrar el KPI actual vs. la meta vs. el período anterior.</li>
+      <li><strong>Tendencia:</strong> Un gráfico de línea o flecha indica si el indicador está mejorando o empeorando.</li>
+      <li><strong>Accionabilidad:</strong> Cada KPI rojo debe tener un responsable y una acción correctiva asociada.</li>
+    </ul>
+  </div>
+
+  <h3 class="subtitulo">Lógica del semáforo automático</h3>
+  <p class="parrafo">El semáforo es la característica más poderosa de un dashboard porque convierte números en señales de alerta sin que la gerencia tenga que interpretar cada cifra. La lógica general es:</p>
+
+  <div class="caja-ejemplo">
+    <h4>Regla del semáforo (ejemplo aplicado a KPIs de SEGURECUADOR)</h4>
+    <table class="tabla-kpi">
+      <thead><tr><th>Color</th><th>Significado</th><th>Ejemplo: Margen Operacional (meta ≥ 20%)</th></tr></thead>
+      <tbody>
+        <tr><td><span class="semaforo sem-verde"></span> Verde</td><td>En meta o mejor</td><td>≥ 20%</td></tr>
+        <tr><td><span class="semaforo sem-amarillo"></span> Amarillo</td><td>En riesgo (zona de alerta)</td><td>Entre 16% y 19,9%</td></tr>
+        <tr><td><span class="semaforo sem-rojo"></span> Rojo</td><td>Fuera de meta (requiere acción inmediata)</td><td>< 16%</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:10px;font-size:0.9rem">En Excel, esto se implementa con <strong>formato condicional</strong>: seleccionar la celda del KPI → Formato condicional → Escalas de color o Conjuntos de iconos → definir los umbrales.</p>
+  </div>
+
+  <h3 class="subtitulo">Dashboard simulado de SEGURECUADOR S.A. — Enero 2026</h3>
+  <p class="parrafo">A continuación, un tablero de control interactivo. Ingresa los valores reales del mes para que el semáforo se active automáticamente:</p>
+
+  <!-- DASHBOARD INTERACTIVO -->
+  <div style="background:#fff;border-radius:14px;box-shadow:var(--sombra);padding:22px 20px;margin-top:10px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:18px;">
+      <div>
+        <h3 style="font-family:'Lora',serif;color:var(--azul);font-size:1.12rem;">SEGURECUADOR S.A. — Tablero de Control Gerencial</h3>
+        <p style="font-size:0.83rem;color:#667;">Período: Enero 2026 · Actualización: mensual</p>
+      </div>
+      <button class="btn-calc" onclick="activarDashboard()">▶ Simular datos reales</button>
+    </div>
+
+    <div style="background:#f0f5fb;border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:0.88rem;color:#334;">
+      <strong>Instrucción:</strong> Presiona "Simular datos reales" para ver el dashboard con valores de enero 2026. Los semáforos se activarán automáticamente según las metas definidas.
+    </div>
+
+    <div class="dashboard-grid" id="dash-grid">
+      <!-- Las tarjetas se generan por JS -->
+      <div style="grid-column:1/-1;text-align:center;color:#99a;padding:30px;font-size:0.95rem;">Presiona el botón para cargar el dashboard.</div>
+    </div>
+
+    <div id="dash-leyenda" style="display:none;margin-top:16px;display:flex;gap:16px;flex-wrap:wrap;font-size:0.83rem;align-items:center;">
+      <span><span class="semaforo sem-verde" style="width:12px;height:12px;display:inline-block;border-radius:50%;background:#16a34a;margin-right:4px;"></span>En meta</span>
+      <span><span class="semaforo sem-amarillo" style="width:12px;height:12px;display:inline-block;border-radius:50%;background:#d97706;margin-right:4px;"></span>En riesgo</span>
+      <span><span class="semaforo sem-rojo" style="width:12px;height:12px;display:inline-block;border-radius:50%;background:#dc2626;margin-right:4px;"></span>Fuera de meta</span>
+    </div>
+  </div>
+
+  <h3 class="subtitulo" style="margin-top:28px;">Cómo construir el Dashboard en Excel — Guía paso a paso</h3>
+  <div class="caja-concepto">
+    <h4>Pasos para crear el dashboard en Excel</h4>
+    <ul>
+      <li><strong>Paso 1 — Hoja de datos:</strong> Crea una hoja llamada "Datos_KPI". En columnas: KPI | Valor real | Meta | Umbral amarillo. Ingresa los 6–8 KPIs de SEGURECUADOR.</li>
+      <li><strong>Paso 2 — Hoja de dashboard:</strong> Crea una segunda hoja "Dashboard". Diseña tarjetas con celdas combinadas, una por KPI. Usa bordes gruesos y colores de fondo.</li>
+      <li><strong>Paso 3 — Fórmulas de semáforo:</strong> En cada tarjeta, usa <code>=SI(B2>=C2,"🟢",SI(B2>=D2,"🟡","🔴"))</code> donde B2=valor real, C2=meta, D2=umbral mínimo aceptable.</li>
+      <li><strong>Paso 4 — Formato condicional:</strong> Selecciona la celda del valor → Inicio → Formato condicional → Nueva regla → Formato según fórmula. Define fondo verde/amarillo/rojo.</li>
+      <li><strong>Paso 5 — Gráfico de tendencia:</strong> Inserta un gráfico de línea con los últimos 6 meses para cada KPI financiero. Usa los datos de la hoja "Datos_KPI".</li>
+      <li><strong>Paso 6 — Bloquear celdas de fórmulas:</strong> Protege la hoja para que solo se puedan editar las celdas de "Valor real". Menú Revisar → Proteger hoja.</li>
+    </ul>
+  </div>
+
+  <div class="caja-ejemplo">
+    <h4>Fórmula de semáforo en Excel para el Margen Operacional</h4>
+    <p><strong>En celda B5 (Valor real):</strong> ingresas 17,1%</p>
+    <p><strong>En celda C5 (Semáforo):</strong> <code>=SI(B5>=0.20,"🟢 EN META",SI(B5>=0.16,"🟡 ALERTA","🔴 ACCIÓN"))</code></p>
+    <p style="margin-top:6px"><strong>Formato condicional sobre C5:</strong> Si contiene "🟢" → fondo verde (#d1fae5) | "🟡" → fondo amarillo (#fef9c3) | "🔴" → fondo rojo (#fee2e2)</p>
+  </div>
+
+  <div class="caja-clave">
+    <h4>💡 Idea Clave</h4>
+    <p>El dashboard no reemplaza el análisis profundo: es la puerta de entrada a él. Un semáforo rojo no te dice <em>por qué</em> está mal; te dice <em>dónde</em> mirar. El análisis causal viene después, cuando el gerente hace "clic" en el indicador y profundiza en los datos de apoyo.</p>
+  </div>
+</div>
+
+<!-- ========================================================= -->
+<!-- PESTAÑA 4: TEMA 3 — CIERRE UNIDAD 3 -->
+<!-- ========================================================= -->
+<div class="tab-panel" id="tema3">
+  <h2 class="titulo-seccion">🏁 Tema 3: Evaluación y cierre de la Unidad 3</h2>
+
+  <h3 class="subtitulo">Integración de los contenidos de la Unidad 3</h3>
+  <p class="parrafo">La Unidad 3 "Presupuestos y Control Gerencial" ha seguido un camino lógico y progresivo. Antes de cerrarla, es importante ver cómo se conectan todos sus componentes como un sistema integrado de gestión:</p>
+
+  <div style="background:#fff;border-radius:12px;box-shadow:var(--sombra);padding:22px 20px;margin:16px 0;">
+    <h4 style="font-family:'Lora',serif;color:var(--azul);margin-bottom:16px;">El ciclo completo de Presupuestos y Control Gerencial</h4>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:#e8f0fb;border-radius:8px;">
+        <span style="font-size:1.4rem;">🎯</span>
+        <div>
+          <strong style="color:var(--azul);">1. Estrategia</strong>
+          <p style="font-size:0.88rem;margin-top:2px;">¿Hacia dónde va SEGURECUADOR? Metas de crecimiento, rentabilidad y calidad de servicio para el año.</p>
+        </div>
+      </div>
+      <div style="text-align:center;color:#99a;font-size:1.2rem;">↓</div>
+      <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:#e8f0fb;border-radius:8px;">
+        <span style="font-size:1.4rem;">📋</span>
+        <div>
+          <strong style="color:var(--azul);">2. Presupuesto Maestro (Sem. 9–10)</strong>
+          <p style="font-size:0.88rem;margin-top:2px;">Ingresos por línea → Costos operativos → Gastos admin. → Estado de resultados proyectado → Flujo de caja.</p>
+        </div>
+      </div>
+      <div style="text-align:center;color:#99a;font-size:1.2rem;">↓</div>
+      <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:#e8f0fb;border-radius:8px;">
+        <span style="font-size:1.4rem;">⚡</span>
+        <div>
+          <strong style="color:var(--azul);">3. Ejecución</strong>
+          <p style="font-size:0.88rem;margin-top:2px;">Operaciones reales del mes: guardias desplegados, contratos cobrados, gastos incurridos.</p>
+        </div>
+      </div>
+      <div style="text-align:center;color:#99a;font-size:1.2rem;">↓</div>
+      <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:#e8f0fb;border-radius:8px;">
+        <span style="font-size:1.4rem;">🔍</span>
+        <div>
+          <strong style="color:var(--azul);">4. Análisis de variaciones (Sem. 11)</strong>
+          <p style="font-size:0.88rem;margin-top:2px;">¿Qué salió diferente? Variaciones de precio, volumen, eficiencia. Centros de responsabilidad.</p>
+        </div>
+      </div>
+      <div style="text-align:center;color:#99a;font-size:1.2rem;">↓</div>
+      <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:#e8f0fb;border-radius:8px;">
+        <span style="font-size:1.4rem;">📊</span>
+        <div>
+          <strong style="color:var(--azul);">5. KPIs y Dashboard (Sem. 12)</strong>
+          <p style="font-size:0.88rem;margin-top:2px;">Los KPIs consolidan las variaciones más importantes en señales visuales accionables para la gerencia.</p>
+        </div>
+      </div>
+      <div style="text-align:center;color:#99a;font-size:1.2rem;">↓</div>
+      <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:linear-gradient(90deg,#003366,#1a5ca8);border-radius:8px;">
+        <span style="font-size:1.4rem;">🔄</span>
+        <div>
+          <strong style="color:#fff;">6. Decisiones correctivas → nuevo ciclo</strong>
+          <p style="font-size:0.88rem;margin-top:2px;color:#c8ddf5;">El semáforo rojo activa una acción: ajustar presupuesto, cambiar proceso, reemplazar proveedor. Y el ciclo reinicia.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="subtitulo">Lo que la Unidad 3 te deja como futuro gerente</h3>
+  <div class="caja-concepto">
+    <h4>Competencias adquiridas en la Unidad 3</h4>
+    <ul>
+      <li>Elaborar el Presupuesto Maestro de una empresa de servicios de seguridad, integrando todos sus sub-presupuestos.</li>
+      <li>Calcular e interpretar variaciones entre lo presupuestado y lo real, identificando causas y responsables.</li>
+      <li>Diseñar un sistema de KPIs financieros y no financieros alineado con la estrategia de la empresa.</li>
+      <li>Construir un dashboard gerencial con semáforos en Excel que permita tomar decisiones correctivas a tiempo.</li>
+      <li>Comprender que la información contable no termina en los estados financieros: debe transformarse en acción.</li>
+    </ul>
+  </div>
+
+  <h3 class="subtitulo">Puente hacia la Unidad 4</h3>
+  <p class="parrafo">En la próxima unidad profundizaremos estas herramientas. El <strong>Cuadro de Mando Integral (Balanced Scorecard)</strong> que estudiaremos en la semana 13 es, en esencia, un dashboard más sofisticado: organiza los KPIs en cuatro perspectivas estratégicas (financiera, cliente, procesos internos, aprendizaje) y los conecta mediante relaciones de causa-efecto. Lo que aprendiste esta semana es la base conceptual perfecta para entender el BSC.</p>
+
+  <div class="caja-clave">
+    <h4>💡 Conexión estratégica</h4>
+    <p>KPIs → Dashboard → Balanced Scorecard → EVA → Evaluación de inversiones. Esta es la cadena de herramientas avanzadas que convierte a un contador en un asesor gerencial de alto valor. La Unidad 4 completa esa cadena.</p>
+  </div>
+
+  <div class="caja-ejemplo">
+    <h4>Mini caso integrador: SEGURECUADOR S.A. cierra enero 2026</h4>
+    <table class="tabla-kpi">
+      <thead><tr><th>KPI</th><th>Presupuestado</th><th>Real enero 2026</th><th>Semáforo</th><th>Acción sugerida</th></tr></thead>
+      <tbody>
+        <tr><td>Margen operacional</td><td>20%</td><td>17,1%</td><td><span class="semaforo sem-rojo"></span> Rojo</td><td>Revisar horas extra de guardias</td></tr>
+        <tr><td>Costo por puesto</td><td>$850</td><td>$892</td><td><span class="semaforo sem-rojo"></span> Rojo</td><td>Optimizar planilla operativa</td></tr>
+        <tr><td>Var. presupuestal ingresos</td><td>0%</td><td>−6,7%</td><td><span class="semaforo sem-rojo"></span> Rojo</td><td>Acelerar cobro de contrato pendiente</td></tr>
+        <tr><td>Ausentismo de guardias</td><td>≤ 3%</td><td>2,1%</td><td><span class="semaforo sem-verde"></span> Verde</td><td>Mantener política actual</td></tr>
+        <tr><td>Incidentes por mes</td><td>≤ 2</td><td>1</td><td><span class="semaforo sem-verde"></span> Verde</td><td>Documentar y replicar buenas prácticas</td></tr>
+        <tr><td>Retención de clientes</td><td>≥ 90%</td><td>93%</td><td><span class="semaforo sem-verde"></span> Verde</td><td>Mantener nivel de servicio</td></tr>
+        <tr><td>Tiempo de respuesta</td><td>≤ 8 min</td><td>11 min</td><td><span class="semaforo sem-rojo"></span> Rojo</td><td>Revisar rutas de patrulla y equipos</td></tr>
+        <tr><td>ROI operativo</td><td>≥ 15%</td><td>13,2%</td><td><span class="semaforo sem-amarillo"></span> Amarillo</td><td>Monitorear próximo trimestre</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:10px;font-size:0.9rem"><strong>Conclusión gerencial:</strong> SEGURECUADOR tiene fortalezas operativas (bajo ausentismo, alta retención, pocos incidentes), pero enfrenta una crisis financiera en enero: costos por encima del presupuesto e ingresos por debajo. La gerencia debe actuar en tres frentes simultáneos: control de nómina, aceleración de cobranza y mejora en tiempos de respuesta.</p>
+  </div>
+</div>
+
+<!-- ========================================================= -->
+<!-- PESTAÑA 5: EJERCICIO INTERACTIVO -->
+<!-- ========================================================= -->
+<div class="tab-panel" id="ejercicio">
+  <h2 class="titulo-seccion">✏️ Ejercicio Interactivo — Clasificación y cálculo de KPIs</h2>
+  <p class="parrafo" style="margin-bottom:20px;">Responde todos los ítems y luego presiona <strong>"Verificar respuestas"</strong> para ver tu resultado con retroalimentación individual.</p>
+
+  <!-- ÍTEM 1 -->
+  <div class="pregunta-bloque">
+    <div class="num">Ítem 1 de 8</div>
+    <p class="enunciado">¿Cuál de las siguientes opciones describe correctamente qué es un KPI?</p>
+    <div class="opciones">
+      <label><input type="radio" name="ei1" value="a"> a) Un estado financiero que reemplaza al Balance General.</label>
+      <label><input type="radio" name="ei1" value="b"> b) Una medida cuantificable vinculada a un objetivo estratégico, con fórmula, frecuencia y meta definida.</label>
+      <label><input type="radio" name="ei1" value="c"> c) Un informe contable que se entrega al SRI cada mes.</label>
+      <label><input type="radio" name="ei1" value="d"> d) Una variación entre el presupuesto y los valores reales del período.</label>
+    </div>
+    <div class="feedback-item" id="fb-ei1"></div>
+  </div>
+
+  <!-- ÍTEM 2 -->
+  <div class="pregunta-bloque">
+    <div class="num">Ítem 2 de 8</div>
+    <p class="enunciado">SEGURECUADOR tiene: Utilidad operativa = $7.200 | Ingresos = $42.000. ¿Cuál es el margen operacional?</p>
+    <div class="opciones">
+      <label><input type="radio" name="ei2" value="a"> a) 7,2%</label>
+      <label><input type="radio" name="ei2" value="b"> b) 42,0%</label>
+      <label><input type="radio" name="ei2" value="c"> c) 17,1%</label>
+      <label><input type="radio" name="ei2" value="d"> d) 58,3%</label>
+    </div>
+    <div class="feedback-item" id="fb-ei2"></div>
+  </div>
+
+  <!-- ÍTEM 3 -->
+  <div class="pregunta-bloque">
+    <div class="num">Ítem 3 de 8</div>
+    <p class="enunciado">Clasifica cada KPI en su categoría correcta. El "Tiempo de respuesta a incidentes (minutos)" es un KPI de tipo:</p>
+    <div class="opciones">
+      <label><input type="radio" name="ei3" value="a"> a) Financiero</label>
+      <label><input type="radio" name="ei3" value="b"> b) Operativo / No financiero</label>
+      <label><input type="radio" name="ei3" value="c"> c) Tributario</label>
+      <label><input type="radio" name="ei3" value="d"> d) Presupuestal</label>
+    </div>
+    <div class="feedback-item" id="fb-ei3"></div>
+  </div>
+
+  <!-- ÍTEM 4 -->
+  <div class="pregunta-bloque">
+    <div class="num">Ítem 4 de 8</div>
+    <p class="enunciado">El semáforo de un dashboard gerencial sirve para:</p>
+    <div class="opciones">
+      <label><input type="radio" name="ei4" value="a"> a) Decorar el informe con colores atractivos para la presentación.</label>
+      <label><input type="radio" name="ei4" value="b"> b) Convertir los valores numéricos en señales de alerta (verde/amarillo/rojo) según su distancia a la meta.</label>
+      <label><input type="radio" name="ei4" value="c"> c) Reemplazar la necesidad de calcular los KPIs.</label>
+      <label><input type="radio" name="ei4" value="d"> d) Indicar cuándo el contador tiene que presentar los estados financieros.</label>
+    </div>
+    <div class="feedback-item" id="fb-ei4"></div>
+  </div>
+
+  <!-- ÍTEM 5 -->
+  <div class="pregunta-bloque">
+    <div class="num">Ítem 5 de 8</div>
+    <p class="enunciado">SEGURECUADOR tiene 42 guardias en planilla, de los cuales 2 faltaron esta semana sin justificación. ¿Cuál es la tasa de ausentismo?</p>
+    <div class="opciones">
+      <label><input type="radio" name="ei5" value="a"> a) 42%</label>
+      <label><input type="radio" name="ei5" value="b"> b) 2,0%</label>
+      <label><input type="radio" name="ei5" value="c"> c) 4,8%</label>
+      <label><input type="radio" name="ei5" value="d"> d) 21%</label>
+    </div>
+    <div class="feedback-item" id="fb-ei5"></div>
+  </div>
+
+  <!-- ÍTEM 6 -->
+  <div class="pregunta-bloque">
+    <div class="num">Ítem 6 de 8</div>
+    <p class="enunciado">¿Cuál es la diferencia fundamental entre los estados financieros tradicionales y los KPIs gerenciales?</p>
+    <div class="opciones">
+      <label><input type="radio" name="ei6" value="a"> a) Los estados financieros son más detallados y precisos, por lo que reemplazan a los KPIs.</label>
+      <label><input type="radio" name="ei6" value="b"> b) Los KPIs son exclusivamente financieros, mientras que los estados financieros incluyen indicadores operativos.</label>
+      <label><input type="radio" name="ei6" value="c"> c) Los estados financieros muestran resultados del pasado con cierto retraso; los KPIs proporcionan señales en tiempo real para la toma de decisiones.</label>
+      <label><input type="radio" name="ei6" value="d"> d) No hay diferencia; ambos sirven para el mismo propósito.</label>
+    </div>
+    <div class="feedback-item" id="fb-ei6"></div>
+  </div>
+
+  <!-- ÍTEM 7 -->
+  <div class="pregunta-bloque">
+    <div class="num">Ítem 7 de 8</div>
+    <p class="enunciado">SEGURECUADOR presupuestó ingresos de $45.000 en enero, pero solo facturó $42.000. ¿Cuál es la variación presupuestal de ingresos?</p>
+    <div class="opciones">
+      <label><input type="radio" name="ei7" value="a"> a) +$3.000 (favorable)</label>
+      <label><input type="radio" name="ei7" value="b"> b) −6,7% (desfavorable)</label>
+      <label><input type="radio" name="ei7" value="c"> c) +6,7% (favorable)</label>
+      <label><input type="radio" name="ei7" value="d"> d) −$42.000 (desfavorable)</label>
+    </div>
+    <div class="feedback-item" id="fb-ei7"></div>
+  </div>
+
+  <!-- ÍTEM 8 -->
+  <div class="pregunta-bloque">
+    <div class="num">Ítem 8 de 8</div>
+    <p class="enunciado">En Excel, la fórmula correcta para generar un semáforo de texto del margen operacional (meta ≥ 20%, alerta ≥ 16%) es:</p>
+    <div class="opciones">
+      <label><input type="radio" name="ei8" value="a"> a) <code>=SUMA(B5,C5)</code></label>
+      <label><input type="radio" name="ei8" value="b"> b) <code>=SI(B5>=0.20,"🟢",SI(B5>=0.16,"🟡","🔴"))</code></label>
+      <label><input type="radio" name="ei8" value="c"> c) <code>=PROMEDIO(B5:D5)</code></label>
+      <label><input type="radio" name="ei8" value="d"> d) <code>=BUSCARV(B5,metas,2,0)</code></label>
+    </div>
+    <div class="feedback-item" id="fb-ei8"></div>
+  </div>
+
+  <div>
+    <button class="btn-verificar" onclick="verificarEjercicio()">✔ Verificar respuestas</button>
+    <span class="alerta-quiz" id="alerta-ej">⚠ Debes responder todos los ítems antes de verificar.</span>
+  </div>
+
+  <div class="panel-resultado" id="panel-ej">
+    <div class="emoji-result" id="emoji-ej">🏆</div>
+    <div class="puntaje" id="puntaje-ej">—</div>
+    <div class="barra-puntaje-track"><div class="barra-puntaje-fill" id="barra-ej" style="width:0%"></div></div>
+    <div class="msg-result" id="msg-ej">—</div>
+    <div class="msg-sub" id="sub-ej">—</div>
+    <button class="btn-reiniciar" onclick="reiniciarEjercicio()">🔄 Reiniciar ejercicio</button>
+  </div>
+</div>
+
+<!-- ========================================================= -->
+<!-- PESTAÑA 6: CUESTIONARIO -->
+<!-- ========================================================= -->
+<div class="tab-panel" id="cuestionario">
+  <h2 class="titulo-seccion">📝 Cuestionario — 10 preguntas</h2>
+  <p class="parrafo" style="margin-bottom:20px;">Responde todas las preguntas y luego presiona <strong>"Verificar cuestionario"</strong>. Las preguntas de Análisis incluyen un mini-caso. Calificación: X / 10.</p>
+
+  <!-- Q1 -->
+  <div class="pregunta-bloque">
+    <div class="num">Pregunta 1 <span class="badge-tipo badge-teorica">Teórica</span></div>
+    <p class="enunciado">¿Cuál es la función principal de un dashboard gerencial?</p>
+    <div class="opciones">
+      <label><input type="radio" name="qi1" value="a"> a) Registrar los asientos contables del período.</label>
+      <label><input type="radio" name="qi1" value="b"> b) Presentar los KPIs más relevantes de forma visual para facilitar la toma de decisiones.</label>
+      <label><input type="radio" name="qi1" value="c"> c) Calcular los impuestos que debe pagar la empresa al SRI.</label>
+      <label><input type="radio" name="qi1" value="d"> d) Reemplazar el presupuesto maestro en empresas grandes.</label>
+    </div>
+    <div class="feedback-item" id="fb-qi1"></div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="pregunta-bloque">
+    <div class="num">Pregunta 2 <span class="badge-tipo badge-teorica">Teórica</span></div>
+    <p class="enunciado">¿Cuántos KPIs se recomienda incluir en un dashboard gerencial efectivo?</p>
+    <div class="opciones">
+      <label><input type="radio" name="qi2" value="a"> a) Entre 20 y 30 para que sea completo.</label>
+      <label><input type="radio" name="qi2" value="b"> b) Solo 1, para no confundir al gerente.</label>
+      <label><input type="radio" name="qi2" value="c"> c) Entre 6 y 8 indicadores clave.</label>
+      <label><input type="radio" name="qi2" value="d"> d) Tantos como tenga el estado de resultados.</label>
+    </div>
+    <div class="feedback-item" id="fb-qi2"></div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="pregunta-bloque">
+    <div class="num">Pregunta 3 <span class="badge-tipo badge-teorica">Teórica</span></div>
+    <p class="enunciado">¿Cuál de los siguientes KPIs es de tipo operativo (no financiero)?</p>
+    <div class="opciones">
+      <label><input type="radio" name="qi3" value="a"> a) Margen neto</label>
+      <label><input type="radio" name="qi3" value="b"> b) ROI operativo</label>
+      <label><input type="radio" name="qi3" value="c"> c) Tasa de ausentismo de guardias</label>
+      <label><input type="radio" name="qi3" value="d"> d) Variación presupuestal de ingresos</label>
+    </div>
+    <div class="feedback-item" id="fb-qi3"></div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="pregunta-bloque">
+    <div class="num">Pregunta 4 <span class="badge-tipo badge-teorica">Teórica</span></div>
+    <p class="enunciado">¿Qué significa que un KPI tenga semáforo amarillo en un dashboard?</p>
+    <div class="opciones">
+      <label><input type="radio" name="qi4" value="a"> a) El indicador está en meta y no requiere atención.</label>
+      <label><input type="radio" name="qi4" value="b"> b) El indicador está en una zona de alerta: no ha fallado completamente, pero requiere monitoreo y posible intervención.</label>
+      <label><input type="radio" name="qi4" value="c"> c) El indicador es nuevo y aún no tiene datos suficientes.</label>
+      <label><input type="radio" name="qi4" value="d"> d) El indicador está gravemente fuera de meta y requiere acción inmediata.</label>
+    </div>
+    <div class="feedback-item" id="fb-qi4"></div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="pregunta-bloque">
+    <div class="num">Pregunta 5 <span class="badge-tipo badge-teorica">Teórica</span></div>
+    <p class="enunciado">La fórmula del "Costo por puesto de guardia" es:</p>
+    <div class="opciones">
+      <label><input type="radio" name="qi5" value="a"> a) Costo Fijo / Número de guardias</label>
+      <label><input type="radio" name="qi5" value="b"> b) Ingresos / Número de puestos</label>
+      <label><input type="radio" name="qi5" value="c"> c) Costo Operativo Total / Número de puestos activos</label>
+      <label><input type="radio" name="qi5" value="d"> d) Utilidad neta / Número de contratos</label>
+    </div>
+    <div class="feedback-item" id="fb-qi5"></div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="pregunta-bloque">
+    <div class="num">Pregunta 6 <span class="badge-tipo badge-teorica">Teórica</span></div>
+    <p class="enunciado">¿Cuál es el orden correcto del ciclo de control gerencial al detectar un KPI en rojo?</p>
+    <div class="opciones">
+      <label><input type="radio" name="qi6" value="a"> a) Medir → Comunicar a accionistas → Ignorar → Esperar el próximo período</label>
+      <label><input type="radio" name="qi6" value="b"> b) Medir → Comparar con meta → Investigar causa → Aplicar acción correctiva → Volver a medir</label>
+      <label><input type="radio" name="qi6" value="c"> c) Presupuestar → Ejecutar → Elaborar estados financieros → Distribuir utilidades</label>
+      <label><input type="radio" name="qi6" value="d"> d) Registrar → Clasificar → Resumir → Informar</label>
+    </div>
+    <div class="feedback-item" id="fb-qi6"></div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="pregunta-bloque">
+    <div class="num">Pregunta 7 <span class="badge-tipo badge-teorica">Teórica</span></div>
+    <p class="enunciado">¿Por qué los estados financieros tradicionales son insuficientes para la gestión gerencial cotidiana?</p>
+    <div class="opciones">
+      <label><input type="radio" name="qi7" value="a"> a) Porque están en inglés y los gerentes prefieren español.</label>
+      <label><input type="radio" name="qi7" value="b"> b) Porque solo muestran información del pasado con retraso y no incluyen indicadores operativos como ausentismo, tiempos de respuesta o calidad de servicio.</label>
+      <label><input type="radio" name="qi7" value="c"> c) Porque son demasiado detallados y confunden a los gerentes.</label>
+      <label><input type="radio" name="qi7" value="d"> d) Porque la NIIF 1 los prohíbe en empresas de servicios.</label>
+    </div>
+    <div class="feedback-item" id="fb-qi7"></div>
+  </div>
+
+  <!-- Q8 — Análisis -->
+  <div class="pregunta-bloque">
+    <div class="num">Pregunta 8 <span class="badge-tipo badge-analisis">Análisis</span></div>
+    <div class="mini-caso">
+      <strong>Mini caso:</strong> PROTEGUARD Cía. Ltda. tiene estos datos de enero: Utilidad neta = $4.500 | Ingresos = $38.000 | Inversión total = $95.000 | Puestos activos = 28 | Costo operativo total = $26.600.
+    </div>
+    <p class="enunciado">¿Cuál es el margen neto de PROTEGUARD en enero?</p>
+    <div class="opciones">
+      <label><input type="radio" name="qi8" value="a"> a) 11,8%</label>
+      <label><input type="radio" name="qi8" value="b"> b) 4,7%</label>
+      <label><input type="radio" name="qi8" value="c"> c) 38,0%</label>
+      <label><input type="radio" name="qi8" value="d"> d) 70,0%</label>
+    </div>
+    <div class="feedback-item" id="fb-qi8"></div>
+  </div>
+
+  <!-- Q9 — Análisis -->
+  <div class="pregunta-bloque">
+    <div class="num">Pregunta 9 <span class="badge-tipo badge-analisis">Análisis</span></div>
+    <div class="mini-caso">
+      <strong>Mini caso (continuación PROTEGUARD):</strong> PROTEGUARD presupuestó un costo por puesto de guardia de máximo $900/mes. Con los datos del mini caso anterior (28 puestos, costo op. total $26.600).
+    </div>
+    <p class="enunciado">¿El KPI "Costo por puesto" de PROTEGUARD está en verde, amarillo o rojo si el umbral de alerta es $950?</p>
+    <div class="opciones">
+      <label><input type="radio" name="qi9" value="a"> a) Verde: el costo por puesto es $950 exactamente.</label>
+      <label><input type="radio" name="qi9" value="b"> b) Rojo: el costo por puesto es $1.200, por encima del umbral de alerta.</label>
+      <label><input type="radio" name="qi9" value="c"> c) Verde: el costo por puesto es $950, exactamente en la meta.</label>
+      <label><input type="radio" name="qi9" value="d"> d) Verde: el costo por puesto es $950, igual a la meta de $900 definida. Aunque supera la meta, está por debajo del umbral amarillo de $950.</td></label>
+    </div>
+    <div class="feedback-item" id="fb-qi9"></div>
+  </div>
+
+  <!-- Q10 — Análisis -->
+  <div class="pregunta-bloque">
+    <div class="num">Pregunta 10 <span class="badge-tipo badge-analisis">Análisis</span></div>
+    <div class="mini-caso">
+      <strong>Mini caso:</strong> La gerente de VIGILAN S.A. afirma: "Nuestro Estado de Resultados muestra utilidad positiva de $6.000 en febrero, así que no necesitamos revisar los KPIs este mes."
+    </div>
+    <p class="enunciado">¿Cuál es la crítica gerencial más acertada a esta afirmación?</p>
+    <div class="opciones">
+      <label><input type="radio" name="qi10" value="a"> a) La gerente tiene razón: la utilidad positiva confirma que todo está bien.</label>
+      <label><input type="radio" name="qi10" value="b"> b) La utilidad positiva del pasado no revela si el ausentismo subió, si los clientes están insatisfechos o si el tiempo de respuesta empeoró; los KPIs son necesarios independientemente del resultado financiero.</label>
+      <label><input type="radio" name="qi10" value="c"> c) La gerente debería revisar solo el flujo de caja, no los KPIs.</label>
+      <label><input type="radio" name="qi10" value="d"> d) Los KPIs solo son necesarios cuando hay pérdidas; con utilidad no se requieren.</label>
+    </div>
+    <div class="feedback-item" id="fb-qi10"></div>
+  </div>
+
+  <div>
+    <button class="btn-verificar" onclick="verificarCuestionario()">✔ Verificar cuestionario</button>
+    <span class="alerta-quiz" id="alerta-quiz">⚠ Debes responder todas las preguntas antes de verificar.</span>
+  </div>
+
+  <div class="panel-resultado" id="panel-quiz">
+    <div class="emoji-result" id="emoji-quiz">🏆</div>
+    <div class="puntaje" id="puntaje-quiz">—</div>
+    <div class="barra-puntaje-track"><div class="barra-puntaje-fill" id="barra-quiz" style="width:0%"></div></div>
+    <div class="msg-result" id="msg-quiz">—</div>
+    <div class="msg-sub" id="sub-quiz">—</div>
+    <button class="btn-reiniciar" onclick="reiniciarCuestionario()">🔄 Reiniciar cuestionario</button>
+  </div>
+</div>
+
+<!-- ========================================================= -->
+<!-- PESTAÑA 7: ACTIVIDAD CON IA -->
+<!-- ========================================================= -->
+<div class="tab-panel" id="ia">
+  <h2 class="titulo-seccion">🤖 Actividad con Inteligencia Artificial</h2>
+
+  <div class="caja-concepto">
+    <h4>Objetivo de la actividad</h4>
+    <p>Usarás una IA generativa para diseñar un tablero de control gerencial completo para una empresa de seguridad ficticia, pero con datos realistas del contexto ecuatoriano. No se trata de copiar la respuesta de la IA: el objetivo es <strong>analizar, cuestionar y enriquecer</strong> la propuesta que te dé, aplicando lo que aprendiste esta semana sobre KPIs y dashboards.</p>
+  </div>
+
+  <h3 class="subtitulo">Herramienta recomendada</h3>
+  <p class="parrafo">Usa <strong>Claude</strong> (claude.ai) como primera opción: es gratuito, está disponible en español y tiene excelente capacidad de razonamiento analítico. También puedes usar ChatGPT (chat.openai.com) o Gemini (gemini.google.com). Ingresa al sitio, crea una cuenta gratuita y copia el siguiente prompt:</p>
+
+  <div class="prompt-box" id="promptIA">
+Actúa como consultor de Contabilidad Gerencial especializado en empresas de servicios de seguridad privada en Ecuador. 
+
+Tengo una empresa llamada "CENTINELA Cía. Ltda." con las siguientes características:
+- Servicios: guardias de seguridad (30 puestos activos), monitoreo CCTV (12 clientes) y consultoría de seguridad (3 proyectos al mes)
+- Ingresos mensuales promedio: $38.000 USD
+- Costos operativos mensuales: $26.500 USD
+- 42 guardias en planilla
+- Opera en Guayaquil, Ecuador
+
+Por favor:
+1. Diseña un tablero de control gerencial (dashboard) con exactamente 8 KPIs: 4 financieros y 4 no financieros. Para cada KPI indica: nombre, fórmula, frecuencia de medición y meta sugerida.
+2. Calcula el valor actual de cada KPI financiero con los datos que te di.
+3. Asigna un semáforo inicial (verde/amarillo/rojo) a cada KPI con base en metas razonables para el sector de seguridad privada en Ecuador.
+4. Identifica los 2 KPIs más críticos y sugiere una acción correctiva concreta para cada uno.
+5. Explica brevemente cómo este dashboard se conecta con el Presupuesto Maestro que ya tiene la empresa.
+
+Responde en español, con tablas organizadas y ejemplos concretos.
+    <button class="btn-copiar" onclick="copiarPrompt()">📋 Copiar</button>
+  </div>
+
+  <h3 class="subtitulo">¿Qué hacer con la respuesta de la IA?</h3>
+  <div class="caja-ejemplo">
+    <h4>Pasos a seguir después de recibir la respuesta</h4>
+    <ul>
+      <li><strong>Paso 1 — Verifica los cálculos:</strong> Toma los KPIs financieros que la IA calculó y comprueba manualmente cada uno con las fórmulas de la pestaña "Tema 1". ¿Son correctos?</li>
+      <li><strong>Paso 2 — Evalúa las metas:</strong> ¿Son razonables para una empresa de seguridad en Guayaquil? Compáralas con las metas de SEGURECUADOR que estudiaste.</li>
+      <li><strong>Paso 3 — Cuestiona los semáforos:</strong> ¿Estás de acuerdo con la clasificación verde/amarillo/rojo que propuso la IA? ¿Cambiarías alguno? ¿Por qué?</li>
+      <li><strong>Paso 4 — Enriquece con un KPI propio:</strong> Propón un noveno KPI que la IA no incluyó, basándote en lo que tú sabes del negocio de seguridad. Justifica su elección.</li>
+      <li><strong>Paso 5 — Escribe tu reflexión:</strong> En máximo 150 palabras, explica qué fue útil de la respuesta de la IA, qué corregiste o mejorarías, y qué aprendiste que la IA no te pudo enseñar.</li>
+    </ul>
+  </div>
+
+  <h3 class="subtitulo">Criterio de evaluación (si el docente la revisa)</h3>
+  <div style="background:#fff;border-radius:10px;box-shadow:var(--sombra);padding:18px;">
+    <div class="rubrica-fila"><div class="rubrica-pct">30%</div><div>Los cálculos de KPIs financieros son correctos y están verificados manualmente.</div></div>
+    <div class="rubrica-fila"><div class="rubrica-pct">25%</div><div>El estudiante cuestiona o mejora al menos 2 elementos de la respuesta de la IA con argumentos técnicos.</div></div>
+    <div class="rubrica-fila"><div class="rubrica-pct">25%</div><div>El KPI propio propuesto es pertinente al sector, tiene fórmula y meta definida.</div></div>
+    <div class="rubrica-fila"><div class="rubrica-pct">20%</div><div>La reflexión final demuestra pensamiento crítico sobre las capacidades y limitaciones de la IA como herramienta contable.</div></div>
+  </div>
+
+  <div class="caja-clave" style="margin-top:20px;">
+    <h4>💡 Recuerda</h4>
+    <p>La IA es una herramienta de apoyo al pensamiento, no un sustituto. Puede cometer errores en los cálculos, proponer metas sin contexto local o sugerir KPIs irrelevantes para tu sector. Tu valor como contador gerencial está precisamente en detectar esos errores y mejorar la propuesta.</p>
+  </div>
+</div>
+
+<!-- ========================================================= -->
+<!-- PESTAÑA 8: PREGUNTAS REFLEXIVAS -->
+<!-- ========================================================= -->
+<div class="tab-panel" id="reflexion">
+  <h2 class="titulo-seccion">💭 Preguntas Reflexivas</h2>
+  <p class="parrafo" style="margin-bottom:20px;">No hay respuestas correctas ni incorrectas. Estas preguntas conectan los conceptos de la semana con tu vida, tus valores y tu realidad como joven en Ecuador. Tómate unos minutos para pensar genuinamente.</p>
+
+  <div class="reflexiva-card">
+    <p>En el negocio de seguridad que co-gestionas, ¿hay actualmente algún indicador (formal o informal) que uses para saber si las cosas van bien o mal? ¿Se parece a un KPI? ¿Qué le faltaría para ser un KPI completo, con fórmula, frecuencia y meta?</p>
+  </div>
+
+  <div class="reflexiva-card">
+    <p>El semáforo de un dashboard nos da señales claras: verde, amarillo, rojo. En tu vida personal, ¿tienes "semáforos" para saber cuándo algo va bien o está en riesgo? ¿Cómo decides en qué momento pasar de "monitorear" a "actuar"?</p>
+  </div>
+
+  <div class="reflexiva-card">
+    <p>Un KPI como la "tasa de retención de clientes" mide si los clientes siguen eligiéndonos. ¿Qué crees tú que realmente fideliza a un cliente de seguridad privada en Ecuador? ¿Es solo el precio, o hay factores intangibles que un KPI no puede capturar?</p>
+  </div>
+
+  <div class="reflexiva-card">
+    <p>Hemos visto que los estados financieros muestran el pasado y los KPIs buscan anticipar el futuro. ¿Crees que en tu empresa o en el Ecuador empresarial en general se mira más el pasado (resultados) que el futuro (indicadores predictivos)? ¿Qué consecuencias tiene eso?</p>
+  </div>
+
+  <div class="reflexiva-card">
+    <p>Un dashboard convierte datos complejos en información visual simple para tomar decisiones rápidas. ¿En qué otro aspecto de tu vida (estudios, relaciones, salud, finanzas personales) te gustaría tener un "dashboard" que te dijera en qué semáforo estás? ¿Qué KPIs incluirías?</p>
+  </div>
+
+  <div class="reflexiva-card">
+    <p>La Unidad 3 termina esta semana. Has aprendido a presupuestar, analizar variaciones y construir KPIs. ¿Sientes que podrías aplicar alguna de estas herramientas en tu empresa hoy mismo? ¿Cuál sería el primer paso concreto que darías la próxima semana?</p>
+  </div>
+</div>
+
+<!-- ========================================================= -->
+<!-- PESTAÑA 9: BIBLIOGRAFÍA -->
+<!-- ========================================================= -->
+<div class="tab-panel" id="bibliografia">
+  <h2 class="titulo-seccion">📚 Bibliografía — APA 7.ª edición</h2>
+
+  <div class="ref-item">
+    Garrison, R. H., Noreen, E. W., &amp; Brewer, P. C. (2018). <em>Managerial accounting</em> (16.ª ed.). McGraw-Hill Education.
+  </div>
+
+  <div class="ref-item">
+    Kaplan, R. S., &amp; Norton, D. P. (1992). The balanced scorecard: Measures that drive performance. <em>Harvard Business Review, 70</em>(1), 71–79.
+  </div>
+
+  <div class="ref-item">
+    Horngren, C. T., Sundem, G. L., Stratton, W. O., Burgstahler, D., &amp; Schatzberg, J. (2014). <em>Introducción a la contabilidad administrativa</em> (14.ª ed.). Pearson Educación.
+  </div>
+
+  <div class="ref-item">
+    Hansen, D. R., Mowen, M. M., &amp; Guan, L. (2016). <em>Cost management: Accounting &amp; control</em> (6.ª ed.). Cengage Learning.
+  </div>
+
+  <div class="ref-item">
+    Parmenter, D. (2015). <em>Key performance indicators: Developing, implementing, and using winning KPIs</em> (3.ª ed.). John Wiley &amp; Sons.
+  </div>
+
+  <div class="ref-item">
+    Servicio de Rentas Internas. (2024). <em>Guía de obligaciones tributarias para sociedades</em>. SRI Ecuador. https://www.sri.gob.ec
+  </div>
+
+  <div class="ref-item">
+    Superintendencia de Compañías, Valores y Seguros. (2023). <em>Resolución No. SCVS-INC-DNCDN-2023-0009: Normas sobre información y estados financieros</em>. SCVS. https://www.supercias.gob.ec
+  </div>
+
+  <div class="ref-item">
+    International Federation of Accountants. (2022). <em>Handbook of the international code of ethics for professional accountants</em> (2022 ed.). IFAC. https://www.ifac.org
+  </div>
+
+  <div class="nota-bib">
+    ⚠️ <strong>Nota importante:</strong> Se recomienda verificar cada referencia en Google Scholar (scholar.google.com) o en el repositorio institucional de la Universidad de Guayaquil antes de citar en trabajos académicos. Los años de edición y URLs de documentos oficiales pueden actualizarse periódicamente.
+  </div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <p>Semana 12 · KPIs y Tablero de Control Gerencial · Unidad 3: Presupuestos y Control Gerencial</p>
+  <p style="margin-top:4px;color:#5aaed4">Universidad de Guayaquil · Facultad de Ciencias Administrativas · Contabilidad y Auditoría · 2026</p>
+</footer>
+
+<!-- ========================================================= -->
+<!-- JAVASCRIPT -->
+<!-- ========================================================= -->
+<script>
+// ===== NAVEGACIÓN DE PESTAÑAS (delegación en barra) =====
+document.getElementById('barraTab').addEventListener('click', function(e) {
+  const btn = e.target.closest('.tab-btn');
+  if (!btn) return;
+  const target = btn.dataset.target;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('activo'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('activo'));
+  btn.classList.add('activo');
+  document.getElementById(target).classList.add('activo');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+});
+
+// ===== HELPERS =====
+const fmt2 = n => Number(n).toLocaleString('es-EC', {minimumFractionDigits:2, maximumFractionDigits:2});
+const pct1 = n => Number(n).toFixed(1) + '%';
+
+function semColor(val, meta, umbralAmarillo, invert) {
+  // invert=true: menor es peor (margen, retención)
+  // invert=false: mayor es peor (ausentismo, costo, incidentes, tiempo)
+  if (!invert) {
+    if (val <= meta) return 'verde';
+    if (val <= umbralAmarillo) return 'amarillo';
+    return 'rojo';
+  } else {
+    if (val >= meta) return 'verde';
+    if (val >= umbralAmarillo) return 'amarillo';
+    return 'rojo';
+  }
+}
+
+function semIcono(color) {
+  const c = {verde:'#16a34a', amarillo:'#d97706', rojo:'#dc2626'};
+  return `<span style="display:inline-block;width:16px;height:16px;border-radius:50%;background:${c[color]};vertical-align:middle;margin-right:5px;"></span>`;
+}
+
+// ===== CALCULADORA KPIs (Tema 1) =====
+function calcularKPIs() {
+  const ing = parseFloat(document.getElementById('k-ingresos').value)||0;
+  const cos = parseFloat(document.getElementById('k-costos').value)||0;
+  const gst = parseFloat(document.getElementById('k-gastos').value)||0;
+  const inv = parseFloat(document.getElementById('k-inversion').value)||0;
+  const pue = parseInt(document.getElementById('k-puestos').value)||1;
+  const pre = parseFloat(document.getElementById('k-presup').value)||0;
+  const div = document.getElementById('res-kpi');
+  if (!ing || !cos) { div.innerHTML='<span style="color:#b91c1c;font-weight:700;">⚠ Ingresa al menos los ingresos y el costo de operación.</span>'; div.classList.add('visible'); return; }
+  const utilBruta = ing - cos;
+  const utilOp = utilBruta - gst;
+  const utilNeta = utilOp * 0.80; // estimado simple (descuento 15% part. + 5% impuestos aprox)
+  const margOp = ing > 0 ? (utilOp/ing*100) : 0;
+  const margNeto = ing > 0 ? (utilNeta/ing*100) : 0;
+  const roi = inv > 0 ? (utilNeta/inv*100) : 0;
+  const cpuesto = pue > 0 ? (cos/pue) : 0;
+  const varIng = pre > 0 ? ((ing-pre)/pre*100) : 0;
+
+  const colorMO = margOp >= 20 ? '#16a34a' : margOp >= 16 ? '#d97706' : '#dc2626';
+  const colorMN = margNeto >= 12 ? '#16a34a' : margNeto >= 8 ? '#d97706' : '#dc2626';
+  const colorROI = roi >= 15 ? '#16a34a' : roi >= 10 ? '#d97706' : '#dc2626';
+  const colorCP = cpuesto <= 850 ? '#16a34a' : cpuesto <= 950 ? '#d97706' : '#dc2626';
+  const colorVI = varIng >= -5 ? '#16a34a' : varIng >= -10 ? '#d97706' : '#dc2626';
+
+  div.innerHTML = `
+    <h4 style="font-family:'Lora',serif;color:#003366;margin-bottom:12px;">📊 KPIs calculados del período</h4>
+    <table style="width:100%;border-collapse:collapse;font-size:0.88rem;">
+      <thead><tr style="background:#003366;color:#fff;"><th style="padding:8px 10px;text-align:left;">KPI</th><th style="padding:8px 10px;text-align:right;">Valor</th><th style="padding:8px 10px;text-align:center;">Meta</th><th style="padding:8px 10px;text-align:center;">Semáforo</th></tr></thead>
+      <tbody>
+        <tr style="border-bottom:1px solid #e2e8f0;"><td style="padding:8px 10px;">Margen Operacional</td><td style="padding:8px 10px;text-align:right;font-weight:700;color:${colorMO}">${pct1(margOp)}</td><td style="padding:8px 10px;text-align:center;">≥ 20%</td><td style="padding:8px 10px;text-align:center;"><span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:${colorMO};"></span></td></tr>
+        <tr style="background:#f0f5fb;border-bottom:1px solid #e2e8f0;"><td style="padding:8px 10px;">Margen Neto (est.)</td><td style="padding:8px 10px;text-align:right;font-weight:700;color:${colorMN}">${pct1(margNeto)}</td><td style="padding:8px 10px;text-align:center;">≥ 12%</td><td style="padding:8px 10px;text-align:center;"><span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:${colorMN};"></span></td></tr>
+        <tr style="border-bottom:1px solid #e2e8f0;"><td style="padding:8px 10px;">ROI Operativo (est.)</td><td style="padding:8px 10px;text-align:right;font-weight:700;color:${colorROI}">${pct1(roi)}</td><td style="padding:8px 10px;text-align:center;">≥ 15%</td><td style="padding:8px 10px;text-align:center;"><span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:${colorROI};"></span></td></tr>
+        <tr style="background:#f0f5fb;border-bottom:1px solid #e2e8f0;"><td style="padding:8px 10px;">Costo por puesto</td><td style="padding:8px 10px;text-align:right;font-weight:700;color:${colorCP}">$${fmt2(cpuesto)}</td><td style="padding:8px 10px;text-align:center;">≤ $850</td><td style="padding:8px 10px;text-align:center;"><span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:${colorCP};"></span></td></tr>
+        ${pre>0?`<tr style="border-bottom:1px solid #e2e8f0;"><td style="padding:8px 10px;">Var. presupuestal ingresos</td><td style="padding:8px 10px;text-align:right;font-weight:700;color:${colorVI}">${varIng>=0?'+':''}${pct1(varIng)}</td><td style="padding:8px 10px;text-align:center;">≥ −5%</td><td style="padding:8px 10px;text-align:center;"><span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:${colorVI};"></span></td></tr>`:''}
+      </tbody>
+    </table>
+    <p style="font-size:0.8rem;color:#667;margin-top:10px;">* El margen neto y el ROI son estimados (se aplica un descuento del 20% sobre la utilidad operativa para aproximar participación de trabajadores e impuesto a la renta). Para un cálculo exacto, usa los valores reales de tu declaración.</p>
+  `;
+  div.classList.add('visible');
+}
+
+function resetKPIs() {
+  ['k-ingresos','k-costos','k-gastos','k-inversion','k-puestos','k-presup'].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
+  const div = document.getElementById('res-kpi');
+  div.classList.remove('visible');
+  div.innerHTML='';
+}
+
+// ===== DASHBOARD SIMULADO =====
+const DASH_DATA = [
+  { titulo:'Margen Operacional', valor:17.1, unidad:'%', meta:20, umbral:16, invert:true, desc:'Utilidad Op. / Ingresos × 100', tendencia:'↓ −2,9 pp vs. meta' },
+  { titulo:'Costo por Puesto', valor:892, unidad:'USD', meta:850, umbral:950, invert:false, desc:'Costo Op. / N.º Puestos', tendencia:'↑ $42 sobre meta' },
+  { titulo:'Var. Presup. Ingresos', valor:-6.7, unidad:'%', meta:-5, umbral:-10, invert:true, desc:'(Real−Pres.) / Pres. × 100', tendencia:'↓ déficit de $3.000' },
+  { titulo:'ROI Operativo', valor:13.2, unidad:'%', meta:15, umbral:11, invert:true, desc:'Util. Neta / Inversión × 100', tendencia:'→ zona amarilla' },
+  { titulo:'Tasa de Ausentismo', valor:2.1, unidad:'%', meta:3, umbral:5, invert:false, desc:'Guardias Ausentes / Total × 100', tendencia:'✓ bajo el límite' },
+  { titulo:'Incidentes / Mes', valor:1, unidad:'', meta:2, umbral:4, invert:false, desc:'N.º incidentes registrados', tendencia:'✓ excelente' },
+  { titulo:'Retención de Clientes', valor:93, unidad:'%', meta:90, umbral:80, invert:true, desc:'Clientes final / inicial × 100', tendencia:'✓ superando meta' },
+  { titulo:'Tiempo de Respuesta', valor:11, unidad:'min', meta:8, umbral:12, invert:false, desc:'Promedio minutos de respuesta', tendencia:'↑ 3 min sobre meta' },
+];
+
+function activarDashboard() {
+  const grid = document.getElementById('dash-grid');
+  const ley = document.getElementById('dash-leyenda');
+  const colores = {verde:'#16a34a', amarillo:'#d97706', rojo:'#dc2626'};
+  const bgColores = {verde:'#d1fae5', amarillo:'#fef9c3', rojo:'#fee2e2'};
+
+  grid.innerHTML = DASH_DATA.map(d => {
+    let color;
+    if (d.invert) {
+      color = d.valor >= d.meta ? 'verde' : d.valor >= d.umbral ? 'amarillo' : 'rojo';
+    } else {
+      color = d.valor <= d.meta ? 'verde' : d.valor <= d.umbral ? 'amarillo' : 'rojo';
+    }
+    const pct = d.invert
+      ? Math.min(100, (d.valor / (d.meta * 1.5)) * 100)
+      : Math.min(100, (d.meta / Math.max(d.valor, 0.1)) * 100);
+    return `
+      <div class="kpi-card ${color}">
+        <div class="kpi-sem" style="background:${colores[color]};width:20px;height:20px;border-radius:50%;position:absolute;top:14px;right:14px;"></div>
+        <h4>${d.titulo}</h4>
+        <div class="kpi-valor">${d.valor}${d.unidad}</div>
+        <div class="kpi-meta">Meta: ${d.invert ? '≥' : '≤'} ${d.meta}${d.unidad} &nbsp;|&nbsp; ${d.tendencia}</div>
+        <div class="kpi-barra"><div class="kpi-barra-fill" style="width:${pct}%;background:${colores[color]};"></div></div>
+        <div style="font-size:0.75rem;color:#99a;margin-top:6px;">${d.desc}</div>
+      </div>`;
+  }).join('');
+
+  ley.style.display='flex';
+}
+
+// ===== EJERCICIO INTERACTIVO =====
+const CORRECTAS_EJ = {ei1:'b', ei2:'c', ei3:'b', ei4:'b', ei5:'c', ei6:'c', ei7:'b', ei8:'b'};
+const FEEDBACK_EJ = {
+  ei1: {
+    b: '✅ Correcto. Un KPI es una medida cuantificable vinculada a un objetivo estratégico, con fórmula, frecuencia de medición y meta predefinida.',
+    x: '❌ Incorrecto. Un KPI no es un estado financiero ni un informe tributario. Es una medida estratégica de desempeño con fórmula y meta definidas.'
+  },
+  ei2: {
+    c: '✅ Correcto. 7.200 / 42.000 × 100 = 17,1%. Este margen estaría en zona roja si la meta es ≥ 20%.',
+    x: '❌ Incorrecto. La fórmula es: Utilidad Operativa / Ingresos × 100 = 7.200 / 42.000 × 100 = 17,1%.'
+  },
+  ei3: {
+    b: '✅ Correcto. El tiempo de respuesta mide eficiencia operativa, no valores monetarios: es un KPI operativo (no financiero).',
+    x: '❌ Incorrecto. El tiempo de respuesta no es financiero: no mide dinero sino eficiencia del proceso operativo.'
+  },
+  ei4: {
+    b: '✅ Correcto. El semáforo convierte valores numéricos en señales de alerta visual según qué tan cerca o lejos están de la meta.',
+    x: '❌ Incorrecto. El semáforo tiene una función técnica y gerencial: convertir datos en señales de alerta accionables.'
+  },
+  ei5: {
+    c: '✅ Correcto. 2 / 42 × 100 = 4,76%. Con una meta de ≤ 3%, este valor estaría en semáforo rojo.',
+    x: '❌ Incorrecto. La fórmula es: Guardias ausentes / Total guardias × 100 = 2/42 × 100 = 4,76%.'
+  },
+  ei6: {
+    c: '✅ Correcto. Los estados financieros miran hacia atrás con retraso. Los KPIs, especialmente los operativos, proveen información oportuna para decisiones en tiempo real.',
+    x: '❌ Incorrecto. La diferencia clave es que los EE.FF. son históricos y genéricos; los KPIs son prospectivos y específicos por área de gestión.'
+  },
+  ei7: {
+    b: '✅ Correcto. (42.000 − 45.000) / 45.000 × 100 = −6,7%. Variación desfavorable: se vendió menos de lo presupuestado.',
+    x: '❌ Incorrecto. La fórmula es: (Real − Presupuestado) / Presupuestado × 100 = (42.000 − 45.000) / 45.000 × 100 = −6,7%.'
+  },
+  ei8: {
+    b: '✅ Correcto. La función SI anidada evalúa primero si supera la meta (verde), luego si supera el umbral mínimo (amarillo), y en caso contrario asigna rojo.',
+    x: '❌ Incorrecto. La fórmula correcta para un semáforo de texto en Excel es: =SI(B5>=0.20,"🟢",SI(B5>=0.16,"🟡","🔴"))'
+  }
+};
+
+function verificarEjercicio() {
+  const names = ['ei1','ei2','ei3','ei4','ei5','ei6','ei7','ei8'];
+  let sinResponder = false;
+  names.forEach(n => {
+    const sel = document.querySelector(`input[name="${n}"]:checked`);
+    if (!sel) sinResponder = true;
+  });
+  if (sinResponder) { document.getElementById('alerta-ej').style.display='inline'; return; }
+  document.getElementById('alerta-ej').style.display='none';
+  let correctas = 0;
+  names.forEach(n => {
+    const sel = document.querySelector(`input[name="${n}"]:checked`).value;
+    const fb = document.getElementById('fb-'+n);
+    const esCorrecta = sel === CORRECTAS_EJ[n];
+    if (esCorrecta) correctas++;
+    fb.textContent = esCorrecta ? FEEDBACK_EJ[n][CORRECTAS_EJ[n]] : '❌ Incorrecto. ' + FEEDBACK_EJ[n]['x'].replace('❌ Incorrecto. ','');
+    fb.className = 'feedback-item visible ' + (esCorrecta ? 'correcto' : 'incorrecto');
+    document.querySelectorAll(`input[name="${n}"]`).forEach(r => r.disabled = true);
+  });
+  const pct = Math.round(correctas / names.length * 100);
+  const emojis = {100:'🏆', 87:'🎯', 62:'📘', 37:'⚠️', 0:'📖'};
+  const emoji = pct===100?'🏆':pct>=80?'🎯':pct>=60?'📘':pct>=40?'⚠️':'📖';
+  const msgs = {100:'¡Perfecto! Dominas completamente los KPIs.',87:'¡Muy bien! Comprensión sólida.',62:'Bien. Repasa los ítems marcados en rojo.',37:'Necesitas reforzar. Vuelve a los temas.',0:'Revisa el contenido desde el inicio.'};
+  const msg = pct===100?msgs[100]:pct>=80?msgs[87]:pct>=60?msgs[62]:pct>=40?msgs[37]:msgs[0];
+  document.getElementById('puntaje-ej').textContent = correctas + ' / ' + names.length + ' (' + pct + '%)';
+  document.getElementById('emoji-ej').textContent = emoji;
+  document.getElementById('msg-ej').textContent = msg;
+  document.getElementById('sub-ej').textContent = 'Revisa la retroalimentación de cada ítem arriba.';
+  const panel = document.getElementById('panel-ej');
+  panel.classList.add('visible');
+  setTimeout(()=>{ document.getElementById('barra-ej').style.width = pct + '%'; }, 100);
+  panel.scrollIntoView({behavior:'smooth'});
+}
+
+function reiniciarEjercicio() {
+  ['ei1','ei2','ei3','ei4','ei5','ei6','ei7','ei8'].forEach(n => {
+    document.querySelectorAll(`input[name="${n}"]`).forEach(r => { r.checked=false; r.disabled=false; });
+    const fb = document.getElementById('fb-'+n);
+    fb.textContent=''; fb.className='feedback-item';
+  });
+  document.getElementById('panel-ej').classList.remove('visible');
+  document.getElementById('barra-ej').style.width='0%';
+}
+
+// ===== CUESTIONARIO =====
+const CORRECTAS_Q = {qi1:'b', qi2:'c', qi3:'c', qi4:'b', qi5:'c', qi6:'b', qi7:'b', qi8:'a', qi9:'d', qi10:'b'};
+const FEEDBACK_Q = {
+  qi1: { b:'✅ Correcto. El dashboard concentra los KPIs más relevantes en forma visual para agilizar la toma de decisiones gerenciales.', x:'❌ Incorrecto. El dashboard es una herramienta de control gerencial, no de registro contable.' },
+  qi2: { c:'✅ Correcto. Entre 6 y 8 KPIs es lo recomendado: suficientes para tener una visión completa sin abrumar a la gerencia.', x:'❌ Incorrecto. Un dashboard efectivo usa entre 6 y 8 KPIs clave, no más.' },
+  qi3: { c:'✅ Correcto. La tasa de ausentismo mide un aspecto operativo del personal, no una cifra monetaria.', x:'❌ Incorrecto. Los KPIs financieros miden dinero (margen, ROI). El ausentismo es operativo.' },
+  qi4: { b:'✅ Correcto. El amarillo señala zona de alerta: el indicador no ha fallado completamente, pero requiere atención y posible corrección.', x:'❌ Incorrecto. El amarillo no significa éxito ni crisis total; es una señal de precaución y monitoreo.' },
+  qi5: { c:'✅ Correcto. Costo Operativo Total / Número de puestos activos. Mide cuánto cuesta mantener un puesto de guardia al mes.', x:'❌ Incorrecto. La fórmula correcta es Costo Operativo Total / N.º de puestos activos.' },
+  qi6: { b:'✅ Correcto. El ciclo de control gerencial es: Medir → Comparar con meta → Investigar causa → Aplicar acción correctiva → Volver a medir.', x:'❌ Incorrecto. El ciclo correcto tiene cinco pasos que culminan en acción y nueva medición.' },
+  qi7: { b:'✅ Correcto. Los EE.FF. son históricos y genéricos. No incluyen métricas operativas como ausentismo, tiempos de respuesta ni satisfacción del cliente.', x:'❌ Incorrecto. La limitación de los EE.FF. es temporal (miran el pasado) y temática (no incluyen indicadores operativos).' },
+  qi8: { a:'✅ Correcto. $4.500 / $38.000 × 100 = 11,8%. Este margen neto es el porcentaje de cada dólar de ingreso que queda como utilidad final.', x:'❌ Incorrecto. Margen neto = Utilidad neta / Ingresos × 100 = 4.500 / 38.000 × 100 = 11,8%.' },
+  qi9: { d:'✅ Correcto. $26.600 / 28 puestos = $950 por puesto. Esto supera la meta de $900 (semáforo amarillo según los umbrales dados), pero está en el límite del umbral de alerta.', x:'❌ Incorrecto. Costo por puesto = $26.600 / 28 = $950. Supera la meta de $900 pero está justo en el umbral amarillo de $950.' },
+  qi10: { b:'✅ Correcto. La utilidad positiva del pasado no revela si los problemas operativos están deteriorando la calidad del servicio ni si los clientes están en riesgo de cancelar.', x:'❌ Incorrecto. La utilidad pasada no es suficiente; los KPIs operativos detectan riesgos que el Estado de Resultados no muestra.' }
+};
+
+function verificarCuestionario() {
+  const names = ['qi1','qi2','qi3','qi4','qi5','qi6','qi7','qi8','qi9','qi10'];
+  let sinResponder = false;
+  names.forEach(n => { if (!document.querySelector(`input[name="${n}"]:checked`)) sinResponder = true; });
+  if (sinResponder) { document.getElementById('alerta-quiz').style.display='inline'; return; }
+  document.getElementById('alerta-quiz').style.display='none';
+  let correctas = 0;
+  names.forEach(n => {
+    const sel = document.querySelector(`input[name="${n}"]:checked`).value;
+    const fb = document.getElementById('fb-'+n);
+    const esCorrecta = sel === CORRECTAS_Q[n];
+    if (esCorrecta) correctas++;
+    const fbKey = esCorrecta ? CORRECTAS_Q[n] : 'x';
+    fb.textContent = FEEDBACK_Q[n][fbKey];
+    fb.className = 'feedback-item visible ' + (esCorrecta ? 'correcto' : 'incorrecto');
+    document.querySelectorAll(`input[name="${n}"]`).forEach(r => r.disabled=true);
+  });
+  const pct = Math.round(correctas / names.length * 100);
+  const emoji = pct===100?'🏆':pct>=80?'🎯':pct>=60?'📘':pct>=40?'⚠️':'📖';
+  const msg = pct===100?'¡Perfecto! 10/10. Excelente dominio de KPIs y dashboards.':
+              pct>=80?`¡Muy bien! ${correctas}/10. Comprensión sólida de los indicadores gerenciales.`:
+              pct>=60?`Bien. ${correctas}/10. Repasa los conceptos de semáforo y fórmulas de KPIs.`:
+              pct>=40?`${correctas}/10. Necesitas reforzar. Vuelve a los temas y los ejemplos de SEGURECUADOR.`:
+              `${correctas}/10. Revisa todo el contenido desde la pestaña Repaso.`;
+  document.getElementById('puntaje-quiz').textContent = correctas + ' / 10 (' + pct + '%)';
+  document.getElementById('emoji-quiz').textContent = emoji;
+  document.getElementById('msg-quiz').textContent = msg;
+  document.getElementById('sub-quiz').textContent = 'Revisa la retroalimentación de cada pregunta arriba para reforzar tu aprendizaje.';
+  const panel = document.getElementById('panel-quiz');
+  panel.classList.add('visible');
+  setTimeout(()=>{ document.getElementById('barra-quiz').style.width = pct + '%'; }, 100);
+  panel.scrollIntoView({behavior:'smooth'});
+}
+
+function reiniciarCuestionario() {
+  ['qi1','qi2','qi3','qi4','qi5','qi6','qi7','qi8','qi9','qi10'].forEach(n => {
+    document.querySelectorAll(`input[name="${n}"]`).forEach(r => { r.checked=false; r.disabled=false; });
+    const fb = document.getElementById('fb-'+n);
+    fb.textContent=''; fb.className='feedback-item';
+  });
+  document.getElementById('panel-quiz').classList.remove('visible');
+  document.getElementById('barra-quiz').style.width='0%';
+}
+
+// ===== COPIAR PROMPT IA =====
+function copiarPrompt() {
+  const texto = document.getElementById('promptIA').innerText.replace('📋 Copiar','').trim();
+  navigator.clipboard.writeText(texto).then(()=>{
+    const btn = document.querySelector('.btn-copiar');
+    btn.textContent='✓ Copiado';
+    setTimeout(()=>{ btn.textContent='📋 Copiar'; }, 2000);
+  });
+}
+</script>
+</body>
+</html>

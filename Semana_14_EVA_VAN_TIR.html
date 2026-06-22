@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semana 14 | Contabilidad Gerencial — EVA, VAN, TIR y Payback</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --azul: #003366;
+    --celeste: #87CEEB;
+    --dorado: #FFD700;
+    --blanco: #ffffff;
+    --gris-claro: #f4f7fb;
+    --gris-borde: #dce3ee;
+    --verde: #1a7a3c;
+    --rojo: #b91c1c;
+    --naranja: #b45309;
+    --texto: #1a2a3a;
+    --sombra: 0 2px 14px rgba(0,51,102,0.10);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Sans 3', sans-serif; background: var(--gris-claro); color: var(--texto); min-height: 100vh; }
+
+  /* ENCABEZADO */
+  header {
+    background: var(--azul);
+    color: white;
+    padding: 22px 28px 18px;
+    border-bottom: 4px solid var(--dorado);
+  }
+  .header-inner { max-width: 1100px; margin: 0 auto; }
+  header h1 { font-family: 'Lora', serif; font-size: 1.55rem; font-weight: 700; margin-bottom: 4px; }
+  header p { font-size: 0.92rem; color: var(--celeste); }
+  .header-meta { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 10px; }
+  .badge { background: rgba(255,255,255,0.13); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 4px 13px; border-radius: 20px; font-size: 0.8rem; }
+
+  /* BARRA DE TABS */
+  .tabs-wrapper { background: var(--celeste); overflow-x: auto; white-space: nowrap; border-bottom: 3px solid #5aaed4; position: sticky; top: 0; z-index: 100; }
+  .tabs-wrapper::-webkit-scrollbar { height: 4px; }
+  .tabs-wrapper::-webkit-scrollbar-thumb { background: var(--azul); border-radius: 2px; }
+  .tab-bar { display: inline-flex; min-width: 100%; }
+  .tab-btn { padding: 13px 20px; cursor: pointer; font-family: 'Source Sans 3', sans-serif; font-size: 0.88rem; color: #1a2a3a; border: none; background: transparent; border-bottom: 3px solid transparent; transition: all 0.18s; white-space: nowrap; font-weight: 500; }
+  .tab-btn:hover { background: rgba(255,255,255,0.5); }
+  .tab-btn.activo { background: var(--blanco); color: var(--azul); font-weight: 700; border-bottom: 3px solid var(--azul); }
+
+  /* CONTENIDO */
+  .tab-content { display: none; padding: 30px 24px 50px; max-width: 980px; margin: 0 auto; }
+  .tab-content.activo { display: block; }
+
+  /* TIPOGRAFÍA Y BLOQUES */
+  h2.titulo-tab { font-family: 'Lora', serif; color: var(--azul); font-size: 1.35rem; margin-bottom: 18px; padding-bottom: 8px; border-bottom: 2px solid var(--celeste); }
+  h3.subtitulo { font-family: 'Lora', serif; color: var(--azul); font-size: 1.12rem; margin: 24px 0 10px; padding-bottom: 5px; border-bottom: 1px solid var(--gris-borde); }
+  p.parrafo { line-height: 1.75; margin-bottom: 14px; font-size: 0.97rem; }
+
+  .caja-def { border-left: 5px solid var(--azul); background: #e8f0fb; padding: 16px 18px; margin: 18px 0; border-radius: 0 8px 8px 0; }
+  .caja-def h4 { font-family: 'Lora', serif; color: var(--azul); margin-bottom: 7px; font-size: 1rem; }
+  .caja-def p { font-size: 0.95rem; line-height: 1.65; }
+
+  .caja-ejemplo { background: #dbeafe; border: 1px solid #93c5fd; border-radius: 10px; padding: 16px 18px; margin: 16px 0; }
+  .caja-ejemplo h4 { color: #1e40af; font-family: 'Lora', serif; margin-bottom: 8px; font-size: 1rem; }
+  .caja-ejemplo p, .caja-ejemplo li { font-size: 0.94rem; line-height: 1.65; }
+  .caja-ejemplo ul, .caja-ejemplo ol { padding-left: 18px; margin-top: 6px; }
+
+  .caja-clave { background: linear-gradient(90deg, #003366 0%, #1a5ca8 100%); color: white; border-radius: 10px; padding: 16px 20px; margin: 20px 0; }
+  .caja-clave h4 { font-family: 'Lora', serif; margin-bottom: 6px; font-size: 1rem; }
+  .caja-clave p { font-size: 0.93rem; line-height: 1.6; color: #c8ddf5; }
+
+  .caja-formula { background: #f0f5fb; border: 1.5px dashed #93c5fd; border-radius: 8px; padding: 14px 18px; margin: 14px 0; font-size: 0.95rem; color: #1e3a5f; font-family: 'Lora', serif; text-align: center; }
+  .caja-formula span { display: block; font-size: 0.83rem; font-family: 'Source Sans 3', sans-serif; color: #667; margin-top: 6px; }
+
+  .tabla-ej { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 0.88rem; }
+  .tabla-ej th { background: var(--azul); color: #fff; padding: 8px 12px; text-align: center; }
+  .tabla-ej td { padding: 8px 12px; border-bottom: 1px solid #e2e8f0; text-align: right; }
+  .tabla-ej td:first-child { text-align: left; }
+  .tabla-ej tr:nth-child(even) td { background: #f0f5fb; }
+  .tabla-ej .total-row td { font-weight: 700; background: #e8f0fb; color: var(--azul); }
+
+  /* REPASO */
+  .repaso-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin: 18px 0; }
+  .repaso-card { background: white; border-radius: 10px; padding: 14px 16px; border: 1.5px solid var(--gris-borde); box-shadow: var(--sombra); }
+  .repaso-card .num { font-family: 'Lora', serif; font-size: 1.5rem; color: var(--celeste); font-weight: 700; }
+  .repaso-card h4 { font-family: 'Lora', serif; font-size: 0.92rem; color: var(--azul); margin: 4px 0; }
+  .repaso-card p { font-size: 0.82rem; color: #556; line-height: 1.5; }
+
+  /* INTERACTIVO Y CUESTIONARIO */
+  .ejercicio-card { background: white; border-radius: 14px; box-shadow: var(--sombra); padding: 26px; margin-bottom: 24px; }
+  .ejercicio-card h3 { font-family: 'Lora', serif; color: var(--azul); margin-bottom: 14px; font-size: 1.08rem; }
+  .badge-tipo { display: inline-block; background: #e8f0fb; color: var(--azul); border-radius: 20px; padding: 3px 12px; font-size: 0.77rem; font-weight: 700; margin-left: 8px; vertical-align: middle; }
+  .badge-analisis { background: #fef3c7; color: #92400e; }
+
+  .item-pregunta { margin-bottom: 20px; padding: 16px 18px; background: var(--gris-claro); border-radius: 10px; border: 1.5px solid var(--gris-borde); }
+  .item-pregunta p { font-size: 0.95rem; line-height: 1.6; margin-bottom: 12px; font-weight: 600; color: #1a2a3a; }
+  .mini-caso { background: #dbeafe; border-radius: 8px; padding: 10px 14px; margin-bottom: 12px; font-size: 0.87rem; line-height: 1.55; color: #1e3a5f; }
+
+  .opciones { display: flex; flex-direction: column; gap: 8px; }
+  .opcion-label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; padding: 9px 13px; border-radius: 8px; border: 1.5px solid var(--gris-borde); background: white; font-size: 0.92rem; line-height: 1.5; transition: all 0.15s; }
+  .opcion-label:hover { border-color: var(--celeste); background: #f0f7ff; }
+  .opcion-label input { margin-top: 3px; flex-shrink: 0; }
+  .opcion-label.correcta { background: #d1fae5; border-color: var(--verde); }
+  .opcion-label.incorrecta { background: #fee2e2; border-color: var(--rojo); }
+
+  .feedback-item { display: none; margin-top: 10px; padding: 10px 14px; border-radius: 8px; font-size: 0.88rem; line-height: 1.55; }
+  .feedback-item.correcto { background: #d1fae5; border-left: 4px solid var(--verde); color: #065f46; }
+  .feedback-item.incorrecto { background: #fee2e2; border-left: 4px solid var(--rojo); color: #7f1d1d; }
+
+  .btn-verificar { background: var(--azul); color: white; border: none; padding: 12px 32px; border-radius: 25px; font-size: 1rem; font-weight: 700; cursor: pointer; font-family: 'Source Sans 3', sans-serif; transition: all 0.18s; margin-right: 12px; }
+  .btn-verificar:hover { background: #1a5ca8; transform: scale(1.03); }
+  .btn-reiniciar { background: #e2e8f0; color: #334; border: none; padding: 12px 24px; border-radius: 25px; font-size: 0.92rem; cursor: pointer; font-family: 'Source Sans 3', sans-serif; transition: all 0.18s; }
+  .btn-reiniciar:hover { background: #cbd5e1; }
+
+  .panel-resultado { display: none; margin-top: 22px; background: white; border-radius: 12px; padding: 22px; border: 2px solid var(--gris-borde); text-align: center; }
+  .panel-resultado h3 { font-family: 'Lora', serif; color: var(--azul); margin-bottom: 10px; }
+  .puntaje-grande { font-size: 2.8rem; font-weight: 700; color: var(--azul); }
+  .barra-progreso-wrap { background: #e2e8f0; border-radius: 10px; height: 14px; margin: 12px 0; overflow: hidden; }
+  .barra-progreso-fill { height: 100%; border-radius: 10px; transition: width 0.8s ease; }
+  .mensaje-motivacional { font-size: 1.05rem; margin-top: 10px; font-weight: 600; }
+  .alerta-completa { display: none; background: #fef3c7; border: 1.5px solid #f59e0b; color: #78350f; padding: 10px 16px; border-radius: 8px; margin-top: 12px; font-size: 0.9rem; }
+
+  /* IA */
+  .ia-prompt-box { background: #f0f5fb; border: 1.5px solid #93c5fd; border-radius: 10px; padding: 18px 20px; margin: 16px 0; position: relative; }
+  .ia-prompt-box h4 { font-family: 'Lora', serif; color: var(--azul); margin-bottom: 10px; }
+  .ia-prompt-box pre { font-family: 'Source Sans 3', sans-serif; font-size: 0.88rem; white-space: pre-wrap; line-height: 1.6; color: #1a2a3a; }
+  .btn-copiar { background: var(--azul); color: white; border: none; padding: 7px 18px; border-radius: 20px; font-size: 0.82rem; cursor: pointer; font-family: 'Source Sans 3', sans-serif; margin-top: 10px; transition: all 0.18s; }
+  .btn-copiar:hover { background: #1a5ca8; }
+
+  /* REFLEXIVAS */
+  .reflexiva-item { background: white; border-radius: 10px; padding: 18px 20px; margin-bottom: 14px; border-left: 5px solid var(--dorado); box-shadow: var(--sombra); }
+  .reflexiva-item h4 { font-family: 'Lora', serif; color: var(--azul); margin-bottom: 8px; font-size: 1rem; }
+  .reflexiva-item p { font-size: 0.94rem; line-height: 1.7; color: #2a3a4a; }
+
+  /* BIBLIOGRAFÍA */
+  .bib-item { background: white; border-radius: 8px; padding: 14px 16px; margin-bottom: 10px; border-left: 4px solid var(--celeste); font-size: 0.88rem; line-height: 1.6; }
+  .bib-nota { background: #fef3c7; border: 1px solid #f59e0b; border-radius: 8px; padding: 12px 16px; margin-top: 18px; font-size: 0.84rem; color: #78350f; }
+
+  /* PIE */
+  footer { background: var(--azul); color: var(--celeste); text-align: center; padding: 18px; font-size: 0.82rem; margin-top: 30px; border-top: 3px solid var(--dorado); }
+
+  @media(max-width:600px) {
+    header h1 { font-size: 1.15rem; }
+    .tab-btn { padding: 11px 14px; font-size: 0.8rem; }
+    .tab-content { padding: 18px 14px 40px; }
+    .repaso-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <h1>💹 Semana 14 — EVA, Evaluación de Proyectos y Decisiones de Financiamiento</h1>
+    <p>Contabilidad Gerencial · Unidad 4: Herramientas Avanzadas de Gestión y Decisiones</p>
+    <div class="header-meta">
+      <span class="badge">🏛️ Universidad de Guayaquil</span>
+      <span class="badge">📋 Facultad de Ciencias Administrativas</span>
+      <span class="badge">🎓 5.º Semestre CPA Semestral</span>
+      <span class="badge">📅 Marzo – Julio 2026</span>
+    </div>
+  </div>
+</header>
+
+<div class="tabs-wrapper">
+  <div class="tab-bar" id="tab-bar">
+    <button class="tab-btn activo" data-tab="repaso">🔄 Repaso</button>
+    <button class="tab-btn" data-tab="tema1">📌 Tema 1: EVA</button>
+    <button class="tab-btn" data-tab="tema2">📌 Tema 2: VAN y TIR</button>
+    <button class="tab-btn" data-tab="tema3">📌 Tema 3: Payback</button>
+    <button class="tab-btn" data-tab="tema4">📌 Tema 4: Deuda vs. Capital</button>
+    <button class="tab-btn" data-tab="ejercicio">✏️ Ejercicio Interactivo</button>
+    <button class="tab-btn" data-tab="cuestionario">📝 Cuestionario</button>
+    <button class="tab-btn" data-tab="ia">🤖 Actividad con IA</button>
+    <button class="tab-btn" data-tab="reflexivas">💭 Preguntas Reflexivas</button>
+    <button class="tab-btn" data-tab="bibliografia">📚 Bibliografía</button>
+  </div>
+</div>
+
+<!-- ════════════════════ REPASO ════════════════════ -->
+<div class="tab-content activo" id="repaso">
+  <h2 class="titulo-tab">🔄 Repaso del Semestre — Progresión hacia la Semana 14</h2>
+
+  <p class="parrafo">A lo largo del semestre, la materia de Contabilidad Gerencial ha construido una secuencia lógica que va desde comprender el rol del contador como asesor estratégico hasta dominar herramientas sofisticadas de evaluación y toma de decisiones. La siguiente tabla resume esa progresión:</p>
+
+  <div class="repaso-grid">
+    <div class="repaso-card"><div class="num">S1–4</div><h4>Unidad 1: El Contador Asesor</h4><p>Diferencias entre contabilidades, limitaciones de EE.FF., costos, SIG, indicadores básicos (liquidez, rentabilidad, endeudamiento) y ética profesional (CECE).</p></div>
+    <div class="repaso-card"><div class="num">S5–7</div><h4>Unidad 2: Costos para Decidir</h4><p>Comportamiento del costo, margen de contribución, punto de equilibrio, análisis CVU, costeo variable vs. absorción y costos relevantes para decisiones operativas.</p></div>
+    <div class="repaso-card"><div class="num">S8</div><h4>Primer Parcial</h4><p>Evaluación de las Unidades 1 y 2.</p></div>
+    <div class="repaso-card"><div class="num">S9–11</div><h4>Unidad 3: Presupuestos</h4><p>Presupuesto Maestro, sub-presupuestos operativos, flujo de caja proyectado y análisis de variaciones (presupuestado vs. real) con contabilidad por centros de responsabilidad.</p></div>
+    <div class="repaso-card"><div class="num">S12</div><h4>Indicadores y Dashboard</h4><p>KPIs financieros y no financieros, tablero de control con semáforos en Excel. Cierre Unidad 3.</p></div>
+    <div class="repaso-card"><div class="num">S13</div><h4>BSC: Cuadro de Mando Integral</h4><p>Las 4 perspectivas, mapa estratégico, indicadores, metas e iniciativas para SEGURECUADOR S.A.</p></div>
+  </div>
+
+  <div class="caja-clave">
+    <h4>🧭 ¿Por qué llegamos al EVA y a la evaluación de proyectos?</h4>
+    <p>Hemos aprendido a clasificar costos, planificar presupuestos, medir variaciones y diseñar un cuadro de mando. Ahora la pregunta que debe responder la alta gerencia es: <strong>¿nuestras inversiones realmente crean valor?</strong> El EVA responde si el negocio genera riqueza por encima del costo del capital. El VAN, la TIR y el Payback permiten evaluar si vale la pena comprometer recursos hoy para obtener flujos futuros. Y la decisión entre financiarse con deuda propia o capital externo determina el costo de ese capital. Esta semana cierra el ciclo decisional del semestre.</p>
+  </div>
+</div>
+
+<!-- ════════════════════ TEMA 1: EVA ════════════════════ -->
+<div class="tab-content" id="tema1">
+  <h2 class="titulo-tab">📌 Tema 1: Valor Económico Agregado (EVA)</h2>
+
+  <h3 class="subtitulo">¿Qué es el EVA y por qué importa?</h3>
+  <p class="parrafo">El <strong>Valor Económico Agregado (EVA, por sus siglas en inglés: Economic Value Added)</strong> es un indicador financiero que mide si una empresa genera riqueza real para sus propietarios, es decir, si las utilidades obtenidas superan el <em>costo de todo el capital invertido</em> (tanto deudas como aportes de los accionistas). Fue popularizado por la firma de consultoría Stern Stewart & Co. y es ampliamente utilizado en la gestión empresarial moderna.</p>
+
+  <div class="caja-def">
+    <h4>📖 Definición formal</h4>
+    <p>El <strong>EVA</strong> es la utilidad operativa después de impuestos (NOPAT, por sus siglas en inglés) menos el cargo por el uso del capital invertido. Si el EVA es positivo, la empresa crea valor; si es negativo, destruye valor aunque tenga utilidades contables.</p>
+  </div>
+
+  <p class="parrafo">Esta distinción es fundamental: una empresa puede reportar utilidades en su estado de resultados y al mismo tiempo <em>destruir valor</em> si esas utilidades no compensan el costo de todo el capital empleado. La contabilidad financiera tradicional no revela esto; el EVA sí.</p>
+
+  <h3 class="subtitulo">Fórmula del EVA</h3>
+
+  <div class="caja-formula">
+    EVA = NOPAT − (Capital Invertido × WACC)
+    <span>Donde: NOPAT = Utilidad Operativa × (1 − Tasa de Impuesto a la Renta) | WACC = Costo Promedio Ponderado de Capital</span>
+  </div>
+
+  <p class="parrafo">Desglosando cada componente:</p>
+  <ul style="padding-left:22px; line-height:1.8; font-size:0.96rem; margin-bottom:16px;">
+    <li><strong>NOPAT (Net Operating Profit After Taxes):</strong> es la utilidad operativa de la empresa una vez descontado el impuesto a la renta. En Ecuador, la tasa del impuesto a la renta para sociedades es del <strong>25%</strong> (LORTI, Art. 37).</li>
+    <li><strong>Capital Invertido:</strong> es la suma de todo el capital que los inversionistas (accionistas y acreedores) han puesto a disposición de la empresa para financiar sus operaciones. Incluye capital propio + deuda financiera.</li>
+    <li><strong>WACC (Weighted Average Cost of Capital / Costo Promedio Ponderado de Capital):</strong> es la tasa de retorno mínima que exigen quienes financian la empresa, ponderada según la proporción de cada fuente. Si el WACC es del 14%, cada dólar invertido debe rendir al menos el 14% para no destruir valor.</li>
+  </ul>
+
+  <h3 class="subtitulo">El WACC: costo de cada fuente de capital</h3>
+  <p class="parrafo">El WACC integra dos grandes fuentes de financiamiento:</p>
+  <div class="caja-ejemplo">
+    <h4>📐 Fórmula del WACC</h4>
+    <p><strong>WACC = [Kd × (1 − T) × (D/V)] + [Ke × (E/V)]</strong></p>
+    <ul>
+      <li><strong>Kd:</strong> costo de la deuda (tasa de interés del préstamo)</li>
+      <li><strong>T:</strong> tasa de impuesto a la renta (25% en Ecuador)</li>
+      <li><strong>D/V:</strong> proporción de deuda sobre el valor total del capital</li>
+      <li><strong>Ke:</strong> costo del capital propio (retorno exigido por los accionistas)</li>
+      <li><strong>E/V:</strong> proporción del capital propio sobre el valor total</li>
+    </ul>
+    <p style="margin-top:8px;">Nota: el factor (1 − T) en la deuda refleja el <strong>escudo fiscal</strong>: los intereses son deducibles de impuestos, lo que reduce su costo real.</p>
+  </div>
+
+  <h3 class="subtitulo">Caso práctico: SEGURECUADOR S.A.</h3>
+  <div class="caja-ejemplo">
+    <h4>🛡️ Ejercicio resuelto — SEGURECUADOR S.A. (Enero–Diciembre 2025)</h4>
+    <p>La empresa presenta los siguientes datos:</p>
+    <table class="tabla-ej">
+      <thead><tr><th>Dato</th><th>Valor</th></tr></thead>
+      <tbody>
+        <tr><td>Utilidad Operativa (EBIT)</td><td>$142,000</td></tr>
+        <tr><td>Tasa Impuesto a la Renta (Ecuador)</td><td>25%</td></tr>
+        <tr><td>NOPAT = 142,000 × (1 − 0.25)</td><td>$106,500</td></tr>
+        <tr><td>Capital Propio aportado</td><td>$420,000</td></tr>
+        <tr><td>Deuda financiera total</td><td>$180,000</td></tr>
+        <tr><td>Capital Invertido Total</td><td>$600,000</td></tr>
+        <tr><td>Costo deuda (Kd)</td><td>11% anual</td></tr>
+        <tr><td>Costo capital propio (Ke)</td><td>18% anual</td></tr>
+        <tr><td>D/V = 180,000/600,000</td><td>30%</td></tr>
+        <tr><td>E/V = 420,000/600,000</td><td>70%</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:12px;"><strong>Paso 1 — Calcular el WACC:</strong></p>
+    <p>WACC = [11% × (1 − 0.25) × 0.30] + [18% × 0.70]</p>
+    <p>WACC = [11% × 0.75 × 0.30] + [12.60%]</p>
+    <p>WACC = [2.475%] + [12.60%] = <strong>15.075%</strong></p>
+    <p style="margin-top:10px;"><strong>Paso 2 — Calcular el Cargo por Capital:</strong></p>
+    <p>Cargo por Capital = $600,000 × 15.075% = <strong>$90,450</strong></p>
+    <p style="margin-top:10px;"><strong>Paso 3 — Calcular el EVA:</strong></p>
+    <p>EVA = $106,500 − $90,450 = <strong>$16,050 positivo ✅</strong></p>
+    <p style="margin-top:10px; background:#d1fae5; padding:10px; border-radius:8px; color:#065f46; font-weight:600;">Interpretación: SEGURECUADOR S.A. creó valor por $16,050 en el año. El negocio no solo cubrió sus costos contables sino que también generó un retorno superior al exigido por todos sus financiadores. Cada dólar invertido rindió más de lo requerido.</p>
+  </div>
+
+  <h3 class="subtitulo">Interpretación del EVA</h3>
+  <div class="caja-def">
+    <h4>📊 Los tres escenarios del EVA</h4>
+    <p><strong>EVA positivo (EVA &gt; 0):</strong> La empresa crea valor. Las operaciones rinden más que el costo de todo el capital. Los accionistas y acreedores están "ganando" en términos reales.</p>
+    <p style="margin-top:8px;"><strong>EVA igual a cero (EVA = 0):</strong> La empresa está en el punto de equilibrio económico. Cubre exactamente el costo del capital pero no genera riqueza adicional.</p>
+    <p style="margin-top:8px;"><strong>EVA negativo (EVA &lt; 0):</strong> La empresa destruye valor aunque tenga utilidad contable. Significa que el capital estaría mejor invertido en otra alternativa (depósito a plazo, otro negocio). Esto es una señal de alerta gerencial urgente.</p>
+  </div>
+
+  <div class="caja-clave">
+    <h4>💡 Idea Clave del EVA</h4>
+    <p>El EVA responde la pregunta que la utilidad contable no puede: <em>"¿Nuestras operaciones generan valor suficiente para justificar el capital que usamos?"</em> Una empresa puede tener $80,000 de utilidad neta y aun así tener EVA negativo si los propietarios habrían ganado más en una inversión alternativa. El EVA conecta la gestión operativa con la creación real de riqueza, unificando el interés de la gerencia con el de los accionistas.</p>
+  </div>
+</div>
+
+<!-- ════════════════════ TEMA 2: VAN y TIR ════════════════════ -->
+<div class="tab-content" id="tema2">
+  <h2 class="titulo-tab">📌 Tema 2: Evaluación de Proyectos — VAN y TIR</h2>
+
+  <h3 class="subtitulo">¿Qué es la evaluación de proyectos de inversión?</h3>
+  <p class="parrafo">Cuando SEGURECUADOR S.A. estudia instalar un nuevo sistema de monitoreo CCTV, adquirir una flota de vehículos o abrir una nueva sucursal, está ante una <strong>decisión de inversión de capital</strong>: comprometer recursos hoy para obtener beneficios en el futuro. La <strong>evaluación de proyectos de inversión</strong> es el conjunto de herramientas financieras que ayudan a determinar si vale la pena realizar esa inversión.</p>
+
+  <div class="caja-def">
+    <h4>📖 Principio fundamental: el valor del dinero en el tiempo</h4>
+    <p>Un dólar hoy vale más que un dólar en el futuro, porque el dólar de hoy puede invertirse y generar rendimiento. Por eso, para comparar flujos de efectivo que ocurren en distintos momentos, debemos <strong>traerlos al presente</strong> usando una tasa de descuento, que es precisamente el WACC o la tasa de retorno mínima exigida por los inversionistas.</p>
+  </div>
+
+  <h3 class="subtitulo">Valor Actual Neto (VAN)</h3>
+  <p class="parrafo">El <strong>Valor Actual Neto (VAN)</strong> —también llamado Valor Presente Neto (VPN)— es la suma de todos los flujos de efectivo futuros de un proyecto, traídos al presente (descontados) a la tasa de descuento apropiada, menos la inversión inicial. Mide el enriquecimiento neto que produce el proyecto en términos de dinero de hoy.</p>
+
+  <div class="caja-formula">
+    VAN = −Inversión Inicial + Σ [Flujo de Caja del Año t / (1 + r)ᵗ]
+    <span>Donde: r = tasa de descuento (WACC o tasa exigida) | t = año del flujo | Σ = suma de todos los períodos</span>
+  </div>
+
+  <div class="caja-def">
+    <h4>📊 Regla de decisión del VAN</h4>
+    <p><strong>VAN &gt; 0:</strong> el proyecto crea valor → se acepta.</p>
+    <p><strong>VAN = 0:</strong> el proyecto cubre exactamente el costo del capital → indiferente.</p>
+    <p><strong>VAN &lt; 0:</strong> el proyecto destruye valor → se rechaza.</p>
+    <p style="margin-top:8px;">Cuando se comparan dos proyectos mutuamente excluyentes, se elige el que tenga mayor VAN positivo.</p>
+  </div>
+
+  <h3 class="subtitulo">Tasa Interna de Retorno (TIR)</h3>
+  <p class="parrafo">La <strong>Tasa Interna de Retorno (TIR)</strong> es la tasa de descuento que hace que el VAN del proyecto sea exactamente igual a cero. En otras palabras, es el rendimiento porcentual real que genera el proyecto sobre el capital invertido.</p>
+
+  <div class="caja-formula">
+    TIR es la tasa "r" tal que: −I₀ + Σ [FCt / (1 + TIR)ᵗ] = 0
+    <span>En la práctica se calcula con la función TIR() de Excel o con tablas de valor presente.</span>
+  </div>
+
+  <div class="caja-def">
+    <h4>📊 Regla de decisión de la TIR</h4>
+    <p><strong>TIR &gt; WACC (o tasa exigida):</strong> el proyecto rinde más que su costo de capital → se acepta.</p>
+    <p><strong>TIR = WACC:</strong> el proyecto apenas cubre su costo → indiferente.</p>
+    <p><strong>TIR &lt; WACC:</strong> el proyecto rinde menos que lo que cuesta financiarlo → se rechaza.</p>
+  </div>
+
+  <h3 class="subtitulo">VAN vs. TIR: ¿cuál usar?</h3>
+  <p class="parrafo">Ambos métodos son complementarios, pero tienen diferencias importantes que el contador gerencial debe conocer:</p>
+  <table class="tabla-ej">
+    <thead><tr><th>Aspecto</th><th>VAN</th><th>TIR</th></tr></thead>
+    <tbody>
+      <tr><td>¿Qué mide?</td><td>Valor creado en dólares absolutos</td><td>Rendimiento porcentual del proyecto</td></tr>
+      <tr><td>¿Cuándo se usa?</td><td>Siempre; especialmente para proyectos de distinto tamaño</td><td>Para comunicar retorno de forma intuitiva a directivos</td></tr>
+      <tr><td>Conflictos posibles</td><td>No tiene conflictos metodológicos</td><td>Puede dar resultados múltiples si los flujos cambian de signo</td></tr>
+      <tr><td>Recomendación teórica</td><td>Preferido por la teoría financiera</td><td>Complementario; no debe usarse solo</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="subtitulo">Caso práctico: SEGURECUADOR S.A. — Proyecto de Monitoreo CCTV</h3>
+  <div class="caja-ejemplo">
+    <h4>🛡️ Proyecto: Instalación de 50 cámaras de monitoreo en Guayaquil</h4>
+    <p>Datos del proyecto:</p>
+    <ul>
+      <li>Inversión inicial: <strong>$80,000</strong></li>
+      <li>Duración: 5 años</li>
+      <li>Tasa de descuento (WACC): <strong>15%</strong></li>
+    </ul>
+    <table class="tabla-ej" style="margin-top:12px;">
+      <thead><tr><th>Año</th><th>Flujo de Caja (FC)</th><th>Factor descuento 15%</th><th>Valor Actual</th></tr></thead>
+      <tbody>
+        <tr><td>0 (hoy)</td><td>−$80,000</td><td>1.0000</td><td>−$80,000</td></tr>
+        <tr><td>1</td><td>$22,000</td><td>0.8696</td><td>$19,130</td></tr>
+        <tr><td>2</td><td>$25,000</td><td>0.7561</td><td>$18,903</td></tr>
+        <tr><td>3</td><td>$28,000</td><td>0.6575</td><td>$18,410</td></tr>
+        <tr><td>4</td><td>$28,000</td><td>0.5718</td><td>$16,010</td></tr>
+        <tr><td>5</td><td>$30,000</td><td>0.4972</td><td>$14,916</td></tr>
+        <tr class="total-row"><td>VAN</td><td></td><td></td><td>$7,369 ✅</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:10px;"><strong>TIR del proyecto:</strong> aproximadamente <strong>18.4%</strong></p>
+    <p style="margin-top:8px; background:#d1fae5; padding:10px; border-radius:8px; color:#065f46; font-weight:600;">
+      Interpretación: El VAN es positivo ($7,369), lo que significa que el proyecto crea valor para SEGURECUADOR. La TIR del 18.4% supera el WACC del 15%, confirmando que el retorno del proyecto excede el costo de financiarlo. <strong>Decisión: ACEPTAR el proyecto.</strong>
+    </p>
+  </div>
+
+  <div class="caja-clave">
+    <h4>💡 Idea Clave — VAN y TIR</h4>
+    <p>El VAN es el método más robusto porque mide el valor creado en términos absolutos y en la misma unidad que el dinero. La TIR es útil para comunicar el retorno de forma porcentual, pero siempre debe compararse con el WACC. En Ecuador, tanto la Corporación Financiera Nacional (CFN) como el Banco de Desarrollo del Ecuador (BDE) exigen cálculos de VAN y TIR para aprobar créditos productivos. Para SEGURECUADOR, estos indicadores son clave para justificar inversiones en activos tecnológicos ante la junta directiva y posibles inversionistas.</p>
+  </div>
+</div>
+
+<!-- ════════════════════ TEMA 3: PAYBACK ════════════════════ -->
+<div class="tab-content" id="tema3">
+  <h2 class="titulo-tab">📌 Tema 3: Período de Recuperación (Payback)</h2>
+
+  <h3 class="subtitulo">¿Qué es el Período de Recuperación?</h3>
+  <p class="parrafo">El <strong>Período de Recuperación</strong> (en inglés: <em>Payback Period</em>) es el tiempo que tarda un proyecto en recuperar la inversión inicial mediante sus flujos de efectivo netos acumulados. Es la herramienta más sencilla e intuitiva para evaluar proyectos y responde directamente a la pregunta: <em>"¿En cuántos años recupero lo que invertí?"</em></p>
+
+  <div class="caja-def">
+    <h4>📖 Tipos de Payback</h4>
+    <p><strong>Payback Simple:</strong> suma los flujos de caja sin descontar hasta que la suma iguala la inversión. No considera el valor del dinero en el tiempo.</p>
+    <p style="margin-top:8px;"><strong>Payback Descontado:</strong> suma los flujos de caja traídos al presente (descontados al WACC) hasta recuperar la inversión. Más preciso porque sí incorpora el valor del dinero en el tiempo.</p>
+  </div>
+
+  <div class="caja-formula">
+    Payback Simple: Año en que la suma acumulada de FC supera la Inversión Inicial
+    <span>Cuando los flujos son constantes: Payback = Inversión Inicial / Flujo Anual Promedio</span>
+  </div>
+
+  <h3 class="subtitulo">Caso práctico: SEGURECUADOR S.A. — Cálculo del Payback</h3>
+  <div class="caja-ejemplo">
+    <h4>🛡️ Recuperación del Proyecto de Monitoreo CCTV</h4>
+    <table class="tabla-ej">
+      <thead><tr><th>Año</th><th>FC Anual</th><th>FC Acumulado (simple)</th><th>VA Anual (15%)</th><th>VA Acumulado (descontado)</th></tr></thead>
+      <tbody>
+        <tr><td>0</td><td>−$80,000</td><td>−$80,000</td><td>−$80,000</td><td>−$80,000</td></tr>
+        <tr><td>1</td><td>$22,000</td><td>−$58,000</td><td>$19,130</td><td>−$60,870</td></tr>
+        <tr><td>2</td><td>$25,000</td><td>−$33,000</td><td>$18,903</td><td>−$41,967</td></tr>
+        <tr><td>3</td><td>$28,000</td><td>−$5,000</td><td>$18,410</td><td>−$23,557</td></tr>
+        <tr><td>4</td><td>$28,000</td><td>$23,000 ✅</td><td>$16,010</td><td>−$7,547</td></tr>
+        <tr><td>5</td><td>$30,000</td><td>$53,000</td><td>$14,916</td><td>$7,369 ✅</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:12px;"><strong>Payback Simple:</strong> la inversión se recupera entre el año 3 y el año 4. Más precisamente: al final del año 3 faltaban $5,000 de recuperar, y el año 4 genera $28,000. Por tanto: 3 + (5,000/28,000) ≈ <strong>3.18 años</strong> (aproximadamente 3 años y 2 meses).</p>
+    <p style="margin-top:8px;"><strong>Payback Descontado:</strong> la inversión se recupera entre el año 4 y el año 5. Más precisamente: al final del año 4 faltaban $7,547, y el año 5 aporta $14,916 en VA. Por tanto: 4 + (7,547/14,916) ≈ <strong>4.51 años</strong> (aproximadamente 4 años y 6 meses).</p>
+  </div>
+
+  <h3 class="subtitulo">Ventajas y limitaciones del Payback</h3>
+  <table class="tabla-ej">
+    <thead><tr><th>Ventajas</th><th>Limitaciones</th></tr></thead>
+    <tbody>
+      <tr><td>Fácil de calcular e interpretar</td><td>No considera lo que ocurre después del período de recuperación</td></tr>
+      <tr><td>Mide el riesgo de liquidez: proyectos más rápidos son menos riesgosos</td><td>El Payback simple ignora el valor del dinero en el tiempo</td></tr>
+      <tr><td>Útil para decisiones rápidas en ambientes inciertos</td><td>No mide rentabilidad, solo recuperación de capital</td></tr>
+      <tr><td>Preferido por pequeñas y medianas empresas en Ecuador</td><td>Puede llevar a rechazar proyectos muy rentables de largo plazo</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja-clave">
+    <h4>💡 Idea Clave — Payback</h4>
+    <p>El Payback es una herramienta complementaria, no sustituta del VAN. En SEGURECUADOR, si la empresa depende de un crédito bancario a 3 años para financiar el CCTV, un Payback de 3.18 años indica que apenas recuperará la inversión cuando venza el crédito. Esto puede ser un indicador de riesgo de liquidez. Sin embargo, el VAN positivo asegura que el proyecto crea valor en el horizonte de 5 años. Un buen contador gerencial usa todas las herramientas juntas para dar un consejo completo a la gerencia.</p>
+  </div>
+</div>
+
+<!-- ════════════════════ TEMA 4: DEUDA VS. CAPITAL ════════════════════ -->
+<div class="tab-content" id="tema4">
+  <h2 class="titulo-tab">📌 Tema 4: Decisiones de Financiamiento — Deuda Propia vs. Capital Externo</h2>
+
+  <h3 class="subtitulo">¿Qué son las fuentes de financiamiento?</h3>
+  <p class="parrafo">Cuando una empresa decide realizar una inversión, necesita obtener los recursos financieros para hacerlo. Existen dos grandes fuentes: el <strong>capital propio</strong> (recursos de los accionistas o dueños, también llamado patrimonio) y el <strong>capital ajeno</strong> o deuda (recursos prestados por bancos, cooperativas u otros acreedores). La decisión sobre cómo combinar estas fuentes se denomina <strong>estructura de capital</strong> o <strong>estructura financiera</strong>.</p>
+
+  <div class="caja-def">
+    <h4>📖 Las dos grandes fuentes de financiamiento</h4>
+    <p><strong>Capital propio (patrimonio):</strong> aportaciones de los accionistas o dueños del negocio. Incluye capital social inicial, reservas acumuladas y utilidades no distribuidas. Su costo es el retorno que los accionistas exigen (Ke), que generalmente es mayor que el de la deuda porque asumen más riesgo.</p>
+    <p style="margin-top:8px;"><strong>Deuda externa (financiamiento bancario):</strong> préstamos de bancos, cooperativas de ahorro y crédito, CFN (Corporación Financiera Nacional), BDE (Banco de Desarrollo del Ecuador). Su costo es la tasa de interés pactada, que tiene un beneficio fiscal: los intereses son deducibles del impuesto a la renta (escudo fiscal).</p>
+  </div>
+
+  <h3 class="subtitulo">Comparación de fuentes de financiamiento en Ecuador</h3>
+  <table class="tabla-ej">
+    <thead><tr><th>Característica</th><th>Capital Propio</th><th>Deuda Bancaria</th></tr></thead>
+    <tbody>
+      <tr><td>Costo explícito</td><td>Dividendos o utilidades retenidas</td><td>Intereses (tasa activa)</td></tr>
+      <tr><td>Costo implícito</td><td>Alto: los accionistas asumen todo el riesgo</td><td>Menor por escudo fiscal</td></tr>
+      <tr><td>Escudo fiscal</td><td>No aplica</td><td>Sí: intereses deducibles (IR 25%)</td></tr>
+      <tr><td>Exigibilidad</td><td>No hay obligación de devolución</td><td>Cuotas fijas en fechas establecidas</td></tr>
+      <tr><td>Riesgo para la empresa</td><td>Bajo: no genera obligaciones fijas</td><td>Medio–alto: genera obligaciones de pago</td></tr>
+      <tr><td>Control del negocio</td><td>Se comparte con nuevos socios</td><td>No afecta la propiedad</td></tr>
+      <tr><td>Efecto sobre el WACC</td><td>Lo incrementa (Ke &gt; Kd)</td><td>Lo reduce (si bien utilizado)</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="subtitulo">Apalancamiento financiero: el poder (y riesgo) de la deuda</h3>
+  <p class="parrafo">El <strong>apalancamiento financiero</strong> es el uso estratégico de la deuda para amplificar el rendimiento sobre el capital propio. Cuando el rendimiento de los activos supera el costo de la deuda, el apalancamiento multiplica las ganancias de los accionistas. Cuando es a la inversa, amplifica las pérdidas.</p>
+
+  <div class="caja-ejemplo">
+    <h4>🛡️ Ejemplo: dos escenarios de financiamiento para SEGURECUADOR</h4>
+    <p>Ambos escenarios invierten $200,000 en la expansión al norte de Guayaquil, con una UAII (Utilidad Antes de Intereses e Impuestos) proyectada de $40,000:</p>
+    <table class="tabla-ej">
+      <thead><tr><th>Concepto</th><th>Escenario A: 100% propio</th><th>Escenario B: 50% deuda al 11%</th></tr></thead>
+      <tbody>
+        <tr><td>Inversión Total</td><td>$200,000</td><td>$200,000</td></tr>
+        <tr><td>Capital Propio</td><td>$200,000</td><td>$100,000</td></tr>
+        <tr><td>Deuda (al 11% anual)</td><td>$0</td><td>$100,000</td></tr>
+        <tr><td>UAII proyectada</td><td>$40,000</td><td>$40,000</td></tr>
+        <tr><td>Intereses (11% × $100,000)</td><td>$0</td><td>$11,000</td></tr>
+        <tr><td>UAI (antes de impuestos)</td><td>$40,000</td><td>$29,000</td></tr>
+        <tr><td>Impuesto a la Renta (25%)</td><td>$10,000</td><td>$7,250</td></tr>
+        <tr><td>Utilidad Neta</td><td>$30,000</td><td>$21,750</td></tr>
+        <tr class="total-row"><td>ROE (Utilidad Neta / Capital Propio)</td><td>15.0%</td><td>21.75%</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:10px; background:#fef3c7; padding:10px; border-radius:8px; color:#78350f;">
+      Aunque la utilidad neta es menor en el Escenario B, el ROE (Retorno sobre el capital propio) es <strong>mayor</strong> porque se invirtió menos capital propio. Este es el efecto positivo del apalancamiento. Sin embargo, si la UAII cae por debajo de $11,000, la empresa no puede pagar los intereses y enfrenta riesgo de insolvencia.
+    </p>
+  </div>
+
+  <h3 class="subtitulo">Principales fuentes de crédito en Ecuador para empresas de seguridad</h3>
+  <div class="caja-def">
+    <h4>🏦 Instituciones financieras relevantes en Ecuador</h4>
+    <p><strong>Banco Pichincha / Banco Guayaquil / Produbanco:</strong> créditos productivos PYMES con tasas entre el 9.76% y 11.83% (tasa activa referencial, BCE 2025), plazos hasta 5 años.</p>
+    <p style="margin-top:6px;"><strong>BanEcuador B.P.:</strong> crédito productivo para pequeñas empresas, tasas preferenciales desde 9.76%, plazos hasta 10 años para activos fijos.</p>
+    <p style="margin-top:6px;"><strong>Corporación Financiera Nacional (CFN):</strong> financia hasta el 70% de proyectos de inversión con tasas desde 8.99% para medianas empresas. Requiere VAN y TIR del proyecto.</p>
+    <p style="margin-top:6px;"><strong>Cooperativas de Ahorro y Crédito (COAC):</strong> plazos menores, tasas entre el 12% y 16%, apropiadas para necesidades de capital de trabajo.</p>
+  </div>
+
+  <div class="caja-clave">
+    <h4>💡 Idea Clave — Estructura de Capital</h4>
+    <p>No existe una regla única sobre cuánta deuda es la correcta. La teoría financiera sugiere que existe una <strong>estructura óptima de capital</strong> que minimiza el WACC y por tanto maximiza el EVA y el valor de la empresa. Para SEGURECUADOR, una mezcla aproximada de 30–40% de deuda y 60–70% de capital propio podría ofrecer el balance entre el beneficio del escudo fiscal y el control del riesgo financiero. El contador gerencial debe modelar diferentes escenarios de deuda/patrimonio y presentar sus efectos sobre el WACC, el EVA y el flujo de caja libre antes de que la gerencia tome la decisión de financiamiento.</p>
+  </div>
+</div>
+
+<!-- ════════════════════ EJERCICIO INTERACTIVO ════════════════════ -->
+<div class="tab-content" id="ejercicio">
+  <h2 class="titulo-tab">✏️ Ejercicio Interactivo — Clasificar y Analizar</h2>
+  <p class="parrafo">Responde todas las preguntas sobre SEGURECUADOR S.A. antes de presionar <strong>Verificar</strong>. Recibirás retroalimentación detallada por cada ítem.</p>
+
+  <div class="ejercicio-card">
+
+    <!-- Ítem 1 -->
+    <div class="item-pregunta" id="ei-wrap-1">
+      <p>1. SEGURECUADOR S.A. tiene una utilidad operativa de $90,000, una tasa de impuesto a la renta del 25% y un capital invertido de $500,000 con un WACC del 16%. ¿Cuál es su EVA?</p>
+      <div class="opciones">
+        <label class="opcion-label"><input type="radio" name="ei1" value="a"> a) $67,500</label>
+        <label class="opcion-label"><input type="radio" name="ei1" value="b"> b) −$12,500</label>
+        <label class="opcion-label"><input type="radio" name="ei1" value="c"> c) $2,500</label>
+        <label class="opcion-label"><input type="radio" name="ei1" value="d"> d) $90,000</label>
+      </div>
+      <div class="feedback-item" id="ei-fb-1"></div>
+    </div>
+
+    <!-- Ítem 2 -->
+    <div class="item-pregunta" id="ei-wrap-2">
+      <p>2. Un EVA negativo en una empresa de seguridad privada indica que:</p>
+      <div class="opciones">
+        <label class="opcion-label"><input type="radio" name="ei2" value="a"> a) La empresa tiene pérdidas contables ese año.</label>
+        <label class="opcion-label"><input type="radio" name="ei2" value="b"> b) La empresa crea valor pero a un ritmo lento.</label>
+        <label class="opcion-label"><input type="radio" name="ei2" value="c"> c) El rendimiento de las operaciones no cubre el costo total del capital invertido.</label>
+        <label class="opcion-label"><input type="radio" name="ei2" value="d"> d) Los socios deben retirar su inversión inmediatamente.</label>
+      </div>
+      <div class="feedback-item" id="ei-fb-2"></div>
+    </div>
+
+    <!-- Ítem 3 -->
+    <div class="item-pregunta" id="ei-wrap-3">
+      <p>3. Un proyecto de SEGURECUADOR requiere una inversión de $50,000 y genera flujos de caja anuales de $15,000 durante 4 años. Con una tasa de descuento del 12%, el Valor Actual Neto (VAN) es aproximadamente:</p>
+      <div class="opciones">
+        <label class="opcion-label"><input type="radio" name="ei3" value="a"> a) $10,000 positivo</label>
+        <label class="opcion-label"><input type="radio" name="ei3" value="b"> b) −$4,420</label>
+        <label class="opcion-label"><input type="radio" name="ei3" value="c"> c) $0 exactamente</label>
+        <label class="opcion-label"><input type="radio" name="ei3" value="d"> d) $60,000</label>
+      </div>
+      <div class="feedback-item" id="ei-fb-3"></div>
+    </div>
+
+    <!-- Ítem 4 -->
+    <div class="item-pregunta" id="ei-wrap-4">
+      <p>4. La Tasa Interna de Retorno (TIR) de un proyecto es del 17%. El WACC de SEGURECUADOR es del 15%. ¿Qué decisión corresponde tomar?</p>
+      <div class="opciones">
+        <label class="opcion-label"><input type="radio" name="ei4" value="a"> a) Rechazar el proyecto porque la TIR supera al WACC.</label>
+        <label class="opcion-label"><input type="radio" name="ei4" value="b"> b) Aceptar el proyecto porque la TIR supera al WACC.</label>
+        <label class="opcion-label"><input type="radio" name="ei4" value="c"> c) Pedir más información; la TIR no es suficiente.</label>
+        <label class="opcion-label"><input type="radio" name="ei4" value="d"> d) Rechazar el proyecto porque la TIR es mayor que 15%.</label>
+      </div>
+      <div class="feedback-item" id="ei-fb-4"></div>
+    </div>
+
+    <!-- Ítem 5 -->
+    <div class="item-pregunta" id="ei-wrap-5">
+      <p>5. El Payback simple de un proyecto de $60,000 con flujos anuales iguales de $12,000 es:</p>
+      <div class="opciones">
+        <label class="opcion-label"><input type="radio" name="ei5" value="a"> a) 4 años</label>
+        <label class="opcion-label"><input type="radio" name="ei5" value="b"> b) 6 años</label>
+        <label class="opcion-label"><input type="radio" name="ei5" value="c"> c) 5 años</label>
+        <label class="opcion-label"><input type="radio" name="ei5" value="d"> d) 3 años</label>
+      </div>
+      <div class="feedback-item" id="ei-fb-5"></div>
+    </div>
+
+    <!-- Ítem 6 -->
+    <div class="item-pregunta" id="ei-wrap-6">
+      <p>6. ¿Cuál de las siguientes afirmaciones describe mejor el "escudo fiscal" de la deuda?</p>
+      <div class="opciones">
+        <label class="opcion-label"><input type="radio" name="ei6" value="a"> a) La deuda protege a la empresa del riesgo de mercado.</label>
+        <label class="opcion-label"><input type="radio" name="ei6" value="b"> b) Los intereses de la deuda son deducibles del impuesto a la renta, reduciendo el costo real de la deuda.</label>
+        <label class="opcion-label"><input type="radio" name="ei6" value="c"> c) El SRI exonera del impuesto a las empresas que tienen deuda bancaria.</label>
+        <label class="opcion-label"><input type="radio" name="ei6" value="d"> d) La deuda bancaria no tiene costo porque genera empleos.</label>
+      </div>
+      <div class="feedback-item" id="ei-fb-6"></div>
+    </div>
+
+    <!-- Ítem 7 -->
+    <div class="item-pregunta" id="ei-wrap-7">
+      <p>7. El WACC de SEGURECUADOR es del 14%. Esto significa que:</p>
+      <div class="opciones">
+        <label class="opcion-label"><input type="radio" name="ei7" value="a"> a) La empresa paga el 14% de interés por todos sus préstamos.</label>
+        <label class="opcion-label"><input type="radio" name="ei7" value="b"> b) El retorno mínimo promedio que deben rendir los activos para satisfacer a todos los financiadores es el 14%.</label>
+        <label class="opcion-label"><input type="radio" name="ei7" value="c"> c) Los accionistas exigen un retorno del 14% sobre sus utilidades retenidas.</label>
+        <label class="opcion-label"><input type="radio" name="ei7" value="d"> d) El EVA de la empresa es del 14%.</label>
+      </div>
+      <div class="feedback-item" id="ei-fb-7"></div>
+    </div>
+
+    <!-- Ítem 8 -->
+    <div class="item-pregunta" id="ei-wrap-8">
+      <p>8. ¿Cuál es la principal desventaja del Payback como método de evaluación de proyectos?</p>
+      <div class="opciones">
+        <label class="opcion-label"><input type="radio" name="ei8" value="a"> a) Es muy difícil de calcular y requiere software especializado.</label>
+        <label class="opcion-label"><input type="radio" name="ei8" value="b"> b) Ignora los flujos de caja que ocurren después de recuperar la inversión y no mide rentabilidad.</label>
+        <label class="opcion-label"><input type="radio" name="ei8" value="c"> c) Solo funciona con proyectos de manufactura, no de servicios.</label>
+        <label class="opcion-label"><input type="radio" name="ei8" value="d"> d) No puede calcularse cuando los flujos son distintos cada año.</label>
+      </div>
+      <div class="feedback-item" id="ei-fb-8"></div>
+    </div>
+
+  </div>
+
+  <div style="text-align:center; margin-top: 10px;">
+    <button class="btn-verificar" onclick="verificarEjercicio()">✅ Verificar respuestas</button>
+    <button class="btn-reiniciar" onclick="reiniciarEjercicio()">🔄 Reiniciar</button>
+  </div>
+  <div class="alerta-completa" id="alerta-ejercicio">⚠️ Por favor responde todas las preguntas antes de verificar.</div>
+
+  <div class="panel-resultado" id="panel-ejercicio">
+    <h3>📊 Resultados del Ejercicio</h3>
+    <div class="puntaje-grande" id="puntaje-ejercicio"></div>
+    <div class="barra-progreso-wrap"><div class="barra-progreso-fill" id="barra-ejercicio"></div></div>
+    <p class="mensaje-motivacional" id="mensaje-ejercicio"></p>
+  </div>
+</div>
+
+<!-- ════════════════════ CUESTIONARIO ════════════════════ -->
+<div class="tab-content" id="cuestionario">
+  <h2 class="titulo-tab">📝 Cuestionario — 10 Preguntas de Opción Múltiple</h2>
+  <p class="parrafo">Responde las 10 preguntas (7 teóricas + 3 de análisis de caso) y luego presiona <strong>Verificar Cuestionario</strong>.</p>
+
+  <div class="ejercicio-card">
+
+    <!-- Q1 Teórica -->
+    <div class="item-pregunta" id="qi-wrap-1">
+      <p>1. <span class="badge-tipo">[Teórica]</span> ¿Qué mide específicamente el EVA (Valor Económico Agregado)?</p>
+      <div class="opciones">
+        <label class="opcion-label"><input type="radio" name="qi1" value="a"> a) La utilidad contable después de impuestos.</label>
+        <label class="opcion-label"><input type="radio" name="qi1" value="b"> b) El excedente de la utilidad operativa neta sobre el costo de todo el capital invertido.</label>
+        <label class="opcion-label"><input type="radio" name="qi1" value="c"> c) El rendimiento sobre las ventas totales del período.</label>
+        <label class="opcion-label"><input type="radio" name="qi1" value="d"> d) La diferencia entre ingresos y costos variables.</label>
+      </div>
+      <div class="feedback-item" id="qi-fb-1"></div>
+    </div>
+
+    <!-- Q2 Teórica -->
+    <div class="item-pregunta" id="qi-wrap-2">
+      <p>2. <span class="badge-tipo">[Teórica]</span> En el cálculo del EVA, el NOPAT se obtiene como:</p>
+      <div class="opciones">
+        <label class="opcion-label"><input type="radio" name="qi2" value="a"> a) Ventas totales menos costos fijos.</label>
+        <label class="opcion-label"><input type="radio" name="qi2" value="b"> b) Utilidad neta después de dividendos.</label>
+        <label class="opcion-label"><input type="radio" name="qi2" value="c"> c) Utilidad operativa multiplicada por (1 − tasa de impuesto a la renta).</label>
+        <label class="opcion-label"><input type="radio" name="qi2" value="d"> d) Flujo de caja operativo antes de impuestos.</label>
+      </div>
+      <div class="feedback-item" id="qi-fb-2"></div>
+    </div>
+
+    <!-- Q3 Teórica -->
+    <div class="item-pregunta" id="qi-wrap-3">
+      <p>3. <span class="badge-tipo">[Teórica]</span> El Valor Actual Neto (VAN) positivo de un proyecto indica que:</p>
+      <div class="opciones">
+        <label class="opcion-label"><input type="radio" name="qi3" value="a"> a) Los flujos de caja futuros son mayores que la inversión inicial (sin descontar).</label>
+        <label class="opcion-label"><input type="radio" name="qi3" value="b"> b) El proyecto se recupera en menos de 1 año.</label>
+        <label class="opcion-label"><input type="radio" name="qi3" value="c"> c) La suma descontada de los flujos futuros supera la inversión inicial, creando valor para los inversionistas.</label>
+        <label class="opcion-label"><input type="radio" name="qi3" value="d"> d) El proyecto no tiene ningún riesgo financiero.</label>
+      </div>
+      <div class="feedback-item" id="qi-fb-3"></div>
+    </div>
+
+    <!-- Q4 Teórica -->
+    <div class="item-pregunta" id="qi-wrap-4">
+      <p>4. <span class="badge-tipo">[Teórica]</span> Si la TIR de un proyecto es inferior al WACC, la decisión correcta es:</p>
+      <div class="opciones">
+        <label class="opcion-label"><input type="radio" name="qi4" value="a"> a) Aceptar el proyecto porque la TIR siempre indica rentabilidad.</label>
+        <label class="opcion-label"><input type="radio" name="qi4" value="b"> b) Rechazar el proyecto porque no cubre el costo del capital.</label>
+        <label class="opcion-label"><input type="radio" name="qi4" value="c"> c) Aceptar el proyecto si tiene un Payback menor a 3 años.</label>
+        <label class="opcion-label"><input type="radio" name="qi4" value="d"> d) Ignorar la TIR y basarse solo en el Payback.</label>
+      </div>
+      <div class="feedback-item" id="qi-fb-4"></div>
+    </div>
+
+    <!-- Q5 Teórica -->
+    <div class="item-pregunta" id="qi-wrap-5">
+      <p>5. <span class="badge-tipo">[Teórica]</span> ¿Cuál es la diferencia fundamental entre el Payback simple y el Payback descontado?</p>
+      <div class="opciones">
+        <label class="opcion-label"><input type="radio" name="qi5" value="a"> a) El Payback simple incluye la depreciación y el descontado no.</label>
+        <label class="opcion-label"><input type="radio" name="qi5" value="b"> b) El Payback descontado trae los flujos futuros al valor presente antes de sumarlos; el simple no.</label>
+        <label class="opcion-label"><input type="radio" name="qi5" value="c"> c) El Payback descontado solo aplica a proyectos industriales.</label>
+        <label class="opcion-label"><input type="radio" name="qi5" value="d"> d) Ambos son idénticos cuando la tasa de descuento es el 10%.</label>
+      </div>
+      <div class="feedback-item" id="qi-fb-5"></div>
+    </div>
+
+    <!-- Q6 Teórica -->
+    <div class="item-pregunta" id="qi-wrap-6">
+      <p>6. <span class="badge-tipo">[Teórica]</span> El WACC (Costo Promedio Ponderado de Capital) incluye el factor (1 − T) aplicado al costo de la deuda porque:</p>
+      <div class="opciones">
+        <label class="opcion-label"><input type="radio" name="qi6" value="a"> a) Los bancos cobran un interés menor a las empresas que pagan impuestos.</label>
+        <label class="opcion-label"><input type="radio" name="qi6" value="b"> b) Los intereses pagados a deudores son deducibles del impuesto a la renta, reduciendo el costo efectivo de la deuda.</label>
+        <label class="opcion-label"><input type="radio" name="qi6" value="c"> c) El SRI exonera a las empresas del pago de intereses.</label>
+        <label class="opcion-label"><input type="radio" name="qi6" value="d"> d) El costo de la deuda es siempre nulo para empresas del sector servicios.</label>
+      </div>
+      <div class="feedback-item" id="qi-fb-6"></div>
+    </div>
+
+    <!-- Q7 Teórica -->
+    <div class="item-pregunta" id="qi-wrap-7">
+      <p>7. <span class="badge-tipo">[Teórica]</span> ¿Por qué el costo del capital propio (Ke) es generalmente mayor que el costo de la deuda (Kd)?</p>
+      <div class="opciones">
+        <label class="opcion-label"><input type="radio" name="qi7" value="a"> a) Porque los accionistas tienen garantías adicionales sobre los activos de la empresa.</label>
+        <label class="opcion-label"><input type="radio" name="qi7" value="b"> b) Porque los accionistas asumen mayor riesgo que los acreedores: cobran después de ellos y no tienen garantías contractuales de retorno.</label>
+        <label class="opcion-label"><input type="radio" name="qi7" value="c"> c) Porque el capital propio tiene escudo fiscal y la deuda no.</label>
+        <label class="opcion-label"><input type="radio" name="qi7" value="d"> d) Porque el Banco Central del Ecuador fija una tasa mínima para los accionistas.</label>
+      </div>
+      <div class="feedback-item" id="qi-fb-7"></div>
+    </div>
+
+    <!-- Q8 Análisis -->
+    <div class="item-pregunta" id="qi-wrap-8">
+      <p>8. <span class="badge-tipo badge-analisis">[Análisis]</span></p>
+      <div class="mini-caso">SEGURECUADOR S.A. evalúa dos proyectos mutuamente excluyentes:
+        Proyecto X: VAN = $18,000 | TIR = 22% | Payback = 3.5 años
+        Proyecto Y: VAN = $11,000 | TIR = 28% | Payback = 2.1 años
+        El WACC es del 15%.
+      </div>
+      <p>¿Cuál proyecto debería seleccionar la empresa si solo puede ejecutar uno?</p>
+      <div class="opciones">
+        <label class="opcion-label"><input type="radio" name="qi8" value="a"> a) Proyecto Y, porque tiene mayor TIR y menor Payback.</label>
+        <label class="opcion-label"><input type="radio" name="qi8" value="b"> b) Proyecto X, porque tiene mayor VAN y eso maximiza el valor creado para los accionistas.</label>
+        <label class="opcion-label"><input type="radio" name="qi8" value="c"> c) Ninguno, porque ambos tienen TIR mayor que el WACC.</label>
+        <label class="opcion-label"><input type="radio" name="qi8" value="d"> d) Proyecto Y, porque el VAN no es relevante cuando la TIR supera el WACC.</label>
+      </div>
+      <div class="feedback-item" id="qi-fb-8"></div>
+    </div>
+
+    <!-- Q9 Análisis -->
+    <div class="item-pregunta" id="qi-wrap-9">
+      <p>9. <span class="badge-tipo badge-analisis">[Análisis]</span></p>
+      <div class="mini-caso">SEGURECUADOR reporta: Utilidad Neta = $45,000 | Capital Invertido = $400,000 | WACC = 14%. Sin embargo, la Utilidad Operativa (EBIT) fue de $68,000 y la tasa de IR es del 25%.</div>
+      <p>¿Cuál es el EVA de la empresa ese período?</p>
+      <div class="opciones">
+        <label class="opcion-label"><input type="radio" name="qi9" value="a"> a) $45,000 − $56,000 = −$11,000</label>
+        <label class="opcion-label"><input type="radio" name="qi9" value="b"> b) $51,000 − $56,000 = −$5,000</label>
+        <label class="opcion-label"><input type="radio" name="qi9" value="c"> c) $68,000 × 0.75 = $51,000 → EVA = $51,000 − ($400,000 × 14%) = $51,000 − $56,000 = −$5,000</label>
+        <label class="opcion-label"><input type="radio" name="qi9" value="d"> d) EVA = $68,000 − $56,000 = $12,000</label>
+      </div>
+      <div class="feedback-item" id="qi-fb-9"></div>
+    </div>
+
+    <!-- Q10 Análisis -->
+    <div class="item-pregunta" id="qi-wrap-10">
+      <p>10. <span class="badge-tipo badge-analisis">[Análisis]</span></p>
+      <div class="mini-caso">El Sub-Gerente de SEGURECUADOR debe decidir cómo financiar la compra de $120,000 en vehículos blindados. Tiene dos opciones: (A) usar el 100% del capital reservado de los socios; (B) usar el 40% de capital propio ($48,000) y el 60% en crédito bancario a 11% anual ($72,000). La UAII proyectada es $30,000 y la tasa de IR es 25%.</div>
+      <p>Si el objetivo es maximizar el ROE (Retorno sobre Capital Propio) de los socios, ¿qué opción debería preferirse?</p>
+      <div class="opciones">
+        <label class="opcion-label"><input type="radio" name="qi10" value="a"> a) Opción A, porque no genera intereses y la utilidad neta será mayor.</label>
+        <label class="opcion-label"><input type="radio" name="qi10" value="b"> b) Opción B, porque aunque la utilidad neta es menor, el ROE sobre los $48,000 invertidos es mayor gracias al apalancamiento financiero.</label>
+        <label class="opcion-label"><input type="radio" name="qi10" value="c"> c) Opción A, porque el endeudamiento siempre destruye valor.</label>
+        <label class="opcion-label"><input type="radio" name="qi10" value="d"> d) Ambas opciones producen el mismo ROE.</label>
+      </div>
+      <div class="feedback-item" id="qi-fb-10"></div>
+    </div>
+
+  </div>
+
+  <div style="text-align:center; margin-top: 10px;">
+    <button class="btn-verificar" onclick="verificarCuestionario()">✅ Verificar Cuestionario</button>
+    <button class="btn-reiniciar" onclick="reiniciarCuestionario()">🔄 Reiniciar</button>
+  </div>
+  <div class="alerta-completa" id="alerta-cuestionario">⚠️ Debes responder las 10 preguntas antes de verificar.</div>
+
+  <div class="panel-resultado" id="panel-cuestionario">
+    <h3>📊 Resultados del Cuestionario</h3>
+    <div class="puntaje-grande" id="puntaje-cuestionario"></div>
+    <div class="barra-progreso-wrap"><div class="barra-progreso-fill" id="barra-cuestionario"></div></div>
+    <p class="mensaje-motivacional" id="mensaje-cuestionario"></p>
+  </div>
+</div>
+
+<!-- ════════════════════ ACTIVIDAD CON IA ════════════════════ -->
+<div class="tab-content" id="ia">
+  <h2 class="titulo-tab">🤖 Actividad con Inteligencia Artificial</h2>
+
+  <div class="caja-def">
+    <h4>🎯 Objetivo de la actividad</h4>
+    <p>Usar la IA como herramienta de análisis financiero para evaluar si SEGURECUADOR debería lanzar una nueva línea de servicio (consultoría en seguridad corporativa) y cómo financiarla, integrando EVA, VAN, TIR, Payback y decisiones de estructura de capital. No se trata de copiar la respuesta de la IA: se trata de <strong>leer críticamente su análisis, cuestionarlo y mejorarlo</strong> con tu juicio como estudiante de Contabilidad Gerencial.</p>
+  </div>
+
+  <h3 class="subtitulo">📌 Herramienta recomendada</h3>
+  <p class="parrafo">Se recomienda usar <strong>Claude (claude.ai)</strong> — acceso gratuito desde el navegador. También puedes usar ChatGPT, Gemini u otras IA disponibles. No necesitas crear cuenta en Claude para usar la versión básica.</p>
+
+  <h3 class="subtitulo">📋 Prompt exacto para copiar y pegar</h3>
+  <div class="ia-prompt-box">
+    <h4>Prompt para la IA:</h4>
+    <pre id="prompt-ia">Soy estudiante de Contabilidad Gerencial en Ecuador (5.º semestre, Universidad de Guayaquil). Estoy analizando el caso de SEGURECUADOR S.A., empresa de seguridad privada en Guayaquil que ofrece guardias, monitoreo CCTV y consultoría.
+
+La empresa estudia lanzar una nueva línea de consultoría en seguridad corporativa. Los datos proyectados son:
+- Inversión inicial: $95,000 (equipos, capacitación, software)
+- Flujos de caja esperados: Año 1: $18,000 | Año 2: $26,000 | Año 3: $32,000 | Año 4: $35,000 | Año 5: $38,000
+- WACC actual: 15% (capital propio 65%, deuda 35% al 11% anual, tasa IR 25%)
+- Capital invertido total de la empresa: $650,000
+- NOPAT actual: $87,750
+
+Por favor:
+1. Calcula el VAN del proyecto (tasa de descuento: 15%) y determina si se acepta o rechaza.
+2. Estima la TIR del proyecto y compárala con el WACC.
+3. Calcula el Payback simple e indica cuándo se recupera la inversión.
+4. Calcula el EVA actual de la empresa y explica su significado.
+5. Si la empresa financia el proyecto con 100% deuda al 11%, ¿cómo cambia el WACC? ¿Conviene endeudarse más?
+6. Da una recomendación integral para la Junta Directiva de SEGURECUADOR sobre si lanzar o no esta línea, considerando todos los indicadores.
+
+Responde en español, con cálculos detallados y justificación de cada conclusión.</pre>
+    <button class="btn-copiar" onclick="copiarPrompt()">📋 Copiar prompt</button>
+  </div>
+
+  <h3 class="subtitulo">📝 ¿Qué hacer con la respuesta de la IA?</h3>
+  <ol style="padding-left:22px; line-height:1.8; font-size:0.96rem;">
+    <li>Lee el análisis completo que genera la IA.</li>
+    <li><strong>Verifica los cálculos manualmente</strong> (al menos el VAN y el EVA) con los procedimientos aprendidos en este widget.</li>
+    <li>Identifica si la IA cometió algún error de cálculo o de interpretación.</li>
+    <li>Escribe un párrafo en el que estés de acuerdo o en desacuerdo con la recomendación de la IA para la Junta Directiva, fundamentando tu posición con los conceptos de EVA, VAN y estructura de capital.</li>
+  </ol>
+
+  <h3 class="subtitulo" style="margin-top:24px;">📊 Criterio de evaluación (para el docente)</h3>
+  <div class="caja-def">
+    <h4>Rúbrica de la actividad</h4>
+    <p><strong>Excelente (90–100%):</strong> Verifica al menos 3 cálculos de la IA, detecta errores si los hay, redacta un párrafo crítico fundamentado con al menos 2 conceptos del widget y propone una recomendación propia diferenciada.</p>
+    <p style="margin-top:6px;"><strong>Satisfactorio (70–89%):</strong> Verifica 1–2 cálculos, redacta un párrafo de opinión con algún concepto técnico, aunque sin profundidad crítica.</p>
+    <p style="margin-top:6px;"><strong>En desarrollo (50–69%):</strong> Solo describe la respuesta de la IA sin verificar ni cuestionar.</p>
+    <p style="margin-top:6px;"><strong>Insuficiente (&lt;50%):</strong> Copia la respuesta de la IA sin intervención propia.</p>
+  </div>
+
+  <div class="caja-clave">
+    <h4>💡 Recuerda</h4>
+    <p>Las IA pueden cometer errores en cálculos financieros, especialmente en TIR (que es iterativa) o en la interpretación del EVA negativo. Tu tarea como contador gerencial es <strong>ser el filtro crítico</strong> entre la herramienta y la decisión empresarial. Jamás presentar una recomendación a la gerencia sin verificar los números por tu cuenta.</p>
+  </div>
+</div>
+
+<!-- ════════════════════ PREGUNTAS REFLEXIVAS ════════════════════ -->
+<div class="tab-content" id="reflexivas">
+  <h2 class="titulo-tab">💭 Preguntas Reflexivas</h2>
+  <p class="parrafo">Estas preguntas no tienen respuestas correctas ni incorrectas. Están diseñadas para conectar los conceptos financieros con tu vida, tus decisiones cotidianas y tu inteligencia emocional. Reflexiona con honestidad.</p>
+
+  <div class="reflexiva-item">
+    <h4>🔍 1. ¿Has invertido tiempo o dinero en algo que no "rindió" lo esperado?</h4>
+    <p>Piensa en una decisión personal o familiar donde pusiste recursos (tiempo, dinero, esfuerzo) y el retorno no fue el esperado. ¿Qué habría pasado si hubieras aplicado antes la lógica del VAN? ¿Habrías tomado la misma decisión si hubieras calculado el "costo de oportunidad" de ese recurso?</p>
+  </div>
+
+  <div class="reflexiva-item">
+    <h4>💡 2. El EVA de tu vida personal</h4>
+    <p>Si aplicaras el concepto de EVA a tu semestre universitario: tu "inversión" es el tiempo, dinero (aranceles, transporte, libros) y esfuerzo dedicados; el "retorno" es el aprendizaje, competencias y oportunidades que generará tu título. ¿Tu inversión está creando "valor económico y personal"? ¿Hay semanas o materias con "EVA negativo"? ¿Qué podrías ajustar?</p>
+  </div>
+
+  <div class="reflexiva-item">
+    <h4>🏦 3. Deuda: ¿palanca o trampa?</h4>
+    <p>En Ecuador, el crédito de consumo (tarjetas de crédito, créditos en tiendas de electrodomésticos) tiene tasas de interés que pueden superar el 20% anual. Si tuvieras que aplicar la lógica del WACC a una compra personal financiada con tarjeta, ¿qué "tasa mínima de retorno" tendría que ofrecer esa compra para justificarla? ¿Cambiaría eso la forma en que decides tus gastos?</p>
+  </div>
+
+  <div class="reflexiva-item">
+    <h4>⏳ 4. El Payback de las decisiones de vida</h4>
+    <p>Muchos jóvenes en Ecuador se enfrentan a la decisión de estudiar vs. trabajar de inmediato. Desde la perspectiva del Payback, ¿cuántos años tardarías en "recuperar" la inversión de 5 años de carrera universitaria comparado con alguien que comenzó a trabajar directamente? ¿El Payback captura toda la realidad de esa decisión? ¿Qué otros factores —no financieros— importan?</p>
+  </div>
+
+  <div class="reflexiva-item">
+    <h4>🛡️ 5. Si fueras Sub-Gerente de SEGURECUADOR...</h4>
+    <p>Imagina que tu jefe te presenta un proyecto con VAN ligeramente negativo pero con enorme impacto social: contratar a 20 jóvenes del barrio como guardias y darles capacitación. Los números dicen "rechazar". ¿Qué harías? ¿Cómo equilibrarías la responsabilidad financiera con la responsabilidad social? ¿Existe alguna forma de reestructurar el proyecto para que cree valor tanto financiero como social?</p>
+  </div>
+
+  <div class="reflexiva-item">
+    <h4>🤔 6. El miedo al endeudamiento en Ecuador</h4>
+    <p>Muchas familias y pequeños empresarios ecuatorianos tienen un miedo profundo al crédito, quizás heredado de crisis económicas pasadas (la dolarización, el feriado bancario de 1999). ¿Es ese miedo racional? ¿Cuándo la deuda es una herramienta de crecimiento y cuándo es un peligro real? ¿Qué indicadores financieros te ayudarían a responder esa pregunta en un caso real?</p>
+  </div>
+</div>
+
+<!-- ════════════════════ BIBLIOGRAFÍA ════════════════════ -->
+<div class="tab-content" id="bibliografia">
+  <h2 class="titulo-tab">📚 Bibliografía</h2>
+
+  <div class="bib-item">Horngren, C. T., Sundem, G. L., Burgstahler, D., & Schatzberg, J. (2014). <em>Introduction to Management Accounting</em> (16.ª ed., Capítulos 10 y 11). Pearson Education. ISBN: 978-0-13-305878-9</div>
+
+  <div class="bib-item">Horngren, C. T., Datar, S. M., & Rajan, M. V. (2012). <em>Contabilidad de costos: Un enfoque gerencial</em> (14.ª ed., Capítulos 11 y 13). Pearson Educación. ISBN: 978-607-32-1024-9</div>
+
+  <div class="bib-item">Brealey, R. A., Myers, S. C., & Allen, F. (2020). <em>Principios de finanzas corporativas</em> (13.ª ed., Capítulos 5, 6 y 17). McGraw-Hill Education. ISBN: 978-1-260-01390-1</div>
+
+  <div class="bib-item">Ross, S. A., Westerfield, R. W., & Jordan, B. D. (2022). <em>Fundamentos de finanzas corporativas</em> (12.ª ed., Capítulos 8 y 9). McGraw-Hill Interamericana. ISBN: 978-1-264-10538-8</div>
+
+  <div class="bib-item">Stern, J. M., & Shiely, J. S. (2001). <em>The EVA Challenge: Implementing Value-Added Change in an Organization</em>. John Wiley & Sons. ISBN: 978-0-471-40555-1</div>
+
+  <div class="bib-item">Servicio de Rentas Internas del Ecuador (SRI). (2025). <em>Ley Orgánica de Régimen Tributario Interno (LORTI): Artículo 37 — Tarifa del Impuesto a la Renta para Sociedades</em>. Recuperado de https://www.sri.gob.ec/impuesto-a-la-renta</div>
+
+  <div class="bib-item">Banco Central del Ecuador (BCE). (2025). <em>Tasas de Interés Activas Referenciales por Segmento Crediticio</em>. Recuperado de https://www.bce.fin.ec/index.php/component/k2/item/216-tasas-de-interes</div>
+
+  <div class="bib-item">Corporación Financiera Nacional (CFN). (2025). <em>Líneas de Crédito para PYMES y Medianas Empresas</em>. Recuperado de https://www.cfn.fin.ec/credito/</div>
+
+  <div class="bib-nota">⚠️ <strong>Nota importante:</strong> Se recomienda verificar cada referencia en Google Scholar (<a href="https://scholar.google.com" target="_blank" rel="noopener">scholar.google.com</a>) o en el repositorio institucional de la Universidad de Guayaquil antes de citar en trabajos académicos. Las URLs de organismos públicos del Ecuador (SRI, BCE, CFN) pueden cambiar; use siempre la versión más reciente disponible en el sitio oficial correspondiente.</div>
+</div>
+
+<footer>
+  <p>Universidad de Guayaquil · Facultad de Ciencias Administrativas · Contabilidad Gerencial · Semana 14</p>
+  <p style="margin-top:4px; color:#5aaed4">Material de apoyo para aprendizaje virtual autónomo — Ciclo Marzo–Julio 2026</p>
+</footer>
+
+<script>
+// ─── NAVEGACIÓN DE TABS ──────────────────────────────────────────
+document.getElementById('tab-bar').addEventListener('click', function(e) {
+  const btn = e.target.closest('.tab-btn');
+  if (!btn) return;
+  const tabId = btn.getAttribute('data-tab');
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('activo'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('activo'));
+  btn.classList.add('activo');
+  document.getElementById(tabId).classList.add('activo');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// ─── DATOS DEL EJERCICIO ─────────────────────────────────────────
+// EVA = NOPAT - (Capital × WACC)
+// NOPAT = 90,000 × (1−0.25) = 67,500
+// Cargo capital = 500,000 × 0.16 = 80,000
+// EVA = 67,500 − 80,000 = −12,500
+// Ítem 3: VA = 15000×(1/1.12 + 1/1.12² + 1/1.12³ + 1/1.12⁴)
+// = 15000 × 3.0373 = 45,560 → VAN = 45,560 − 50,000 = −4,440 ≈ −4,420
+
+const ejercicioCorrects = { ei1:'b', ei2:'c', ei3:'b', ei4:'b', ei5:'c', ei6:'b', ei7:'b', ei8:'b' };
+const ejercicioFeedbacks = {
+  ei1: { b: '✅ Correcto. NOPAT = $90,000 × (1 − 0.25) = $67,500. Cargo capital = $500,000 × 16% = $80,000. EVA = $67,500 − $80,000 = −$12,500. El EVA es negativo: la empresa no cubre el costo total del capital a pesar de tener utilidad contable.', default: '❌ Incorrecto. Recuerda: EVA = NOPAT − (Capital × WACC). NOPAT = $90,000 × 0.75 = $67,500. Cargo = $500,000 × 0.16 = $80,000. EVA = −$12,500.' },
+  ei2: { c: '✅ Correcto. Un EVA negativo indica que el retorno operativo no cubre el costo de todo el capital (propio + deuda). La empresa puede tener utilidad contable y aun así destruir valor económico.', default: '❌ Incorrecto. Un EVA negativo no implica necesariamente pérdidas contables. Significa que la utilidad operativa neta es insuficiente para cubrir el costo del capital invertido.' },
+  ei3: { b: '✅ Correcto. VA de $15,000 durante 4 años al 12%: $15,000 × 3.0373 = $45,560. VAN = $45,560 − $50,000 ≈ −$4,440. El proyecto destruye valor: se rechaza.', default: '❌ Incorrecto. Usando la fórmula del valor presente: VA = $15,000 × [(1−(1.12)⁻⁴)/0.12] = $15,000 × 3.0373 ≈ $45,560. VAN = $45,560 − $50,000 ≈ −$4,420 (negativo).' },
+  ei4: { b: '✅ Correcto. Cuando la TIR (17%) supera el WACC (15%), el proyecto rinde más que su costo de capital. Regla fundamental: TIR > WACC → aceptar.', default: '❌ Incorrecto. La regla es: si TIR > WACC, el proyecto crea valor y debe aceptarse. Aquí TIR = 17% > WACC = 15%, por lo tanto se acepta.' },
+  ei5: { c: '✅ Correcto. Payback = Inversión / FC anual = $60,000 / $12,000 = 5 años exactos.', default: '❌ Incorrecto. Cuando los flujos son constantes: Payback = $60,000 / $12,000 = 5 años.' },
+  ei6: { b: '✅ Correcto. El escudo fiscal de la deuda surge porque los intereses pagados son gastos deducibles del impuesto a la renta. Si la tasa de IR es 25%, el costo efectivo de una deuda al 11% es 11% × (1 − 0.25) = 8.25%.', default: '❌ Incorrecto. El escudo fiscal significa que los intereses de la deuda se deducen del impuesto a la renta, reduciendo el costo real (efectivo después de impuestos) de financiarse con deuda.' },
+  ei7: { b: '✅ Correcto. El WACC es la tasa de retorno mínima promedio que deben generar los activos para satisfacer a todos los proveedores de capital (accionistas y acreedores), ponderada según la proporción de cada fuente.', default: '❌ Incorrecto. El WACC no es solo la tasa de interés bancaria. Es el costo promedio ponderado de todas las fuentes de financiamiento: deuda (Kd) y capital propio (Ke).' },
+  ei8: { b: '✅ Correcto. El Payback ignora lo que ocurre después de recuperar la inversión (puede haber grandes flujos en años posteriores) y no mide rentabilidad, solo tiempo de recuperación. Por eso siempre debe complementarse con el VAN.', default: '❌ Incorrecto. La principal limitación del Payback es que ignora los flujos posteriores al período de recuperación y no considera el valor del dinero en el tiempo (en su versión simple).' }
+};
+
+// ─── DATOS DEL CUESTIONARIO ──────────────────────────────────────
+const quizCorrects = { qi1:'b', qi2:'c', qi3:'c', qi4:'b', qi5:'b', qi6:'b', qi7:'b', qi8:'b', qi9:'c', qi10:'b' };
+const quizFeedbacks = {
+  qi1: { b: '✅ Correcto. El EVA mide el excedente de la utilidad operativa neta (NOPAT) sobre el cargo por el uso del capital invertido (Capital × WACC). Si es positivo, la empresa crea valor real para sus propietarios.', default: '❌ Incorrecto. El EVA no es simplemente la utilidad contable. Mide si el retorno operativo supera el costo de todo el capital (propio y ajeno). La fórmula es: EVA = NOPAT − (Capital Invertido × WACC).' },
+  qi2: { c: '✅ Correcto. NOPAT (Net Operating Profit After Taxes) = EBIT × (1 − tasa de impuesto). En Ecuador, con IR del 25%: NOPAT = EBIT × 0.75. Este cálculo elimina el efecto de la estructura de financiamiento para medir solo la eficiencia operativa.', default: '❌ Incorrecto. NOPAT se obtiene multiplicando la Utilidad Operativa (EBIT) por (1 − tasa de impuesto a la renta). No es lo mismo que la utilidad neta, que sí incluye los efectos del financiamiento.' },
+  qi3: { c: '✅ Correcto. Un VAN positivo significa que los flujos de caja futuros, traídos a valor presente usando la tasa de descuento (WACC), superan la inversión inicial. Es decir, el proyecto genera riqueza adicional en términos de dinero de hoy.', default: '❌ Incorrecto. Un VAN positivo no simplemente compara flujos nominales. Significa que la suma DESCONTADA de flujos futuros es mayor que la inversión, creando valor neto para los inversionistas.' },
+  qi4: { b: '✅ Correcto. Si TIR < WACC, el proyecto rinde menos que lo que cuesta financiarlo. Por tanto, destruye valor y debe rechazarse. Ejecutarlo reduciría la riqueza de los accionistas.', default: '❌ Incorrecto. La regla de la TIR es: si TIR < WACC → rechazar el proyecto, porque el rendimiento del proyecto no compensa el costo de financiarlo.' },
+  qi5: { b: '✅ Correcto. El Payback descontado trae cada flujo a valor presente antes de acumularlo, incorporando el valor del dinero en el tiempo. Por eso siempre es mayor que el Payback simple: reconoce que el dinero futuro vale menos que el de hoy.', default: '❌ Incorrecto. La diferencia clave es el tratamiento del valor del dinero en el tiempo. El Payback simple suma flujos nominales; el descontado suma flujos traídos al presente con la tasa de descuento.' },
+  qi6: { b: '✅ Correcto. Los intereses de la deuda son gastos deducibles del impuesto a la renta en Ecuador (LORTI, Art. 10). Esto reduce la base imponible y, por tanto, el impuesto pagado, haciendo que el costo real de la deuda sea Kd × (1 − T).', default: '❌ Incorrecto. El escudo fiscal de la deuda se origina porque los intereses son deducibles del impuesto a la renta, reduciendo el costo efectivo de financiarse con deuda externa.' },
+  qi7: { b: '✅ Correcto. Los accionistas asumen el riesgo residual: cobran después que los acreedores y no tienen garantía contractual de retorno. Por asumir más riesgo, exigen mayor compensación (Ke > Kd). Este es el principio de compensación riesgo-retorno.', default: '❌ Incorrecto. Los accionistas son los últimos en cobrar en caso de liquidación, no tienen garantías de dividendos y su capital no tiene fecha de devolución. Por ese mayor riesgo asumido, exigen mayor retorno que los acreedores.' },
+  qi8: { b: '✅ Correcto. Ante proyectos mutuamente excluyentes, la teoría financiera recomienda elegir el de mayor VAN, ya que maximiza el valor creado en términos absolutos. Aunque Y tiene mayor TIR y menor Payback, X agrega $7,000 más de valor en dólares, que es lo que importa a los accionistas.', default: '❌ Incorrecto. Para proyectos mutuamente excluyentes, el VAN es el criterio dominante porque mide el valor creado en dólares. Se selecciona el Proyecto X (VAN = $18,000) sobre el Y (VAN = $11,000).' },
+  qi9: { c: '✅ Correcto. NOPAT = $68,000 × (1 − 0.25) = $51,000. Cargo capital = $400,000 × 14% = $56,000. EVA = $51,000 − $56,000 = −$5,000. A pesar de tener utilidad contable ($45,000), la empresa destruye valor porque no cubre el costo del capital.', default: '❌ Incorrecto. Paso 1: NOPAT = EBIT × (1 − T) = $68,000 × 0.75 = $51,000. Paso 2: Cargo = $400,000 × 14% = $56,000. Paso 3: EVA = $51,000 − $56,000 = −$5,000 (negativo).' },
+  qi10: { b: '✅ Correcto. Opción B: UAII $30,000 − Intereses $7,920 (11%×$72,000) = UAI $22,080 → IR 25% = $5,520 → UN = $16,560. ROE = $16,560/$48,000 = 34.5%. Opción A: UN = $30,000×0.75 = $22,500. ROE = $22,500/$120,000 = 18.75%. El apalancamiento eleva el ROE.', default: '❌ Incorrecto. El apalancamiento financiero eleva el ROE cuando el retorno de los activos supera el costo de la deuda. Opción B usa menos capital propio ($48,000) y logra mayor ROE para los socios (≈ 34.5% vs. 18.75% de la Opción A).' }
+};
+
+// ─── FUNCIÓN GENÉRICA DE VERIFICACIÓN ───────────────────────────
+function verificarInteractivo(prefijo, corrects, feedbacks, totalItems, panelId, puntajeId, barraId, mensajeId, alertaId) {
+  // Verificar que todo esté respondido
+  let todoRespondido = true;
+  for (let i = 1; i <= totalItems; i++) {
+    const seleccionado = document.querySelector(`input[name="${prefijo}${i}"]:checked`);
+    if (!seleccionado) { todoRespondido = false; break; }
+  }
+  if (!todoRespondido) {
+    document.getElementById(alertaId).style.display = 'block';
+    return;
+  }
+  document.getElementById(alertaId).style.display = 'none';
+
+  let aciertos = 0;
+  for (let i = 1; i <= totalItems; i++) {
+    const key = `${prefijo}${i}`;
+    const seleccionado = document.querySelector(`input[name="${key}"]:checked`);
+    const wrap = document.getElementById(`${prefijo.replace('i','i-wrap-')}${i}`);
+    const fbEl = document.getElementById(`${prefijo.replace('i','i-fb-')}${i}`);
+    const opciones = document.querySelectorAll(`input[name="${key}"]`);
+
+    // Bloquear opciones
+    opciones.forEach(op => op.disabled = true);
+
+    const resp = seleccionado ? seleccionado.value : null;
+    const esCorrecta = resp === corrects[key];
+    if (esCorrecta) aciertos++;
+
+    // Colorear labels
+    opciones.forEach(op => {
+      const label = op.closest('.opcion-label');
+      if (op.value === corrects[key]) label.classList.add('correcta');
+      else if (op.checked && !esCorrecta) label.classList.add('incorrecta');
+    });
+
+    // Feedback
+    const fbTexto = feedbacks[key][resp] || feedbacks[key]['default'];
+    fbEl.textContent = fbTexto;
+    fbEl.className = 'feedback-item ' + (esCorrecta ? 'correcto' : 'incorrecto');
+    fbEl.style.display = 'block';
+  }
+
+  // Mostrar panel
+  const pct = Math.round((aciertos / totalItems) * 100);
+  document.getElementById(panelId).style.display = 'block';
+  document.getElementById(puntajeId).textContent = `${aciertos} / ${totalItems} (${pct}%)`;
+
+  const barra = document.getElementById(barraId);
+  let color = pct >= 80 ? '#1a7a3c' : pct >= 60 ? '#b45309' : '#b91c1c';
+  barra.style.width = '0%';
+  barra.style.background = color;
+  setTimeout(() => { barra.style.width = pct + '%'; }, 100);
+
+  let emoji = '', msg = '';
+  if (pct === 100) { emoji = '🏆'; msg = '¡Perfecto! Dominas todos los conceptos de evaluación financiera gerencial.'; }
+  else if (pct >= 80) { emoji = '🎯'; msg = '¡Muy bien! Tienes una comprensión sólida del tema.'; }
+  else if (pct >= 60) { emoji = '📘'; msg = 'Vas por buen camino. Repasa los ítems marcados en rojo.'; }
+  else if (pct >= 40) { emoji = '⚠️'; msg = 'Necesitas reforzar. Vuelve a los temas y repasa los ejemplos.'; }
+  else { emoji = '📖'; msg = 'Regresa a los contenidos del widget antes de intentarlo de nuevo.'; }
+  document.getElementById(mensajeId).textContent = emoji + ' ' + msg;
+
+  document.getElementById(panelId).scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function reiniciarInteractivo(prefijo, totalItems, panelId, alertaId) {
+  for (let i = 1; i <= totalItems; i++) {
+    const key = `${prefijo}${i}`;
+    document.querySelectorAll(`input[name="${key}"]`).forEach(op => {
+      op.disabled = false;
+      op.checked = false;
+      const label = op.closest('.opcion-label');
+      label.classList.remove('correcta', 'incorrecta');
+    });
+    const fb = document.getElementById(`${prefijo.replace('i','i-fb-')}${i}`);
+    if (fb) { fb.style.display = 'none'; fb.textContent = ''; }
+  }
+  document.getElementById(panelId).style.display = 'none';
+  document.getElementById(alertaId).style.display = 'none';
+}
+
+// ─── EJERCICIO ───────────────────────────────────────────────────
+function verificarEjercicio() {
+  verificarInteractivo('ei', ejercicioCorrects, ejercicioFeedbacks, 8,
+    'panel-ejercicio', 'puntaje-ejercicio', 'barra-ejercicio', 'mensaje-ejercicio', 'alerta-ejercicio');
+}
+function reiniciarEjercicio() {
+  reiniciarInteractivo('ei', 8, 'panel-ejercicio', 'alerta-ejercicio');
+}
+
+// ─── CUESTIONARIO ────────────────────────────────────────────────
+function verificarCuestionario() {
+  verificarInteractivo('qi', quizCorrects, quizFeedbacks, 10,
+    'panel-cuestionario', 'puntaje-cuestionario', 'barra-cuestionario', 'mensaje-cuestionario', 'alerta-cuestionario');
+}
+function reiniciarCuestionario() {
+  reiniciarInteractivo('qi', 10, 'panel-cuestionario', 'alerta-cuestionario');
+}
+
+// ─── COPIAR PROMPT ───────────────────────────────────────────────
+function copiarPrompt() {
+  const texto = document.getElementById('prompt-ia').textContent;
+  navigator.clipboard.writeText(texto).then(() => {
+    const btn = document.querySelector('.btn-copiar');
+    btn.textContent = '✅ ¡Copiado!';
+    setTimeout(() => { btn.textContent = '📋 Copiar prompt'; }, 2500);
+  });
+}
+</script>
+</body>
+</html>

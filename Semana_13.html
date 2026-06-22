@@ -1,0 +1,1605 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semana 13 — Cuadro de Mando Integral (BSC) | Contabilidad Gerencial</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ─── VARIABLES Y RESET ─────────────────────────────────────── */
+:root {
+  --azul: #003366;
+  --celeste: #87CEEB;
+  --oro: #FFD700;
+  --blanco: #ffffff;
+  --gris: #f4f7fb;
+  --borde: #dce3ee;
+  --verde: #1a7a3c;
+  --rojo: #b91c1c;
+  --ambar: #b45309;
+  --texto: #1a2a3a;
+  --sombra: 0 2px 14px rgba(0,51,102,0.10);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Source Sans 3',sans-serif;background:var(--gris);color:var(--texto);min-height:100vh;}
+
+/* ─── ENCABEZADO ────────────────────────────────────────────── */
+header{
+  background:var(--azul);
+  color:#fff;
+  padding:22px 28px 16px;
+}
+.hdr-top{display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap;}
+.hdr-badge{
+  background:var(--oro);color:var(--azul);
+  font-family:'Lora',serif;font-size:0.78rem;font-weight:700;
+  padding:3px 12px;border-radius:20px;margin-bottom:8px;display:inline-block;
+}
+header h1{font-family:'Lora',serif;font-size:1.55rem;font-weight:700;line-height:1.25;}
+header p{color:var(--celeste);font-size:0.92rem;margin-top:5px;}
+.hdr-meta{
+  margin-top:12px;display:flex;gap:18px;flex-wrap:wrap;
+  font-size:0.82rem;color:#a8c8e8;border-top:1px solid rgba(255,255,255,0.15);padding-top:10px;
+}
+.hdr-meta span{display:flex;align-items:center;gap:5px;}
+
+/* ─── TABS ──────────────────────────────────────────────────── */
+.tab-bar{
+  background:var(--celeste);
+  overflow-x:auto;white-space:nowrap;
+  border-bottom:3px solid #5aaed4;
+  position:sticky;top:0;z-index:100;
+}
+.tab-bar::-webkit-scrollbar{height:4px;}
+.tab-bar::-webkit-scrollbar-thumb{background:var(--azul);border-radius:2px;}
+.tab-btn{
+  display:inline-block;padding:13px 20px;
+  cursor:pointer;font-family:'Source Sans 3',sans-serif;
+  font-size:0.9rem;color:#1a2a3a;border:none;background:transparent;
+  border-bottom:3px solid transparent;transition:all 0.18s;white-space:nowrap;
+}
+.tab-btn:hover{background:rgba(255,255,255,0.55);}
+.tab-btn.activo{
+  background:#fff;color:var(--azul);
+  font-weight:700;border-bottom:3px solid var(--azul);
+}
+
+/* ─── CONTENIDO ─────────────────────────────────────────────── */
+.tab-panel{display:none;padding:28px 24px 48px;max-width:980px;margin:0 auto;}
+.tab-panel.activo{display:block;}
+
+/* ─── COMPONENTES GENÉRICOS ─────────────────────────────────── */
+h2.sec{
+  font-family:'Lora',serif;color:var(--azul);
+  font-size:1.25rem;margin:0 0 16px;
+  border-bottom:2px solid var(--borde);padding-bottom:8px;
+}
+h3.sub{font-family:'Lora',serif;color:var(--azul);font-size:1.05rem;margin:20px 0 10px;}
+.caja-def{
+  border-left:5px solid var(--azul);background:#e8f0fb;
+  padding:16px 18px;margin:16px 0;border-radius:0 8px 8px 0;
+}
+.caja-def h4{font-family:'Lora',serif;color:var(--azul);margin-bottom:6px;font-size:0.97rem;}
+.caja-def p,.caja-def ul{font-size:0.95rem;line-height:1.70;}
+.caja-def ul{padding-left:18px;margin-top:6px;}
+.caja-ej{
+  background:#E8F4FD;border:1px solid #93c5fd;
+  border-radius:10px;padding:16px 18px;margin:16px 0;
+}
+.caja-ej h4{color:#1e40af;font-family:'Lora',serif;margin-bottom:8px;}
+.caja-clave{
+  background:linear-gradient(90deg,#003366 0%,#1a5ca8 100%);
+  color:#fff;border-radius:10px;padding:16px 20px;margin:18px 0;
+}
+.caja-clave h4{font-family:'Lora',serif;margin-bottom:5px;font-size:0.97rem;}
+.caja-clave p{font-size:0.93rem;line-height:1.65;color:#c8ddf5;}
+p.txt{font-size:0.96rem;line-height:1.72;margin:10px 0;}
+
+/* ─── TABLA GENÉRICA ────────────────────────────────────────── */
+.tbl{width:100%;border-collapse:collapse;font-size:0.88rem;margin:14px 0;}
+.tbl th{background:var(--azul);color:#fff;padding:9px 12px;text-align:left;}
+.tbl td{padding:8px 12px;border-bottom:1px solid #e2e8f0;vertical-align:top;}
+.tbl tr:nth-child(even) td{background:#f0f5fb;}
+.tbl-scroll{overflow-x:auto;border-radius:8px;border:1px solid var(--borde);}
+
+/* ─── PERSPECTIVAS BSC (tarjetas) ───────────────────────────── */
+.persp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin:20px 0;}
+.persp-card{
+  border-radius:12px;padding:18px 16px;border:2px solid transparent;
+  transition:transform 0.2s,box-shadow 0.2s;cursor:default;
+}
+.persp-card:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,51,102,0.15);}
+.persp-card .ico{font-size:2rem;margin-bottom:8px;}
+.persp-card h4{font-family:'Lora',serif;font-size:0.97rem;margin-bottom:6px;}
+.persp-card p{font-size:0.84rem;line-height:1.55;}
+.p-fin{background:#dbeafe;border-color:#93c5fd;}
+.p-cli{background:#dcfce7;border-color:#86efac;}
+.p-pro{background:#fef9c3;border-color:#fde047;}
+.p-apr{background:#fce7f3;border-color:#f9a8d4;}
+
+/* ─── MAPA ESTRATÉGICO ──────────────────────────────────────── */
+.mapa-wrap{overflow-x:auto;margin:20px 0;}
+.mapa{min-width:680px;border-radius:12px;overflow:hidden;border:2px solid var(--borde);}
+.mapa-row{display:grid;grid-template-columns:160px 1fr;border-bottom:1px solid var(--borde);}
+.mapa-row:last-child{border-bottom:none;}
+.mapa-etq{
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;padding:14px 10px;font-family:'Lora',serif;
+  font-size:0.88rem;font-weight:700;color:#fff;
+}
+.mapa-obj{
+  display:flex;flex-wrap:wrap;gap:10px;padding:14px 16px;
+  align-items:center;
+}
+.obj-pill{
+  border-radius:20px;padding:6px 14px;font-size:0.82rem;
+  font-weight:600;white-space:nowrap;
+}
+/* colores por perspectiva */
+.bg-fin{background:#1e40af;color:#fff;}
+.bg-cli{background:#166534;color:#fff;}
+.bg-pro{background:#92400e;color:#fff;}
+.bg-apr{background:#831843;color:#fff;}
+.etq-fin{background:#1e40af;}
+.etq-cli{background:#166534;}
+.etq-pro{background:#92400e;}
+.etq-apr{background:#831843;}
+
+/* ─── FLECHAS CAUSA-EFECTO ──────────────────────────────────── */
+.causa-efecto{
+  background:#fff;border:1px solid var(--borde);
+  border-radius:10px;padding:16px 18px;margin:16px 0;
+}
+.causa-efecto h4{font-family:'Lora',serif;color:var(--azul);margin-bottom:12px;}
+.flecha-chain{display:flex;align-items:center;flex-wrap:wrap;gap:6px;font-size:0.88rem;}
+.fc-item{
+  background:#e8f0fb;border:1px solid #93c5fd;border-radius:8px;
+  padding:6px 12px;font-weight:600;color:var(--azul);
+}
+.fc-arr{color:#1a5ca8;font-size:1.2rem;font-weight:700;}
+
+/* ─── BSC TABLA COMPLETA ────────────────────────────────────── */
+.bsc-section{margin:22px 0;}
+.bsc-section h3{
+  font-family:'Lora',serif;font-size:1rem;
+  padding:10px 14px;color:#fff;border-radius:8px 8px 0 0;margin:0;
+}
+.bsc-table{width:100%;border-collapse:collapse;font-size:0.83rem;}
+.bsc-table th{padding:8px 10px;text-align:left;color:#fff;font-size:0.82rem;}
+.bsc-table td{padding:8px 10px;border-bottom:1px solid #e2e8f0;vertical-align:top;}
+.bsc-table tr:nth-child(even) td{background:#f8fafc;}
+.badge-meta{
+  display:inline-block;background:#e8f0fb;color:var(--azul);
+  border-radius:12px;padding:2px 10px;font-size:0.78rem;font-weight:700;
+}
+.semaforo{
+  display:inline-block;width:14px;height:14px;border-radius:50%;
+  vertical-align:middle;margin-right:4px;
+}
+.s-verde{background:#1a7a3c;}
+.s-ambar{background:#b45309;}
+.s-rojo{background:#b91c1c;}
+
+/* ─── EJERCICIO Y CUESTIONARIO ──────────────────────────────── */
+.quiz-item{
+  background:#fff;border:1.5px solid var(--borde);
+  border-radius:10px;padding:18px 18px 14px;margin:14px 0;
+  box-shadow:0 1px 5px rgba(0,51,102,0.06);
+}
+.quiz-item p.pregunta{font-weight:700;font-size:0.95rem;margin-bottom:12px;color:var(--azul);}
+.quiz-item label{
+  display:flex;align-items:flex-start;gap:10px;
+  margin:7px 0;font-size:0.91rem;cursor:pointer;padding:5px 8px;
+  border-radius:6px;transition:background 0.15s;
+}
+.quiz-item label:hover{background:#f0f5fb;}
+.quiz-item input[type=radio]{margin-top:3px;flex-shrink:0;accent-color:var(--azul);}
+.feedback{
+  display:none;margin-top:10px;padding:10px 14px;
+  border-radius:8px;font-size:0.9rem;line-height:1.55;
+}
+.feedback.ok{background:#dcfce7;border-left:4px solid #1a7a3c;color:#14532d;}
+.feedback.mal{background:#fee2e2;border-left:4px solid #b91c1c;color:#7f1d1d;}
+.btn-verificar{
+  background:var(--azul);color:#fff;border:none;
+  padding:12px 32px;border-radius:25px;font-size:0.97rem;
+  font-weight:700;cursor:pointer;font-family:'Source Sans 3',sans-serif;
+  transition:background 0.18s,transform 0.12s;margin-top:16px;
+}
+.btn-verificar:hover{background:#1a5ca8;transform:scale(1.03);}
+.btn-reset{
+  background:#e2e8f0;color:#334;border:none;
+  padding:12px 24px;border-radius:25px;font-size:0.92rem;
+  cursor:pointer;font-family:'Source Sans 3',sans-serif;margin-left:10px;
+  transition:background 0.18s;
+}
+.btn-reset:hover{background:#cbd5e1;}
+.panel-resultado{
+  display:none;background:#f0f5fb;border:1.5px solid var(--borde);
+  border-radius:12px;padding:20px 22px;margin-top:22px;
+}
+.barra-progreso{
+  background:#e2e8f0;border-radius:10px;height:18px;overflow:hidden;margin:10px 0;
+}
+.barra-fill{height:100%;border-radius:10px;transition:width 0.7s ease;}
+.score-txt{font-family:'Lora',serif;font-size:1.5rem;color:var(--azul);font-weight:700;}
+.alerta-incompleto{
+  display:none;background:#fef9c3;border:1.5px solid #fde047;
+  border-radius:8px;padding:10px 14px;font-size:0.9rem;color:#92400e;
+  margin-top:12px;
+}
+.badge-tipo{
+  display:inline-block;font-size:0.74rem;font-weight:700;
+  padding:2px 10px;border-radius:12px;margin-left:8px;vertical-align:middle;
+}
+.t-teo{background:#dbeafe;color:#1e40af;}
+.t-ana{background:#fce7f3;color:#831843;}
+
+/* ─── ACTIVIDAD IA ──────────────────────────────────────────── */
+.ia-card{
+  background:#fff;border:2px solid var(--azul);
+  border-radius:14px;padding:22px;margin:16px 0;
+}
+.ia-card h4{font-family:'Lora',serif;color:var(--azul);font-size:1rem;margin-bottom:10px;}
+.prompt-box{
+  background:#1a2a3a;color:#87CEEB;font-family:monospace;
+  font-size:0.85rem;line-height:1.65;padding:16px 18px;
+  border-radius:8px;margin:12px 0;white-space:pre-wrap;
+}
+.btn-copiar{
+  background:var(--celeste);color:var(--azul);border:none;
+  padding:8px 22px;border-radius:20px;cursor:pointer;font-size:0.87rem;
+  font-weight:700;font-family:'Source Sans 3',sans-serif;
+  transition:background 0.18s;
+}
+.btn-copiar:hover{background:var(--oro);}
+.rubrica{
+  background:#f0f5fb;border-left:4px solid var(--azul);
+  padding:14px 16px;border-radius:0 8px 8px 0;margin-top:14px;font-size:0.9rem;
+}
+.rubrica ul{padding-left:16px;margin-top:6px;}
+.rubrica li{margin:4px 0;line-height:1.55;}
+
+/* ─── REFLEXIVAS ────────────────────────────────────────────── */
+.ref-item{
+  background:#fff;border-left:5px solid var(--oro);
+  border-radius:0 10px 10px 0;padding:16px 18px;
+  margin:12px 0;font-size:0.95rem;line-height:1.65;
+  box-shadow:0 1px 5px rgba(0,51,102,0.06);
+}
+.ref-item strong{color:var(--azul);}
+
+/* ─── BIBLIOGRAFÍA ──────────────────────────────────────────── */
+.bib-item{
+  background:#fff;border-radius:8px;padding:12px 16px;
+  margin:10px 0;font-size:0.88rem;line-height:1.65;
+  border:1px solid var(--borde);
+}
+.bib-nota{
+  background:#fef9c3;border:1px solid #fde047;border-radius:8px;
+  padding:12px 16px;font-size:0.86rem;margin-top:18px;color:#92400e;
+}
+
+/* ─── PIE ───────────────────────────────────────────────────── */
+footer{
+  text-align:center;padding:20px;background:var(--azul);
+  color:var(--celeste);font-size:0.82rem;margin-top:30px;
+}
+
+/* ─── RESPONSIVE ────────────────────────────────────────────── */
+@media(max-width:600px){
+  header h1{font-size:1.2rem;}
+  .tab-panel{padding:18px 14px 40px;}
+  .persp-grid{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════════
+     ENCABEZADO
+══════════════════════════════════════════════════════════════ -->
+<header>
+  <div class="hdr-top">
+    <div>
+      <div class="hdr-badge">UNIDAD 4 · SEMANA 13</div>
+      <h1>⚖️ Cuadro de Mando Integral (BSC)</h1>
+      <p>Herramientas Avanzadas de Gestión y Toma de Decisiones</p>
+    </div>
+  </div>
+  <div class="hdr-meta">
+    <span>🏛️ Universidad de Guayaquil · Fac. Ciencias Administrativas</span>
+    <span>📘 Contabilidad Gerencial · 5.° Semestre CPA</span>
+    <span>🏢 Caso: SEGURECUADOR S.A.</span>
+    <span>📅 Período Marzo–Julio 2026</span>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════════════════════════════
+     BARRA DE TABS
+══════════════════════════════════════════════════════════════ -->
+<nav class="tab-bar" id="tab-bar">
+  <button class="tab-btn activo" data-tab="repaso">📋 Repaso</button>
+  <button class="tab-btn" data-tab="t1">🧭 Tema 1: BSC e Introducción</button>
+  <button class="tab-btn" data-tab="t2">🗺️ Tema 2: Mapa Estratégico</button>
+  <button class="tab-btn" data-tab="t3">📊 Tema 3: BSC Completo</button>
+  <button class="tab-btn" data-tab="ejercicio">✏️ Ejercicio Interactivo</button>
+  <button class="tab-btn" data-tab="cuestionario">🧩 Cuestionario</button>
+  <button class="tab-btn" data-tab="ia">🤖 Actividad con IA</button>
+  <button class="tab-btn" data-tab="reflexivas">💭 Preguntas Reflexivas</button>
+  <button class="tab-btn" data-tab="biblio">📚 Bibliografía</button>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PANEL 0: REPASO
+══════════════════════════════════════════════════════════════ -->
+<section class="tab-panel activo" id="panel-repaso">
+  <h2 class="sec">📋 Repaso del Semestre — Progresión hacia la Semana 12</h2>
+
+  <p class="txt">A lo largo de las doce semanas anteriores, el curso de Contabilidad Gerencial ha construido una comprensión integral de cómo la información contable se convierte en una herramienta de decisión estratégica para la gerencia. La siguiente tabla resume la trayectoria conceptual del semestre:</p>
+
+  <div class="tbl-scroll">
+  <table class="tbl">
+    <thead>
+      <tr>
+        <th>Unidad / Semanas</th>
+        <th>Concepto central</th>
+        <th>Aporte al análisis gerencial</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Unidad 1</strong><br>Semanas 1–4</td>
+        <td>Rol del contador gerencial; clasificación de costos; indicadores básicos (liquidez, rentabilidad, endeudamiento); ética profesional</td>
+        <td>El contador deja de ser "registrador" y se convierte en asesor estratégico. Se identificó qué información busca la gerencia que los EE.FF. tradicionales no proveen.</td>
+      </tr>
+      <tr>
+        <td><strong>Unidad 2</strong><br>Semanas 5–8</td>
+        <td>Comportamiento del costo; margen de contribución; punto de equilibrio; análisis CVU; costeo variable vs. por absorción; costos relevantes para decisiones</td>
+        <td>Se demostró que el costo es la variable más estratégica del negocio: determina precios, márgenes y capacidad de decisión ante escenarios como contratos especiales o eliminación de líneas de servicio.</td>
+      </tr>
+      <tr>
+        <td><strong>Unidad 3</strong><br>Semanas 9–12</td>
+        <td>Presupuesto Maestro (ingresos, operaciones, efectivo); análisis de variaciones presupuestado vs. real; centros de responsabilidad; KPIs financieros y no financieros; tablero de control (dashboard)</td>
+        <td>La empresa aprendió a planificar el futuro en cifras, comparar resultados reales con lo planificado, detectar desviaciones y asignar responsabilidades por área. Los KPIs y el dashboard tradujeron los números en señales visuales de alerta temprana.</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="caja-clave" style="margin-top:20px">
+    <h4>🔗 Puente hacia la Unidad 4</h4>
+    <p>Las herramientas de las Unidades 1 a 3 son precisas pero parciales: miden el pasado o proyectan a corto plazo. La <strong>Unidad 4</strong> introduce herramientas que conectan la estrategia de largo plazo con la operación diaria. El primero de estos instrumentos es el <strong>Cuadro de Mando Integral (BSC)</strong>, que integra perspectivas financieras y no financieras para gestionar la estrategia de forma balanceada.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PANEL 1: TEMA 1 — BSC INTRODUCCIÓN
+══════════════════════════════════════════════════════════════ -->
+<section class="tab-panel" id="panel-t1">
+  <h2 class="sec">🧭 Tema 1: Introducción al Cuadro de Mando Integral (BSC)</h2>
+
+  <h3 class="sub">1.1 ¿Qué es el Cuadro de Mando Integral?</h3>
+
+  <div class="caja-def">
+    <h4>Definición</h4>
+    <p>El <strong>Cuadro de Mando Integral</strong> (<em>Balanced Scorecard</em>, BSC) es un sistema de gestión estratégica desarrollado por Robert S. Kaplan y David P. Norton en 1992. Su propósito es <strong>traducir la visión y la estrategia de una organización en un conjunto coherente de indicadores de desempeño</strong>, distribuidos en cuatro perspectivas que equilibran los resultados financieros pasados con los impulsores del desempeño futuro.</p>
+    <p style="margin-top:8px">En términos simples: el BSC responde a la pregunta que los EE.FF. tradicionales no pueden responder solas — <em>¿estamos gestionando bien lo que importa para alcanzar nuestra estrategia?</em></p>
+  </div>
+
+  <p class="txt">Antes del BSC, la mayoría de empresas medían su desempeño casi exclusivamente a través de indicadores financieros (ventas, utilidades, costos). Sin embargo, los indicadores financieros tienen una limitación estructural: <strong>miden el pasado</strong>. Son como manejar un auto mirando únicamente el espejo retrovisor. El BSC añade el parabrisas: también muestra hacia dónde va la empresa y si los procesos y las personas están preparados para llegar allí.</p>
+
+  <div class="caja-ej">
+    <h4>📌 Contexto en SEGURECUADOR S.A.</h4>
+    <p>SEGURECUADOR S.A. tiene buenos resultados financieros este año: contratos de guardias por USD 85.000/mes y monitoreo por USD 22.000/mes. Sin embargo, su tasa de renovación de contratos bajó del 92% al 78%, y el tiempo de respuesta ante incidentes aumentó de 8 a 14 minutos. Sin un BSC, la gerencia solo vería los ingresos positivos; con el BSC, también verá las señales de alerta que pueden erosionar esos ingresos en los próximos 12 meses.</p>
+  </div>
+
+  <h3 class="sub">1.2 Limitaciones de los indicadores puramente financieros</h3>
+
+  <p class="txt">Kaplan y Norton identificaron tres problemas críticos al gestionar únicamente con indicadores financieros:</p>
+
+  <div class="caja-def">
+    <h4>Problema 1 — Visión histórica y tardía</h4>
+    <p>Los estados financieros reflejan lo que <em>ya ocurrió</em>. Para cuando el contador presenta la pérdida, el problema que la causó ocurrió semanas o meses antes. En seguridad privada, un cliente insatisfecho ya abrió licitación con otra empresa antes de que aparezca en el estado de resultados.</p>
+  </div>
+  <div class="caja-def">
+    <h4>Problema 2 — Ignoran activos intangibles</h4>
+    <p>En el siglo XXI, el valor de una empresa de servicios depende cada vez más de activos que no aparecen en el balance: la <strong>reputación</strong>, el <strong>talento del personal</strong>, la <strong>calidad de los procesos</strong> y la <strong>relación con los clientes</strong>. SEGURECUADOR S.A. vale más por la confianza que genera que por sus equipos de radio.</p>
+  </div>
+  <div class="caja-def">
+    <h4>Problema 3 — No comunican la estrategia</h4>
+    <p>Un estado de resultados no le dice al jefe de operaciones si debe priorizar la capacitación de guardias o la renovación de equipos. Los indicadores financieros son el <em>resultado</em>, no la <em>ruta</em>.</p>
+  </div>
+
+  <h3 class="sub">1.3 Las cuatro perspectivas del BSC</h3>
+
+  <p class="txt">El BSC organiza la gestión en <strong>cuatro perspectivas complementarias</strong>. Cada una responde a una pregunta estratégica distinta:</p>
+
+  <div class="persp-grid">
+    <div class="persp-card p-fin">
+      <div class="ico">💰</div>
+      <h4>1. Perspectiva Financiera</h4>
+      <p><em>¿Cómo nos ven nuestros accionistas y propietarios?</em><br>Mide si la estrategia crea valor económico: crecimiento de ingresos, rentabilidad, gestión de costos, retorno sobre la inversión.</p>
+    </div>
+    <div class="persp-card p-cli">
+      <div class="ico">🤝</div>
+      <h4>2. Perspectiva del Cliente</h4>
+      <p><em>¿Cómo nos ven nuestros clientes?</em><br>Mide la propuesta de valor entregada: satisfacción, retención, captación de nuevos clientes, cuota de mercado, fidelidad.</p>
+    </div>
+    <div class="persp-card p-pro">
+      <div class="ico">⚙️</div>
+      <h4>3. Perspectiva de Procesos Internos</h4>
+      <p><em>¿En qué procesos debemos ser excelentes?</em><br>Mide la eficiencia y calidad operativa: tiempos de respuesta, tasa de incidentes, cumplimiento de protocolos, productividad por turno.</p>
+    </div>
+    <div class="persp-card p-apr">
+      <div class="ico">🌱</div>
+      <h4>4. Perspectiva de Aprendizaje y Crecimiento</h4>
+      <p><em>¿Podemos continuar mejorando y creando valor?</em><br>Mide la capacidad de la organización para aprender: formación del personal, clima laboral, tecnología disponible, innovación.</p>
+    </div>
+  </div>
+
+  <div class="caja-clave">
+    <h4>💡 El equilibrio que da nombre al modelo</h4>
+    <p>La palabra "Balanced" (equilibrado) hace referencia a cuatro equilibrios simultáneos: (1) indicadores financieros vs. no financieros; (2) resultados pasados vs. impulsores del futuro; (3) perspectivas externas (clientes) vs. internas (procesos); (4) indicadores objetivos vs. subjetivos. Ninguna perspectiva es más importante que otra: todas se necesitan mutuamente.</p>
+  </div>
+
+  <h3 class="sub">1.4 La relación causa-efecto: el núcleo del BSC</h3>
+
+  <p class="txt">Lo que diferencia al BSC de una simple lista de indicadores es la <strong>relación causa-efecto</strong> entre perspectivas. Las perspectivas no son independientes: se conectan en una cadena lógica que va de abajo hacia arriba.</p>
+
+  <div class="causa-efecto">
+    <h4>🔗 Cadena causal en SEGURECUADOR S.A.</h4>
+    <div class="flecha-chain" style="margin-bottom:12px">
+      <span class="fc-item">Capacitar guardias<br><small>Aprendizaje</small></span>
+      <span class="fc-arr">→</span>
+      <span class="fc-item">Reducir tiempo de respuesta<br><small>Procesos</small></span>
+      <span class="fc-arr">→</span>
+      <span class="fc-item">Mayor satisfacción del cliente<br><small>Clientes</small></span>
+      <span class="fc-arr">→</span>
+      <span class="fc-item">Renovación de contratos<br><small>Financiero</small></span>
+    </div>
+    <p style="font-size:0.9rem;color:#445;line-height:1.6">Esta cadena ilustra que <strong>los resultados financieros son consecuencia, no causa</strong>. Si SEGURECUADOR invierte en capacitar a sus guardias (Aprendizaje), mejorarán los tiempos de respuesta (Procesos), lo que incrementará la satisfacción de los clientes (Clientes), y esto se traducirá en contratos renovados y mayor facturación (Financiero). El BSC hace visible esta lógica causal y permite actuar sobre los impulsores antes de que afecten los resultados financieros.</p>
+  </div>
+
+  <h3 class="sub">1.5 Diferencia entre el BSC y el Dashboard visto en la Semana 12</h3>
+
+  <div class="tbl-scroll">
+  <table class="tbl">
+    <thead>
+      <tr>
+        <th>Característica</th>
+        <th>Dashboard (Semana 12)</th>
+        <th>BSC (Semana 13)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Enfoque</strong></td>
+        <td>Monitoreo operativo de KPIs seleccionados</td>
+        <td>Gestión integral de la estrategia organizacional</td>
+      </tr>
+      <tr>
+        <td><strong>Horizonte temporal</strong></td>
+        <td>Corto plazo (semana, mes)</td>
+        <td>Mediano y largo plazo (1–5 años)</td>
+      </tr>
+      <tr>
+        <td><strong>Perspectiva</strong></td>
+        <td>Principalmente financiera y operativa</td>
+        <td>Cuatro perspectivas balanceadas</td>
+      </tr>
+      <tr>
+        <td><strong>Origen de indicadores</strong></td>
+        <td>Selección práctica por necesidad inmediata</td>
+        <td>Derivados de la visión y estrategia de la empresa</td>
+      </tr>
+      <tr>
+        <td><strong>Relación causal</strong></td>
+        <td>Generalmente no explícita</td>
+        <td>Explícita: mapa estratégico con flechas causa-efecto</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="caja-clave">
+    <h4>💡 Idea Clave del Tema 1</h4>
+    <p>El BSC no reemplaza al dashboard ni a los estados financieros: los integra dentro de un sistema de gestión estratégica. Es el puente entre la <strong>visión de largo plazo</strong> de la empresa y la <strong>acción operativa</strong> de cada día. Una empresa como SEGURECUADOR S.A. puede tener indicadores en cuatro perspectivas y, gracias al BSC, saber si hoy está en el camino correcto para alcanzar los objetivos del 2027.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PANEL 2: TEMA 2 — MAPA ESTRATÉGICO
+══════════════════════════════════════════════════════════════ -->
+<section class="tab-panel" id="panel-t2">
+  <h2 class="sec">🗺️ Tema 2: Mapa Estratégico de SEGURECUADOR S.A.</h2>
+
+  <h3 class="sub">2.1 ¿Qué es un mapa estratégico?</h3>
+
+  <div class="caja-def">
+    <h4>Definición</h4>
+    <p>Un <strong>mapa estratégico</strong> es una representación visual de la lógica causa-efecto que conecta los objetivos estratégicos de una organización en las cuatro perspectivas del BSC. Es como el "plano arquitectónico" del Cuadro de Mando Integral: antes de construir el BSC con indicadores y metas, se dibuja el mapa que muestra cómo cada objetivo apoya a los demás.</p>
+  </div>
+
+  <p class="txt">El mapa estratégico fue desarrollado por Kaplan y Norton en 2004 como complemento del BSC. Su función es <strong>comunicar la estrategia de forma visual y comprensible</strong> para todos los niveles de la organización. Un gerente, un supervisor de turno y un guardia de seguridad pueden ver el mismo mapa y entender cómo su trabajo contribuye a la estrategia general.</p>
+
+  <h3 class="sub">2.2 Reglas para diseñar un mapa estratégico</h3>
+
+  <div class="caja-def">
+    <h4>Principios de diseño</h4>
+    <ul>
+      <li><strong>Jerarquía vertical:</strong> la perspectiva financiera va arriba (resultado final), la de aprendizaje y crecimiento va abajo (base habilitante). Los objetivos de abajo "causan" los de arriba.</li>
+      <li><strong>Objetivos, no acciones:</strong> cada elemento del mapa es un estado deseado ("Aumentar la tasa de retención de clientes"), no una tarea ("Llamar a los clientes").</li>
+      <li><strong>Coherencia estratégica:</strong> todos los objetivos deben alinearse con la visión y misión de la empresa. No se incluyen objetivos por moda o por rutina.</li>
+      <li><strong>Número manejable:</strong> entre 15 y 25 objetivos en total. Más de 25 diluye el foco; menos de 12 puede ser insuficiente para capturar la complejidad.</li>
+      <li><strong>Flechas de causalidad:</strong> las conexiones entre objetivos se grafican con flechas que van de causa a efecto, de abajo hacia arriba.</li>
+    </ul>
+  </div>
+
+  <h3 class="sub">2.3 Contexto estratégico de SEGURECUADOR S.A.</h3>
+
+  <div class="caja-ej">
+    <h4>📌 Perfil estratégico de la empresa</h4>
+    <p><strong>Misión:</strong> Proteger la vida, el patrimonio y la tranquilidad de nuestros clientes en Ecuador, mediante servicios de seguridad privada con personal altamente capacitado, tecnología de vanguardia y respuesta oportuna.</p>
+    <p style="margin-top:6px"><strong>Visión 2027:</strong> Ser la empresa de seguridad privada líder en la región Costa del Ecuador, reconocida por la calidad de su personal, la confiabilidad de sus sistemas de monitoreo y la satisfacción de sus clientes corporativos.</p>
+    <p style="margin-top:6px"><strong>Líneas de servicio:</strong> (1) Guardias de seguridad, (2) Monitoreo electrónico CCTV, (3) Consultoría en seguridad corporativa.</p>
+    <p style="margin-top:6px"><strong>Reto estratégico actual:</strong> Crecer 20% en ingresos hacia 2027 sin perder la tasa de retención de clientes ni aumentar la accidentabilidad del personal.</p>
+  </div>
+
+  <h3 class="sub">2.4 Objetivos estratégicos por perspectiva</h3>
+
+  <p class="txt">Para SEGURECUADOR S.A., se han definido los siguientes objetivos estratégicos distribuidos en las cuatro perspectivas:</p>
+
+  <div class="tbl-scroll">
+  <table class="tbl">
+    <thead>
+      <tr>
+        <th>Perspectiva</th>
+        <th>N.°</th>
+        <th>Objetivo estratégico</th>
+        <th>Justificación</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:#dbeafe">
+        <td rowspan="4"><strong>💰 Financiera</strong></td>
+        <td>F1</td>
+        <td>Incrementar los ingresos por contratos en un 20% hacia 2027</td>
+        <td>Crecimiento sostenible que financie la modernización operativa</td>
+      </tr>
+      <tr style="background:#dbeafe">
+        <td>F2</td>
+        <td>Reducir el costo operativo por puesto de guardia en un 8%</td>
+        <td>Mejora de rentabilidad sin sacrificar calidad del servicio</td>
+      </tr>
+      <tr style="background:#dbeafe">
+        <td>F3</td>
+        <td>Diversificar ingresos: que el monitoreo electrónico represente el 35% del total</td>
+        <td>Reducir dependencia de la línea de guardias y acceder a mayor margen</td>
+      </tr>
+      <tr style="background:#dbeafe">
+        <td>F4</td>
+        <td>Mantener el EBITDA por encima del 18%</td>
+        <td>Garantizar la viabilidad financiera ante variaciones del mercado</td>
+      </tr>
+      <tr style="background:#dcfce7">
+        <td rowspan="4"><strong>🤝 Clientes</strong></td>
+        <td>C1</td>
+        <td>Alcanzar una tasa de retención de clientes del 90% o superior</td>
+        <td>La retención es más rentable que la captación; reduce el costo comercial</td>
+      </tr>
+      <tr style="background:#dcfce7">
+        <td>C2</td>
+        <td>Lograr un índice de satisfacción del cliente (NPS) mayor a 70</td>
+        <td>La satisfacción del cliente es el predictor más fiable de la renovación de contratos</td>
+      </tr>
+      <tr style="background:#dcfce7">
+        <td>C3</td>
+        <td>Captar 5 nuevos clientes corporativos por trimestre</td>
+        <td>Crecimiento de cartera para alcanzar la meta de ingresos F1</td>
+      </tr>
+      <tr style="background:#dcfce7">
+        <td>C4</td>
+        <td>Reducir los reclamos por incidente no resuelto a menos del 2% de los casos</td>
+        <td>Los reclamos no atendidos son la principal causa de pérdida de contratos</td>
+      </tr>
+      <tr style="background:#fef9c3">
+        <td rowspan="4"><strong>⚙️ Procesos Internos</strong></td>
+        <td>P1</td>
+        <td>Reducir el tiempo de respuesta ante incidentes a menos de 8 minutos</td>
+        <td>El tiempo de respuesta es el atributo más valorado por los clientes corporativos</td>
+      </tr>
+      <tr style="background:#fef9c3">
+        <td>P2</td>
+        <td>Lograr que el 100% de los puestos de guardia cumplan protocolos certificados</td>
+        <td>El cumplimiento de protocolos reduce incidentes y respalda renovaciones de contratos</td>
+      </tr>
+      <tr style="background:#fef9c3">
+        <td>P3</td>
+        <td>Implementar el sistema de monitoreo en tiempo real en el 100% de contratos CCTV</td>
+        <td>La tecnología de monitoreo diferencia a SEGURECUADOR de competidores</td>
+      </tr>
+      <tr style="background:#fef9c3">
+        <td>P4</td>
+        <td>Reducir la tasa de accidentes laborales en un 30%</td>
+        <td>La seguridad del personal reduce costos de IESS y protege la reputación</td>
+      </tr>
+      <tr style="background:#fce7f3">
+        <td rowspan="4"><strong>🌱 Aprendizaje y Crecimiento</strong></td>
+        <td>A1</td>
+        <td>Capacitar al 100% del personal operativo con mínimo 40 horas anuales</td>
+        <td>El conocimiento del guardia determina la calidad del servicio en campo</td>
+      </tr>
+      <tr style="background:#fce7f3">
+        <td>A2</td>
+        <td>Alcanzar un índice de clima laboral superior al 75%</td>
+        <td>El bienestar del personal reduce la rotación y mejora el desempeño</td>
+      </tr>
+      <tr style="background:#fce7f3">
+        <td>A3</td>
+        <td>Implementar un sistema de gestión de desempeño individual por guardia</td>
+        <td>La evaluación individual permite identificar brechas de capacitación y reconocer el mérito</td>
+      </tr>
+      <tr style="background:#fce7f3">
+        <td>A4</td>
+        <td>Actualizar la plataforma tecnológica de monitoreo cada 18 meses</td>
+        <td>La tecnología es el diferenciador clave frente a competidores en el segmento CCTV</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 class="sub">2.5 Mapa estratégico visual de SEGURECUADOR S.A.</h3>
+
+  <p class="txt">El siguiente mapa muestra los objetivos organizados por perspectiva, con la lógica causa-efecto implícita (de abajo hacia arriba):</p>
+
+  <div class="mapa-wrap">
+    <div class="mapa">
+      <!-- FINANCIERA (arriba) -->
+      <div class="mapa-row">
+        <div class="mapa-etq etq-fin">💰<br>Perspectiva<br>Financiera</div>
+        <div class="mapa-obj">
+          <span class="obj-pill bg-fin">F1 · Crecer ingresos 20%</span>
+          <span class="obj-pill bg-fin">F2 · Reducir costo/puesto 8%</span>
+          <span class="obj-pill bg-fin">F3 · Diversificar hacia CCTV 35%</span>
+          <span class="obj-pill bg-fin">F4 · EBITDA ≥ 18%</span>
+        </div>
+      </div>
+      <!-- CLIENTES -->
+      <div class="mapa-row">
+        <div class="mapa-etq etq-cli">🤝<br>Perspectiva<br>del Cliente</div>
+        <div class="mapa-obj">
+          <span class="obj-pill bg-cli">C1 · Retención ≥ 90%</span>
+          <span class="obj-pill bg-cli">C2 · NPS &gt; 70</span>
+          <span class="obj-pill bg-cli">C3 · 5 nuevos clientes/trim.</span>
+          <span class="obj-pill bg-cli">C4 · Reclamos &lt; 2%</span>
+        </div>
+      </div>
+      <!-- PROCESOS -->
+      <div class="mapa-row">
+        <div class="mapa-etq etq-pro">⚙️<br>Perspectiva<br>Procesos</div>
+        <div class="mapa-obj">
+          <span class="obj-pill bg-pro">P1 · Respuesta &lt; 8 min</span>
+          <span class="obj-pill bg-pro">P2 · 100% protocolos</span>
+          <span class="obj-pill bg-pro">P3 · CCTV tiempo real 100%</span>
+          <span class="obj-pill bg-pro">P4 · Accidentes −30%</span>
+        </div>
+      </div>
+      <!-- APRENDIZAJE (abajo) -->
+      <div class="mapa-row">
+        <div class="mapa-etq etq-apr">🌱<br>Aprendizaje<br>y Crecimiento</div>
+        <div class="mapa-obj">
+          <span class="obj-pill bg-apr">A1 · 40 h capacitación/año</span>
+          <span class="obj-pill bg-apr">A2 · Clima laboral ≥ 75%</span>
+          <span class="obj-pill bg-apr">A3 · Sistema de desempeño</span>
+          <span class="obj-pill bg-apr">A4 · Tecnología actualizada</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="causa-efecto" style="margin-top:20px">
+    <h4>🔗 Tres cadenas causales clave en SEGURECUADOR S.A.</h4>
+    <p style="font-size:0.88rem;color:#445;margin-bottom:10px"><strong>Cadena 1 — Calidad del personal:</strong></p>
+    <div class="flecha-chain" style="margin-bottom:12px">
+      <span class="fc-item">A1 · Capacitación</span><span class="fc-arr">→</span>
+      <span class="fc-item">P2 · Protocolos 100%</span><span class="fc-arr">→</span>
+      <span class="fc-item">C2 · NPS alto</span><span class="fc-arr">→</span>
+      <span class="fc-item">F1 · Más ingresos</span>
+    </div>
+    <p style="font-size:0.88rem;color:#445;margin-bottom:10px"><strong>Cadena 2 — Tecnología de monitoreo:</strong></p>
+    <div class="flecha-chain" style="margin-bottom:12px">
+      <span class="fc-item">A4 · Plataforma actualizada</span><span class="fc-arr">→</span>
+      <span class="fc-item">P3 · CCTV tiempo real</span><span class="fc-arr">→</span>
+      <span class="fc-item">C3 · Nuevos clientes</span><span class="fc-arr">→</span>
+      <span class="fc-item">F3 · Diversificación</span>
+    </div>
+    <p style="font-size:0.88rem;color:#445;margin-bottom:10px"><strong>Cadena 3 — Retención de clientes:</strong></p>
+    <div class="flecha-chain">
+      <span class="fc-item">A2 · Clima laboral</span><span class="fc-arr">→</span>
+      <span class="fc-item">P1 · Respuesta &lt; 8 min</span><span class="fc-arr">→</span>
+      <span class="fc-item">C1 · Retención 90%</span><span class="fc-arr">→</span>
+      <span class="fc-item">F4 · EBITDA estable</span>
+    </div>
+  </div>
+
+  <div class="caja-clave">
+    <h4>💡 Idea Clave del Tema 2</h4>
+    <p>El mapa estratégico convierte la estrategia en una historia visual comprensible. En vez de decir "debemos ser competitivos", el mapa dice: "si capacitamos a nuestros guardias (A1), reducirán los tiempos de respuesta (P1), lo que aumentará la satisfacción del cliente (C2), y eso se traducirá en contratos renovados (F1)". Esta claridad narrativa es lo que permite alinear a toda la organización hacia los mismos objetivos.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PANEL 3: TEMA 3 — BSC COMPLETO
+══════════════════════════════════════════════════════════════ -->
+<section class="tab-panel" id="panel-t3">
+  <h2 class="sec">📊 Tema 3: BSC Completo — Indicadores, Metas, Iniciativas y Responsables</h2>
+
+  <h3 class="sub">3.1 Estructura de un BSC completo</h3>
+
+  <div class="caja-def">
+    <h4>Los cuatro componentes de cada objetivo en el BSC</h4>
+    <ul>
+      <li><strong>Indicador (KPI):</strong> ¿Cómo medimos el objetivo? Es la métrica específica y cuantificable que muestra el progreso hacia el objetivo.</li>
+      <li><strong>Meta:</strong> ¿A qué nivel queremos llegar y en qué plazo? Sin meta, el indicador solo describe; con meta, orienta.</li>
+      <li><strong>Iniciativa estratégica:</strong> ¿Qué acciones concretas nos llevarán a la meta? Son proyectos o programas con inicio, fin y presupuesto definidos.</li>
+      <li><strong>Responsable:</strong> ¿Quién rinde cuentas por el resultado? La asignación de responsabilidad es esencial: lo que no tiene dueño, no se cumple.</li>
+    </ul>
+  </div>
+
+  <p class="txt">A continuación se presenta el <strong>BSC completo de SEGURECUADOR S.A.</strong> para el período 2026–2027, con los 16 objetivos estratégicos del mapa estratégico convertidos en compromisos medibles:</p>
+
+  <!-- BSC FINANCIERO -->
+  <div class="bsc-section">
+    <h3 style="background:#1e40af;border-radius:8px 8px 0 0;padding:10px 14px;color:#fff;margin:0">💰 Perspectiva Financiera</h3>
+    <div class="tbl-scroll">
+    <table class="bsc-table">
+      <thead style="background:#1e40af">
+        <tr>
+          <th>Obj.</th>
+          <th>Indicador (KPI)</th>
+          <th>Meta 2027</th>
+          <th>Frecuencia</th>
+          <th>Iniciativa estratégica</th>
+          <th>Responsable</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>F1</strong><br>Incrementar ingresos</td>
+          <td>Variación porcentual de ingresos totales respecto al año anterior</td>
+          <td><span class="badge-meta">+20%</span></td>
+          <td>Mensual</td>
+          <td>Plan comercial de expansión: nuevos contratos en sectores industriales de Guayaquil y Samborondón</td>
+          <td>Gerente Comercial</td>
+        </tr>
+        <tr>
+          <td><strong>F2</strong><br>Reducir costo/puesto</td>
+          <td>Costo operativo mensual promedio por puesto de guardia (USD)</td>
+          <td><span class="badge-meta">−8%</span></td>
+          <td>Mensual</td>
+          <td>Revisión de rutas de patrullaje; optimización de turnos; negociación de uniformes por volumen</td>
+          <td>Gerente de Operaciones</td>
+        </tr>
+        <tr>
+          <td><strong>F3</strong><br>Diversificar hacia CCTV</td>
+          <td>Porcentaje de ingresos provenientes del monitoreo electrónico sobre ingresos totales</td>
+          <td><span class="badge-meta">35%</span></td>
+          <td>Trimestral</td>
+          <td>Lanzamiento del paquete "SmartSecurity": cámara + monitoreo 24/7 + informe mensual para clientes PyMEs</td>
+          <td>Gerente de Tecnología</td>
+        </tr>
+        <tr>
+          <td><strong>F4</strong><br>Mantener EBITDA</td>
+          <td>EBITDA como porcentaje de los ingresos totales</td>
+          <td><span class="badge-meta">≥ 18%</span></td>
+          <td>Trimestral</td>
+          <td>Revisión semestral de estructura de costos fijos; política de precios indexada al salario básico unificado del SBU</td>
+          <td>Gerente Financiero</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- BSC CLIENTES -->
+  <div class="bsc-section">
+    <h3 style="background:#166534;border-radius:8px 8px 0 0;padding:10px 14px;color:#fff;margin:0">🤝 Perspectiva del Cliente</h3>
+    <div class="tbl-scroll">
+    <table class="bsc-table">
+      <thead style="background:#166534">
+        <tr>
+          <th>Obj.</th>
+          <th>Indicador (KPI)</th>
+          <th>Meta 2027</th>
+          <th>Frecuencia</th>
+          <th>Iniciativa estratégica</th>
+          <th>Responsable</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>C1</strong><br>Retención de clientes</td>
+          <td>Porcentaje de contratos renovados sobre total de contratos vencidos</td>
+          <td><span class="badge-meta">≥ 90%</span></td>
+          <td>Trimestral</td>
+          <td>Programa de visitas de seguimiento 60 días antes del vencimiento de cada contrato</td>
+          <td>Gerente Comercial</td>
+        </tr>
+        <tr>
+          <td><strong>C2</strong><br>Satisfacción del cliente (NPS)</td>
+          <td>Net Promoter Score (encuesta semestral a clientes)</td>
+          <td><span class="badge-meta">NPS &gt; 70</span></td>
+          <td>Semestral</td>
+          <td>Implementar encuesta de satisfacción digital tras cada incidente atendido; reunión trimestral cliente-gerente</td>
+          <td>Gerente Comercial</td>
+        </tr>
+        <tr>
+          <td><strong>C3</strong><br>Captación de nuevos clientes</td>
+          <td>Número de nuevos contratos firmados por trimestre</td>
+          <td><span class="badge-meta">5/trimestre</span></td>
+          <td>Mensual</td>
+          <td>Participación en ferias empresariales de Guayaquil; alianza con corredores de seguros para referidos</td>
+          <td>Ejecutivo Comercial</td>
+        </tr>
+        <tr>
+          <td><strong>C4</strong><br>Reducir reclamos sin resolución</td>
+          <td>Tasa de reclamos sin resolución satisfactoria en 24 horas (% del total de casos)</td>
+          <td><span class="badge-meta">&lt; 2%</span></td>
+          <td>Mensual</td>
+          <td>Central de atención al cliente 24/7; protocolo de escalamiento en menos de 2 horas</td>
+          <td>Jefe de Operaciones</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- BSC PROCESOS -->
+  <div class="bsc-section">
+    <h3 style="background:#92400e;border-radius:8px 8px 0 0;padding:10px 14px;color:#fff;margin:0">⚙️ Perspectiva de Procesos Internos</h3>
+    <div class="tbl-scroll">
+    <table class="bsc-table">
+      <thead style="background:#92400e">
+        <tr>
+          <th>Obj.</th>
+          <th>Indicador (KPI)</th>
+          <th>Meta 2027</th>
+          <th>Frecuencia</th>
+          <th>Iniciativa estratégica</th>
+          <th>Responsable</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>P1</strong><br>Tiempo de respuesta</td>
+          <td>Tiempo promedio de respuesta ante incidentes reportados (minutos)</td>
+          <td><span class="badge-meta">&lt; 8 min</span></td>
+          <td>Semanal</td>
+          <td>Reorganización de zonas de patrullaje; GPS en unidades de respuesta rápida; centro de mando actualizado</td>
+          <td>Jefe de Operaciones</td>
+        </tr>
+        <tr>
+          <td><strong>P2</strong><br>Cumplimiento de protocolos</td>
+          <td>Porcentaje de puestos de guardia que superan auditoría de protocolos (mensual)</td>
+          <td><span class="badge-meta">100%</span></td>
+          <td>Mensual</td>
+          <td>Checklist digital de cumplimiento; auditorías sorpresa mensuales por supervisores</td>
+          <td>Supervisor Zonal</td>
+        </tr>
+        <tr>
+          <td><strong>P3</strong><br>Monitoreo en tiempo real</td>
+          <td>Porcentaje de contratos CCTV con monitoreo activo las 24 horas sobre total de contratos de monitoreo</td>
+          <td><span class="badge-meta">100%</span></td>
+          <td>Mensual</td>
+          <td>Migración a plataforma cloud de monitoreo; instalación de UPS en todos los centros de control</td>
+          <td>Gerente de Tecnología</td>
+        </tr>
+        <tr>
+          <td><strong>P4</strong><br>Reducir accidentes laborales</td>
+          <td>Tasa de accidentabilidad: número de accidentes por cada 100 empleados por año</td>
+          <td><span class="badge-meta">−30%</span></td>
+          <td>Mensual</td>
+          <td>Programa de seguridad ocupacional conforme IESS; dotación completa de EPP; simulacros trimestrales</td>
+          <td>Jefe de RRHH / Seguridad Ocupacional</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- BSC APRENDIZAJE -->
+  <div class="bsc-section">
+    <h3 style="background:#831843;border-radius:8px 8px 0 0;padding:10px 14px;color:#fff;margin:0">🌱 Perspectiva de Aprendizaje y Crecimiento</h3>
+    <div class="tbl-scroll">
+    <table class="bsc-table">
+      <thead style="background:#831843">
+        <tr>
+          <th>Obj.</th>
+          <th>Indicador (KPI)</th>
+          <th>Meta 2027</th>
+          <th>Frecuencia</th>
+          <th>Iniciativa estratégica</th>
+          <th>Responsable</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>A1</strong><br>Capacitación del personal</td>
+          <td>Horas de capacitación por empleado operativo al año</td>
+          <td><span class="badge-meta">≥ 40 h/año</span></td>
+          <td>Trimestral</td>
+          <td>Plan anual de capacitación en uso de fuerza, primeros auxilios, manejo de conflictos y protocolos CCTV</td>
+          <td>Jefe de RRHH</td>
+        </tr>
+        <tr>
+          <td><strong>A2</strong><br>Clima laboral</td>
+          <td>Índice de clima laboral obtenido en encuesta anónima semestral (escala 0–100)</td>
+          <td><span class="badge-meta">≥ 75 / 100</span></td>
+          <td>Semestral</td>
+          <td>Encuesta de clima laboral; programa de bienestar (comedor, seguro médico complementario, reconocimiento mensual)</td>
+          <td>Jefe de RRHH</td>
+        </tr>
+        <tr>
+          <td><strong>A3</strong><br>Sistema de desempeño</td>
+          <td>Porcentaje de empleados con evaluación de desempeño documentada y retroalimentada en el período</td>
+          <td><span class="badge-meta">100%</span></td>
+          <td>Semestral</td>
+          <td>Implementación de software de gestión de personal; capacitación a supervisores en evaluación por competencias</td>
+          <td>Jefe de RRHH</td>
+        </tr>
+        <tr>
+          <td><strong>A4</strong><br>Actualización tecnológica</td>
+          <td>Porcentaje de equipos de monitoreo con vida útil menor a 18 meses sobre el total</td>
+          <td><span class="badge-meta">≥ 80%</span></td>
+          <td>Anual</td>
+          <td>Plan de inversión tecnológica: USD 35.000 anuales para renovación de cámaras, DVRs y software de monitoreo</td>
+          <td>Gerente de Tecnología</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <h3 class="sub">3.2 Semáforo de seguimiento del BSC</h3>
+
+  <p class="txt">El BSC no solo define los indicadores: también establece un sistema de semáforo para el seguimiento periódico. Cada indicador tiene tres estados:</p>
+
+  <div class="caja-def">
+    <h4>Sistema de alertas del BSC</h4>
+    <ul>
+      <li><span class="semaforo s-verde"></span><strong>Verde (En meta):</strong> el resultado actual cumple o supera la meta definida. No requiere acción correctiva inmediata.</li>
+      <li><span class="semaforo s-ambar"></span><strong>Ámbar (En riesgo):</strong> el resultado está entre el 80% y el 99% de la meta. Se requiere revisión de las iniciativas y posible ajuste del plan.</li>
+      <li><span class="semaforo s-rojo"></span><strong>Rojo (Bajo meta):</strong> el resultado es inferior al 80% de la meta. Se activa un plan de contingencia y se eleva a la gerencia general.</li>
+    </ul>
+  </div>
+
+  <div class="caja-ej">
+    <h4>📌 Ejemplo de revisión mensual en SEGURECUADOR S.A. — Abril 2026</h4>
+    <div class="tbl-scroll">
+    <table class="bsc-table" style="font-size:0.85rem">
+      <thead style="background:#003366">
+        <tr>
+          <th>Indicador</th><th>Meta</th><th>Resultado Abril</th><th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Crecimiento de ingresos (acum.)</td><td>+20%</td><td>+12%</td><td><span class="semaforo s-ambar"></span>Ámbar</td></tr>
+        <tr><td>Retención de clientes</td><td>≥ 90%</td><td>91%</td><td><span class="semaforo s-verde"></span>Verde</td></tr>
+        <tr><td>Tiempo de respuesta promedio</td><td>&lt; 8 min</td><td>11 min</td><td><span class="semaforo s-rojo"></span>Rojo</td></tr>
+        <tr><td>Cumplimiento de protocolos</td><td>100%</td><td>87%</td><td><span class="semaforo s-rojo"></span>Rojo</td></tr>
+        <tr><td>Horas de capacitación (acum.)</td><td>40 h/año</td><td>18 h (45%)</td><td><span class="semaforo s-ambar"></span>Ámbar</td></tr>
+        <tr><td>Nuevos clientes firmados (trim.)</td><td>5</td><td>7</td><td><span class="semaforo s-verde"></span>Verde</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p style="font-size:0.88rem;margin-top:10px;color:#445">El semáforo de abril revela que SEGURECUADOR tiene buenos resultados comerciales (captación de clientes y retención), pero problemas operativos críticos (tiempo de respuesta y protocolos) que, de no corregirse, afectarán la satisfacción del cliente en los próximos meses, y con ello la retención. La cadena causal hace visible que la raíz del problema está en la perspectiva de Aprendizaje: la capacitación acumulada al 45% del objetivo revela que los guardias aún no tienen el entrenamiento necesario.</p>
+  </div>
+
+  <h3 class="sub">3.3 Integración del BSC con las herramientas previas del semestre</h3>
+
+  <div class="caja-def">
+    <h4>El BSC como integrador de todas las herramientas</h4>
+    <p>El Cuadro de Mando Integral no reemplaza a las herramientas estudiadas en el semestre: las integra y les da propósito estratégico:</p>
+    <ul style="margin-top:8px">
+      <li>Los <strong>análisis de costos y CVU</strong> (Unidad 2) alimentan el objetivo F2 (costo por puesto) y F4 (EBITDA).</li>
+      <li>Los <strong>presupuestos</strong> (Unidad 3) son las iniciativas estratégicas cuantificadas del BSC.</li>
+      <li>El <strong>análisis de variaciones</strong> (Semana 11) es el mecanismo de seguimiento del semáforo BSC.</li>
+      <li>Los <strong>KPIs y el dashboard</strong> (Semana 12) son la interfaz visual del BSC en el día a día.</li>
+    </ul>
+  </div>
+
+  <div class="caja-clave">
+    <h4>💡 Idea Clave del Tema 3</h4>
+    <p>Un BSC sin iniciativas es solo un listado de deseos; un BSC sin responsables es un documento inútil; un BSC sin seguimiento es papel archivado. Las cuatro columnas del BSC — indicador, meta, iniciativa y responsable — son inseparables. La potencia del modelo está en que convierte la estrategia en compromisos concretos, medibles, y en manos de personas específicas que responden por los resultados ante la gerencia general.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PANEL 4: EJERCICIO INTERACTIVO
+══════════════════════════════════════════════════════════════ -->
+<section class="tab-panel" id="panel-ejercicio">
+  <h2 class="sec">✏️ Ejercicio Interactivo — Clasificación y Análisis del BSC</h2>
+  <p class="txt">Responde las 8 preguntas basadas en el caso SEGURECUADOR S.A. Una vez que hayas respondido todas, presiona <strong>Verificar respuestas</strong> para conocer tus resultados con retroalimentación detallada.</p>
+
+  <!-- ítem 1 -->
+  <div class="quiz-item">
+    <p class="pregunta">1. El objetivo "Reducir el tiempo de respuesta ante incidentes a menos de 8 minutos" pertenece a la perspectiva:</p>
+    <label><input type="radio" name="ei1" value="a">A) Financiera</label>
+    <label><input type="radio" name="ei1" value="b">B) Del Cliente</label>
+    <label><input type="radio" name="ei1" value="c">C) De Procesos Internos</label>
+    <label><input type="radio" name="ei1" value="d">D) De Aprendizaje y Crecimiento</label>
+    <div class="feedback" id="fb-ei1"></div>
+  </div>
+
+  <!-- ítem 2 -->
+  <div class="quiz-item">
+    <p class="pregunta">2. En el BSC de SEGURECUADOR S.A., el objetivo A1 "Capacitar al 100% del personal con mínimo 40 horas anuales" es un ejemplo de objetivo de la perspectiva de Aprendizaje porque:</p>
+    <label><input type="radio" name="ei2" value="a">A) Genera ingresos directos por capacitación</label>
+    <label><input type="radio" name="ei2" value="b">B) Desarrolla las capacidades internas que habilitan los buenos resultados en procesos, clientes y finanzas</label>
+    <label><input type="radio" name="ei2" value="c">C) Es el indicador más importante del BSC</label>
+    <label><input type="radio" name="ei2" value="d">D) Se mide directamente con el estado de resultados</label>
+    <div class="feedback" id="fb-ei2"></div>
+  </div>
+
+  <!-- ítem 3 -->
+  <div class="quiz-item">
+    <p class="pregunta">3. El Net Promoter Score (NPS) es el indicador asignado al objetivo C2 "Satisfacción del cliente". ¿Qué mide el NPS exactamente?</p>
+    <label><input type="radio" name="ei3" value="a">A) El margen de contribución por contrato</label>
+    <label><input type="radio" name="ei3" value="b">B) El porcentaje de incidentes resueltos en menos de 24 horas</label>
+    <label><input type="radio" name="ei3" value="c">C) La probabilidad de que un cliente recomiende la empresa a otros, calculada en una encuesta</label>
+    <label><input type="radio" name="ei3" value="d">D) El número de contratos nuevos firmados por trimestre</label>
+    <div class="feedback" id="fb-ei3"></div>
+  </div>
+
+  <!-- ítem 4 -->
+  <div class="quiz-item">
+    <p class="pregunta">4. SEGURECUADOR analiza su BSC en abril de 2026 y encuentra que el tiempo de respuesta es de 11 minutos (meta: menos de 8). ¿Qué color de semáforo corresponde a este indicador?</p>
+    <label><input type="radio" name="ei4" value="a">A) Verde, porque está próximo a la meta</label>
+    <label><input type="radio" name="ei4" value="b">B) Ámbar, porque supera la meta en menos del 20%</label>
+    <label><input type="radio" name="ei4" value="c">C) Rojo, porque el resultado es inferior al 80% de cumplimiento de la meta</label>
+    <label><input type="radio" name="ei4" value="d">D) No hay semáforo para indicadores de procesos</label>
+    <div class="feedback" id="fb-ei4"></div>
+  </div>
+
+  <!-- ítem 5 -->
+  <div class="quiz-item">
+    <p class="pregunta">5. La cadena causa-efecto "A4 (Plataforma actualizada) → P3 (CCTV tiempo real) → C3 (Nuevos clientes) → F3 (Diversificación hacia CCTV)" ilustra que:</p>
+    <label><input type="radio" name="ei5" value="a">A) Los resultados financieros causan los procesos internos</label>
+    <label><input type="radio" name="ei5" value="b">B) La tecnología es más importante que el personal</label>
+    <label><input type="radio" name="ei5" value="c">C) Los objetivos de Aprendizaje son la base que impulsa hacia arriba los resultados en Procesos, Clientes y Finanzas</label>
+    <label><input type="radio" name="ei5" value="d">D) El cliente define los procesos internos de la empresa</label>
+    <div class="feedback" id="fb-ei5"></div>
+  </div>
+
+  <!-- ítem 6 -->
+  <div class="quiz-item">
+    <p class="pregunta">6. El EBITDA es el indicador del objetivo F4 del BSC de SEGURECUADOR. ¿Por qué se lo coloca en la perspectiva Financiera y no en Procesos?</p>
+    <label><input type="radio" name="ei6" value="a">A) Porque el EBITDA mide el resultado económico generado para los accionistas, que es el objetivo de la perspectiva financiera</label>
+    <label><input type="radio" name="ei6" value="b">B) Porque el EBITDA solo lo puede calcular el gerente financiero</label>
+    <label><input type="radio" name="ei6" value="c">C) Porque los procesos no afectan al EBITDA</label>
+    <label><input type="radio" name="ei6" value="d">D) Porque los clientes son quienes determinan el EBITDA directamente</label>
+    <div class="feedback" id="fb-ei6"></div>
+  </div>
+
+  <!-- ítem 7 -->
+  <div class="quiz-item">
+    <p class="pregunta">7. ¿Cuál de los siguientes elementos NO forma parte de la estructura de un BSC completo?</p>
+    <label><input type="radio" name="ei7" value="a">A) Indicador (KPI)</label>
+    <label><input type="radio" name="ei7" value="b">B) Meta</label>
+    <label><input type="radio" name="ei7" value="c">C) Árbol de decisión financiero</label>
+    <label><input type="radio" name="ei7" value="d">D) Iniciativa estratégica y responsable</label>
+    <div class="feedback" id="fb-ei7"></div>
+  </div>
+
+  <!-- ítem 8 -->
+  <div class="quiz-item">
+    <p class="pregunta">8. En el mapa estratégico de SEGURECUADOR S.A., la perspectiva de Aprendizaje y Crecimiento se coloca en la parte inferior porque:</p>
+    <label><input type="radio" name="ei8" value="a">A) Es la menos importante para la gerencia</label>
+    <label><input type="radio" name="ei8" value="b">B) Es la base habilitante de todo el sistema: sus objetivos "causan" los resultados en las perspectivas superiores</label>
+    <label><input type="radio" name="ei8" value="c">C) Sus indicadores son los más difíciles de medir</label>
+    <label><input type="radio" name="ei8" value="d">D) La perspectiva financiera siempre debe ir al fondo del mapa</label>
+    <div class="feedback" id="fb-ei8"></div>
+  </div>
+
+  <div>
+    <button class="btn-verificar" id="btn-ej">Verificar respuestas</button>
+    <button class="btn-reset" id="btn-ej-reset">Reiniciar</button>
+  </div>
+  <div class="alerta-incompleto" id="alerta-ej">⚠️ Responde todas las preguntas antes de verificar.</div>
+
+  <div class="panel-resultado" id="resultado-ej">
+    <p class="score-txt" id="score-ej-txt"></p>
+    <div class="barra-progreso"><div class="barra-fill" id="barra-ej" style="background:var(--azul)"></div></div>
+    <p id="msg-ej" style="font-size:0.97rem;margin-top:8px"></p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PANEL 5: CUESTIONARIO
+══════════════════════════════════════════════════════════════ -->
+<section class="tab-panel" id="panel-cuestionario">
+  <h2 class="sec">🧩 Cuestionario — 10 Preguntas de Opción Múltiple</h2>
+  <p class="txt">Selecciona la respuesta correcta para cada pregunta. Las preguntas <span class="badge-tipo t-teo">Teórica</span> tienen su respuesta cubierta en el contenido del widget. Las preguntas <span class="badge-tipo t-ana">Análisis</span> presentan un mini-caso que debes interpretar de forma autónoma.</p>
+
+  <!-- Q1 -->
+  <div class="quiz-item">
+    <p class="pregunta">1. <span class="badge-tipo t-teo">Teórica</span> ¿En qué año publicaron Kaplan y Norton el concepto del Balanced Scorecard?</p>
+    <label><input type="radio" name="qi1" value="a">A) 1984</label>
+    <label><input type="radio" name="qi1" value="b">B) 1992</label>
+    <label><input type="radio" name="qi1" value="c">C) 2000</label>
+    <label><input type="radio" name="qi1" value="d">D) 2004</label>
+    <div class="feedback" id="fb-qi1"></div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="quiz-item">
+    <p class="pregunta">2. <span class="badge-tipo t-teo">Teórica</span> La palabra "Balanced" (equilibrado) en el nombre del BSC hace referencia a:</p>
+    <label><input type="radio" name="qi2" value="a">A) El equilibrio entre activos y pasivos del balance general</label>
+    <label><input type="radio" name="qi2" value="b">B) El equilibrio entre indicadores financieros y no financieros, entre resultados pasados e impulsores futuros, entre perspectivas internas y externas</label>
+    <label><input type="radio" name="qi2" value="c">C) El equilibrio entre el presupuesto aprobado y el ejecutado</label>
+    <label><input type="radio" name="qi2" value="d">D) El equilibrio entre los ingresos y los egresos del flujo de caja</label>
+    <div class="feedback" id="fb-qi2"></div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="quiz-item">
+    <p class="pregunta">3. <span class="badge-tipo t-teo">Teórica</span> La pregunta estratégica que responde la Perspectiva del Cliente en el BSC es:</p>
+    <label><input type="radio" name="qi3" value="a">A) ¿En qué procesos debemos ser excelentes?</label>
+    <label><input type="radio" name="qi3" value="b">B) ¿Podemos continuar mejorando y creando valor?</label>
+    <label><input type="radio" name="qi3" value="c">C) ¿Cómo nos ven nuestros clientes?</label>
+    <label><input type="radio" name="qi3" value="d">D) ¿Cómo nos ven nuestros accionistas?</label>
+    <div class="feedback" id="fb-qi3"></div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="quiz-item">
+    <p class="pregunta">4. <span class="badge-tipo t-teo">Teórica</span> En el BSC, los indicadores de la perspectiva de Aprendizaje y Crecimiento son importantes porque:</p>
+    <label><input type="radio" name="qi4" value="a">A) Son los que generan directamente los ingresos de la empresa</label>
+    <label><input type="radio" name="qi4" value="b">B) Representan la base que habilita la excelencia en procesos, que a su vez genera satisfacción del cliente y resultados financieros</label>
+    <label><input type="radio" name="qi4" value="c">C) Son los que se presentan a los accionistas en la junta general</label>
+    <label><input type="radio" name="qi4" value="d">D) Solo son relevantes en empresas de educación</label>
+    <div class="feedback" id="fb-qi4"></div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="quiz-item">
+    <p class="pregunta">5. <span class="badge-tipo t-teo">Teórica</span> ¿Cuál es la principal diferencia entre un dashboard (tablero de control) y un BSC?</p>
+    <label><input type="radio" name="qi5" value="a">A) El dashboard no puede mostrar datos financieros</label>
+    <label><input type="radio" name="qi5" value="b">B) El BSC gestiona la estrategia de largo plazo con cuatro perspectivas balanceadas y relaciones causa-efecto explícitas; el dashboard monitorea KPIs operativos de corto plazo</label>
+    <label><input type="radio" name="qi5" value="c">C) El dashboard siempre es más preciso que el BSC</label>
+    <label><input type="radio" name="qi5" value="d">D) El BSC no puede usarse en empresas de servicios</label>
+    <div class="feedback" id="fb-qi5"></div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="quiz-item">
+    <p class="pregunta">6. <span class="badge-tipo t-teo">Teórica</span> Un indicador de desempeño (KPI) en el BSC tiene un semáforo ROJO cuando:</p>
+    <label><input type="radio" name="qi6" value="a">A) El resultado supera la meta en más del 20%</label>
+    <label><input type="radio" name="qi6" value="b">B) El resultado es superior al 80% pero inferior al 100% de la meta</label>
+    <label><input type="radio" name="qi6" value="c">C) El resultado es inferior al 80% del cumplimiento de la meta establecida</label>
+    <label><input type="radio" name="qi6" value="d">D) El responsable no ha presentado su informe mensual</label>
+    <div class="feedback" id="fb-qi6"></div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="quiz-item">
+    <p class="pregunta">7. <span class="badge-tipo t-teo">Teórica</span> El mapa estratégico del BSC debe incluir entre 15 y 25 objetivos porque:</p>
+    <label><input type="radio" name="qi7" value="a">A) La norma NIIF lo exige así</label>
+    <label><input type="radio" name="qi7" value="b">B) Más de 25 diluye el foco estratégico; menos de 12 puede ser insuficiente para reflejar la complejidad de la organización</label>
+    <label><input type="radio" name="qi7" value="c">C) Es el número mínimo para cumplir con la normativa de la SCVS</label>
+    <label><input type="radio" name="qi7" value="d">D) Las cuatro perspectivas necesitan exactamente 4 objetivos cada una</label>
+    <div class="feedback" id="fb-qi7"></div>
+  </div>
+
+  <!-- Q8: análisis -->
+  <div class="quiz-item">
+    <p class="pregunta">8. <span class="badge-tipo t-ana">Análisis</span> <em>Mini-caso:</em> CENTINELA Cía. Ltda., empresa de seguridad en Quito, revisa su BSC de marzo 2026 y encuentra: tasa de rotación de personal del 38% anual (meta: menos de 15%), horas de capacitación por guardia: 8 horas (meta: 40 horas/año), tiempo de respuesta: 17 minutos (meta: menos de 8). ¿Qué perspectiva del BSC revela el problema raíz y qué cadena causal explica los demás resultados negativos?</p>
+    <label><input type="radio" name="qi8" value="a">A) Perspectiva Financiera: los ingresos son insuficientes para costear la operación</label>
+    <label><input type="radio" name="qi8" value="b">B) Perspectiva del Cliente: los clientes no están satisfechos con el servicio</label>
+    <label><input type="radio" name="qi8" value="c">C) Perspectiva de Aprendizaje y Crecimiento: la alta rotación y escasa capacitación generan guardias sin formación adecuada, lo que deteriora los procesos (tiempo de respuesta) y eventualmente la satisfacción del cliente</label>
+    <label><input type="radio" name="qi8" value="d">D) Perspectiva de Procesos Internos: los protocolos no están bien diseñados</label>
+    <div class="feedback" id="fb-qi8"></div>
+  </div>
+
+  <!-- Q9: análisis -->
+  <div class="quiz-item">
+    <p class="pregunta">9. <span class="badge-tipo t-ana">Análisis</span> <em>Mini-caso:</em> SEGURECUADOR S.A. tiene excelentes resultados en captación de nuevos clientes (C3: 8 clientes/trimestre, meta 5), pero su retención cayó al 71% (meta: 90%) y los reclamos sin resolución subieron al 6% (meta: menor al 2%). ¿Cuál es la interpretación gerencial correcta desde la perspectiva del BSC?</p>
+    <label><input type="radio" name="qi9" value="a">A) La empresa va bien porque está captando más clientes de lo previsto; se deben mantener las estrategias actuales</label>
+    <label><input type="radio" name="qi9" value="b">B) La empresa tiene un problema estructural: está creciendo en captación pero perdiendo la base existente por mala calidad de servicio; sin corregir la retención y los reclamos, el crecimiento será insostenible</label>
+    <label><input type="radio" name="qi9" value="c">C) El problema es financiero: se debe reducir el precio de los servicios para retener clientes</label>
+    <label><input type="radio" name="qi9" value="d">D) El mapa estratégico está mal diseñado y debe eliminarse el objetivo de retención</label>
+    <div class="feedback" id="fb-qi9"></div>
+  </div>
+
+  <!-- Q10: análisis -->
+  <div class="quiz-item">
+    <p class="pregunta">10. <span class="badge-tipo t-ana">Análisis</span> <em>Mini-caso:</em> El gerente de SEGURECUADOR propone añadir al BSC el objetivo "Participar en 5 torneos deportivos para empleados al año". El sub-gerente (copropietario) argumenta que este objetivo no pertenece al BSC porque no está vinculado a la estrategia. ¿Quién tiene razón y por qué?</p>
+    <label><input type="radio" name="qi10" value="a">A) El gerente, porque el bienestar del empleado siempre es un objetivo estratégico válido en cualquier BSC</label>
+    <label><input type="radio" name="qi10" value="b">B) El sub-gerente tiene razón: los torneos deportivos son una actividad de bienestar sin conexión causal demostrable con los objetivos estratégicos de la empresa; si se quiere mejorar el clima laboral (A2), el indicador debe ser el índice de clima, no el número de torneos</label>
+    <label><input type="radio" name="qi10" value="c">C) Ambos tienen razón: se pueden incluir tantos objetivos como quiera la gerencia</label>
+    <label><input type="radio" name="qi10" value="d">D) El sub-gerente tiene razón porque los torneos son muy costosos para la empresa</label>
+    <div class="feedback" id="fb-qi10"></div>
+  </div>
+
+  <div>
+    <button class="btn-verificar" id="btn-quiz">Verificar respuestas</button>
+    <button class="btn-reset" id="btn-quiz-reset">Reiniciar</button>
+  </div>
+  <div class="alerta-incompleto" id="alerta-quiz">⚠️ Responde todas las preguntas antes de verificar.</div>
+
+  <div class="panel-resultado" id="resultado-quiz">
+    <p class="score-txt" id="score-quiz-txt"></p>
+    <div class="barra-progreso"><div class="barra-fill" id="barra-quiz" style="background:var(--azul)"></div></div>
+    <p id="msg-quiz" style="font-size:0.97rem;margin-top:8px"></p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PANEL 6: ACTIVIDAD CON IA
+══════════════════════════════════════════════════════════════ -->
+<section class="tab-panel" id="panel-ia">
+  <h2 class="sec">🤖 Actividad con Inteligencia Artificial</h2>
+  <p class="txt">Esta actividad está diseñada para desarrollar tu <strong>pensamiento crítico y estratégico</strong>, no para copiar una respuesta. La IA es tu asistente de análisis, pero la interpretación y conclusiones deben ser tuyas.</p>
+
+  <div class="ia-card">
+    <h4>🎯 Actividad: Diseña el BSC de una empresa de seguridad real o imaginaria</h4>
+    <p style="font-size:0.93rem;line-height:1.65;margin-bottom:14px">
+      Imagina que eres el/la Sub-Gerente de una empresa de seguridad privada en Ecuador (puedes usar SEGURECUADOR S.A. u otra empresa ficticia de tu creación). La gerencia general te ha encargado diseñar una propuesta inicial de Cuadro de Mando Integral para presentarla en la próxima reunión del directorio.
+    </p>
+    <p style="font-size:0.9rem;color:#445;margin-bottom:10px"><strong>Herramienta recomendada:</strong> <a href="https://claude.ai" target="_blank" style="color:var(--azul)">Claude (claude.ai)</a> — acceso gratuito. También puedes usar ChatGPT, Gemini u otra IA de tu preferencia.</p>
+
+    <h4 style="margin-top:16px">📋 Prompt para copiar y usar en la IA:</h4>
+    <div class="prompt-box" id="prompt-ia">Actúa como consultor de estrategia empresarial especializado en Cuadro de Mando Integral (Balanced Scorecard). Voy a presentarte el perfil de una empresa de seguridad privada ecuatoriana y necesito que me ayudes a diseñar un BSC inicial.
+
+PERFIL DE LA EMPRESA:
+- Nombre: [escribe el nombre de tu empresa]
+- Servicios: [guardias de seguridad / monitoreo CCTV / consultoría — indica cuáles ofrece]
+- Tamaño: [número aproximado de empleados]
+- Reto estratégico principal: [describe el principal problema o meta que enfrenta la empresa]
+- Contexto Ecuador: opera bajo normativa IESS, SRI, Ley de Seguridad Privada
+
+SOLICITUD:
+1. Propón al menos 3 objetivos estratégicos para CADA UNA de las cuatro perspectivas del BSC (Financiera, Cliente, Procesos Internos, Aprendizaje y Crecimiento).
+2. Para cada objetivo, sugiere: un indicador (KPI) específico y medible, una meta cuantitativa realista para 12 meses, y una iniciativa estratégica concreta.
+3. Dibuja en texto la cadena causa-efecto más importante entre dos perspectivas.
+4. Señala qué perspectiva tiene el mayor riesgo estratégico en el contexto actual de la empresa y por qué.
+
+Responde en español, con lenguaje profesional pero accesible para un gerente no especialista en estrategia.</div>
+    <button class="btn-copiar" onclick="copiarPrompt()">📋 Copiar prompt</button>
+
+    <h4 style="margin-top:20px">🔍 ¿Qué hacer con la respuesta de la IA?</h4>
+    <ol style="font-size:0.93rem;line-height:1.75;padding-left:20px;margin-top:8px">
+      <li>Lee la propuesta de BSC que genera la IA. ¿Tiene sentido para una empresa real en Ecuador? ¿Los indicadores son medibles con la información que una PyME tendría disponible?</li>
+      <li>Identifica al menos <strong>dos objetivos</strong> que no te convenzan y reformúlalos con tu propio criterio.</li>
+      <li>Dibuja (en papel o en un documento) el mapa estratégico con los objetivos más importantes: cuatro perspectivas, cuatro flechas de causa-efecto.</li>
+      <li>Escribe un párrafo de reflexión: ¿qué perspectiva sería más difícil de implementar en una empresa de seguridad real en Guayaquil? ¿Por qué?</li>
+    </ol>
+
+    <div class="rubrica">
+      <strong>📐 Criterio de evaluación (autoevaluación):</strong>
+      <ul>
+        <li>¿El BSC tiene las cuatro perspectivas con al menos 3 objetivos cada una?</li>
+        <li>¿Los indicadores son cuantitativos y medibles (no vagas intenciones)?</li>
+        <li>¿La cadena causa-efecto tiene lógica: los objetivos de abajo realmente "causan" los de arriba?</li>
+        <li>¿La reflexión crítica es propia, no es una copia de la respuesta de la IA?</li>
+        <li>¿El BSC podría aplicarse a una empresa de seguridad privada real en Ecuador?</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="caja-clave" style="margin-top:20px">
+    <h4>💡 Recordatorio importante</h4>
+    <p>La IA es una herramienta de apoyo al pensamiento, no un sustituto de él. Una respuesta de IA sin reflexión crítica no demuestra aprendizaje. Lo que construye tu competencia profesional es la capacidad de <em>evaluar, adaptar y mejorar</em> lo que la herramienta genera. Eso es exactamente lo que hacen los mejores contadores gerenciales.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PANEL 7: PREGUNTAS REFLEXIVAS
+══════════════════════════════════════════════════════════════ -->
+<section class="tab-panel" id="panel-reflexivas">
+  <h2 class="sec">💭 Preguntas Reflexivas</h2>
+  <p class="txt">No hay respuestas correctas ni incorrectas. Estas preguntas invitan a conectar los conceptos del BSC con tu propia vida, valores y experiencia como joven profesional en Ecuador.</p>
+
+  <div class="ref-item">
+    <strong>1. Tu propio "mapa estratégico" personal</strong>
+    <p style="margin-top:8px">El BSC plantea que los resultados (perspectiva financiera) son consecuencia de las capacidades que desarrollas (aprendizaje) y las acciones que emprendes (procesos). Si diseñaras un mapa estratégico de tu propia vida universitaria, ¿cuál sería tu "perspectiva de Aprendizaje y Crecimiento" personal? ¿Qué habilidades, hábitos o actitudes estás construyendo hoy que determinarán tus resultados profesionales en cinco años?</p>
+  </div>
+
+  <div class="ref-item">
+    <strong>2. La trampa del éxito financiero a corto plazo</strong>
+    <p style="margin-top:8px">El BSC advierte que una empresa puede tener buenos resultados financieros mientras acumula problemas no financieros que la destruirán después (alta rotación de personal, clientes insatisfechos, procesos ineficientes). ¿Has vivido algo similar en tu vida personal o familiar? ¿Alguna vez lograste una meta a corto plazo descuidando algo importante a largo plazo? ¿Qué aprendiste de esa experiencia?</p>
+  </div>
+
+  <div class="ref-item">
+    <strong>3. El valor de lo que no se mide</strong>
+    <p style="margin-top:8px">Una de las críticas al BSC es que aunque incluye indicadores no financieros, sigue siendo un sistema cuantitativo: todo se convierte en número. Sin embargo, hay cosas muy valiosas que son difíciles de medir: la confianza, la lealtad, la motivación genuina, la ética. Como futuro/a contador/a gerencial en Ecuador, ¿cómo balancearías la necesidad de medir con el respeto por lo que no se puede reducir a un número?</p>
+  </div>
+
+  <div class="ref-item">
+    <strong>4. El BSC y la seguridad como responsabilidad social</strong>
+    <p style="margin-top:8px">Una empresa de seguridad privada como SEGURECUADOR S.A. no solo presta un servicio comercial: también contribuye (o no) a la seguridad ciudadana de Guayaquil. Desde tu perspectiva como copropietario/a de una empresa de seguridad, ¿incluirías en el BSC algún objetivo relacionado con el impacto en la comunidad o el bienestar social? ¿Por qué sí o por qué no?</p>
+  </div>
+
+  <div class="ref-item">
+    <strong>5. Liderazgo y la perspectiva del equipo</strong>
+    <p style="margin-top:8px">El BSC asigna un <em>responsable</em> a cada objetivo. Ser responsable de un resultado que depende del trabajo de muchas personas (guardias, supervisores, técnicos) puede ser un desafío de liderazgo enorme. ¿Qué cualidades crees que necesita un líder en una empresa de seguridad para que su equipo se comprometa de verdad con los objetivos del BSC, y no los vea como "burocracia administrativa"?</p>
+  </div>
+
+  <div class="ref-item">
+    <strong>6. El semáforo en tu vida cotidiana</strong>
+    <p style="margin-top:8px">El sistema de semáforo (verde, ámbar, rojo) del BSC es una forma honesta de mirar la realidad sin adornos. ¿Qué tan difícil es, en la vida real, reconocer que algo está "en rojo"? ¿Has trabajado en algún contexto (laboral, familiar, académico) donde las personas evitan reconocer que algo no está funcionando porque implica admitir un fracaso? ¿Qué consecuencias tuvo esa negación?</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PANEL 8: BIBLIOGRAFÍA
+══════════════════════════════════════════════════════════════ -->
+<section class="tab-panel" id="panel-biblio">
+  <h2 class="sec">📚 Bibliografía — APA 7.ª Edición</h2>
+
+  <div class="bib-item">
+    Kaplan, R. S., &amp; Norton, D. P. (1992). The balanced scorecard: Measures that drive performance. <em>Harvard Business Review</em>, <em>70</em>(1), 71–79.
+  </div>
+
+  <div class="bib-item">
+    Kaplan, R. S., &amp; Norton, D. P. (1996). <em>The balanced scorecard: Translating strategy into action</em>. Harvard Business School Press.
+  </div>
+
+  <div class="bib-item">
+    Kaplan, R. S., &amp; Norton, D. P. (2004). <em>Strategy maps: Converting intangible assets into tangible outcomes</em>. Harvard Business School Press.
+  </div>
+
+  <div class="bib-item">
+    Kaplan, R. S., &amp; Norton, D. P. (2008). <em>The execution premium: Linking strategy to operations for competitive advantage</em>. Harvard Business School Press.
+  </div>
+
+  <div class="bib-item">
+    Niven, P. R. (2014). <em>Balanced scorecard evolution: A dynamic approach to strategy execution</em>. John Wiley &amp; Sons.
+  </div>
+
+  <div class="bib-item">
+    Horngren, C. T., Datar, S. M., &amp; Rajan, M. V. (2015). <em>Contabilidad de costos: Un enfoque gerencial</em> (14.ª ed.). Pearson Educación.
+  </div>
+
+  <div class="bib-item">
+    Superintendencia de Compañías, Valores y Seguros del Ecuador (SCVS). (2023). <em>Resolución No. SCVS-INC-DNAIYC-23-0018: Normas sobre gobierno corporativo para compañías de seguridad privada</em>. SCVS. https://www.supercias.gob.ec
+  </div>
+
+  <div class="bib-item">
+    Servicio de Rentas Internas del Ecuador (SRI). (2024). <em>Guía de obligaciones tributarias para empresas de servicios de seguridad privada</em>. SRI. https://www.sri.gob.ec
+  </div>
+
+  <div class="bib-nota">
+    📌 <strong>Nota metodológica:</strong> Se recomienda verificar cada referencia en Google Scholar (<a href="https://scholar.google.com" target="_blank">scholar.google.com</a>) o en el repositorio institucional de la Universidad de Guayaquil antes de citar en trabajos académicos. Los libros de Kaplan y Norton pueden consultarse en la Biblioteca de la Facultad de Ciencias Administrativas o en acceso libre a través de los recursos digitales suscritos por la universidad.
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PIE DE PÁGINA
+══════════════════════════════════════════════════════════════ -->
+<footer>
+  <p>Contabilidad Gerencial · Semana 13 · Unidad 4 — Cuadro de Mando Integral (BSC)</p>
+  <p style="margin-top:4px;color:#5aaed4">Universidad de Guayaquil · Facultad de Ciencias Administrativas · Período Marzo–Julio 2026</p>
+  <p style="margin-top:4px;color:#5aaed4">Caso práctico: SEGURECUADOR S.A. | Todos los valores en USD | Normativa: SRI · SCVS · IESS · NIIF</p>
+</footer>
+
+<!-- ══════════════════════════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════════════════════════ -->
+<script>
+// ─── NAVEGACIÓN DE TABS ──────────────────────────────────────
+(function(){
+  var bar = document.getElementById('tab-bar');
+  var panels = {
+    'repaso':       document.getElementById('panel-repaso'),
+    't1':           document.getElementById('panel-t1'),
+    't2':           document.getElementById('panel-t2'),
+    't3':           document.getElementById('panel-t3'),
+    'ejercicio':    document.getElementById('panel-ejercicio'),
+    'cuestionario': document.getElementById('panel-cuestionario'),
+    'ia':           document.getElementById('panel-ia'),
+    'reflexivas':   document.getElementById('panel-reflexivas'),
+    'biblio':       document.getElementById('panel-biblio')
+  };
+
+  bar.addEventListener('click', function(e){
+    var btn = e.target.closest('.tab-btn');
+    if (!btn) return;
+    var tab = btn.getAttribute('data-tab');
+    // desactivar todos
+    bar.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('activo'); });
+    Object.values(panels).forEach(function(p){ p.classList.remove('activo'); });
+    // activar seleccionado
+    btn.classList.add('activo');
+    if (panels[tab]) panels[tab].classList.add('activo');
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+})();
+
+// ─── EJERCICIO INTERACTIVO ───────────────────────────────────
+var ejCorrects = {
+  ei1: 'c',
+  ei2: 'b',
+  ei3: 'c',
+  ei4: 'c',
+  ei5: 'c',
+  ei6: 'a',
+  ei7: 'c',
+  ei8: 'b'
+};
+
+var ejFeedbacks = {
+  ei1: {
+    ok: '✅ Correcto. El tiempo de respuesta ante incidentes es un indicador de eficiencia operativa, por lo que pertenece a la perspectiva de Procesos Internos.',
+    mal: '❌ Incorrecto. El tiempo de respuesta no es un resultado financiero ni una percepción del cliente: es una medida de la eficiencia operativa de la empresa, propia de la perspectiva de Procesos Internos.'
+  },
+  ei2: {
+    ok: '✅ Correcto. La perspectiva de Aprendizaje y Crecimiento agrupa los objetivos que desarrollan las capacidades organizacionales (personal, tecnología, cultura) que son la base habilitante de los buenos resultados en las demás perspectivas.',
+    mal: '❌ Incorrecto. La capacitación del personal no genera ingresos directos ni aparece en el estado de resultados como tal. Su valor radica en que, al mejorar las capacidades del personal, mejoran los procesos, la satisfacción del cliente y finalmente los resultados financieros.'
+  },
+  ei3: {
+    ok: '✅ Correcto. El Net Promoter Score (NPS) mide la disposición de los clientes a recomendar la empresa, obtenido mediante una encuesta con la pregunta: "En una escala del 0 al 10, ¿qué tan probable es que recomiendes nuestros servicios a un colega o amigo?"',
+    mal: '❌ Incorrecto. El NPS es un índice de satisfacción y lealtad del cliente, obtenido por encuesta. Específicamente mide la probabilidad de que el cliente recomiende la empresa, siendo un predictor clave de la renovación de contratos.'
+  },
+  ei4: {
+    ok: '✅ Correcto. Un resultado de 11 minutos sobre una meta de 8 minutos representa un cumplimiento del 57% (8/11 = 72.7%, es decir, está debajo del 80%), lo que activa el semáforo ROJO y requiere un plan de contingencia inmediato.',
+    mal: '❌ Incorrecto. Para los indicadores donde "menos es mejor" (como el tiempo de respuesta), el cumplimiento se calcula como meta/resultado × 100. 8/11 = 72.7%, que es inferior al 80%, por lo tanto el semáforo es ROJO.'
+  },
+  ei5: {
+    ok: '✅ Correcto. Esta cadena ilustra el principio central del BSC: los objetivos de Aprendizaje (base) causan los resultados de Procesos, que a su vez causan los resultados del Cliente, que finalmente se traducen en resultados Financieros. El dinero es consecuencia, no punto de partida.',
+    mal: '❌ Incorrecto. La relación causa-efecto en el BSC va de abajo hacia arriba: Aprendizaje → Procesos → Cliente → Financiero. Los objetivos de base (Aprendizaje) son la causa; los resultados financieros son la consecuencia.'
+  },
+  ei6: {
+    ok: '✅ Correcto. El EBITDA (Utilidades antes de intereses, impuestos, depreciación y amortización) mide el resultado económico generado por la operación, que es lo que interesa a los accionistas: su retorno. Por eso pertenece a la perspectiva Financiera.',
+    mal: '❌ Incorrecto. El EBITDA es un indicador de resultado económico orientado a los propietarios e inversionistas de la empresa. La pregunta estratégica de la perspectiva Financiera es precisamente "¿Cómo nos ven nuestros accionistas?", lo que incluye la rentabilidad medida por el EBITDA.'
+  },
+  ei7: {
+    ok: '✅ Correcto. El "árbol de decisión financiero" es una herramienta de análisis de decisiones bajo incertidumbre, pero NO es un componente del BSC. Los cuatro componentes del BSC son: indicador (KPI), meta, iniciativa estratégica y responsable.',
+    mal: '❌ Incorrecto. Un BSC completo se estructura con cuatro componentes por objetivo: indicador (KPI), meta, iniciativa estratégica y responsable. El árbol de decisión financiero es una herramienta diferente, no parte del BSC.'
+  },
+  ei8: {
+    ok: '✅ Correcto. En el mapa estratégico, la perspectiva de Aprendizaje y Crecimiento es la BASE del sistema: sus objetivos son los que habilitan la excelencia en procesos, la satisfacción del cliente y los resultados financieros. Se coloca abajo porque sus resultados "empujan hacia arriba" el desempeño en las perspectivas superiores.',
+    mal: '❌ Incorrecto. La perspectiva de Aprendizaje y Crecimiento se coloca en la parte inferior del mapa no porque sea menos importante, sino porque es la BASE habilitante: si el personal está capacitado (abajo), los procesos mejoran (arriba), lo que satisface al cliente (más arriba), y eso genera resultados financieros (cima del mapa).'
+  }
+};
+
+// ─── CUESTIONARIO ────────────────────────────────────────────
+var quizCorrects = {
+  qi1:'b', qi2:'b', qi3:'c', qi4:'b', qi5:'b',
+  qi6:'c', qi7:'b', qi8:'c', qi9:'b', qi10:'b'
+};
+
+var quizFeedbacks = {
+  qi1:{
+    ok:'✅ Correcto. Kaplan y Norton publicaron el BSC en 1992 en el artículo "The Balanced Scorecard: Measures that drive performance" en la Harvard Business Review.',
+    mal:'❌ Incorrecto. El BSC fue presentado por Robert S. Kaplan y David P. Norton en 1992 en la Harvard Business Review. En 2004 publicaron el concepto complementario del "Mapa Estratégico".'
+  },
+  qi2:{
+    ok:'✅ Correcto. "Balanced" hace referencia a múltiples equilibrios simultáneos: financiero/no financiero, pasado/futuro, externo/interno y objetivo/subjetivo. No tiene relación con el balance contable.',
+    mal:'❌ Incorrecto. El término "Balanced" en el BSC no se refiere al balance contable (activos = pasivos + patrimonio). Se refiere al equilibrio entre indicadores financieros y no financieros, entre resultados pasados e impulsores futuros, y entre perspectivas internas y externas.'
+  },
+  qi3:{
+    ok:'✅ Correcto. La Perspectiva del Cliente responde a la pregunta estratégica "¿Cómo nos ven nuestros clientes?" y mide satisfacción, retención, captación y cuota de mercado.',
+    mal:'❌ Incorrecto. Cada perspectiva tiene su pregunta estratégica propia: Financiera = ¿Cómo nos ven los accionistas? | Cliente = ¿Cómo nos ven los clientes? | Procesos = ¿En qué debemos ser excelentes? | Aprendizaje = ¿Podemos seguir mejorando?'
+  },
+  qi4:{
+    ok:'✅ Correcto. La perspectiva de Aprendizaje y Crecimiento es la BASE habilitante del BSC: si el personal está capacitado y la tecnología actualizada, los procesos mejoran; si los procesos mejoran, el cliente se satisface; si el cliente se satisface, los resultados financieros mejoran.',
+    mal:'❌ Incorrecto. La perspectiva de Aprendizaje no genera ingresos directos: su valor es indirecto, a través de la cadena causa-efecto. Sus objetivos desarrollan las capacidades que harán posible la excelencia operativa, la satisfacción del cliente y finalmente los resultados financieros.'
+  },
+  qi5:{
+    ok:'✅ Correcto. El dashboard monitorea KPIs operativos de corto plazo; el BSC gestiona la estrategia de mediano y largo plazo con cuatro perspectivas balanceadas y relaciones causa-efecto explícitas que conectan todos los objetivos entre sí.',
+    mal:'❌ Incorrecto. Ambas herramientas son complementarias. El dashboard es la interfaz visual de seguimiento operativo; el BSC es el sistema de gestión estratégica que da sentido a los indicadores y los conecta con la visión de largo plazo de la empresa.'
+  },
+  qi6:{
+    ok:'✅ Correcto. El semáforo ROJO se activa cuando el resultado es inferior al 80% del cumplimiento de la meta establecida. Esto requiere un plan de contingencia inmediato y escalamiento a la gerencia general.',
+    mal:'❌ Incorrecto. El sistema de semáforo del BSC funciona así: VERDE = cumple o supera la meta; ÁMBAR = entre el 80% y 99% de la meta (vigilancia); ROJO = inferior al 80% de la meta (acción correctiva urgente).'
+  },
+  qi7:{
+    ok:'✅ Correcto. Más de 25 objetivos diluye el foco estratégico y hace el BSC inmanejable en el seguimiento periódico. Menos de 12 puede ser insuficiente para capturar la complejidad de una organización real. El rango óptimo es entre 15 y 25.',
+    mal:'❌ Incorrecto. El número de objetivos en el BSC no está definido por ninguna norma contable ni regulatoria: es una recomendación de Kaplan y Norton basada en experiencia práctica. El criterio es que sea suficiente para capturar la estrategia, pero manejable para el seguimiento.'
+  },
+  qi8:{
+    ok:'✅ Correcto. La alta rotación de personal (38%) y las pocas horas de capacitación (8 de 40) son señales claras de una crisis en la Perspectiva de Aprendizaje y Crecimiento. Siguiendo la cadena causal del BSC, los guardias sin experiencia ni formación adecuada explican el tiempo de respuesta de 17 minutos (Procesos), lo que inevitablemente afectará la satisfacción del cliente.',
+    mal:'❌ Incorrecto. El BSC permite identificar el problema raíz siguiendo la cadena causal. Los datos de rotación (38%) y capacitación (8h) son indicadores de Aprendizaje y Crecimiento. Estos problemas de base explican los malos resultados en Procesos (tiempo de respuesta). La cadena es: Aprendizaje deficiente → Procesos deficientes → Cliente insatisfecho → Resultados financieros comprometidos.'
+  },
+  qi9:{
+    ok:'✅ Correcto. El BSC permite ver que el éxito en captación (C3) no compensa el deterioro en retención (C1) y reclamos (C4). Una empresa que capta 5 clientes pero pierde 10 por mala calidad de servicio no está creciendo: está encubriendo una crisis con actividad comercial. Sin corregir los procesos, el crecimiento es insostenible.',
+    mal:'❌ Incorrecto. Una de las ventajas del BSC es precisamente evitar esta trampa: los buenos resultados en un indicador no deben cegarnos ante los malos resultados en otros. Captar clientes mientras se pierde la base existente es una señal de alerta crítica que, sin corrección, llevará al declive financiero.'
+  },
+  qi10:{
+    ok:'✅ Correcto. El sub-gerente tiene razón. El BSC exige que cada objetivo tenga una conexión causal demostrable con la estrategia. Los torneos deportivos pueden ser una actividad de bienestar válida, pero el indicador de clima laboral (A2) debe medir el resultado (el índice de satisfacción del personal), no la actividad que lo genera (los torneos).',
+    mal:'❌ Incorrecto. El BSC no es un catálogo de buenas intenciones: cada objetivo debe estar vinculado a la estrategia mediante una cadena causal demostrable. El objetivo de clima laboral (A2) ya está en el BSC de SEGURECUADOR, con el indicador correcto (índice de clima). Los torneos son una iniciativa estratégica, no un objetivo del BSC.'
+  }
+};
+
+// ─── FUNCIÓN GENÉRICA DE VERIFICACIÓN ────────────────────────
+function verificar(prefix, corrects, feedbacks, btnId, alertaId, resultadoId, scoreTxtId, barraId, msgId, total) {
+  document.getElementById(btnId).addEventListener('click', function(){
+    // comprobar completitud
+    var incompleto = false;
+    for (var k in corrects) {
+      var radios = document.querySelectorAll('input[name="' + k + '"]');
+      var respondido = false;
+      radios.forEach(function(r){ if (r.checked) respondido = true; });
+      if (!respondido) { incompleto = true; break; }
+    }
+    if (incompleto) {
+      document.getElementById(alertaId).style.display = 'block';
+      return;
+    }
+    document.getElementById(alertaId).style.display = 'none';
+
+    var score = 0;
+    for (var k in corrects) {
+      var radios = document.querySelectorAll('input[name="' + k + '"]');
+      var seleccionada = null;
+      radios.forEach(function(r){ if (r.checked) seleccionada = r.value; });
+      var esCorrecta = (seleccionada === corrects[k]);
+      if (esCorrecta) score++;
+      var fb = document.getElementById('fb-' + k);
+      if (fb) {
+        fb.style.display = 'block';
+        fb.className = 'feedback ' + (esCorrecta ? 'ok' : 'mal');
+        fb.innerHTML = esCorrecta ? feedbacks[k].ok : feedbacks[k].mal;
+      }
+      // deshabilitar opciones
+      radios.forEach(function(r){ r.disabled = true; });
+    }
+
+    var pct = Math.round(score / total * 100);
+    document.getElementById(resultadoId).style.display = 'block';
+    document.getElementById(scoreTxtId).textContent = score + ' / ' + total + ' correctas (' + pct + '%)';
+    document.getElementById(barraId).style.width = pct + '%';
+    document.getElementById(barraId).style.background =
+      pct >= 80 ? '#1a7a3c' : pct >= 60 ? '#b45309' : '#b91c1c';
+
+    var emoji = pct === 100 ? '🏆' : pct >= 80 ? '🎯' : pct >= 60 ? '📘' : pct >= 40 ? '⚠️' : '📖';
+    var msgs = {
+      100:'¡Perfecto! Dominas completamente el Cuadro de Mando Integral. Tu comprensión estratégica es sólida.',
+      80:'¡Muy bien! Tienes una comprensión sólida del BSC. Revisa los ítems incorrectos para consolidar tu aprendizaje.',
+      60:'Buen avance. Comprende los conceptos básicos del BSC, pero conviene releer los temas con atención especial a la relación causa-efecto.',
+      40:'En proceso. Repasa los temas del widget, especialmente las cuatro perspectivas y la lógica del mapa estratégico.',
+      0:'Continúa estudiando. El BSC es un sistema con lógica propia; revisa los temas con calma y vuelve a intentarlo.'
+    };
+    var msgKey = pct === 100 ? 100 : pct >= 80 ? 80 : pct >= 60 ? 60 : pct >= 40 ? 40 : 0;
+    document.getElementById(msgId).textContent = emoji + ' ' + msgs[msgKey];
+  });
+}
+
+// ─── FUNCIÓN DE RESET GENÉRICA ────────────────────────────────
+function resetear(prefix, corrects, btnId, alertaId, resultadoId) {
+  document.getElementById(btnId).addEventListener('click', function(){
+    for (var k in corrects) {
+      var radios = document.querySelectorAll('input[name="' + k + '"]');
+      radios.forEach(function(r){ r.checked = false; r.disabled = false; });
+      var fb = document.getElementById('fb-' + k);
+      if (fb) { fb.style.display = 'none'; fb.className = 'feedback'; }
+    }
+    document.getElementById(alertaId).style.display = 'none';
+    document.getElementById(resultadoId).style.display = 'none';
+  });
+}
+
+// ─── INICIALIZAR EJERCICIO ────────────────────────────────────
+verificar('ei', ejCorrects, ejFeedbacks, 'btn-ej', 'alerta-ej', 'resultado-ej', 'score-ej-txt', 'barra-ej', 'msg-ej', 8);
+resetear('ei', ejCorrects, 'btn-ej-reset', 'alerta-ej', 'resultado-ej');
+
+// ─── INICIALIZAR CUESTIONARIO ─────────────────────────────────
+verificar('qi', quizCorrects, quizFeedbacks, 'btn-quiz', 'alerta-quiz', 'resultado-quiz', 'score-quiz-txt', 'barra-quiz', 'msg-quiz', 10);
+resetear('qi', quizCorrects, 'btn-quiz-reset', 'alerta-quiz', 'resultado-quiz');
+
+// ─── COPIAR PROMPT ────────────────────────────────────────────
+function copiarPrompt() {
+  var texto = document.getElementById('prompt-ia').textContent;
+  navigator.clipboard.writeText(texto).then(function(){
+    var btn = document.querySelector('.btn-copiar');
+    btn.textContent = '✅ Copiado';
+    setTimeout(function(){ btn.textContent = '📋 Copiar prompt'; }, 2000);
+  }).catch(function(){
+    alert('Selecciona y copia el texto del recuadro oscuro manualmente.');
+  });
+}
+</script>
+</body>
+</html>

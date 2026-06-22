@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semana 15 · Contabilidad Gerencial · Análisis de Rentabilidad e Informes Gerenciales</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ── VARIABLES ─────────────────────────────────────────────────── */
+:root {
+  --azul:   #003366;
+  --cielo:  #87CEEB;
+  --oro:    #FFD700;
+  --blanco: #ffffff;
+  --gris:   #f4f7fb;
+  --borde:  #dce3ee;
+  --verde:  #1a7a3c;
+  --rojo:   #b91c1c;
+  --ambar:  #b45309;
+  --texto:  #1a2a3a;
+  --sombra: 0 2px 14px rgba(0,51,102,0.10);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Source Sans 3',sans-serif;background:var(--gris);color:var(--texto);min-height:100vh;}
+
+/* ── ENCABEZADO ──────────────────────────────────────────────── */
+header{
+  background:var(--azul);
+  color:#fff;
+  padding:20px 28px 16px;
+}
+.hdr-top{display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap;}
+.hdr-icono{font-size:2.6rem;line-height:1;}
+.hdr-info h1{font-family:'Lora',serif;font-size:1.45rem;font-weight:700;line-height:1.2;}
+.hdr-info p{font-size:0.88rem;color:var(--cielo);margin-top:3px;}
+.hdr-meta{
+  display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;
+}
+.badge{
+  background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.28);
+  border-radius:20px;padding:4px 14px;font-size:0.78rem;color:#fff;
+  white-space:nowrap;
+}
+
+/* ── BARRA DE PESTAÑAS ──────────────────────────────────────── */
+.tab-bar{
+  background:var(--cielo);
+  overflow-x:auto;
+  white-space:nowrap;
+  border-bottom:2px solid #5aaed4;
+  position:sticky;top:0;z-index:100;
+}
+.tab-bar::-webkit-scrollbar{height:4px;}
+.tab-bar::-webkit-scrollbar-thumb{background:var(--azul);border-radius:2px;}
+.tab-btn{
+  display:inline-block;padding:12px 20px;cursor:pointer;
+  font-family:'Source Sans 3',sans-serif;font-size:0.88rem;color:#1a2a3a;
+  border:none;background:transparent;border-bottom:3px solid transparent;
+  transition:all 0.18s;white-space:nowrap;
+}
+.tab-btn:hover{background:rgba(255,255,255,0.5);}
+.tab-btn.activo{
+  background:var(--blanco);color:var(--azul);
+  font-weight:700;border-bottom:3px solid var(--azul);
+}
+
+/* ── CONTENIDO ───────────────────────────────────────────────── */
+.tab-panel{display:none;padding:28px 22px 48px;max-width:980px;margin:0 auto;}
+.tab-panel.activo{display:block;}
+
+/* ── COMPONENTES ─────────────────────────────────────────────── */
+h2.titulo-seccion{
+  font-family:'Lora',serif;color:var(--azul);font-size:1.22rem;
+  border-bottom:2px solid var(--borde);padding-bottom:6px;margin:24px 0 12px;
+}
+h3.sub{font-family:'Lora',serif;color:var(--azul);font-size:1.06rem;margin:20px 0 8px;}
+
+.caja-def{
+  border-left:5px solid var(--azul);background:#e8f0fb;
+  padding:14px 18px;margin:14px 0;border-radius:0 8px 8px 0;
+}
+.caja-def h4{font-family:'Lora',serif;color:var(--azul);margin-bottom:6px;font-size:0.98rem;}
+.caja-def p,.caja-def li{font-size:0.95rem;line-height:1.68;}
+.caja-def ul{padding-left:1.2em;margin-top:4px;}
+
+.caja-ej{
+  background:#dbeafe;border:1px solid #93c5fd;
+  border-radius:10px;padding:14px 18px;margin:14px 0;
+}
+.caja-ej h4{color:#1e40af;font-family:'Lora',serif;margin-bottom:8px;font-size:0.96rem;}
+.caja-ej p,.caja-ej li{font-size:0.93rem;line-height:1.65;}
+.caja-ej ul,.caja-ej ol{padding-left:1.2em;margin-top:4px;}
+
+.caja-clave{
+  background:linear-gradient(90deg,#003366 0%,#1a5ca8 100%);
+  color:#fff;border-radius:10px;padding:14px 18px;margin:16px 0;
+}
+.caja-clave h4{font-family:'Lora',serif;margin-bottom:5px;font-size:0.97rem;}
+.caja-clave p{font-size:0.92rem;line-height:1.62;color:#c8ddf5;}
+
+.caja-alerta{
+  background:#fef3c7;border:1px solid #fbbf24;
+  border-radius:8px;padding:12px 16px;margin:12px 0;font-size:0.92rem;
+}
+
+/* TABLA GERENCIAL */
+.tabla-g{width:100%;border-collapse:collapse;font-size:0.87rem;margin:14px 0;}
+.tabla-g th{background:var(--azul);color:#fff;padding:9px 12px;text-align:right;}
+.tabla-g th:first-child{text-align:left;}
+.tabla-g td{padding:8px 12px;border-bottom:1px solid #e2e8f0;text-align:right;}
+.tabla-g td:first-child{text-align:left;}
+.tabla-g tr:nth-child(even) td{background:#f0f5fb;}
+.tabla-g .subtotal td{font-weight:600;background:#e8f0fb;color:var(--azul);}
+.tabla-g .total-row td{font-weight:700;background:var(--azul);color:#fff;}
+.tabla-g .negativo{color:var(--rojo);font-weight:600;}
+.tabla-g .positivo{color:var(--verde);}
+.tabla-scroll{overflow-x:auto;border-radius:8px;border:1px solid var(--borde);margin:12px 0;}
+
+/* ── EJERCICIO / QUIZ ────────────────────────────────────────── */
+.pregunta-bloque{
+  background:#fff;border-radius:10px;border:1.5px solid var(--borde);
+  padding:18px 20px;margin-bottom:16px;box-shadow:var(--sombra);
+}
+.pregunta-bloque p.enunciado{font-weight:600;font-size:0.97rem;margin-bottom:12px;line-height:1.5;}
+.pregunta-bloque .mini-caso{
+  background:#f0f5fb;border-left:4px solid var(--cielo);
+  padding:10px 14px;margin-bottom:10px;border-radius:0 6px 6px 0;
+  font-size:0.88rem;line-height:1.6;
+}
+.opciones-lista{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.opciones-lista li label{
+  display:flex;align-items:flex-start;gap:10px;cursor:pointer;
+  padding:9px 14px;border-radius:8px;border:1.5px solid var(--borde);
+  font-size:0.9rem;transition:background 0.15s;
+}
+.opciones-lista li label:hover{background:#e8f0fb;}
+.opciones-lista input[type=radio]{margin-top:3px;flex-shrink:0;}
+
+/* Clasificar/Emparejar */
+.items-clasificar{display:flex;flex-direction:column;gap:6px;}
+.item-cls{
+  display:flex;align-items:center;justify-content:space-between;
+  background:#f8faff;border:1.5px solid var(--borde);border-radius:8px;
+  padding:8px 14px;gap:12px;flex-wrap:wrap;
+}
+.item-cls span{font-size:0.9rem;flex:1;}
+.item-cls select{
+  border:1.5px solid var(--borde);border-radius:6px;padding:5px 10px;
+  font-size:0.87rem;font-family:'Source Sans 3',sans-serif;min-width:200px;
+  max-width:260px;
+}
+
+/* Feedback */
+.fb-item{
+  padding:9px 14px;border-radius:8px;font-size:0.88rem;line-height:1.55;
+  margin-bottom:6px;
+}
+.fb-ok{background:#d1fae5;border-left:4px solid #059669;}
+.fb-err{background:#fee2e2;border-left:4px solid #dc2626;}
+
+/* Panel de puntaje */
+.score-panel{
+  background:#fff;border:2px solid var(--azul);border-radius:12px;
+  padding:22px 24px;margin-top:20px;text-align:center;display:none;
+}
+.score-panel h3{font-family:'Lora',serif;color:var(--azul);margin-bottom:10px;}
+.score-num{font-size:2.4rem;font-weight:700;color:var(--azul);}
+.barra-prog-wrap{background:#e2e8f0;border-radius:20px;height:22px;margin:12px 0;overflow:hidden;}
+.barra-prog-fill{height:100%;border-radius:20px;transition:width 0.8s ease;background:var(--azul);}
+.msg-motivacional{font-size:1rem;margin-top:10px;font-weight:600;}
+
+/* Botones */
+.btn-ppal{
+  background:var(--azul);color:#fff;border:none;padding:11px 30px;
+  border-radius:25px;font-size:0.96rem;font-weight:700;cursor:pointer;
+  font-family:'Source Sans 3',sans-serif;transition:background 0.18s,transform 0.12s;
+  margin-top:14px;
+}
+.btn-ppal:hover{background:#1a5ca8;transform:scale(1.03);}
+.btn-sec{
+  background:#e2e8f0;color:var(--texto);border:none;padding:11px 22px;
+  border-radius:25px;font-size:0.9rem;cursor:pointer;
+  font-family:'Source Sans 3',sans-serif;margin-top:14px;margin-left:10px;
+  transition:background 0.18s;
+}
+.btn-sec:hover{background:#cbd5e1;}
+.alerta-incompleto{
+  color:var(--rojo);font-size:0.88rem;margin-top:8px;font-weight:600;display:none;
+}
+
+/* Badge de tipo de pregunta */
+.badge-tipo{
+  display:inline-block;font-size:0.72rem;font-weight:700;
+  border-radius:10px;padding:2px 10px;margin-left:8px;
+  vertical-align:middle;
+}
+.badge-teo{background:#dbeafe;color:#1e40af;}
+.badge-ana{background:#fef3c7;color:#92400e;}
+
+/* Actividad IA */
+.ia-prompt{
+  background:#0f172a;color:#e2e8f0;border-radius:10px;
+  padding:18px 20px;font-size:0.9rem;line-height:1.7;font-family:monospace;
+  margin:14px 0;white-space:pre-wrap;position:relative;
+}
+.btn-copiar{
+  position:absolute;top:10px;right:12px;background:var(--cielo);color:var(--azul);
+  border:none;border-radius:8px;padding:5px 14px;font-size:0.8rem;font-weight:700;
+  cursor:pointer;font-family:'Source Sans 3',sans-serif;
+}
+
+/* Reflexivas */
+.reflexiva-item{
+  background:#fff;border-left:5px solid var(--oro);border-radius:0 10px 10px 0;
+  padding:16px 20px;margin-bottom:14px;box-shadow:var(--sombra);
+}
+.reflexiva-item p{font-size:0.95rem;line-height:1.68;}
+
+/* Bibliografía */
+.bib-lista{list-style:none;}
+.bib-lista li{
+  padding:10px 0;border-bottom:1px solid var(--borde);
+  font-size:0.9rem;line-height:1.65;
+}
+.bib-nota{
+  background:#fef3c7;border:1px solid #fbbf24;border-radius:8px;
+  padding:12px 16px;margin-top:16px;font-size:0.86rem;
+}
+
+/* Responsive */
+@media(max-width:600px){
+  .hdr-info h1{font-size:1.15rem;}
+  .tab-panel{padding:18px 14px 40px;}
+  .item-cls{flex-direction:column;}
+  .item-cls select{max-width:100%;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════════
+     ENCABEZADO
+══════════════════════════════════════════════════════════════ -->
+<header>
+  <div class="hdr-top">
+    <div class="hdr-icono">🛡️</div>
+    <div class="hdr-info">
+      <h1>Contabilidad Gerencial — Semana 15</h1>
+      <p>Análisis de Rentabilidad por Línea de Servicio · Informes Gerenciales para la Alta Dirección</p>
+    </div>
+  </div>
+  <div class="hdr-meta">
+    <span class="badge">📍 Universidad de Guayaquil</span>
+    <span class="badge">🏛️ Facultad de Ciencias Administrativas</span>
+    <span class="badge">📚 Carrera: Contabilidad y Auditoría</span>
+    <span class="badge">🗓️ Unidad 4 — Herramientas Avanzadas</span>
+    <span class="badge">🏢 Caso: SEGURECUADOR S.A.</span>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════════════════════════════
+     BARRA DE PESTAÑAS
+══════════════════════════════════════════════════════════════ -->
+<nav class="tab-bar" id="tab-bar">
+  <button class="tab-btn activo" data-tab="repaso">🔁 Repaso</button>
+  <button class="tab-btn" data-tab="tema1">📊 Tema 1: Rentabilidad por Línea</button>
+  <button class="tab-btn" data-tab="tema2">👥 Tema 2: Rentabilidad por Cliente</button>
+  <button class="tab-btn" data-tab="tema3">📝 Tema 3: Informes Gerenciales</button>
+  <button class="tab-btn" data-tab="ejercicio">✏️ Ejercicio Interactivo</button>
+  <button class="tab-btn" data-tab="cuestionario">🧠 Cuestionario</button>
+  <button class="tab-btn" data-tab="ia">🤖 Actividad con IA</button>
+  <button class="tab-btn" data-tab="reflexion">💬 Reflexión</button>
+  <button class="tab-btn" data-tab="biblio">📚 Bibliografía</button>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PESTAÑA 1: REPASO
+══════════════════════════════════════════════════════════════ -->
+<div class="tab-panel activo" id="tab-repaso">
+  <h2 class="titulo-seccion">🔁 Repaso — Progresión del Semestre</h2>
+
+  <div class="caja-def">
+    <h4>¿Cómo llegamos hasta aquí?</h4>
+    <p>A lo largo del semestre hemos recorrido un camino desde la comprensión del rol estratégico del contador gerencial hasta las herramientas avanzadas de gestión y decisión. A continuación se presenta una síntesis de ese recorrido, que culmina con los temas de esta semana 15.</p>
+  </div>
+
+  <div class="tabla-scroll">
+    <table class="tabla-g">
+      <thead>
+        <tr>
+          <th style="text-align:left">Unidad / Semanas</th>
+          <th style="text-align:left">Temas centrales</th>
+          <th style="text-align:left">Herramienta clave</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Unidad 1</strong><br>Sem. 1–4</td>
+          <td>Rol del contador gerencial. Clasificación de costos. KPIs básicos (liquidez, rentabilidad, endeudamiento). Ética profesional (CECE).</td>
+          <td>Lectura gerencial de EEFF; SIG; Excel básico.</td>
+        </tr>
+        <tr>
+          <td><strong>Unidad 2</strong><br>Sem. 5–7</td>
+          <td>Comportamiento del costo. Margen de contribución. Punto de equilibrio. Análisis CVU. Costeo variable vs. por absorción. Costos relevantes para decisiones.</td>
+          <td>Gráfica volumen-utilidad; análisis incremental.</td>
+        </tr>
+        <tr>
+          <td><strong>Unidad 3</strong><br>Sem. 9–12</td>
+          <td>Presupuesto Maestro. Presupuesto de ingresos, operaciones y efectivo. Análisis de variaciones (presupuestado vs. real). Centros de responsabilidad. KPIs y dashboard gerencial.</td>
+          <td>Tablero de control con semáforos; análisis de desviaciones.</td>
+        </tr>
+        <tr>
+          <td><strong>Unidad 4</strong><br>Sem. 13–14</td>
+          <td>Cuadro de Mando Integral (BSC): cuatro perspectivas y mapa estratégico. EVA (Valor Económico Agregado). VAN, TIR y Payback. Decisiones de financiamiento.</td>
+          <td>Mapa estratégico BSC; fórmula EVA; criterios VAN-TIR.</td>
+        </tr>
+        <tr class="subtotal">
+          <td><strong>Unidad 4</strong><br><strong>Sem. 15 (HOY)</strong></td>
+          <td><strong>Análisis de rentabilidad por línea de servicio y por cliente. Informes gerenciales: estructura, lenguaje ejecutivo y presentación a la alta dirección.</strong></td>
+          <td>Estado de resultados por línea; informe ejecutivo; presentación gerencial.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="caja-clave">
+    <h4>💡 Idea Integradora</h4>
+    <p>Las herramientas aprendidas en Unidades 1 a 4 convergen esta semana en dos preguntas fundamentales: (1) ¿Cuál de mis líneas de servicio o clientes me genera más valor? y (2) ¿Cómo comunico ese análisis a la alta dirección de forma ejecutiva y convincente? Saber calcular no basta — saber <em>comunicar</em> decide el rumbo de la empresa.</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PESTAÑA 2: TEMA 1 — RENTABILIDAD POR LÍNEA
+══════════════════════════════════════════════════════════════ -->
+<div class="tab-panel" id="tab-tema1">
+  <h2 class="titulo-seccion">📊 Tema 1: Análisis de Rentabilidad por Línea de Servicio</h2>
+
+  <div class="caja-def">
+    <h4>¿Qué es el análisis de rentabilidad por línea de servicio?</h4>
+    <p>Es el proceso mediante el cual la empresa desagrega sus resultados financieros —ingresos, costos y márgenes— por cada tipo de servicio que ofrece, en lugar de verlos como un único bloque. Esto permite identificar cuál línea <strong>genera valor</strong>, cuál apenas cubre sus costos y cuál está generando pérdidas que se "ocultan" detrás de una utilidad global positiva.</p>
+    <p style="margin-top:8px">En una empresa de seguridad privada como SEGURECUADOR S.A., las líneas típicas son: guardias de seguridad, monitoreo electrónico (CCTV/alarmas) y consultoría en seguridad.</p>
+  </div>
+
+  <h3 class="sub">¿Por qué no basta con el estado de resultados global?</h3>
+  <p style="font-size:0.95rem;line-height:1.68;margin-bottom:12px">Imagine que SEGURECUADOR S.A. muestra una utilidad neta de $8.200 al mes. ¿Eso significa que todo va bien? No necesariamente. Puede que la línea de <strong>Guardias</strong> gane $15.000, la línea de <strong>Monitoreo</strong> gane $6.000, pero la línea de <strong>Consultoría</strong> esté perdiendo $12.800 — y la suma esconde ese problema crítico.</p>
+
+  <div class="caja-ej">
+    <h4>📋 Estructura del Estado de Resultados Segmentado — SEGURECUADOR S.A. (enero 2026)</h4>
+    <div class="tabla-scroll">
+      <table class="tabla-g">
+        <thead>
+          <tr>
+            <th>Concepto</th>
+            <th>Guardias<br>$</th>
+            <th>Monitoreo<br>$</th>
+            <th>Consultoría<br>$</th>
+            <th>TOTAL<br>$</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Ingresos por servicios</strong></td><td>48.000</td><td>22.000</td><td>9.500</td><td>79.500</td></tr>
+          <tr class="subtotal"><td>( - ) Costos directos variables</td><td></td><td></td><td></td><td></td></tr>
+          <tr><td>&nbsp;&nbsp;· Mano de obra directa (guardias/técnicos)</td><td>28.800</td><td>7.700</td><td>4.200</td><td>40.700</td></tr>
+          <tr><td>&nbsp;&nbsp;· Insumos y materiales de servicio</td><td>1.920</td><td>1.320</td><td>380</td><td>3.620</td></tr>
+          <tr><td>&nbsp;&nbsp;· Combustible y logística</td><td>2.400</td><td>660</td><td>190</td><td>3.250</td></tr>
+          <tr class="subtotal"><td><strong>= Margen de Contribución</strong></td><td><strong>14.880</strong></td><td><strong>12.320</strong></td><td><strong>4.730</strong></td><td><strong>31.930</strong></td></tr>
+          <tr><td>&nbsp;&nbsp;( % sobre ingresos)</td><td>31,0 %</td><td>56,0 %</td><td>49,8 %</td><td>40,2 %</td></tr>
+          <tr class="subtotal"><td>( - ) Costos fijos directos de la línea</td><td></td><td></td><td></td><td></td></tr>
+          <tr><td>&nbsp;&nbsp;· Supervisores exclusivos de la línea</td><td>3.200</td><td>1.800</td><td>1.500</td><td>6.500</td></tr>
+          <tr><td>&nbsp;&nbsp;· Depreciación equipos de la línea</td><td>600</td><td>1.400</td><td>200</td><td>2.200</td></tr>
+          <tr><td>&nbsp;&nbsp;· Seguros y licencias por línea</td><td>480</td><td>320</td><td>250</td><td>1.050</td></tr>
+          <tr class="subtotal"><td><strong>= Margen por Segmento</strong></td><td><strong>10.600</strong></td><td><strong>8.800</strong></td><td><strong>2.780</strong></td><td><strong>22.180</strong></td></tr>
+          <tr><td>&nbsp;&nbsp;( % sobre ingresos)</td><td>22,1 %</td><td>40,0 %</td><td>29,3 %</td><td>27,9 %</td></tr>
+          <tr><td colspan="5" style="background:#f8faff;font-size:0.82rem;color:#667;padding:6px 12px">↓ Los costos siguientes son corporativos y no se asignan a líneas individuales</td></tr>
+          <tr><td>( - ) Costos fijos corporativos (arriendo, gerencia, contabilidad)</td><td></td><td></td><td></td><td>13.980</td></tr>
+          <tr class="total-row"><td><strong>= UTILIDAD OPERACIONAL NETA</strong></td><td></td><td></td><td></td><td><strong>8.200</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <h3 class="sub">Interpretación gerencial del estado segmentado</h3>
+  <div class="caja-def">
+    <h4>Tres niveles de análisis</h4>
+    <ul>
+      <li><strong>Margen de Contribución por línea:</strong> mide la contribución de cada línea para cubrir costos fijos. Si es negativo, la línea ni siquiera cubre sus costos variables — se debe eliminar o replantear urgentemente.</li>
+      <li><strong>Margen por Segmento:</strong> indica si la línea puede sostenerse por sí misma, cubriendo también sus propios costos fijos directos. Es el indicador más importante para decisiones de continuar o eliminar una línea.</li>
+      <li><strong>Utilidad Operacional:</strong> resultado final tras distribuir los costos corporativos comunes, que existen independientemente de qué líneas operen.</li>
+    </ul>
+  </div>
+
+  <div class="caja-ej">
+    <h4>📌 Análisis del caso SEGURECUADOR S.A.</h4>
+    <p><strong>Guardias:</strong> Margen de contribución del 31,0% — el más bajo. Alta mano de obra directa. Pero el Margen por Segmento de 22,1% es sólido y la línea aporta el mayor volumen de ingresos ($48.000). Estrategia: optimizar productividad del personal.</p>
+    <p style="margin-top:6px"><strong>Monitoreo:</strong> Margen de contribución del 56,0% — el más alto. Costos variables relativamente bajos porque la tecnología hace el trabajo. Margen por Segmento del 40,0%. Esta es la línea más rentable y con mayor potencial de crecimiento.</p>
+    <p style="margin-top:6px"><strong>Consultoría:</strong> Margen de contribución del 49,8%, pero volumen de ingresos bajo ($9.500). Margen por Segmento del 29,3%. La línea es rentable en términos relativos, pero su aporte absoluto es pequeño. Estrategia: expandir cartera de clientes.</p>
+  </div>
+
+  <h3 class="sub">Costos comunes: ¿cómo tratarlos?</h3>
+  <div class="caja-def">
+    <h4>Principio de causalidad vs. arbitrariedad</h4>
+    <p>Los costos fijos corporativos (arriendo general, gerencia, contador) <strong>no deben repartirse arbitrariamente</strong> entre líneas, porque eso distorsiona el margen por segmento y puede llevar a eliminar una línea que en realidad es rentable. Horngren (2012) advierte que la asignación arbitraria de costos corporativos puede hacer que una línea "rentable" aparezca como perdedora.</p>
+    <p style="margin-top:8px">Solo se deben asignar costos a una línea si existe una <strong>relación de causa y efecto</strong> clara: el costo existe por la existencia de esa línea.</p>
+  </div>
+
+  <div class="caja-clave">
+    <h4>💡 Idea Clave</h4>
+    <p>El análisis por línea de servicio responde la pregunta que el Estado de Resultados global no puede responder: "¿Cuál de mis servicios genera valor real y cuál lo destruye?" Sin ese análisis, la gerencia toma decisiones de precio, capacidad e inversión con información incompleta.</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PESTAÑA 3: TEMA 2 — RENTABILIDAD POR CLIENTE
+══════════════════════════════════════════════════════════════ -->
+<div class="tab-panel" id="tab-tema2">
+  <h2 class="titulo-seccion">👥 Tema 2: Análisis de Rentabilidad por Cliente</h2>
+
+  <div class="caja-def">
+    <h4>¿Qué es la rentabilidad por cliente?</h4>
+    <p>Es la técnica que permite medir cuánto <strong>valor neto</strong> genera cada cliente después de considerar todos los ingresos que aporta <em>y</em> todos los costos que consume (atención, visitas, negociaciones, soporte postventa, descuentos especiales, etc.). Esta herramienta proviene del costeo basado en actividades (ABC) aplicado a clientes.</p>
+    <p style="margin-top:8px">Horngren, Datar y Rajan (2012) señalan que la rentabilidad por cliente revela que, con frecuencia, el 20% de los clientes genera el 80% de las utilidades, mientras que otro 20% puede estar <em>destruyendo</em> valor. Conocer esta realidad es clave para decidir dónde enfocar los recursos comerciales.</p>
+  </div>
+
+  <h3 class="sub">¿Por qué un cliente "grande" puede ser poco rentable?</h3>
+  <p style="font-size:0.95rem;line-height:1.68;margin-bottom:12px">Un cliente que paga $30.000 al mes en servicios puede resultar menos rentable que uno que paga $8.000, si el primero exige: condiciones especiales de pago a 90 días, supervisores dedicados exclusivos, cláusulas contractuales complejas, visitas frecuentes del Gerente Comercial, reportes personalizados cada semana y descuentos constantes. Cada una de esas actividades consume recursos reales.</p>
+
+  <div class="caja-ej">
+    <h4>📋 Análisis de Rentabilidad por Cliente — SEGURECUADOR S.A. (enero 2026)</h4>
+    <div class="tabla-scroll">
+      <table class="tabla-g">
+        <thead>
+          <tr>
+            <th>Concepto</th>
+            <th>CORPOBANCO<br>(cliente A)</th>
+            <th>MALL NORTE<br>(cliente B)</th>
+            <th>FARMAPROD<br>(cliente C)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Ingresos mensuales por servicios</td><td>$32.000</td><td>$18.500</td><td>$7.200</td></tr>
+          <tr><td>( - ) Costo directo del servicio prestado</td><td>$21.440</td><td>$10.175</td><td>$3.456</td></tr>
+          <tr class="subtotal"><td><strong>= Margen Bruto por Cliente</strong></td><td><strong>$10.560</strong></td><td><strong>$8.325</strong></td><td><strong>$3.744</strong></td></tr>
+          <tr><td>&nbsp;&nbsp;(% Margen Bruto)</td><td>33,0%</td><td>45,0%</td><td>52,0%</td></tr>
+          <tr><td colspan="4" style="background:#f8faff;font-size:0.82rem;color:#667;padding:6px 12px">Costos de actividades de atención al cliente (rastreados con ABC)</td></tr>
+          <tr><td>&nbsp;&nbsp;· Supervisión dedicada exclusiva</td><td>$2.800</td><td>$900</td><td>$0</td></tr>
+          <tr><td>&nbsp;&nbsp;· Visitas y gestiones del Gerente Comercial</td><td>$1.200</td><td>$300</td><td>$120</td></tr>
+          <tr><td>&nbsp;&nbsp;· Descuentos negociados</td><td>$1.600</td><td>$370</td><td>$0</td></tr>
+          <tr><td>&nbsp;&nbsp;· Reportes especiales y auditorías</td><td>$980</td><td>$150</td><td>$0</td></tr>
+          <tr><td>&nbsp;&nbsp;· Costo financiero por cobro tardío (90 días)</td><td>$960</td><td>$0</td><td>$0</td></tr>
+          <tr><td><strong>Total costos de atención</strong></td><td><strong>$7.540</strong></td><td><strong>$1.720</strong></td><td><strong>$120</strong></td></tr>
+          <tr class="total-row"><td><strong>= Rentabilidad Neta por Cliente</strong></td><td><strong>$3.020</strong></td><td><strong>$6.605</strong></td><td><strong>$3.624</strong></td></tr>
+          <tr><td>(% sobre ingresos)</td><td>9,4%</td><td>35,7%</td><td>50,3%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="caja-ej">
+    <h4>📌 Interpretación del análisis</h4>
+    <p><strong>CORPOBANCO (cliente A):</strong> Es el cliente de mayor facturación ($32.000), pero su rentabilidad neta es solo del 9,4% debido a las exigencias operacionales y al costo financiero por cobro tardío. Estrategia: renegociar condiciones, eliminar supervisión exclusiva o ajustar tarifas.</p>
+    <p style="margin-top:6px"><strong>MALL NORTE (cliente B):</strong> Con ingresos menores ($18.500), logra una rentabilidad neta del 35,7%. Es el cliente más valioso en términos relativos. Estrategia: retención activa, ampliar servicios, no sacrificar precio.</p>
+    <p style="margin-top:6px"><strong>FARMAPROD (cliente C):</strong> El más pequeño en facturación, pero con rentabilidad del 50,3% porque consume muy pocas actividades de soporte. Estrategia: replicar este perfil de cliente al prospectar nuevos contratos.</p>
+  </div>
+
+  <h3 class="sub">La "ballena" y el cliente estrella — Principio de Pareto aplicado</h3>
+  <div class="caja-def">
+    <h4>Clasificación de clientes por rentabilidad</h4>
+    <ul>
+      <li><strong>Clientes estrella:</strong> alta rentabilidad, baja exigencia. Retener y desarrollar.</li>
+      <li><strong>Clientes potenciales:</strong> buena facturación con rentabilidad media. Optimizar costos de atención.</li>
+      <li><strong>Clientes "ballena":</strong> grandes en facturación pero baja rentabilidad real. Renegociar o rediseñar contrato.</li>
+      <li><strong>Clientes destructores de valor:</strong> consumen más en costos de atención de lo que aportan. Eliminar o transformar radicalmente.</li>
+    </ul>
+  </div>
+
+  <div class="caja-clave">
+    <h4>💡 Idea Clave</h4>
+    <p>No todos los clientes son buenos clientes. La rentabilidad por cliente revela que crecer en ingresos no siempre significa crecer en utilidades. Una empresa de seguridad inteligente prioriza los clientes con mejor rentabilidad neta, no los de mayor facturación bruta.</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PESTAÑA 4: TEMA 3 — INFORMES GERENCIALES
+══════════════════════════════════════════════════════════════ -->
+<div class="tab-panel" id="tab-tema3">
+  <h2 class="titulo-seccion">📝 Tema 3: Informes Gerenciales — Estructura, Lenguaje Ejecutivo y Presentación</h2>
+
+  <div class="caja-def">
+    <h4>¿Qué es un informe gerencial?</h4>
+    <p>Un <strong>informe gerencial</strong> es un documento formal que comunica análisis financiero y operacional a la alta dirección (Directorio, Gerente General, Junta de Accionistas) con el propósito de apoyar la toma de decisiones estratégicas. No es simplemente un resumen de cifras: es un documento de <em>comunicación ejecutiva</em> que traduce datos complejos en conclusiones claras y recomendaciones accionables.</p>
+    <p style="margin-top:8px">Horngren, Sundem y Burgstahler (2014) destacan que la utilidad de la información contable depende no solo de su precisión, sino de su <strong>comprensibilidad</strong> para el usuario final. Un análisis brillante que nadie entiende no genera ningún valor.</p>
+  </div>
+
+  <h3 class="sub">Estructura estándar de un informe gerencial</h3>
+
+  <div class="caja-def">
+    <h4>1. Portada e identificación</h4>
+    <ul>
+      <li>Nombre de la empresa, período que cubre, fecha de emisión.</li>
+      <li>Destinatario (Ej.: "A: Directorio de SEGURECUADOR S.A.").</li>
+      <li>Preparado por: nombre, cargo, firma del contador o gerente financiero.</li>
+      <li>Clasificación: confidencial / uso interno.</li>
+    </ul>
+  </div>
+
+  <div class="caja-def">
+    <h4>2. Resumen Ejecutivo (Párrafo de apertura — máx. 200 palabras)</h4>
+    <p>Es la parte más importante del informe. Muchos directivos <em>solo leen el resumen ejecutivo</em>. Debe contener:</p>
+    <ul>
+      <li>La conclusión principal en la primera oración.</li>
+      <li>Los 3 hallazgos más importantes (en términos simples, sin jerga técnica excesiva).</li>
+      <li>La recomendación concreta que se solicita.</li>
+    </ul>
+    <p style="margin-top:8px"><strong>Ejemplo:</strong> <em>"En enero 2026, SEGURECUADOR S.A. obtuvo una utilidad operacional de $8.200, inferior en $1.800 al presupuesto. El análisis por línea de servicio revela que la línea de Monitoreo lidera en rentabilidad (40,0%), mientras que Guardias enfrenta presión de costos laborales. Se recomienda revisar la estructura de contratos de guardianía para el primer trimestre."</em></p>
+  </div>
+
+  <div class="caja-def">
+    <h4>3. Análisis por secciones</h4>
+    <ul>
+      <li><strong>Resultados del período:</strong> ingresos, costos, utilidad — comparados con el presupuesto y el período anterior.</li>
+      <li><strong>Análisis de variaciones:</strong> qué causó las diferencias (más/menos ventas, costos inesperados, etc.).</li>
+      <li><strong>Análisis por línea de servicio y/o por cliente:</strong> rentabilidad segmentada.</li>
+      <li><strong>Indicadores clave (KPIs):</strong> máximo 5–7, con semáforo de estado (verde/amarillo/rojo).</li>
+      <li><strong>Riesgos identificados:</strong> situaciones que pueden afectar el siguiente período.</li>
+    </ul>
+  </div>
+
+  <div class="caja-def">
+    <h4>4. Conclusiones y recomendaciones</h4>
+    <p>Cada conclusión debe ir acompañada de una recomendación específica, un responsable y un plazo propuesto. Evitar conclusiones vagas como "se debe mejorar la rentabilidad". Preferir: "Se recomienda que el Gerente Comercial renegoci las condiciones del contrato CORPOBANCO antes del 15 de febrero, apuntando a reducir el plazo de cobro de 90 a 30 días."</p>
+  </div>
+
+  <div class="caja-def">
+    <h4>5. Anexos técnicos</h4>
+    <p>Estado de resultados completo, tablas de rentabilidad, tablas de variaciones, detalle de KPIs. El cuerpo del informe cita los anexos pero no los reproduce íntegramente.</p>
+  </div>
+
+  <h3 class="sub">Lenguaje ejecutivo: los 6 principios</h3>
+
+  <div class="caja-ej">
+    <h4>🗣️ Cómo escribir para la alta dirección</h4>
+    <ol>
+      <li><strong>Primero la conclusión, luego los datos:</strong> el directivo no tiene tiempo para leer hasta el final para saber qué pasó. La conclusión va en la primera línea.</li>
+      <li><strong>Oraciones cortas y activas:</strong> "La línea de guardias generó una utilidad de $10.600" es mejor que "Una utilidad de $10.600 fue generada por la línea de guardias".</li>
+      <li><strong>Cifras con contexto:</strong> "$10.600" no dice nada; "$10.600 (22,1% de los ingresos, $800 sobre el presupuesto)" sí comunica.</li>
+      <li><strong>Sin exceso de tecnicismos:</strong> si el destinatario no es contador, explica brevemente el término la primera vez que aparece.</li>
+      <li><strong>Visualmente limpio:</strong> máximo una tabla por página en el cuerpo del informe. Usa gráficos sencillos (barras, semáforos). Evita el "ruido visual".</li>
+      <li><strong>Lenguaje propositivo, no solo descriptivo:</strong> no es suficiente explicar qué pasó; el informe debe indicar qué hacer al respecto.</li>
+    </ol>
+  </div>
+
+  <h3 class="sub">Presentación oral a la Alta Dirección</h3>
+
+  <div class="caja-def">
+    <h4>Estructura de la presentación ejecutiva (regla del "3-3-3")</h4>
+    <ul>
+      <li><strong>3 minutos</strong> de apertura: situación actual y mensaje principal.</li>
+      <li><strong>3 hallazgos</strong> clave con evidencia concisa.</li>
+      <li><strong>3 recomendaciones</strong> concretas con responsable y plazo.</li>
+    </ul>
+    <p style="margin-top:8px">Los directivos de empresas medianas como SEGURECUADOR S.A. normalmente dedican entre 10 y 20 minutos al análisis financiero mensual. Eso significa que el contador gerencial debe ser capaz de comunicar lo esencial en ese tiempo — no leer las tablas, sino <em>interpretar</em> y <em>recomendar</em>.</p>
+  </div>
+
+  <div class="caja-ej">
+    <h4>📌 Diferencia entre el contador tradicional y el contador gerencial</h4>
+    <p><strong>Contador tradicional:</strong> "Las ventas fueron $79.500 y los costos $71.300, dejando una utilidad de $8.200."</p>
+    <p style="margin-top:6px"><strong>Contador gerencial:</strong> "Cerramos enero con $8.200 de utilidad, $1.800 bajo presupuesto. La causa principal es la línea de Guardias: el incremento del salario básico unificado en enero elevó la nómina en $2.600 sobre lo proyectado. Propongo revisar el ajuste de tarifas para los contratos de renovación en marzo. Si aprobamos ese ajuste, recuperamos el margen en Q2."</p>
+  </div>
+
+  <div class="caja-clave">
+    <h4>💡 Idea Clave</h4>
+    <p>El informe gerencial no es un trámite contable — es el instrumento principal con el que el contador se convierte en asesor estratégico. Su valor no está en las cifras que contiene, sino en las decisiones que provoca. Un buen informe cambia el rumbo de la empresa.</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PESTAÑA 5: EJERCICIO INTERACTIVO
+══════════════════════════════════════════════════════════════ -->
+<div class="tab-panel" id="tab-ejercicio">
+  <h2 class="titulo-seccion">✏️ Ejercicio Interactivo — Clasificar e Interpretar</h2>
+  <p style="font-size:0.94rem;margin-bottom:18px;line-height:1.65">El siguiente ejercicio tiene <strong>8 ítems</strong>. Lee cada enunciado y selecciona la opción correcta. <strong>Debes responder todos los ítems</strong> antes de verificar. Los resultados con explicaciones aparecerán al final.</p>
+
+  <!-- ÍTEM E1 -->
+  <div class="pregunta-bloque">
+    <p class="enunciado">E1. SEGURECUADOR S.A. tiene tres líneas: Guardias (margen por segmento: $10.600), Monitoreo ($8.800) y Consultoría ($2.780). ¿Qué conclusión gerencial es correcta sobre la línea de Consultoría?</p>
+    <ul class="opciones-lista">
+      <li><label><input type="radio" name="ei1" value="a"> a) Se debe eliminar la Consultoría porque tiene el menor margen por segmento absoluto.</label></li>
+      <li><label><input type="radio" name="ei1" value="b"> b) La Consultoría es rentable por segmento y su eliminación no necesariamente mejoraría el resultado global.</label></li>
+      <li><label><input type="radio" name="ei1" value="c"> c) El margen por segmento no es relevante para decidir si mantener una línea.</label></li>
+      <li><label><input type="radio" name="ei1" value="d"> d) La línea debe eliminarse porque su ingresos ($9.500) son los más bajos.</label></li>
+    </ul>
+  </div>
+
+  <!-- ÍTEM E2 -->
+  <div class="pregunta-bloque">
+    <p class="enunciado">E2. Los costos de arriendo de la oficina central, el sueldo de la Gerente General y el servicio de contabilidad corporativa de SEGURECUADOR S.A. son costos:</p>
+    <ul class="opciones-lista">
+      <li><label><input type="radio" name="ei2" value="a"> a) Costos directos variables de cada línea de servicio.</label></li>
+      <li><label><input type="radio" name="ei2" value="b"> b) Costos fijos directos asignables a la línea de Guardias por ser la más grande.</label></li>
+      <li><label><input type="radio" name="ei2" value="c"> c) Costos fijos corporativos comunes que no deben asignarse arbitrariamente a las líneas.</label></li>
+      <li><label><input type="radio" name="ei2" value="d"> d) Costos irrelevantes que no deben incluirse en el análisis gerencial.</label></li>
+    </ul>
+  </div>
+
+  <!-- ÍTEM E3 -->
+  <div class="pregunta-bloque">
+    <p class="enunciado">E3. En el análisis de rentabilidad por cliente de SEGURECUADOR S.A., CORPOBANCO aporta $32.000 en ingresos pero solo $3.020 de rentabilidad neta (9,4%), mientras que FARMAPROD aporta $7.200 con una rentabilidad neta del 50,3%. ¿Cuál es la estrategia gerencial más apropiada?</p>
+    <ul class="opciones-lista">
+      <li><label><input type="radio" name="ei3" value="a"> a) Retener a CORPOBANCO como prioridad porque tiene el mayor volumen de ingresos.</label></li>
+      <li><label><input type="radio" name="ei3" value="b"> b) Eliminar a FARMAPROD porque sus ingresos absolutos son bajos.</label></li>
+      <li><label><input type="radio" name="ei3" value="c"> c) Renegociar con CORPOBANCO para reducir costos de atención y, a la vez, buscar más clientes con el perfil de FARMAPROD.</label></li>
+      <li><label><input type="radio" name="ei3" value="d"> d) No hay acción necesaria porque la empresa en conjunto es rentable.</label></li>
+    </ul>
+  </div>
+
+  <!-- ÍTEM E4 -->
+  <div class="pregunta-bloque">
+    <p class="enunciado">E4. El margen de contribución de la línea de Monitoreo de SEGURECUADOR S.A. es del 56%. ¿Qué significa gerencialmente ese indicador?</p>
+    <ul class="opciones-lista">
+      <li><label><input type="radio" name="ei4" value="a"> a) El 56% de los ingresos de Monitoreo queda disponible para cubrir los costos fijos y generar utilidad.</label></li>
+      <li><label><input type="radio" name="ei4" value="b"> b) El Monitoreo gana el 56% más que las otras líneas.</label></li>
+      <li><label><input type="radio" name="ei4" value="c"> c) El 56% corresponde al porcentaje de participación de Monitoreo en los ingresos totales.</label></li>
+      <li><label><input type="radio" name="ei4" value="d"> d) Significa que el 56% de los gastos de Monitoreo son costos fijos.</label></li>
+    </ul>
+  </div>
+
+  <!-- ÍTEM E5 -->
+  <div class="pregunta-bloque">
+    <p class="enunciado">E5. Clasifica cada elemento según corresponda al análisis de RENTABILIDAD POR LÍNEA o de RENTABILIDAD POR CLIENTE:</p>
+    <div class="items-clasificar">
+      <div class="item-cls"><span>El margen por segmento de la línea de Guardias</span>
+        <select id="eiC1">
+          <option value="">— Seleccionar —</option>
+          <option value="linea">Por línea de servicio</option>
+          <option value="cliente">Por cliente</option>
+        </select>
+      </div>
+      <div class="item-cls"><span>El costo de visitas del Gerente Comercial a CORPOBANCO</span>
+        <select id="eiC2">
+          <option value="">— Seleccionar —</option>
+          <option value="linea">Por línea de servicio</option>
+          <option value="cliente">Por cliente</option>
+        </select>
+      </div>
+      <div class="item-cls"><span>La depreciación de equipos de monitoreo CCTV</span>
+        <select id="eiC3">
+          <option value="">— Seleccionar —</option>
+          <option value="linea">Por línea de servicio</option>
+          <option value="cliente">Por cliente</option>
+        </select>
+      </div>
+      <div class="item-cls"><span>El descuento especial negociado con MALL NORTE</span>
+        <select id="eiC4">
+          <option value="">— Seleccionar —</option>
+          <option value="linea">Por línea de servicio</option>
+          <option value="cliente">Por cliente</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÍTEM E6 -->
+  <div class="pregunta-bloque">
+    <p class="enunciado">E6. ¿Cuál es el principio correcto para asignar costos corporativos comunes en un análisis de rentabilidad por línea de servicio?</p>
+    <ul class="opciones-lista">
+      <li><label><input type="radio" name="ei6" value="a"> a) Distribuirlos proporcionalmente a los ingresos de cada línea para que el análisis sea "justo".</label></li>
+      <li><label><input type="radio" name="ei6" value="b"> b) Asignarlos solo a la línea de mayor ingresos porque es la que más "usa" los recursos comunes.</label></li>
+      <li><label><input type="radio" name="ei6" value="c"> c) No asignarlos a ninguna línea si no hay una relación de causa y efecto clara entre el costo y la línea.</label></li>
+      <li><label><input type="radio" name="ei6" value="d"> d) Ignorarlos completamente porque no afectan la rentabilidad por segmento.</label></li>
+    </ul>
+  </div>
+
+  <!-- ÍTEM E7 -->
+  <div class="pregunta-bloque">
+    <p class="enunciado">E7. En la estructura de un informe gerencial, ¿cuál es el propósito del Resumen Ejecutivo?</p>
+    <ul class="opciones-lista">
+      <li><label><input type="radio" name="ei7" value="a"> a) Presentar todas las tablas y datos financieros del período en un solo lugar.</label></li>
+      <li><label><input type="radio" name="ei7" value="b"> b) Comunicar la conclusión principal, los hallazgos clave y la recomendación en pocas palabras, orientado a lectores que no tienen tiempo para leer el informe completo.</label></li>
+      <li><label><input type="radio" name="ei7" value="c"> c) Transcribir el estado de resultados completo para que el directivo lo verifique.</label></li>
+      <li><label><input type="radio" name="ei7" value="d"> d) Explicar la metodología contable usada para preparar los estados financieros.</label></li>
+    </ul>
+  </div>
+
+  <!-- ÍTEM E8 -->
+  <div class="pregunta-bloque">
+    <p class="enunciado">E8. Lee las dos versiones del mismo mensaje. ¿Cuál corresponde al lenguaje ejecutivo correcto para un informe gerencial?</p>
+    <div class="mini-caso">
+      <strong>Versión A:</strong> "En el período de análisis correspondiente al mes de enero del año en curso, se registró una diferencia negativa entre los valores realmente obtenidos en concepto de ingresos por prestación de servicios de seguridad y los valores que habían sido planificados con anterioridad al inicio del período."<br><br>
+      <strong>Versión B:</strong> "En enero 2026, los ingresos fueron $2.300 inferiores al presupuesto, principalmente porque el cliente CORPOBANCO redujo el número de puestos contratados."
+    </div>
+    <ul class="opciones-lista">
+      <li><label><input type="radio" name="ei8" value="a"> a) Versión A, porque usa un lenguaje más formal y técnico adecuado para la alta dirección.</label></li>
+      <li><label><input type="radio" name="ei8" value="b"> b) Versión B, porque es clara, incluye la cifra con contexto e identifica la causa específica.</label></li>
+      <li><label><input type="radio" name="ei8" value="c"> c) Ambas versiones son igualmente adecuadas para un informe gerencial.</label></li>
+      <li><label><input type="radio" name="ei8" value="d"> d) Ninguna de las dos, porque un informe gerencial no debe incluir nombres de clientes.</label></li>
+    </ul>
+  </div>
+
+  <div style="margin-top:8px">
+    <button class="btn-ppal" id="btn-verificar-ej" onclick="verificarEjercicio()">✅ Verificar respuestas</button>
+    <button class="btn-sec" onclick="resetEjercicio()">🔄 Reiniciar</button>
+  </div>
+  <p class="alerta-incompleto" id="alerta-ej">⚠ Debes responder todos los ítems antes de verificar.</p>
+
+  <div id="feedback-ej"></div>
+
+  <div class="score-panel" id="score-ej">
+    <h3>📊 Resultado del Ejercicio</h3>
+    <div class="score-num" id="score-num-ej">—</div>
+    <div class="barra-prog-wrap"><div class="barra-prog-fill" id="barra-ej" style="width:0%"></div></div>
+    <p class="msg-motivacional" id="msg-ej"></p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PESTAÑA 6: CUESTIONARIO
+══════════════════════════════════════════════════════════════ -->
+<div class="tab-panel" id="tab-cuestionario">
+  <h2 class="titulo-seccion">🧠 Cuestionario — 10 Preguntas</h2>
+  <p style="font-size:0.93rem;margin-bottom:18px;line-height:1.6">Responde las 10 preguntas y presiona <strong>Verificar</strong> al final. <span class="badge-tipo badge-teo">Teórica</span> = respuesta en el contenido del widget. <span class="badge-tipo badge-ana">Análisis</span> = requiere razonamiento con el caso presentado.</p>
+
+  <!-- Q1 -->
+  <div class="pregunta-bloque">
+    <p class="enunciado">1. ¿Cuál es la diferencia fundamental entre el "Margen de Contribución" y el "Margen por Segmento" en un análisis de rentabilidad por línea de servicio? <span class="badge-tipo badge-teo">Teórica</span></p>
+    <ul class="opciones-lista">
+      <li><label><input type="radio" name="qi1" value="a"> a) El Margen de Contribución incluye los costos fijos de la línea; el Margen por Segmento no.</label></li>
+      <li><label><input type="radio" name="qi1" value="b"> b) El Margen de Contribución se obtiene al restar solo los costos variables directos; el Margen por Segmento descuenta además los costos fijos directos de la línea.</label></li>
+      <li><label><input type="radio" name="qi1" value="c"> c) Ambos indicadores son idénticos y la diferencia es solo de nomenclatura.</label></li>
+      <li><label><input type="radio" name="qi1" value="d"> d) El Margen por Segmento incluye la asignación de costos corporativos; el Margen de Contribución no.</label></li>
+    </ul>
+  </div>
+
+  <!-- Q2 -->
+  <div class="pregunta-bloque">
+    <p class="enunciado">2. ¿Por qué un cliente con altos ingresos puede tener baja rentabilidad neta? <span class="badge-tipo badge-teo">Teórica</span></p>
+    <ul class="opciones-lista">
+      <li><label><input type="radio" name="qi2" value="a"> a) Porque los impuestos son más altos para contratos grandes.</label></li>
+      <li><label><input type="radio" name="qi2" value="b"> b) Porque consume más actividades de atención (supervisión dedicada, descuentos, reportes especiales, cobranza tardía) que elevan sus costos reales de servicio.</label></li>
+      <li><label><input type="radio" name="qi2" value="c"> c) Porque los ingresos altos siempre van acompañados de costos variables proporcionalmente más altos.</label></li>
+      <li><label><input type="radio" name="qi2" value="d"> d) Porque la LORTI establece una mayor carga tributaria para contratos superiores a $20.000.</label></li>
+    </ul>
+  </div>
+
+  <!-- Q3 -->
+  <div class="pregunta-bloque">
+    <p class="enunciado">3. Según el principio de causalidad en la asignación de costos, ¿cuándo se puede asignar un costo corporativo común a una línea de servicio? <span class="badge-tipo badge-teo">Teórica</span></p>
+    <ul class="opciones-lista">
+      <li><label><input type="radio" name="qi3" value="a"> a) Siempre que la línea tenga ingresos suficientes para absorberlo.</label></li>
+      <li><label><input type="radio" name="qi3" value="b"> b) Solo cuando existe una relación de causa y efecto demostrable entre ese costo y la actividad de la línea.</label></li>
+      <li><label><input type="radio" name="qi3" value="c"> c) Cuando la alta dirección así lo decide en la reunión de planificación.</label></li>
+      <li><label><input type="radio" name="qi3" value="d"> d) Solo cuando la empresa aplica NIIF completas.</label></li>
+    </ul>
+  </div>
+
+  <!-- Q4 -->
+  <div class="pregunta-bloque">
+    <p class="enunciado">4. ¿Cuál es el primer elemento que debe contener el Resumen Ejecutivo de un informe gerencial? <span class="badge-tipo badge-teo">Teórica</span></p>
+    <ul class="opciones-lista">
+      <li><label><input type="radio" name="qi4" value="a"> a) Una descripción detallada de la metodología contable utilizada.</label></li>
+      <li><label><input type="radio" name="qi4" value="b"> b) Las tablas completas del estado de resultados del período.</label></li>
+      <li><label><input type="radio" name="qi4" value="c"> c) La conclusión principal en la primera oración, seguida de los hallazgos clave y la recomendación.</label></li>
+      <li><label><input type="radio" name="qi4" value="d"> d) Los antecedentes históricos de la empresa y su trayectoria en el mercado.</label></li>
+    </ul>
+  </div>
+
+  <!-- Q5 -->
+  <div class="pregunta-bloque">
+    <p class="enunciado">5. En la "Regla del 3-3-3" para presentaciones ejecutivas, ¿qué significa el tercer "3"? <span class="badge-tipo badge-teo">Teórica</span></p>
+    <ul class="opciones-lista">
+      <li><label><input type="radio" name="qi5" value="a"> a) Que la presentación debe durar exactamente 3 minutos.</label></li>
+      <li><label><input type="radio" name="qi5" value="b"> b) Que se deben presentar 3 recomendaciones concretas con responsable y plazo.</label></li>
+      <li><label><input type="radio" name="qi5" value="c"> c) Que se usen exactamente 3 diapositivas en la presentación.</label></li>
+      <li><label><input type="radio" name="qi5" value="d"> d) Que se invite a 3 directivos como mínimo a la reunión.</label></li>
+    </ul>
+  </div>
+
+  <!-- Q6 -->
+  <div class="pregunta-bloque">
+    <p class="enunciado">6. ¿Qué tipo de clientes describe el término "clientes ballena" en el análisis de rentabilidad? <span class="badge-tipo badge-teo">Teórica</span></p>
+    <ul class="opciones-lista">
+      <li><label><input type="radio" name="qi6" value="a"> a) Clientes con alta rentabilidad neta y baja exigencia operacional.</label></li>
+      <li><label><input type="radio" name="qi6" value="b"> b) Clientes grandes en facturación pero con baja rentabilidad real debido a sus altas exigencias de servicio.</label></li>
+      <li><label><input type="radio" name="qi6" value="c"> c) Clientes que llevan más de 5 años contratando con la empresa.</label></li>
+      <li><label><input type="radio" name="qi6" value="d"> d) Clientes del sector financiero, por su tamaño corporativo.</label></li>
+    </ul>
+  </div>
+
+  <!-- Q7 -->
+  <div class="pregunta-bloque">
+    <p class="enunciado">7. ¿Cuál es la diferencia entre el enfoque del "contador tradicional" y el "contador gerencial" al presentar resultados? <span class="badge-tipo badge-teo">Teórica</span></p>
+    <ul class="opciones-lista">
+      <li><label><input type="radio" name="qi7" value="a"> a) El contador tradicional usa NIIF y el gerencial usa PCGA.</label></li>
+      <li><label><input type="radio" name="qi7" value="b"> b) El contador tradicional solo describe cifras; el gerencial interpreta causas, propone acciones y recomienda decisiones.</label></li>
+      <li><label><input type="radio" name="qi7" value="c"> c) El contador gerencial trabaja exclusivamente con presupuestos; el tradicional trabaja con datos históricos.</label></li>
+      <li><label><input type="radio" name="qi7" value="d"> d) No existe diferencia en la forma de presentar resultados; la diferencia está solo en los cálculos.</label></li>
+    </ul>
+  </div>
+
+  <!-- Q8 — ANÁLISIS -->
+  <div class="pregunta-bloque">
+    <p class="enunciado">8. <span class="badge-tipo badge-ana">Análisis</span> La Gerente General de SEGURECUADOR S.A. propone eliminar la línea de Consultoría porque "tiene los ingresos más bajos" ($9.500). Tú, como contador gerencial, sabes que el Margen por Segmento de Consultoría es positivo ($2.780) y que los costos fijos corporativos de $13.980 no desaparecerían si se elimina la línea. ¿Cuál es tu recomendación?</p>
+    <ul class="opciones-lista">
+      <li><label><input type="radio" name="qi8" value="a"> a) Apoyar la decisión, porque cualquier línea con ingresos bajos debe eliminarse.</label></li>
+      <li><label><input type="radio" name="qi8" value="b"> b) Recomendar mantener la línea, ya que al tener un Margen por Segmento positivo contribuye a absorber parte de los costos corporativos; su eliminación reduciría la utilidad global.</label></li>
+      <li><label><input type="radio" name="qi8" value="c"> c) Proponer trasladar todos los costos de Consultoría a la línea de Guardias para ocultar la baja rentabilidad.</label></li>
+      <li><label><input type="radio" name="qi8" value="d"> d) Recomendar eliminarla de todos modos, porque los costos fijos corporativos se reasignarían automáticamente a las líneas restantes.</label></li>
+    </ul>
+  </div>
+
+  <!-- Q9 — ANÁLISIS -->
+  <div class="pregunta-bloque">
+    <p class="enunciado">9. <span class="badge-tipo badge-ana">Análisis</span> El directorio de SEGURECUADOR S.A. recibe el informe gerencial de enero. El informe empieza con 4 páginas de tablas de cifras sin ningún resumen. La conclusión está en la última página. ¿Cuál es el problema de este informe?</p>
+    <div class="mini-caso">Contexto: los directivos disponen de 15 minutos para revisar el informe antes de la reunión mensual.</div>
+    <ul class="opciones-lista">
+      <li><label><input type="radio" name="qi9" value="a"> a) El informe no tiene problema; es completo porque incluye todas las cifras.</label></li>
+      <li><label><input type="radio" name="qi9" value="b"> b) Viola el principio de "primero la conclusión": los directivos pueden no llegar a leer la conclusión principal, reduciendo el impacto del análisis.</label></li>
+      <li><label><input type="radio" name="qi9" value="c"> c) El problema es que tiene demasiadas páginas, que según las NIIF deben ser máximo 2.</label></li>
+      <li><label><input type="radio" name="qi9" value="d"> d) El único problema es que no incluye los estados financieros auditados del período.</label></li>
+    </ul>
+  </div>
+
+  <!-- Q10 — ANÁLISIS -->
+  <div class="pregunta-bloque">
+    <p class="enunciado">10. <span class="badge-tipo badge-ana">Análisis</span> Después del análisis de rentabilidad por cliente, SEGURECUADOR S.A. descubre que el 15% de sus clientes genera el 70% de su utilidad, mientras que el 25% de los clientes consume más en costos de atención de lo que aporta. ¿Qué estrategia integral propones?</p>
+    <ul class="opciones-lista">
+      <li><label><input type="radio" name="qi10" value="a"> a) Eliminar inmediatamente al 25% de clientes no rentables y no tomar ninguna acción adicional.</label></li>
+      <li><label><input type="radio" name="qi10" value="b"> b) Ignorar el análisis porque la empresa en conjunto es rentable.</label></li>
+      <li><label><input type="radio" name="qi10" value="c"> c) Retener y desarrollar al 15% más rentable, renegociar condiciones con los clientes de baja rentabilidad para reducir costos de atención, y ajustar el perfil de prospectos comerciales hacia el modelo de cliente más rentable.</label></li>
+      <li><label><input type="radio" name="qi10" value="d"> d) Aumentar los precios a todos los clientes por igual para mejorar la rentabilidad global.</label></li>
+    </ul>
+  </div>
+
+  <div style="margin-top:8px">
+    <button class="btn-ppal" onclick="verificarCuestionario()">✅ Verificar respuestas</button>
+    <button class="btn-sec" onclick="resetCuestionario()">🔄 Reiniciar</button>
+  </div>
+  <p class="alerta-incompleto" id="alerta-quiz">⚠ Debes responder todas las preguntas antes de verificar.</p>
+
+  <div id="feedback-quiz"></div>
+
+  <div class="score-panel" id="score-quiz">
+    <h3>🎓 Resultado del Cuestionario</h3>
+    <div class="score-num" id="score-num-quiz">—</div>
+    <div class="barra-prog-wrap"><div class="barra-prog-fill" id="barra-quiz" style="width:0%"></div></div>
+    <p class="msg-motivacional" id="msg-quiz"></p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PESTAÑA 7: ACTIVIDAD CON IA
+══════════════════════════════════════════════════════════════ -->
+<div class="tab-panel" id="tab-ia">
+  <h2 class="titulo-seccion">🤖 Actividad con Inteligencia Artificial</h2>
+
+  <div class="caja-def">
+    <h4>🎯 Objetivo de la Actividad</h4>
+    <p>Usar la IA como herramienta de análisis y redacción para construir un informe gerencial real basado en datos de tu propia realidad o del caso SEGURECUADOR S.A. La idea no es que la IA haga el trabajo por ti, sino que te ayude a <strong>pensar mejor</strong>, identificar vacíos y mejorar la calidad de tu comunicación ejecutiva.</p>
+  </div>
+
+  <div class="caja-alerta">
+    ⚠ <strong>Importante:</strong> Esta actividad es exploratoria y de enriquecimiento. No debes copiar y pegar la respuesta de la IA como si fuera tuya. Debes <strong>analizar, cuestionar y reformular</strong> lo que la IA produce.
+  </div>
+
+  <h3 class="sub">Herramienta recomendada</h3>
+  <p style="font-size:0.94rem;margin-bottom:12px">Usa <strong>Claude</strong> en <a href="https://claude.ai" target="_blank" style="color:var(--azul);font-weight:700">claude.ai</a> (acceso gratuito). También puedes usar ChatGPT en chat.openai.com o Gemini en gemini.google.com.</p>
+
+  <h3 class="sub">📋 Prompt para copiar y pegar en la IA</h3>
+  <div class="ia-prompt" id="prompt-ia">Actúa como un consultor de Contabilidad Gerencial experto en empresas de servicios de seguridad privada en Ecuador.
+
+Tengo los siguientes datos de SEGURECUADOR S.A. para enero 2026:
+- Línea Guardias: Ingresos $48.000 | Costos variables directos $33.120 | Costos fijos directos $4.280
+- Línea Monitoreo: Ingresos $22.000 | Costos variables directos $9.680 | Costos fijos directos $3.520
+- Línea Consultoría: Ingresos $9.500 | Costos variables directos $4.770 | Costos fijos directos $1.950
+- Costos fijos corporativos (no asignables): $13.980
+
+Por favor:
+1. Calcula el Margen de Contribución y el Margen por Segmento de cada línea, con su porcentaje sobre ingresos.
+2. Identifica qué línea tiene el mejor y el peor desempeño en términos de rentabilidad relativa.
+3. Redacta un Resumen Ejecutivo de máximo 150 palabras para el Directorio de SEGURECUADOR S.A., usando lenguaje ejecutivo claro (no académico), incluyendo la conclusión principal, los 3 hallazgos clave y 2 recomendaciones concretas con responsable y plazo.
+4. Señala qué riesgos gerenciales podrían afectar estos resultados en el siguiente trimestre, considerando el contexto ecuatoriano (variaciones en el salario básico unificado, normativa IESS, competencia en el sector).
+
+Responde en español.</div>
+  <button class="btn-copiar" onclick="copiarPrompt()">📋 Copiar prompt</button>
+  <p id="msg-copiado" style="color:var(--verde);font-size:0.82rem;margin-top:4px;display:none">✅ ¡Copiado al portapapeles!</p>
+
+  <h3 class="sub">📌 ¿Qué hacer con la respuesta de la IA?</h3>
+  <div class="caja-def">
+    <ul>
+      <li>Verifica que los cálculos de margen sean correctos (puedes hacerlo manualmente con lo aprendido en el Tema 1).</li>
+      <li>Compara el Resumen Ejecutivo de la IA con la estructura correcta aprendida en el Tema 3: ¿empieza con la conclusión? ¿incluye recomendaciones con responsable y plazo?</li>
+      <li>Identifica si la IA cometió algún error conceptual (por ejemplo, asignar costos corporativos a líneas individuales) y corrígelo.</li>
+      <li>Reformula con tus propias palabras el Resumen Ejecutivo, incorporando detalles del contexto ecuatoriano que la IA puede haber omitido o generalizado.</li>
+    </ul>
+  </div>
+
+  <h3 class="sub">🏆 Criterio de evaluación (para uso en clase)</h3>
+  <div class="caja-ej">
+    <h4>Rubrica de evaluación (orientativa)</h4>
+    <div class="tabla-scroll">
+      <table class="tabla-g">
+        <thead><tr><th>Criterio</th><th>Excelente (3 pts)</th><th>Aceptable (2 pts)</th><th>Por mejorar (1 pt)</th></tr></thead>
+        <tbody>
+          <tr><td>Verificación de cálculos</td><td>Verifica todos y corrige errores</td><td>Verifica parcialmente</td><td>Acepta sin verificar</td></tr>
+          <tr><td>Análisis crítico del Resumen</td><td>Identifica fortalezas y debilidades con argumentos</td><td>Hace observaciones superficiales</td><td>Copia sin comentar</td></tr>
+          <tr><td>Reformulación personal</td><td>Redacta versión propia con valor agregado</td><td>Modifica parcialmente</td><td>No reformula</td></tr>
+          <tr><td>Contexto ecuatoriano</td><td>Incorpora normativa local (SBU, IESS, LORTI)</td><td>Menciona uno o dos elementos</td><td>No incorpora contexto</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PESTAÑA 8: REFLEXIÓN
+══════════════════════════════════════════════════════════════ -->
+<div class="tab-panel" id="tab-reflexion">
+  <h2 class="titulo-seccion">💬 Preguntas Reflexivas</h2>
+  <p style="font-size:0.93rem;margin-bottom:18px;line-height:1.65">No hay respuestas correctas ni incorrectas. Estas preguntas buscan conectar los conceptos del curso con tu vida, tu entorno y tu desarrollo como profesional. Tómate el tiempo de pensar con honestidad.</p>
+
+  <div class="reflexiva-item">
+    <p>🔍 <strong>1. El "cliente incómodo" en tu vida.</strong> En el análisis de rentabilidad por cliente aprendiste que el cliente más grande no siempre es el más rentable. ¿Puedes identificar en tu vida personal o profesional alguna relación — laboral, comercial o incluso personal — donde inviertes mucho esfuerzo pero obtienes poco retorno real? ¿Qué te impide reconocerlo y actuar?</p>
+  </div>
+
+  <div class="reflexiva-item">
+    <p>💬 <strong>2. ¿Comunicas o solo informas?</strong> El Tema 3 distingue entre el contador que "informa cifras" y el que "comunica decisiones". En tu experiencia cotidiana — en la universidad, en el trabajo, en tu familia — ¿te reconoces más como alguien que comunica con propósito o que simplemente entrega información? ¿Qué cambiarías en la forma en que expresas tus ideas?</p>
+  </div>
+
+  <div class="reflexiva-item">
+    <p>🧩 <strong>3. Las partes ocultas del todo.</strong> Un resultado global positivo puede esconder problemas graves en sus partes (igual que la empresa que gana en total pero pierde en una línea). ¿Has vivido una situación —en tu familia, en un equipo de trabajo, en un proyecto— donde los "buenos resultados generales" ocultaban un problema específico que se terminó evidenciando después? ¿Cómo haberlo detectado antes?</p>
+  </div>
+
+  <div class="reflexiva-item">
+    <p>🎯 <strong>4. El valor de decir verdades incómodas.</strong> El contador gerencial tiene la responsabilidad de informar a la alta dirección aunque las noticias sean malas. En la vida real, ¿qué tan difícil te resulta comunicar verdades incómodas a personas con autoridad (jefes, padres, profesores)? ¿Qué herramientas del "lenguaje ejecutivo" podrías aplicar para hacerlo de manera más efectiva?</p>
+  </div>
+
+  <div class="reflexiva-item">
+    <p>🌱 <strong>5. Ser dueño de tu propio "análisis de rentabilidad".</strong> Si aplicaras el análisis de rentabilidad a tu propia vida universitaria — tus materias, actividades, relaciones, hábitos de estudio — ¿cuáles serían tus "líneas de mayor margen" (actividades que te generan mucho valor)? ¿Y cuáles serían tus "líneas en pérdida" (actividades que consumen tiempo y energía sin retorno real)? ¿Qué decisión tomarías?</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PESTAÑA 9: BIBLIOGRAFÍA
+══════════════════════════════════════════════════════════════ -->
+<div class="tab-panel" id="tab-biblio">
+  <h2 class="titulo-seccion">📚 Bibliografía</h2>
+  <p style="font-size:0.92rem;margin-bottom:16px;line-height:1.65">Referencias en formato APA 7.ª edición utilizadas como base de los contenidos de esta semana.</p>
+
+  <ol class="bib-lista">
+    <li>Horngren, C. T., Datar, S. M., y Rajan, M. V. (2012). <em>Contabilidad de costos: Un enfoque gerencial</em> (14.ª ed.). Pearson Educación. <br><span style="font-size:0.85rem;color:#667">ISBN: 978-607-32-1024-9. Capítulos 12 (Asignación de costos y rentabilidad por cliente) y 14 (Análisis de rentabilidad estratégica).</span></li>
+    <li>Horngren, C. T., Sundem, G. L., Burgstahler, D., y Schatzberg, J. (2014). <em>Introduction to Management Accounting</em> (16th ed.). Pearson Education. <br><span style="font-size:0.85rem;color:#667">ISBN: 978-0-13-305878-9. Capítulos 9 (Sistemas de control gerencial) y 12 (Asignación de costos y rentabilidad por segmento).</span></li>
+    <li>Kaplan, R. S., y Anderson, S. R. (2007). <em>Time-driven activity-based costing: A simpler and more powerful path to higher profits</em>. Harvard Business School Press. <br><span style="font-size:0.85rem;color:#667">Referencia fundamental para el análisis de rentabilidad por cliente mediante costeo basado en actividades.</span></li>
+    <li>Superintendencia de Compañías, Valores y Seguros del Ecuador (SCVS). (2023). <em>Normas Internacionales de Información Financiera (NIIF) para PYMES — aplicación en Ecuador</em>. Resolución No. SCVS-INC-DNCDN-2023. https://www.supercias.gob.ec <br><span style="font-size:0.85rem;color:#667">Marco normativo ecuatoriano para la presentación de estados financieros segmentados.</span></li>
+    <li>Ministerio de Trabajo del Ecuador. (2024). <em>Acuerdo Ministerial de fijación del salario básico unificado 2024</em>. https://www.trabajo.gob.ec <br><span style="font-size:0.85rem;color:#667">Base normativa para el cálculo de costos laborales directos en el análisis de rentabilidad por línea.</span></li>
+    <li>Instituto Ecuatoriano de Seguridad Social (IESS). (2024). <em>Tabla de aportes patronales y personales vigentes</em>. https://www.iess.gob.ec <br><span style="font-size:0.85rem;color:#667">Referencia para los costos laborales obligatorios (aporte patronal 12,15%) en la estructura de costos por línea de servicio.</span></li>
+    <li>Servicio de Rentas Internas del Ecuador (SRI). (2024). <em>Ley de Régimen Tributario Interno (LORTI) — impuesto a la renta de sociedades y participación de utilidades</em>. https://www.sri.gob.ec <br><span style="font-size:0.85rem;color:#667">Normativa fiscal aplicable al análisis de rentabilidad neta (impuesto a la renta 25%, participación de trabajadores 15%).</span></li>
+  </ol>
+
+  <div class="bib-nota">
+    📌 <strong>Nota:</strong> Se recomienda verificar cada referencia en Google Scholar (<a href="https://scholar.google.com" target="_blank" style="color:var(--azul)">scholar.google.com</a>) o en el repositorio institucional de la Universidad de Guayaquil antes de citar en trabajos académicos. Las páginas web gubernamentales pueden cambiar de URL; verificar vigencia en la fecha de consulta.
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PIE DE PÁGINA
+══════════════════════════════════════════════════════════════ -->
+<footer style="text-align:center;padding:20px;background:var(--azul);color:var(--cielo);font-size:0.82rem;margin-top:30px;">
+  <p>Contabilidad Gerencial — Semana 15 · Unidad 4: Herramientas Avanzadas de Gestión y Decisiones</p>
+  <p style="margin-top:4px;color:#5aaed4">Universidad de Guayaquil · Facultad de Ciencias Administrativas · Carrera en Contabilidad y Auditoría · Ciclo marzo-julio 2026</p>
+  <p style="margin-top:4px;color:#5aaed4">Caso ficticio: SEGURECUADOR S.A. — Todos los valores son ilustrativos con fines educativos.</p>
+</footer>
+
+<!-- ══════════════════════════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════════════════════════ -->
+<script>
+/* ── NAVEGACIÓN DE PESTAÑAS ─────────────────────────────────── */
+document.getElementById('tab-bar').addEventListener('click', function(e) {
+  const btn = e.target.closest('.tab-btn');
+  if (!btn) return;
+  const target = btn.getAttribute('data-tab');
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('activo'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('activo'));
+  btn.classList.add('activo');
+  document.getElementById('tab-' + target).classList.add('activo');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+});
+
+/* ── COPIAR PROMPT ──────────────────────────────────────────── */
+function copiarPrompt() {
+  const texto = document.getElementById('prompt-ia').textContent;
+  navigator.clipboard.writeText(texto).then(() => {
+    const msg = document.getElementById('msg-copiado');
+    msg.style.display = 'block';
+    setTimeout(() => msg.style.display = 'none', 2500);
+  });
+}
+
+/* ══════════════════════════════════════════════════════════════
+   EJERCICIO INTERACTIVO
+══════════════════════════════════════════════════════════════ */
+const ejCorrectas = { ei1:'b', ei2:'c', ei3:'c', ei4:'a', ei6:'c', ei7:'b', ei8:'b' };
+const ejClasificacion = { eiC1:'linea', eiC2:'cliente', eiC3:'linea', eiC4:'cliente' };
+
+const ejFeedback = {
+  ei1: {
+    b: '✅ Correcto. El Margen por Segmento de la Consultoría es positivo ($2.780), lo que significa que la línea cubre sus propios costos variables Y sus costos fijos directos. Eliminarla solo reduciría la utilidad global, ya que los costos corporativos seguirían existiendo.',
+    otros: '❌ Incorrecto. El criterio para eliminar una línea no es el volumen de ingresos ni el monto absoluto del margen, sino si el Margen por Segmento es positivo o negativo. Con $2.780 positivo, la Consultoría contribuye a cubrir costos corporativos.'
+  },
+  ei2: {
+    c: '✅ Correcto. Los costos de arriendo central, gerencia y contabilidad corporativa son costos comunes que existen independientemente de qué líneas operen. Asignarlos arbitrariamente distorsionaría la rentabilidad real de cada línea.',
+    otros: '❌ Incorrecto. Estos costos no son directos de ninguna línea específica ni irrelevantes. Son costos fijos corporativos comunes que deben tratarse de forma separada en el análisis segmentado.'
+  },
+  ei3: {
+    c: '✅ Correcto. La estrategia correcta no es elegir entre los dos extremos (retener uno, eliminar otro), sino optimizar: renegociar las condiciones del cliente complejo y buscar más clientes con el perfil rentable de FARMAPROD.',
+    otros: '❌ Incorrecto. La rentabilidad relativa es el indicador correcto, no el volumen absoluto. La inacción tampoco es válida cuando los datos muestran una oportunidad de mejora clara.'
+  },
+  ei4: {
+    a: '✅ Correcto. El margen de contribución del 56% significa que de cada $100 de ingresos de Monitoreo, $56 quedan disponibles para cubrir los costos fijos de esa línea y luego contribuir a la utilidad corporativa. Es el mejor índice entre las tres líneas.',
+    otros: '❌ Incorrecto. El Margen de Contribución es la proporción del ingreso que queda después de deducir los costos variables directos. No es una comparación entre líneas ni relacionado con costos fijos directamente.'
+  },
+  ei6: {
+    c: '✅ Correcto. El principio de causalidad establece que un costo solo debe asignarse a una línea si existe una relación de causa y efecto comprobable. La distribución arbitraria (por ejemplo, en base a ingresos) puede hacer que una línea rentable aparezca como perdedora.',
+    otros: '❌ Incorrecto. Asignar costos corporativos de manera arbitraria o proporcional es una práctica que distorsiona el análisis de rentabilidad. Horngren advierte específicamente sobre este error.'
+  },
+  ei7: {
+    b: '✅ Correcto. El Resumen Ejecutivo está diseñado precisamente para los lectores que no tienen tiempo de leer el informe completo. Debe contener la conclusión principal, los hallazgos clave y la recomendación — todo en pocas palabras y con lenguaje claro.',
+    otros: '❌ Incorrecto. El Resumen Ejecutivo no reproduce tablas completas ni explica metodología. Su función es comunicar la esencia del análisis de forma rápida y accionable.'
+  },
+  ei8: {
+    b: '✅ Correcto. La Versión B aplica los principios del lenguaje ejecutivo: oración corta y activa, cifra con contexto ($2.300 de diferencia) y causa específica identificada (cliente CORPOBANCO). La Versión A es verbosa, pasiva y no comunica información adicional.',
+    otros: '❌ Incorrecto. La formalidad no equivale a calidad en comunicación ejecutiva. El lenguaje gerencial prioriza la claridad y la concisión sobre la extensión y los giros pasivos complejos.'
+  }
+};
+
+const clsFeedback = {
+  eiC1: { ok: '✅ Correcto. El Margen por Segmento de Guardias es un resultado del análisis POR LÍNEA DE SERVICIO.', err: '❌ Incorrecto. El margen por segmento de una línea pertenece al análisis POR LÍNEA DE SERVICIO, no por cliente.' },
+  eiC2: { ok: '✅ Correcto. El costo de visitas del Gerente Comercial a un cliente específico (CORPOBANCO) es un costo rastreable al análisis POR CLIENTE.', err: '❌ Incorrecto. Las visitas del Gerente Comercial a CORPOBANCO son actividades de atención a ese cliente específico, por lo que pertenecen al análisis POR CLIENTE.' },
+  eiC3: { ok: '✅ Correcto. La depreciación de equipos de monitoreo CCTV es un costo fijo directo de la línea de Monitoreo, por lo que pertenece al análisis POR LÍNEA DE SERVICIO.', err: '❌ Incorrecto. La depreciación de equipos es un costo atribuible a la línea tecnológica (Monitoreo), no a un cliente individual.' },
+  eiC4: { ok: '✅ Correcto. Un descuento negociado con un cliente específico (MALL NORTE) es un costo rastreable al análisis POR CLIENTE, porque fue una concesión particular hecha a ese cliente.', err: '❌ Incorrecto. Un descuento especial negociado con MALL NORTE es una actividad vinculada a ese cliente, no a la línea de servicio en general.' }
+};
+
+function verificarEjercicio() {
+  // Verificar radios
+  const radios = ['ei1','ei2','ei3','ei4','ei6','ei7','ei8'];
+  for (const name of radios) {
+    if (!document.querySelector(`input[name="${name}"]:checked`)) {
+      document.getElementById('alerta-ej').style.display = 'block';
+      return;
+    }
+  }
+  // Verificar clasificación
+  const selects = ['eiC1','eiC2','eiC3','eiC4'];
+  for (const id of selects) {
+    if (!document.getElementById(id).value) {
+      document.getElementById('alerta-ej').style.display = 'block';
+      return;
+    }
+  }
+  document.getElementById('alerta-ej').style.display = 'none';
+
+  let correctas = 0;
+  let html = '<div style="margin-top:20px">';
+
+  // Radios
+  const radioLabels = {
+    ei1: 'E1. Consultoría: decisión gerencial',
+    ei2: 'E2. Tipo de costos corporativos',
+    ei3: 'E3. Estrategia CORPOBANCO vs FARMAPROD',
+    ei4: 'E4. Significado margen de contribución 56%',
+    ei6: 'E6. Principio asignación costos comunes',
+    ei7: 'E7. Propósito del Resumen Ejecutivo',
+    ei8: 'E8. Lenguaje ejecutivo correcto'
+  };
+  for (const name of radios) {
+    const sel = document.querySelector(`input[name="${name}"]:checked`).value;
+    const correcto = ejCorrectas[name];
+    const ok = sel === correcto;
+    if (ok) correctas++;
+    const fb = ok ? ejFeedback[name][correcto] : ejFeedback[name]['otros'];
+    html += `<div class="fb-item ${ok?'fb-ok':'fb-err'}"><strong>${radioLabels[name]}:</strong> ${fb}</div>`;
+  }
+
+  // Clasificación E5
+  html += '<div class="fb-item" style="background:#f0f5fb;border-left:4px solid var(--azul)"><strong>E5. Clasificación de elementos:</strong></div>';
+  for (const id of selects) {
+    const sel = document.getElementById(id).value;
+    const ok = sel === ejClasificacion[id];
+    if (ok) correctas++;
+    html += `<div class="fb-item ${ok?'fb-ok':'fb-err'}">${clsFeedback[id][ok?'ok':'err']}</div>`;
+  }
+
+  html += '</div>';
+  document.getElementById('feedback-ej').innerHTML = html;
+
+  const total = radios.length + selects.length; // 11 ítems (7 + 4)
+  const pct = Math.round(correctas / total * 100);
+  document.getElementById('score-num-ej').textContent = correctas + ' / ' + total + ' (' + pct + '%)';
+  document.getElementById('barra-ej').style.width = pct + '%';
+  const msgs = [
+    [100,'🏆 ¡Perfecto! Dominas el análisis de rentabilidad y los informes gerenciales.'],
+    [80,'🎯 ¡Muy bien! Tienes una comprensión sólida de los temas. Revisa los ítems incorrectos.'],
+    [60,'📘 Bien encaminado/a. Repasa las secciones sobre costos comunes y lenguaje ejecutivo.'],
+    [40,'⚠️ Sigue practicando. Revisa especialmente los Temas 1 y 3 del widget.'],
+    [0,'📖 Regresa a los temas del widget y vuelve a intentarlo. ¡Cada repaso cuenta!']
+  ];
+  document.getElementById('msg-ej').textContent = msgs.find(m => pct >= m[0])[1];
+  const scoreEl = document.getElementById('score-ej');
+  scoreEl.style.display = 'block';
+  scoreEl.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+function resetEjercicio() {
+  document.querySelectorAll('#tab-ejercicio input[type=radio]').forEach(r => r.checked = false);
+  document.querySelectorAll('#tab-ejercicio select').forEach(s => s.value = '');
+  document.getElementById('feedback-ej').innerHTML = '';
+  document.getElementById('score-ej').style.display = 'none';
+  document.getElementById('alerta-ej').style.display = 'none';
+}
+
+/* ══════════════════════════════════════════════════════════════
+   CUESTIONARIO
+══════════════════════════════════════════════════════════════ */
+const quizCorrectas = {
+  qi1:'b', qi2:'b', qi3:'b', qi4:'c', qi5:'b',
+  qi6:'b', qi7:'b', qi8:'b', qi9:'b', qi10:'c'
+};
+
+const quizFeedback = {
+  qi1: { b:'✅ Correcto. El Margen de Contribución = Ingresos − Costos Variables Directos. El Margen por Segmento = Margen de Contribución − Costos Fijos Directos de la línea. El primero mide la contribución antes de fijos; el segundo mide si la línea se sostiene por sí sola.', err:'❌ Incorrecto. La diferencia es clave: el Margen de Contribución no descuenta los costos fijos directos de la línea; eso lo hace el Margen por Segmento.' },
+  qi2: { b:'✅ Correcto. Clientes con altos ingresos suelen exigir más actividades de servicio (supervisores dedicados, descuentos, reportes, cobros tardíos), cada una con un costo real que se resta de la rentabilidad bruta.', err:'❌ Incorrecto. La razón está en los costos de las actividades de atención al cliente, no en impuestos ni en costos variables proporcionales.' },
+  qi3: { b:'✅ Correcto. El principio de causalidad establece que solo se asigna un costo a una línea si existe evidencia de que ese costo existe o aumenta por causa de esa línea específica.', err:'❌ Incorrecto. La capacidad de absorción, las decisiones directivas o las normas contables no son criterios válidos para la asignación de costos comunes. El criterio es la relación de causa y efecto.' },
+  qi4: { c:'✅ Correcto. El Resumen Ejecutivo debe empezar con la conclusión principal, no con antecedentes ni tablas. Los directivos frecuentemente leen solo esta sección.', err:'❌ Incorrecto. El Resumen Ejecutivo no reproduce metodología ni tablas completas; está diseñado para comunicar lo esencial de forma directa y ejecutiva.' },
+  qi5: { b:'✅ Correcto. El tercer "3" de la Regla 3-3-3 se refiere a las 3 recomendaciones concretas, cada una con un responsable identificado y un plazo definido.', err:'❌ Incorrecto. Los tres "3" son: 3 minutos de apertura, 3 hallazgos clave, y 3 recomendaciones con responsable y plazo.' },
+  qi6: { b:'✅ Correcto. Los "clientes ballena" son grandes en facturación pero consumen muchos recursos de atención, haciendo que su rentabilidad real sea baja. Son como una ballena que parece enorme pero requiere enorme esfuerzo para mantener.', err:'❌ Incorrecto. El término no alude a antigüedad, sector ni al nivel de rentabilidad positiva, sino a la disparidad entre facturación alta y rentabilidad neta baja.' },
+  qi7: { b:'✅ Correcto. El contador gerencial va más allá de describir los números: explica qué los causó, qué significan para el negocio y qué decisiones recomienda. Esa es su diferencia fundamental.', err:'❌ Incorrecto. La diferencia no está en las normas contables utilizadas ni en el tipo de datos (presupuestados vs. históricos), sino en si se pasa de la descripción a la interpretación y la recomendación.' },
+  qi8: { b:'✅ Correcto. Si el Margen por Segmento de Consultoría es positivo, significa que la línea cubre sus propios costos y contribuye a absorber costos corporativos. Al eliminarla, esa contribución desaparece y la utilidad global bajará.', err:'❌ Incorrecto. Una línea debe eliminarse solo si su Margen por Segmento es negativo (no cubre ni sus costos directos). Con $2.780 positivos, eliminarla perjudicaría a la empresa.' },
+  qi9: { b:'✅ Correcto. Colocar la conclusión al final viola el principio básico del lenguaje ejecutivo: "primero la conclusión, luego los datos". Si el directivo solo tiene 15 minutos, puede no llegar a leer la parte más importante del informe.', err:'❌ Incorrecto. El problema no es el número de páginas ni la ausencia de estados auditados, sino la estructura que esconde la información más importante al final.' },
+  qi10: { c:'✅ Correcto. La estrategia integral combina retención del segmento estrella, optimización del segmento de baja rentabilidad (sin eliminación automática) y ajuste del perfil comercial para atraer más clientes rentables.', err:'❌ Incorrecto. Eliminar clientes sin intentar renegociar puede ser una reacción excesiva. Ignorar el análisis o subir precios uniformemente no aborda la causa raíz de la diferencia de rentabilidad entre clientes.' }
+};
+
+const quizEnunciados = [
+  'Q1. Diferencia entre Margen de Contribución y Margen por Segmento',
+  'Q2. ¿Por qué un cliente grande puede ser poco rentable?',
+  'Q3. Principio de causalidad en asignación de costos',
+  'Q4. Primer elemento del Resumen Ejecutivo',
+  'Q5. Tercero en la Regla 3-3-3',
+  'Q6. Definición de "clientes ballena"',
+  'Q7. Contador tradicional vs. contador gerencial',
+  'Q8. Eliminar línea de Consultoría — análisis',
+  'Q9. Problema del informe con conclusión al final — análisis',
+  'Q10. Estrategia integral ante clientes no rentables — análisis'
+];
+
+function verificarCuestionario() {
+  const names = Object.keys(quizCorrectas);
+  for (const name of names) {
+    if (!document.querySelector(`input[name="${name}"]:checked`)) {
+      document.getElementById('alerta-quiz').style.display = 'block';
+      return;
+    }
+  }
+  document.getElementById('alerta-quiz').style.display = 'none';
+
+  let correctas = 0;
+  let html = '<div style="margin-top:20px">';
+  names.forEach((name, idx) => {
+    const sel = document.querySelector(`input[name="${name}"]:checked`).value;
+    const correcto = quizCorrectas[name];
+    const ok = sel === correcto;
+    if (ok) correctas++;
+    const fb = quizFeedback[name][ok ? correcto : 'err'];
+    html += `<div class="fb-item ${ok?'fb-ok':'fb-err'}"><strong>${quizEnunciados[idx]}:</strong> ${fb}</div>`;
+  });
+  html += '</div>';
+  document.getElementById('feedback-quiz').innerHTML = html;
+
+  const pct = Math.round(correctas / 10 * 100);
+  document.getElementById('score-num-quiz').textContent = correctas + ' / 10 (' + pct + '%)';
+  document.getElementById('barra-quiz').style.width = pct + '%';
+  const msgs = [
+    [100,'🏆 ¡Excelente! Dominas todos los temas de la Semana 15.'],
+    [80,'🎯 ¡Muy bien! Comprensión sólida. Revisa los ítems incorrectos para consolidar.'],
+    [60,'📘 Bien encaminado/a. Refuerza el análisis de rentabilidad por cliente e informes gerenciales.'],
+    [40,'⚠️ Continúa repasando. Regresa a los tres temas del widget y vuelve a intentarlo.'],
+    [0,'📖 No te desanimes. Lee con calma los Temas 1, 2 y 3, y vuelve a responder.']
+  ];
+  document.getElementById('msg-quiz').textContent = msgs.find(m => pct >= m[0])[1];
+  const scoreEl = document.getElementById('score-quiz');
+  scoreEl.style.display = 'block';
+  scoreEl.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+function resetCuestionario() {
+  document.querySelectorAll('#tab-cuestionario input[type=radio]').forEach(r => r.checked = false);
+  document.getElementById('feedback-quiz').innerHTML = '';
+  document.getElementById('score-quiz').style.display = 'none';
+  document.getElementById('alerta-quiz').style.display = 'none';
+}
+</script>
+</body>
+</html>
