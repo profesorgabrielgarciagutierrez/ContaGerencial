@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard de KPIs Gerenciales</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --azul: #003366; --celeste: #87CEEB; --dorado: #FFD700;
+  --blanco: #ffffff; --gris: #f4f7fb; --borde: #dce3ee;
+  --verde: #1a7a3c; --amarillo: #b45309; --rojo: #b91c1c;
+  --verde-claro: #d1fae5; --amarillo-claro: #fef3c7; --rojo-claro: #fee2e2;
+  --sombra: 0 2px 14px rgba(0,51,102,0.11);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Source Sans 3', sans-serif; background: var(--gris); color: #1a2a3a; min-height: 100vh; }
+
+/* ─── PORTADA ─── */
+#portada {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #003366 0%, #1a5ca8 60%, #0a3d82 100%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 40px 20px; text-align: center;
+}
+#portada h1 { font-family: 'Lora', serif; color: #fff; font-size: 2.1rem; margin-bottom: 6px; }
+#portada .subtitulo { color: #87CEEB; font-size: 1.05rem; margin-bottom: 36px; }
+.portada-icon { font-size: 4rem; margin-bottom: 18px; }
+
+.setup-card {
+  background: rgba(255,255,255,0.10); border: 1.5px solid rgba(255,255,255,0.25);
+  border-radius: 18px; padding: 32px 28px; max-width: 560px; width: 100%; margin: 0 auto;
+}
+.setup-card h2 { font-family: 'Lora', serif; color: #fff; font-size: 1.15rem; margin-bottom: 20px; }
+.setup-field { margin-bottom: 16px; text-align: left; }
+.setup-field label { display: block; color: #c8ddf5; font-size: 0.88rem; font-weight: 600; margin-bottom: 5px; }
+.setup-field input, .setup-field select {
+  width: 100%; padding: 10px 14px; border-radius: 9px; border: 1.5px solid rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.12); color: #fff; font-size: 0.97rem;
+  font-family: 'Source Sans 3', sans-serif; transition: border 0.18s;
+}
+.setup-field input::placeholder { color: rgba(255,255,255,0.45); }
+.setup-field input:focus, .setup-field select:focus { border-color: #87CEEB; outline: none; }
+.setup-field select option { background: #003366; color: #fff; }
+.btn-start {
+  margin-top: 22px; width: 100%; padding: 14px; background: #87CEEB; color: #003366;
+  border: none; border-radius: 30px; font-size: 1.08rem; font-weight: 700; cursor: pointer;
+  font-family: 'Source Sans 3', sans-serif; transition: all 0.18s;
+}
+.btn-start:hover { background: #fff; transform: scale(1.02); }
+.btn-ejemplo {
+  margin-top: 10px; width: 100%; padding: 10px; background: transparent;
+  color: rgba(255,255,255,0.7); border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 30px; font-size: 0.9rem; cursor: pointer;
+  font-family: 'Source Sans 3', sans-serif; transition: all 0.18s;
+}
+.btn-ejemplo:hover { color: #fff; border-color: rgba(255,255,255,0.7); }
+
+/* ─── APP PRINCIPAL ─── */
+#app { display: none; }
+
+header {
+  background: var(--azul); color: #fff; padding: 16px 24px;
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  position: sticky; top: 0; z-index: 100;
+}
+.header-info h2 { font-family: 'Lora', serif; font-size: 1.22rem; }
+.header-info p { font-size: 0.83rem; color: #87CEEB; margin-top: 2px; }
+.header-acciones { margin-left: auto; display: flex; gap: 10px; flex-wrap: wrap; }
+.btn-header {
+  background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.3);
+  color: #fff; padding: 7px 16px; border-radius: 20px; cursor: pointer;
+  font-size: 0.83rem; font-family: 'Source Sans 3', sans-serif; transition: background 0.18s;
+}
+.btn-header:hover { background: rgba(255,255,255,0.25); }
+.btn-header.primario { background: #87CEEB; color: #003366; border-color: #87CEEB; font-weight: 700; }
+.btn-header.primario:hover { background: #fff; }
+
+/* ─── TABS ─── */
+.tabs-wrapper {
+  background: var(--celeste); overflow-x: auto; white-space: nowrap;
+  border-bottom: 2px solid #5aaed4;
+}
+.tab-btn {
+  display: inline-block; padding: 13px 22px; cursor: pointer;
+  font-family: 'Source Sans 3', sans-serif; font-size: 0.92rem;
+  color: #1a2a3a; border: none; background: transparent;
+  border-bottom: 3px solid transparent; transition: all 0.18s; white-space: nowrap;
+}
+.tab-btn:hover { background: rgba(255,255,255,0.5); }
+.tab-btn.activo { background: #fff; color: var(--azul); font-weight: 700; border-bottom: 3px solid var(--azul); }
+
+/* ─── CONTENIDO ─── */
+.panel { display: none; padding: 28px 22px 50px; max-width: 1060px; margin: 0 auto; }
+.panel.activo { display: block; }
+
+h3.sec { font-family: 'Lora', serif; color: var(--azul); font-size: 1.12rem;
+  margin: 24px 0 12px; border-bottom: 1px solid var(--borde); padding-bottom: 6px; }
+
+/* ─── GRID DE INGRESO ─── */
+.kpi-input-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px; margin-bottom: 20px;
+}
+.kpi-input-card {
+  background: #fff; border-radius: 12px; padding: 16px 18px;
+  box-shadow: var(--sombra); border-top: 3px solid var(--azul);
+}
+.kpi-input-card.finanzas { border-top-color: #1a5ca8; }
+.kpi-input-card.operaciones { border-top-color: #1a7a3c; }
+.kpi-input-card.clientes { border-top-color: #b45309; }
+.kpi-input-card .kpi-nombre { font-weight: 700; font-size: 0.92rem; color: #1a2a3a; margin-bottom: 3px; }
+.kpi-input-card .kpi-desc { font-size: 0.8rem; color: #667; margin-bottom: 10px; line-height: 1.4; }
+.kpi-input-card .kpi-meta-row {
+  display: flex; gap: 10px; align-items: center;
+}
+.kpi-input-card .field-wrap { flex: 1; }
+.kpi-input-card label { font-size: 0.78rem; color: #667; font-weight: 600; display: block; margin-bottom: 3px; }
+.kpi-input-card input {
+  width: 100%; padding: 7px 10px; border: 1.5px solid var(--borde);
+  border-radius: 7px; font-size: 0.95rem; font-family: 'Source Sans 3', sans-serif;
+  transition: border 0.18s;
+}
+.kpi-input-card input:focus { border-color: var(--azul); outline: none; }
+.kpi-unidad { font-size: 0.78rem; color: #889; margin-top: 4px; }
+
+/* ─── BOTÓN CALCULAR ─── */
+.btn-calcular {
+  background: var(--azul); color: #fff; border: none; padding: 12px 34px;
+  border-radius: 30px; font-size: 1rem; font-weight: 700; cursor: pointer;
+  font-family: 'Source Sans 3', sans-serif; transition: all 0.18s; margin-top: 8px;
+}
+.btn-calcular:hover { background: #1a5ca8; transform: scale(1.03); }
+.btn-limpiar {
+  background: #e2e8f0; color: #334; border: none; padding: 12px 22px;
+  border-radius: 30px; font-size: 0.92rem; cursor: pointer;
+  font-family: 'Source Sans 3', sans-serif; margin-left: 10px; transition: all 0.18s;
+}
+.btn-limpiar:hover { background: #cbd5e1; }
+
+/* ─── DASHBOARD ─── */
+#dashboard-output { display: none; margin-top: 28px; }
+
+.dash-periodo {
+  background: var(--azul); color: #fff; border-radius: 12px;
+  padding: 14px 20px; margin-bottom: 20px; display: flex;
+  align-items: center; gap: 16px; flex-wrap: wrap;
+}
+.dash-empresa { font-family: 'Lora', serif; font-size: 1.08rem; }
+.dash-fecha { font-size: 0.85rem; color: #87CEEB; }
+.semaforo-global { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.dot-global { width: 18px; height: 18px; border-radius: 50%; }
+
+.dash-section-title {
+  font-family: 'Lora', serif; font-size: 1.05rem; color: var(--azul);
+  margin: 22px 0 12px; display: flex; align-items: center; gap: 8px;
+}
+.dash-section-title .icono-sec { font-size: 1.2rem; }
+
+.kpi-cards-row {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 14px; margin-bottom: 10px;
+}
+.kpi-card {
+  background: #fff; border-radius: 12px; padding: 16px 18px;
+  box-shadow: var(--sombra); position: relative; overflow: hidden;
+  border-left: 5px solid #ccc;
+}
+.kpi-card.verde { border-left-color: var(--verde); background: #f0faf4; }
+.kpi-card.amarillo { border-left-color: #ca8a04; background: #fffbeb; }
+.kpi-card.rojo { border-left-color: var(--rojo); background: #fef2f2; }
+.kpi-card .semaforo {
+  position: absolute; top: 12px; right: 12px;
+  width: 14px; height: 14px; border-radius: 50%;
+}
+.kpi-card.verde .semaforo { background: var(--verde); }
+.kpi-card.amarillo .semaforo { background: #ca8a04; }
+.kpi-card.rojo .semaforo { background: var(--rojo); }
+.kpi-card .kn { font-size: 0.78rem; color: #667; font-weight: 600; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.03em; }
+.kpi-card .kv { font-size: 1.65rem; font-weight: 700; color: #1a2a3a; line-height: 1; }
+.kpi-card .kv.verde { color: var(--verde); }
+.kpi-card .kv.amarillo { color: #b45309; }
+.kpi-card .kv.rojo { color: var(--rojo); }
+.kpi-card .km { font-size: 0.78rem; color: #889; margin-top: 4px; }
+.kpi-card .kbarra { height: 4px; background: #e2e8f0; border-radius: 2px; margin-top: 8px; overflow: hidden; }
+.kpi-card .kbarra-fill { height: 100%; border-radius: 2px; transition: width 0.7s ease; }
+.kpi-card.verde .kbarra-fill { background: var(--verde); }
+.kpi-card.amarillo .kbarra-fill { background: #ca8a04; }
+.kpi-card.rojo .kbarra-fill { background: var(--rojo); }
+
+/* ─── RESUMEN ─── */
+.resumen-box {
+  background: #fff; border-radius: 14px; padding: 22px 24px;
+  box-shadow: var(--sombra); margin-top: 18px;
+}
+.resumen-box h4 { font-family: 'Lora', serif; color: var(--azul); margin-bottom: 16px; font-size: 1rem; }
+.resumen-barras { margin-bottom: 14px; }
+.rb-fila { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; font-size: 0.86rem; }
+.rb-label { width: 140px; text-align: right; color: #445; flex-shrink: 0; }
+.rb-track { flex: 1; background: #e2e8f0; border-radius: 4px; height: 16px; overflow: hidden; }
+.rb-fill { height: 100%; border-radius: 4px; transition: width 0.7s ease; }
+.rb-val { width: 52px; font-weight: 700; text-align: right; flex-shrink: 0; }
+
+.alertas-box { margin-top: 16px; }
+.alerta-item {
+  padding: 10px 14px; border-radius: 8px; margin-bottom: 8px;
+  font-size: 0.9rem; line-height: 1.55; border-left: 4px solid;
+}
+.alerta-item.verde { background: #d1fae5; border-color: var(--verde); }
+.alerta-item.amarillo { background: #fef3c7; border-color: #ca8a04; }
+.alerta-item.rojo { background: #fee2e2; border-color: var(--rojo); }
+
+/* ─── GUÍA ─── */
+.guia-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+.guia-card {
+  background: #fff; border-radius: 12px; padding: 18px 20px; box-shadow: var(--sombra);
+}
+.guia-card h4 { font-family: 'Lora', serif; color: var(--azul); font-size: 0.97rem; margin-bottom: 8px; }
+.guia-card p { font-size: 0.87rem; line-height: 1.6; color: #334; }
+.guia-card .formula {
+  background: #e8f0fb; border-radius: 7px; padding: 8px 12px;
+  font-size: 0.83rem; color: #1a3a5f; margin-top: 8px; font-family: monospace;
+}
+.badge-area {
+  display: inline-block; font-size: 0.72rem; font-weight: 700; padding: 2px 10px;
+  border-radius: 12px; margin-bottom: 8px;
+}
+.badge-area.fin { background: #dbeafe; color: #1e40af; }
+.badge-area.op { background: #d1fae5; color: #065f46; }
+.badge-area.cli { background: #fef3c7; color: #92400e; }
+
+/* ─── INFO BOXES ─── */
+.caja-concepto {
+  border-left: 5px solid var(--azul); background: #e8f0fb;
+  padding: 14px 18px; margin: 14px 0; border-radius: 0 8px 8px 0;
+}
+.caja-concepto h4 { font-family: 'Lora', serif; color: var(--azul); margin-bottom: 5px; font-size: 0.97rem; }
+.caja-concepto p { font-size: 0.92rem; line-height: 1.65; }
+.caja-clave {
+  background: linear-gradient(90deg, #003366 0%, #1a5ca8 100%);
+  color: #fff; border-radius: 10px; padding: 14px 18px; margin: 14px 0;
+}
+.caja-clave h4 { font-family: 'Lora', serif; margin-bottom: 4px; font-size: 0.95rem; }
+.caja-clave p { font-size: 0.9rem; color: #c8ddf5; line-height: 1.6; }
+
+/* ─── PIE ─── */
+footer {
+  text-align: center; padding: 20px; background: var(--azul); color: #87CEEB;
+  font-size: 0.8rem; margin-top: 30px;
+}
+
+@media(max-width:600px) {
+  .kpi-cards-row { grid-template-columns: 1fr 1fr; }
+  .kpi-input-grid { grid-template-columns: 1fr; }
+  .guia-grid { grid-template-columns: 1fr; }
+}
+@media print {
+  #portada, header .header-acciones, .tab-btn:not(.activo) { display: none; }
+  .panel { display: block !important; }
+  #dashboard-output { display: block !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ PORTADA ═══════════ -->
+<div id="portada">
+  <div class="portada-icon">📊</div>
+  <h1>Dashboard de KPIs Gerenciales</h1>
+  <p class="subtitulo">Contabilidad Gerencial · Universidad de Guayaquil · Facultad de Ciencias Administrativas</p>
+
+  <div class="setup-card">
+    <h2>⚙️ Configura tu empresa</h2>
+    <div class="setup-field">
+      <label>Nombre de la empresa</label>
+      <input type="text" id="cfg-empresa" placeholder="Ej: SEGURECUADOR S.A.">
+    </div>
+    <div class="setup-field">
+      <label>Período de análisis</label>
+      <input type="text" id="cfg-periodo" placeholder="Ej: Mayo 2026">
+    </div>
+    <div class="setup-field">
+      <label>Sector / Actividad</label>
+      <select id="cfg-sector">
+        <option value="seguridad">🛡️ Seguridad Privada (guardias, monitoreo, consultoría)</option>
+        <option value="servicios">🏢 Servicios Empresariales</option>
+        <option value="comercio">🛒 Comercio / Distribución</option>
+        <option value="otro">🔧 Otro sector</option>
+      </select>
+    </div>
+    <div class="setup-field">
+      <label>Tu nombre (estudiante)</label>
+      <input type="text" id="cfg-estudiante" placeholder="Ej: Ana Torres">
+    </div>
+    <button class="btn-start" onclick="iniciarApp()">Ingresar al Dashboard →</button>
+    <button class="btn-ejemplo" onclick="cargarEjemplo()">📋 Cargar datos de ejemplo (SEGURECUADOR S.A.)</button>
+  </div>
+</div>
+
+<!-- ═══════════ APP PRINCIPAL ═══════════ -->
+<div id="app">
+  <header>
+    <div style="font-size:1.8rem">📊</div>
+    <div class="header-info">
+      <h2 id="h-empresa">Dashboard de KPIs</h2>
+      <p id="h-sub">Contabilidad Gerencial — Herramienta de Gestión</p>
+    </div>
+    <div class="header-acciones">
+      <button class="btn-header primario" onclick="generarDashboard()">▶ Generar Dashboard</button>
+      <button class="btn-header" onclick="window.print()">🖨 Imprimir</button>
+      <button class="btn-header" onclick="volverPortada()">⇄ Reiniciar</button>
+    </div>
+  </header>
+
+  <div class="tabs-wrapper" id="tab-bar">
+    <button class="tab-btn activo" data-tab="ingreso">📥 Ingresar Datos</button>
+    <button class="tab-btn" data-tab="dashboard">📊 Mi Dashboard</button>
+    <button class="tab-btn" data-tab="guia">📖 Guía de KPIs</button>
+    <button class="tab-btn" data-tab="accion">🎯 Plan de Acción</button>
+  </div>
+
+  <!-- ══ PANEL 1: INGRESAR DATOS ══ -->
+  <div class="panel activo" id="panel-ingreso">
+
+    <div class="caja-concepto">
+      <h4>📌 ¿Cómo usar esta herramienta?</h4>
+      <p>Ingresa los valores reales (o estimados) de tu empresa en cada campo. Para cada KPI debes indicar el <strong>valor real del período</strong> y la <strong>meta que te habías propuesto</strong>. El dashboard calculará automáticamente si estás en zona verde ✅, amarilla ⚠️ o roja ❌.</p>
+    </div>
+
+    <!-- FINANZAS -->
+    <h3 class="sec">💰 Área Financiera</h3>
+    <div class="kpi-input-grid">
+      <div class="kpi-input-card finanzas">
+        <div class="kpi-nombre">Ingresos Totales del Período</div>
+        <div class="kpi-desc">Suma de todos los contratos y servicios facturados en el período.</div>
+        <div class="kpi-meta-row">
+          <div class="field-wrap"><label>Valor Real (USD)</label><input type="number" id="f1-real" placeholder="Ej: 18500" min="0"></div>
+          <div class="field-wrap"><label>Meta (USD)</label><input type="number" id="f1-meta" placeholder="Ej: 18000" min="0"></div>
+        </div>
+        <div class="kpi-unidad">USD / período</div>
+      </div>
+      <div class="kpi-input-card finanzas">
+        <div class="kpi-nombre">Costos Operacionales Totales</div>
+        <div class="kpi-desc">Todos los costos incurridos (personal, equipos, insumos, administrativos).</div>
+        <div class="kpi-meta-row">
+          <div class="field-wrap"><label>Valor Real (USD)</label><input type="number" id="f2-real" placeholder="Ej: 13200" min="0"></div>
+          <div class="field-wrap"><label>Meta máxima (USD)</label><input type="number" id="f2-meta" placeholder="Ej: 14000" min="0"></div>
+        </div>
+        <div class="kpi-unidad">USD / período · Meta = costo máximo permitido</div>
+      </div>
+      <div class="kpi-input-card finanzas">
+        <div class="kpi-nombre">Margen Operacional (%)</div>
+        <div class="kpi-desc">% de utilidad operacional sobre ingresos. Se calcula automáticamente si ingresas los valores anteriores, o puedes ingresarlo directamente.</div>
+        <div class="kpi-meta-row">
+          <div class="field-wrap"><label>Real (%) — opcional</label><input type="number" id="f3-real" placeholder="Auto" min="0" step="0.1"></div>
+          <div class="field-wrap"><label>Meta mínima (%)</label><input type="number" id="f3-meta" placeholder="Ej: 20" min="0" step="0.1"></div>
+        </div>
+        <div class="kpi-unidad">% · Si dejas el real vacío, se calcula de f1 y f2</div>
+      </div>
+      <div class="kpi-input-card finanzas">
+        <div class="kpi-nombre">ROI — Retorno sobre Inversión</div>
+        <div class="kpi-desc">Qué porcentaje retorna la inversión total del negocio. ROI = Utilidad Neta / Inversión Total × 100.</div>
+        <div class="kpi-meta-row">
+          <div class="field-wrap"><label>Inversión total (USD)</label><input type="number" id="f4-inv" placeholder="Ej: 65000" min="0"></div>
+          <div class="field-wrap"><label>Meta ROI mínimo (%)</label><input type="number" id="f4-meta" placeholder="Ej: 12" min="0" step="0.1"></div>
+        </div>
+        <div class="kpi-unidad">% anualizado</div>
+      </div>
+      <div class="kpi-input-card finanzas">
+        <div class="kpi-nombre">Liquidez Corriente</div>
+        <div class="kpi-desc">Capacidad de pagar deudas a corto plazo. Activo Corriente ÷ Pasivo Corriente.</div>
+        <div class="kpi-meta-row">
+          <div class="field-wrap"><label>Activo Corriente (USD)</label><input type="number" id="f5-ac" placeholder="Ej: 12000" min="0"></div>
+          <div class="field-wrap"><label>Pasivo Corriente (USD)</label><input type="number" id="f5-pc" placeholder="Ej: 7000" min="0"></div>
+        </div>
+        <div class="kpi-unidad">Índice — Meta ideal: ≥ 1.5</div>
+      </div>
+      <div class="kpi-input-card finanzas">
+        <div class="kpi-nombre">Gastos de Nómina / Ingresos (%)</div>
+        <div class="kpi-desc">Qué porcentaje de los ingresos se destina a sueldos y beneficios del personal.</div>
+        <div class="kpi-meta-row">
+          <div class="field-wrap"><label>Nomina total (USD)</label><input type="number" id="f6-nom" placeholder="Ej: 8400" min="0"></div>
+          <div class="field-wrap"><label>Meta máxima (%)</label><input type="number" id="f6-meta" placeholder="Ej: 50" min="0" step="0.1"></div>
+        </div>
+        <div class="kpi-unidad">% · Para seguridad privada suele estar entre 45–60%</div>
+      </div>
+    </div>
+
+    <!-- OPERACIONES -->
+    <h3 class="sec">⚙️ Área Operacional</h3>
+    <div class="kpi-input-grid">
+      <div class="kpi-input-card operaciones">
+        <div class="kpi-nombre">Cobertura de Puestos (%)</div>
+        <div class="kpi-desc">% de puestos de seguridad cubiertos respecto a los contratados. Refleja la capacidad operativa.</div>
+        <div class="kpi-meta-row">
+          <div class="field-wrap"><label>Puestos cubiertos</label><input type="number" id="o1-real" placeholder="Ej: 47" min="0"></div>
+          <div class="field-wrap"><label>Puestos contratados</label><input type="number" id="o1-meta" placeholder="Ej: 50" min="0"></div>
+        </div>
+        <div class="kpi-unidad">% cobertura — Meta: ≥ 95%</div>
+      </div>
+      <div class="kpi-input-card operaciones">
+        <div class="kpi-nombre">Tiempo de Respuesta (min)</div>
+        <div class="kpi-desc">Tiempo promedio desde alerta hasta respuesta en sitio. Indicador clave de calidad de servicio.</div>
+        <div class="kpi-meta-row">
+          <div class="field-wrap"><label>Tiempo real (min)</label><input type="number" id="o2-real" placeholder="Ej: 8" min="0"></div>
+          <div class="field-wrap"><label>Meta máxima (min)</label><input type="number" id="o2-meta" placeholder="Ej: 10" min="0"></div>
+        </div>
+        <div class="kpi-unidad">Minutos — KPI inverso: menor es mejor</div>
+      </div>
+      <div class="kpi-input-card operaciones">
+        <div class="kpi-nombre">Incidentes Reportados</div>
+        <div class="kpi-desc">Número de eventos de seguridad reportados en el período. Meta = límite máximo aceptable.</div>
+        <div class="kpi-meta-row">
+          <div class="field-wrap"><label>Incidentes reales</label><input type="number" id="o3-real" placeholder="Ej: 3" min="0"></div>
+          <div class="field-wrap"><label>Meta máxima</label><input type="number" id="o3-meta" placeholder="Ej: 5" min="0"></div>
+        </div>
+        <div class="kpi-unidad">Número — KPI inverso: menor es mejor</div>
+      </div>
+      <div class="kpi-input-card operaciones">
+        <div class="kpi-nombre">Rotación de Personal (%)</div>
+        <div class="kpi-desc">% de guardias que dejaron la empresa en el período respecto al total de la planilla.</div>
+        <div class="kpi-meta-row">
+          <div class="field-wrap"><label>Bajas en el período</label><input type="number" id="o4-real" placeholder="Ej: 4" min="0"></div>
+          <div class="field-wrap"><label>Total planilla</label><input type="number" id="o4-meta" placeholder="Ej: 55" min="0"></div>
+        </div>
+        <div class="kpi-unidad">% — Meta ideal en seguridad: &lt; 10% mensual</div>
+      </div>
+      <div class="kpi-input-card operaciones">
+        <div class="kpi-nombre">Horas Extra / Horas Normales (%)</div>
+        <div class="kpi-desc">Indicador de eficiencia en la programación de turnos. Alto % indica subcontratación o ausentismo.</div>
+        <div class="kpi-meta-row">
+          <div class="field-wrap"><label>Horas extra</label><input type="number" id="o5-real" placeholder="Ej: 120" min="0"></div>
+          <div class="field-wrap"><label>Total horas trabajadas</label><input type="number" id="o5-meta" placeholder="Ej: 1800" min="0"></div>
+        </div>
+        <div class="kpi-unidad">% — Meta: &lt; 8% del total</div>
+      </div>
+      <div class="kpi-input-card operaciones">
+        <div class="kpi-nombre">Equipos Operativos (%)</div>
+        <div class="kpi-desc">% de equipos (cámaras, radios, vehículos) en condición operativa respecto al inventario total.</div>
+        <div class="kpi-meta-row">
+          <div class="field-wrap"><label>Equipos operativos</label><input type="number" id="o6-real" placeholder="Ej: 28" min="0"></div>
+          <div class="field-wrap"><label>Total equipos</label><input type="number" id="o6-meta" placeholder="Ej: 30" min="0"></div>
+        </div>
+        <div class="kpi-unidad">% — Meta: ≥ 90%</div>
+      </div>
+    </div>
+
+    <!-- CLIENTES -->
+    <h3 class="sec">👥 Área de Clientes</h3>
+    <div class="kpi-input-grid">
+      <div class="kpi-input-card clientes">
+        <div class="kpi-nombre">Satisfacción del Cliente (%)</div>
+        <div class="kpi-desc">% de clientes que califican el servicio como bueno o excelente en encuesta de satisfacción.</div>
+        <div class="kpi-meta-row">
+          <div class="field-wrap"><label>Satisfechos</label><input type="number" id="c1-real" placeholder="Ej: 18" min="0"></div>
+          <div class="field-wrap"><label>Total encuestados</label><input type="number" id="c1-enc" placeholder="Ej: 20" min="0"></div>
+        </div>
+        <div class="kpi-unidad">% — Meta: ≥ 85%</div>
+      </div>
+      <div class="kpi-input-card clientes">
+        <div class="kpi-nombre">Tasa de Renovación de Contratos (%)</div>
+        <div class="kpi-desc">% de contratos que se renuevan al vencer. Indica la fidelidad del cliente y la calidad del servicio.</div>
+        <div class="kpi-meta-row">
+          <div class="field-wrap"><label>Contratos renovados</label><input type="number" id="c2-real" placeholder="Ej: 9" min="0"></div>
+          <div class="field-wrap"><label>Contratos vencidos</label><input type="number" id="c2-meta" placeholder="Ej: 10" min="0"></div>
+        </div>
+        <div class="kpi-unidad">% — Meta: ≥ 85%</div>
+      </div>
+      <div class="kpi-input-card clientes">
+        <div class="kpi-nombre">Nuevos Contratos en el Período</div>
+        <div class="kpi-desc">Número de contratos nuevos firmados. Indica el crecimiento comercial de la empresa.</div>
+        <div class="kpi-meta-row">
+          <div class="field-wrap"><label>Contratos nuevos</label><input type="number" id="c3-real" placeholder="Ej: 3" min="0"></div>
+          <div class="field-wrap"><label>Meta mínima</label><input type="number" id="c3-meta" placeholder="Ej: 2" min="0"></div>
+        </div>
+        <div class="kpi-unidad">Contratos</div>
+      </div>
+      <div class="kpi-input-card clientes">
+        <div class="kpi-nombre">Contratos Activos Totales</div>
+        <div class="kpi-desc">Número total de contratos vigentes al cierre del período.</div>
+        <div class="kpi-meta-row">
+          <div class="field-wrap"><label>Contratos activos</label><input type="number" id="c4-real" placeholder="Ej: 22" min="0"></div>
+          <div class="field-wrap"><label>Meta mínima</label><input type="number" id="c4-meta" placeholder="Ej: 20" min="0"></div>
+        </div>
+        <div class="kpi-unidad">Contratos vigentes</div>
+      </div>
+      <div class="kpi-input-card clientes">
+        <div class="kpi-nombre">Reclamos Resueltos a Tiempo (%)</div>
+        <div class="kpi-desc">% de quejas o reclamos de clientes atendidos dentro del plazo comprometido (48–72h).</div>
+        <div class="kpi-meta-row">
+          <div class="field-wrap"><label>Resueltos a tiempo</label><input type="number" id="c5-real" placeholder="Ej: 11" min="0"></div>
+          <div class="field-wrap"><label>Total reclamos</label><input type="number" id="c5-tot" placeholder="Ej: 12" min="0"></div>
+        </div>
+        <div class="kpi-unidad">% — Meta: ≥ 90%</div>
+      </div>
+      <div class="kpi-input-card clientes">
+        <div class="kpi-nombre">Ingresos por Cliente Promedio</div>
+        <div class="kpi-desc">Ingreso promedio generado por cada contrato activo. Indica el valor del portafolio de clientes.</div>
+        <div class="kpi-meta-row">
+          <div class="field-wrap"><label>Ingresos totales (USD)</label><input type="number" id="c6-real" placeholder="Ej: 18500" min="0"></div>
+          <div class="field-wrap"><label>Meta mínima (USD)</label><input type="number" id="c6-meta" placeholder="Ej: 800" min="0"></div>
+        </div>
+        <div class="kpi-unidad">USD por contrato · Se calcula con contratos activos</div>
+      </div>
+    </div>
+
+    <div style="margin-top:24px">
+      <button class="btn-calcular" onclick="generarDashboard()">▶ Generar Mi Dashboard</button>
+      <button class="btn-limpiar" onclick="limpiarDatos()">🗑 Limpiar todo</button>
+    </div>
+
+    <!-- DASHBOARD EMBEBIDO -->
+    <div id="dashboard-output">
+      <div class="dash-periodo">
+        <div>
+          <div class="dash-empresa" id="d-empresa">—</div>
+          <div class="dash-fecha" id="d-fecha">—</div>
+        </div>
+        <div class="semaforo-global">
+          <span style="font-size:0.85rem;color:#87CEEB">Estado general:</span>
+          <div class="dot-global" id="dot-global"></div>
+          <span id="estado-global" style="font-size:0.85rem;color:#fff"></span>
+        </div>
+      </div>
+
+      <div id="d-seccion-fin"></div>
+      <div id="d-seccion-op"></div>
+      <div id="d-seccion-cli"></div>
+
+      <div class="resumen-box" id="d-resumen"></div>
+    </div>
+  </div>
+
+  <!-- ══ PANEL 2: DASHBOARD (vista limpia) ══ -->
+  <div class="panel" id="panel-dashboard">
+    <div class="caja-concepto">
+      <h4>📊 Vista de Dashboard</h4>
+      <p>Aquí se muestra tu dashboard generado. Primero ingresa tus datos en la pestaña <strong>"Ingresar Datos"</strong> y presiona <strong>"Generar Mi Dashboard"</strong>. Luego regresa aquí para ver la vista de resumen completa.</p>
+    </div>
+    <div id="dash-clone" style="margin-top:16px">
+      <p style="color:#889;font-size:0.9rem;text-align:center;padding:40px 0;">El dashboard aparecerá aquí después de ingresar tus datos.</p>
+    </div>
+  </div>
+
+  <!-- ══ PANEL 3: GUÍA ══ -->
+  <div class="panel" id="panel-guia">
+    <h3 class="sec">¿Qué es un KPI y para qué sirve?</h3>
+    <div class="caja-concepto">
+      <h4>Definición</h4>
+      <p>Un <strong>KPI (Key Performance Indicator)</strong> o <strong>Indicador Clave de Desempeño</strong> es una medida cuantificable que permite evaluar qué tan bien una empresa está alcanzando sus objetivos estratégicos. No es simplemente un número: es un número <em>comparado con una meta</em>. Sin meta, no hay KPI; hay solo un dato.</p>
+    </div>
+    <div class="caja-clave">
+      <h4>💡 Idea Clave de Garrison et al.</h4>
+      <p>"Los indicadores de desempeño permiten a los gerentes <em>controlar</em> la organización: recolectar retroalimentación para asegurarse de que el plan se está ejecutando correctamente o modificarlo cuando las circunstancias cambian." (Garrison, Noreen & Brewer, 2018, Cap. 11)</p>
+    </div>
+
+    <h3 class="sec">Las 3 áreas de un Dashboard Integral</h3>
+    <div class="guia-grid">
+      <div class="guia-card">
+        <span class="badge-area fin">FINANCIERO</span>
+        <h4>💰 Indicadores Financieros</h4>
+        <p>Miden la salud económica de la empresa: rentabilidad, liquidez y eficiencia en el uso de recursos. Son los indicadores más visibles pero no los únicos importantes.</p>
+        <div class="formula">ROI = Utilidad Neta / Inversión × 100<br>Margen Op. = Util. Operacional / Ingresos × 100<br>Liquidez = Activo Corriente / Pasivo Corriente</div>
+      </div>
+      <div class="guia-card">
+        <span class="badge-area op">OPERACIONAL</span>
+        <h4>⚙️ Indicadores Operacionales</h4>
+        <p>Miden la eficiencia de los procesos internos: cobertura, tiempos de respuesta, rotación de personal y disponibilidad de recursos. Problemas operativos hoy se convierten en pérdidas financieras mañana.</p>
+        <div class="formula">Cobertura = Puestos Cubiertos / Contratados × 100<br>Rotación = Bajas / Planilla × 100<br>Hrs Extra% = Horas Extra / Total Horas × 100</div>
+      </div>
+      <div class="guia-card">
+        <span class="badge-area cli">CLIENTES</span>
+        <h4>👥 Indicadores de Clientes</h4>
+        <p>Miden la relación con el cliente: satisfacción, fidelidad y crecimiento comercial. Son indicadores "anticipados": predicen los ingresos futuros antes de que aparezcan en los estados financieros.</p>
+        <div class="formula">Satisfacción% = Satisfechos / Encuestados × 100<br>Renovación% = Renovados / Vencidos × 100<br>Ingr/Cliente = Ingresos Totales / Contratos Activos</div>
+      </div>
+    </div>
+
+    <h3 class="sec">El Sistema Semáforo</h3>
+    <div class="guia-grid">
+      <div class="guia-card">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+          <div style="width:18px;height:18px;border-radius:50%;background:var(--verde);flex-shrink:0"></div>
+          <h4 style="margin:0">Verde — Meta Alcanzada</h4>
+        </div>
+        <p>El indicador está en o por encima de la meta. La operación en esa área es saludable. No se requiere acción correctiva, pero sí mantener el resultado.</p>
+      </div>
+      <div class="guia-card">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+          <div style="width:18px;height:18px;border-radius:50%;background:#ca8a04;flex-shrink:0"></div>
+          <h4 style="margin:0">Amarillo — Zona de Alerta</h4>
+        </div>
+        <p>El indicador está entre el 75% y 99% de la meta. Hay una desviación moderada. Se requiere vigilancia y acciones preventivas antes de que empeore.</p>
+      </div>
+      <div class="guia-card">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+          <div style="width:18px;height:18px;border-radius:50%;background:var(--rojo);flex-shrink:0"></div>
+          <h4 style="margin:0">Rojo — Meta No Cumplida</h4>
+        </div>
+        <p>El indicador está por debajo del 75% de la meta. Se requiere acción correctiva inmediata. Identifica la causa raíz y diseña un plan de mejora.</p>
+      </div>
+    </div>
+
+    <h3 class="sec">¿Por qué no basta con un solo KPI?</h3>
+    <div class="caja-concepto">
+      <h4>El Peligro de Optimizar Solo una Dimensión</h4>
+      <p>Una empresa puede tener excelentes resultados financieros en el corto plazo pero con indicadores operacionales y de clientes deteriorándose. Garrison llama a esto <em>"optimización local a costa del desempeño global"</em>. El Balanced Scorecard (herramienta de la semana anterior) y este dashboard integral existen precisamente para evitar ese error: ver la empresa desde todas sus dimensiones simultáneamente.</p>
+    </div>
+    <div class="caja-clave">
+      <h4>💡 Conexión con el Balanced Scorecard</h4>
+      <p>Los tres bloques de este dashboard (Financiero · Operacional · Clientes) corresponden a tres de las cuatro perspectivas del Balanced Scorecard de Kaplan & Norton: <strong>Perspectiva Financiera, Perspectiva de Procesos Internos y Perspectiva de Clientes</strong>. La cuarta perspectiva (Aprendizaje y Crecimiento) se reflejaría en indicadores de capacitación, innovación y tecnología.</p>
+    </div>
+
+    <h3 class="sec">Referencia académica principal</h3>
+    <div class="guia-card" style="max-width:600px">
+      <p style="font-size:0.87rem;line-height:1.7">
+        <strong>Garrison, R. H., Noreen, E. W. &amp; Brewer, P. C. (2018).</strong> <em>Managerial Accounting</em> (16.ª ed.). McGraw-Hill Education.<br><br>
+        Capítulo 11: <em>Performance Measurement in Decentralized Organizations</em> — Cubre ROI, Residual Income, indicadores operacionales y Balanced Scorecard. Base conceptual de esta herramienta.
+      </p>
+    </div>
+  </div>
+
+  <!-- ══ PANEL 4: PLAN DE ACCIÓN ══ -->
+  <div class="panel" id="panel-accion">
+    <h3 class="sec">🎯 Plan de Acción Gerencial</h3>
+    <div class="caja-concepto">
+      <h4>¿Qué hago con los resultados del dashboard?</h4>
+      <p>Un dashboard sin decisiones es solo un adorno. El valor real de los KPIs está en las <strong>acciones correctivas</strong> que se toman cuando un indicador está en rojo o amarillo. Usa esta plantilla para documentar tu plan de acción.</p>
+    </div>
+
+    <div id="plan-auto" style="margin-bottom:20px"></div>
+
+    <h3 class="sec">✍️ Mis acciones correctivas (completa tú)</h3>
+    <div style="display:grid;gap:16px">
+      <div class="guia-card">
+        <h4>📌 KPI en Rojo que voy a mejorar:</h4>
+        <textarea style="width:100%;border:1.5px solid var(--borde);border-radius:8px;padding:10px;font-family:'Source Sans 3',sans-serif;font-size:0.9rem;resize:vertical;min-height:60px" placeholder="Escribe aquí el nombre del KPI y el valor actual vs. la meta..."></textarea>
+      </div>
+      <div class="guia-card">
+        <h4>🔍 Causa raíz del problema:</h4>
+        <textarea style="width:100%;border:1.5px solid var(--borde);border-radius:8px;padding:10px;font-family:'Source Sans 3',sans-serif;font-size:0.9rem;resize:vertical;min-height:60px" placeholder="¿Por qué crees que no se alcanzó la meta? ¿Qué factores internos o externos influyeron?"></textarea>
+      </div>
+      <div class="guia-card">
+        <h4>🛠 Acciones concretas que tomaré:</h4>
+        <textarea style="width:100%;border:1.5px solid var(--borde);border-radius:8px;padding:10px;font-family:'Source Sans 3',sans-serif;font-size:0.9rem;resize:vertical;min-height:80px" placeholder="Lista 2-3 acciones específicas, con responsable y fecha esperada de mejora..."></textarea>
+      </div>
+      <div class="guia-card">
+        <h4>📅 Próxima revisión de KPIs:</h4>
+        <input type="date" style="border:1.5px solid var(--borde);border-radius:8px;padding:9px 12px;font-family:'Source Sans 3',sans-serif;font-size:0.93rem;width:220px">
+        <p style="font-size:0.83rem;color:#667;margin-top:8px">Los KPIs se deben revisar con periodicidad definida (mensual, bimestral). Sin fecha de revisión, el plan no tiene disciplina.</p>
+      </div>
+    </div>
+
+    <div class="caja-clave" style="margin-top:24px">
+      <h4>💡 Principio de Garrison</h4>
+      <p>"El proceso de control implica recolectar retroalimentación, evaluarla, y <em>responder</em> a ella. El ciclo no está completo hasta que se toma una decisión y se ajusta el rumbo." — Garrison, Noreen & Brewer, 2018, Prólogo.</p>
+    </div>
+  </div>
+
+  <footer>
+    <p>Dashboard de KPIs Gerenciales · Contabilidad Gerencial · Universidad de Guayaquil — Facultad de Ciencias Administrativas</p>
+    <p style="margin-top:4px;color:#5aaed4">Herramienta educativa — Los valores son estimaciones orientativas. Referencia: Garrison, Noreen & Brewer (2018). Managerial Accounting (16ª ed.).</p>
+  </footer>
+</div>
+
+<script>
+// ─── CONFIG ──────────────────────────────────────────────────────
+let empresa = '', periodo = '', sector = '', estudiante = '';
+
+// ─── PORTADA ──────────────────────────────────────────────────────
+function iniciarApp() {
+  empresa = document.getElementById('cfg-empresa').value.trim() || 'Mi Empresa';
+  periodo = document.getElementById('cfg-periodo').value.trim() || 'Período actual';
+  sector  = document.getElementById('cfg-sector').value;
+  estudiante = document.getElementById('cfg-estudiante').value.trim();
+  document.getElementById('portada').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  document.getElementById('h-empresa').textContent = empresa + ' — Dashboard de KPIs';
+  document.getElementById('h-sub').textContent = 'Período: ' + periodo + (estudiante ? ' · ' + estudiante : '');
+}
+
+function cargarEjemplo() {
+  document.getElementById('cfg-empresa').value = 'SEGURECUADOR S.A.';
+  document.getElementById('cfg-periodo').value = 'Mayo 2026';
+  document.getElementById('cfg-sector').value = 'seguridad';
+  document.getElementById('cfg-estudiante').value = 'Estudiante de Contabilidad Gerencial';
+  // Financiero
+  document.getElementById('f1-real').value = 18500;
+  document.getElementById('f1-meta').value = 18000;
+  document.getElementById('f2-real').value = 13800;
+  document.getElementById('f2-meta').value = 14000;
+  document.getElementById('f3-meta').value = 20;
+  document.getElementById('f4-inv').value  = 65000;
+  document.getElementById('f4-meta').value = 12;
+  document.getElementById('f5-ac').value   = 11500;
+  document.getElementById('f5-pc').value   = 7200;
+  document.getElementById('f6-nom').value  = 8900;
+  document.getElementById('f6-meta').value = 50;
+  // Operaciones
+  document.getElementById('o1-real').value = 47;
+  document.getElementById('o1-meta').value = 50;
+  document.getElementById('o2-real').value = 9;
+  document.getElementById('o2-meta').value = 10;
+  document.getElementById('o3-real').value = 3;
+  document.getElementById('o3-meta').value = 5;
+  document.getElementById('o4-real').value = 5;
+  document.getElementById('o4-meta').value = 55;
+  document.getElementById('o5-real').value = 180;
+  document.getElementById('o5-meta').value = 1840;
+  document.getElementById('o6-real').value = 27;
+  document.getElementById('o6-meta').value = 30;
+  // Clientes
+  document.getElementById('c1-real').value = 17;
+  document.getElementById('c1-enc').value  = 20;
+  document.getElementById('c2-real').value = 8;
+  document.getElementById('c2-meta').value = 10;
+  document.getElementById('c3-real').value = 3;
+  document.getElementById('c3-meta').value = 2;
+  document.getElementById('c4-real').value = 22;
+  document.getElementById('c4-meta').value = 20;
+  document.getElementById('c5-real').value = 10;
+  document.getElementById('c5-tot').value  = 12;
+  document.getElementById('c6-real').value = 18500;
+  document.getElementById('c6-meta').value = 800;
+  iniciarApp();
+}
+
+function volverPortada() {
+  document.getElementById('portada').style.display = 'flex';
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('dashboard-output').style.display = 'none';
+}
+
+// ─── TABS ──────────────────────────────────────────────────────────
+document.getElementById('tab-bar').addEventListener('click', function(e) {
+  const btn = e.target.closest('.tab-btn');
+  if (!btn) return;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('activo'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('activo'));
+  btn.classList.add('activo');
+  document.getElementById('panel-' + btn.dataset.tab).classList.add('activo');
+});
+
+// ─── HELPERS ──────────────────────────────────────────────────────
+const fmt  = v => '$' + Number(v).toLocaleString('es-EC', {minimumFractionDigits:2, maximumFractionDigits:2});
+const fmtN = v => Number(v).toLocaleString('es-EC', {minimumFractionDigits:1, maximumFractionDigits:1});
+const pct  = v => fmtN(v) + '%';
+const v    = id => parseFloat(document.getElementById(id).value) || 0;
+
+// semaforo: para KPIs "mayor es mejor"
+function semaforoMayor(real, meta) {
+  if (meta === 0) return 'verde';
+  const r = real / meta;
+  if (r >= 0.95) return 'verde';
+  if (r >= 0.75) return 'amarillo';
+  return 'rojo';
+}
+// semaforo: para KPIs "menor es mejor"
+function semaforoMenor(real, meta) {
+  if (meta === 0) return 'verde';
+  const r = real / meta;
+  if (r <= 1.05) return 'verde';
+  if (r <= 1.30) return 'amarillo';
+  return 'rojo';
+}
+
+function kpiCard(nombre, valorStr, metaStr, color, pctFill, unidad) {
+  const lbl = color === 'verde' ? '✅ Meta alcanzada' : color === 'amarillo' ? '⚠️ Zona de alerta' : '❌ Meta no cumplida';
+  return `
+  <div class="kpi-card ${color}">
+    <div class="semaforo"></div>
+    <div class="kn">${nombre}</div>
+    <div class="kv ${color}">${valorStr}</div>
+    <div class="km">Meta: ${metaStr} · ${lbl}</div>
+    <div class="kpi-unidad" style="font-size:0.75rem;color:#889;margin-top:2px">${unidad}</div>
+    <div class="kbarra"><div class="kbarra-fill" style="width:${Math.min(100,pctFill)}%"></div></div>
+  </div>`;
+}
+
+function seccionDash(titulo, icono, html) {
+  return `<div class="dash-section-title"><span class="icono-sec">${icono}</span> ${titulo}</div>
+  <div class="kpi-cards-row">${html}</div>`;
+}
+
+// ─── GENERAR DASHBOARD ────────────────────────────────────────────
+function generarDashboard() {
+  // ── FINANZAS ──
+  const ing   = v('f1-real'), ingMeta = v('f1-meta');
+  const cos   = v('f2-real'), cosMeta = v('f2-meta');
+  const ac    = v('f5-ac'),   pc      = v('f5-pc');
+  const inv   = v('f4-inv'),  roiMeta = v('f4-meta');
+  const nom   = v('f6-nom'),  nomMeta = v('f6-meta');
+
+  // Margen operacional
+  let margReal = v('f3-real');
+  let margMeta = v('f3-meta') || 20;
+  if (margReal === 0 && ing > 0 && cos > 0) margReal = (ing - cos) / ing * 100;
+
+  // ROI (base mensual → anualizado × 12)
+  const utilNeta = ing - cos;
+  const roiReal  = inv > 0 ? (utilNeta / inv * 100 * 12) : 0;
+
+  // Liquidez
+  const liqReal = pc > 0 ? ac / pc : 0;
+  const liqMeta = 1.5;
+
+  // Nomina %
+  const nomPctReal = ing > 0 ? nom / ing * 100 : 0;
+  const nomPctMeta = nomMeta || 50;
+
+  const cF1 = semaforoMayor(ing, ingMeta);
+  const cF2 = semaforoMenor(cos, cosMeta);
+  const cF3 = semaforoMayor(margReal, margMeta);
+  const cF4 = semaforoMayor(roiReal, roiMeta);
+  const cF5 = semaforoMayor(liqReal, liqMeta);
+  const cF6 = semaforoMenor(nomPctReal, nomPctMeta);
+
+  let htmlFin = '';
+  htmlFin += kpiCard('Ingresos del Período', fmt(ing), fmt(ingMeta), cF1, ing/Math.max(ingMeta,1)*100, 'USD');
+  htmlFin += kpiCard('Costos Operacionales', fmt(cos), 'máx. ' + fmt(cosMeta), cF2, (1 - Math.max(0, cos-cosMeta)/Math.max(cosMeta,1))*100, 'USD');
+  htmlFin += kpiCard('Margen Operacional', pct(margReal), 'mín. ' + pct(margMeta), cF3, margReal/Math.max(margMeta,1)*100, '%');
+  htmlFin += kpiCard('ROI Anualizado', pct(roiReal), 'mín. ' + pct(roiMeta), cF4, roiReal/Math.max(roiMeta,1)*100, '% anual');
+  htmlFin += kpiCard('Liquidez Corriente', fmtN(liqReal) + 'x', 'mín. 1.5x', cF5, liqReal/liqMeta*100, 'índice');
+  htmlFin += kpiCard('Nómina / Ingresos', pct(nomPctReal), 'máx. ' + pct(nomPctMeta), cF6, (1-Math.max(0,nomPctReal-nomPctMeta)/Math.max(nomPctMeta,1))*100, '%');
+
+  // ── OPERACIONES ──
+  const op1r = v('o1-real'), op1m = v('o1-meta');
+  const op2r = v('o2-real'), op2m = v('o2-meta');
+  const op3r = v('o3-real'), op3m = v('o3-meta');
+  const op4r = v('o4-real'), op4m = v('o4-meta');
+  const op5r = v('o5-real'), op5m = v('o5-meta');
+  const op6r = v('o6-real'), op6m = v('o6-meta');
+
+  const cobertura   = op1m > 0 ? op1r / op1m * 100 : 0;
+  const rotacion    = op4m > 0 ? op4r / op4m * 100 : 0;
+  const horasExtPct = op5m > 0 ? op5r / op5m * 100 : 0;
+  const equiposPct  = op6m > 0 ? op6r / op6m * 100 : 0;
+
+  const cO1 = semaforoMayor(cobertura, 95);
+  const cO2 = semaforoMenor(op2r, op2m || 10);
+  const cO3 = semaforoMenor(op3r, op3m || 5);
+  const cO4 = semaforoMenor(rotacion, 10);
+  const cO5 = semaforoMenor(horasExtPct, 8);
+  const cO6 = semaforoMayor(equiposPct, 90);
+
+  let htmlOp = '';
+  htmlOp += kpiCard('Cobertura de Puestos', pct(cobertura), 'mín. 95%', cO1, cobertura/95*100, '%');
+  htmlOp += kpiCard('Tiempo de Respuesta', op2r + ' min', 'máx. ' + (op2m||10) + ' min', cO2, (1-Math.max(0,op2r-(op2m||10))/(op2m||10))*100, 'minutos');
+  htmlOp += kpiCard('Incidentes del Período', op3r + ' eventos', 'máx. ' + (op3m||5), cO3, (1-Math.max(0,op3r-(op3m||5))/(op3m||5))*100, 'incidentes');
+  htmlOp += kpiCard('Rotación de Personal', pct(rotacion), 'máx. 10%', cO4, (1-Math.max(0,rotacion-10)/10)*100, '%');
+  htmlOp += kpiCard('Horas Extra / Total', pct(horasExtPct), 'máx. 8%', cO5, (1-Math.max(0,horasExtPct-8)/8)*100, '%');
+  htmlOp += kpiCard('Equipos Operativos', pct(equiposPct), 'mín. 90%', cO6, equiposPct/90*100, '%');
+
+  // ── CLIENTES ──
+  const c1r = v('c1-real'), c1e = v('c1-enc');
+  const c2r = v('c2-real'), c2m = v('c2-meta');
+  const c3r = v('c3-real'), c3m = v('c3-meta');
+  const c4r = v('c4-real'), c4m = v('c4-meta');
+  const c5r = v('c5-real'), c5t = v('c5-tot');
+  const ingC = v('c6-real'), ingCMeta = v('c6-meta');
+
+  const satPct  = c1e > 0 ? c1r / c1e * 100 : 0;
+  const renPct  = c2m > 0 ? c2r / c2m * 100 : 0;
+  const recPct  = c5t > 0 ? c5r / c5t * 100 : 0;
+  const ingCli  = c4r > 0 ? ingC / c4r : 0;
+
+  const cC1 = semaforoMayor(satPct, 85);
+  const cC2 = semaforoMayor(renPct, 85);
+  const cC3 = semaforoMayor(c3r, c3m || 2);
+  const cC4 = semaforoMayor(c4r, c4m || 20);
+  const cC5 = semaforoMayor(recPct, 90);
+  const cC6 = semaforoMayor(ingCli, ingCMeta || 800);
+
+  let htmlCli = '';
+  htmlCli += kpiCard('Satisfacción del Cliente', pct(satPct), 'mín. 85%', cC1, satPct/85*100, '%');
+  htmlCli += kpiCard('Tasa de Renovación', pct(renPct), 'mín. 85%', cC2, renPct/85*100, '%');
+  htmlCli += kpiCard('Nuevos Contratos', c3r + ' contratos', 'mín. ' + (c3m||2), cC3, c3r/Math.max(c3m||2,1)*100, 'contratos');
+  htmlCli += kpiCard('Contratos Activos', c4r + ' vigentes', 'mín. ' + (c4m||20), cC4, c4r/Math.max(c4m||20,1)*100, 'contratos');
+  htmlCli += kpiCard('Reclamos a Tiempo', pct(recPct), 'mín. 90%', cC5, recPct/90*100, '%');
+  htmlCli += kpiCard('Ingreso por Cliente', fmt(ingCli), 'mín. ' + fmt(ingCMeta||800), cC6, ingCli/Math.max(ingCMeta||800,1)*100, 'USD/contrato');
+
+  // ── CONTEO SEMÁFOROS ──
+  const todos = [cF1,cF2,cF3,cF4,cF5,cF6, cO1,cO2,cO3,cO4,cO5,cO6, cC1,cC2,cC3,cC4,cC5,cC6];
+  const nVerde = todos.filter(c=>c==='verde').length;
+  const nAmar  = todos.filter(c=>c==='amarillo').length;
+  const nRojo  = todos.filter(c=>c==='rojo').length;
+  const estadoGlobal = nRojo > 3 ? 'rojo' : nRojo > 0 || nAmar > 4 ? 'amarillo' : 'verde';
+  const estadoTexto  = {verde:'Saludable', amarillo:'Con alertas', rojo:'Atención urgente'}[estadoGlobal];
+  const estadoColores = {verde:'#1a7a3c', amarillo:'#ca8a04', rojo:'#b91c1c'};
+
+  // ── RENDERIZAR ──
+  document.getElementById('d-empresa').textContent = empresa;
+  document.getElementById('d-fecha').textContent   = 'Período: ' + periodo + (estudiante ? ' · ' + estudiante : '');
+  document.getElementById('dot-global').style.background = estadoColores[estadoGlobal];
+  document.getElementById('estado-global').textContent   = estadoTexto;
+
+  document.getElementById('d-seccion-fin').innerHTML = seccionDash('Indicadores Financieros','💰', htmlFin);
+  document.getElementById('d-seccion-op').innerHTML  = seccionDash('Indicadores Operacionales','⚙️', htmlOp);
+  document.getElementById('d-seccion-cli').innerHTML = seccionDash('Indicadores de Clientes','👥', htmlCli);
+
+  // ── RESUMEN ──
+  const resHtml = `
+    <h4>📋 Resumen Ejecutivo del Período</h4>
+    <div class="resumen-barras">
+      ${rb('KPIs Verdes ✅', nVerde, 18, '#1a7a3c')}
+      ${rb('KPIs Amarillos ⚠️', nAmar, 18, '#ca8a04')}
+      ${rb('KPIs Rojos ❌', nRojo, 18, '#b91c1c')}
+    </div>
+    <div class="alertas-box" id="alertas-list">
+      ${generarAlertas([
+        {c:cF1, n:'Ingresos del Período', real:fmt(ing), meta:fmt(ingMeta)},
+        {c:cF3, n:'Margen Operacional', real:pct(margReal), meta:'mín. '+pct(margMeta)},
+        {c:cF4, n:'ROI Anualizado', real:pct(roiReal), meta:'mín. '+pct(roiMeta)},
+        {c:cF5, n:'Liquidez Corriente', real:fmtN(liqReal)+'x', meta:'mín. 1.5x'},
+        {c:cO1, n:'Cobertura de Puestos', real:pct(cobertura), meta:'mín. 95%'},
+        {c:cO4, n:'Rotación de Personal', real:pct(rotacion), meta:'máx. 10%'},
+        {c:cC1, n:'Satisfacción del Cliente', real:pct(satPct), meta:'mín. 85%'},
+        {c:cC2, n:'Tasa de Renovación', real:pct(renPct), meta:'mín. 85%'},
+      ])}
+    </div>`;
+  document.getElementById('d-resumen').innerHTML = resHtml;
+
+  document.getElementById('dashboard-output').style.display = 'block';
+  document.getElementById('dashboard-output').scrollIntoView({behavior:'smooth', block:'start'});
+
+  // Plan de acción automático
+  generarPlanAccion([
+    {c:cF1, n:'Ingresos', real:fmt(ing), area:'Financiero'},
+    {c:cF2, n:'Costos Operacionales', real:fmt(cos), area:'Financiero'},
+    {c:cF3, n:'Margen Operacional', real:pct(margReal), area:'Financiero'},
+    {c:cF4, n:'ROI', real:pct(roiReal), area:'Financiero'},
+    {c:cF5, n:'Liquidez Corriente', real:fmtN(liqReal)+'x', area:'Financiero'},
+    {c:cO1, n:'Cobertura de Puestos', real:pct(cobertura), area:'Operacional'},
+    {c:cO2, n:'Tiempo de Respuesta', real:op2r+' min', area:'Operacional'},
+    {c:cO4, n:'Rotación de Personal', real:pct(rotacion), area:'Operacional'},
+    {c:cC1, n:'Satisfacción del Cliente', real:pct(satPct), area:'Clientes'},
+    {c:cC2, n:'Tasa de Renovación', real:pct(renPct), area:'Clientes'},
+  ]);
+}
+
+function rb(label, val, max, color) {
+  return `<div class="rb-fila">
+    <span class="rb-label">${label}</span>
+    <div class="rb-track"><div class="rb-fill" style="width:${val/max*100}%;background:${color}"></div></div>
+    <span class="rb-val" style="color:${color}">${val}</span>
+  </div>`;
+}
+
+function generarAlertas(kpis) {
+  let html = '';
+  const rojos   = kpis.filter(k=>k.c==='rojo');
+  const amars   = kpis.filter(k=>k.c==='amarillo');
+  const verdes  = kpis.filter(k=>k.c==='verde');
+  if (rojos.length > 0) {
+    html += `<div class="alerta-item rojo">❌ <strong>KPIs críticos (requieren acción inmediata):</strong> ${rojos.map(k=>`${k.n} (${k.real} vs. meta ${k.meta})`).join(' · ')}</div>`;
+  }
+  if (amars.length > 0) {
+    html += `<div class="alerta-item amarillo">⚠️ <strong>KPIs en alerta (monitorear de cerca):</strong> ${amars.map(k=>`${k.n} (${k.real})`).join(' · ')}</div>`;
+  }
+  if (verdes.length > 0) {
+    html += `<div class="alerta-item verde">✅ <strong>KPIs saludables:</strong> ${verdes.map(k=>k.n).join(' · ')}</div>`;
+  }
+  return html;
+}
+
+function generarPlanAccion(kpis) {
+  const rojos = kpis.filter(k=>k.c==='rojo');
+  const amars = kpis.filter(k=>k.c==='amarillo');
+  let html = '';
+  if (rojos.length === 0 && amars.length === 0) {
+    html = `<div class="alerta-item verde">✅ Todos los KPIs revisados están en zona verde. Mantén las buenas prácticas y establece metas más ambiciosas para el próximo período.</div>`;
+  } else {
+    html = `<h4 style="font-family:'Lora',serif;color:var(--azul);margin-bottom:12px">🤖 Diagnóstico automático basado en tus datos</h4>`;
+    rojos.forEach(k => {
+      const sugerencias = {
+        'Ingresos': 'Revisa la cartera de clientes, busca nuevos contratos y evalúa si los precios están actualizados según el mercado.',
+        'Costos Operacionales': 'Analiza los rubros de mayor peso. Considera renegociar proveedores, reducir horas extra o revisar el presupuesto de insumos.',
+        'Margen Operacional': 'El margen está bajo su meta. Aumentar ingresos o reducir costos son las dos vías. Evalúa qué es más viable en el corto plazo.',
+        'ROI': 'El retorno sobre la inversión es bajo. Evalúa si hay activos ociosos, si la inversión está bien dimensionada, o si se pueden mejorar los márgenes.',
+        'Liquidez Corriente': 'Riesgo de liquidez. Prioriza cobrar cuentas por cobrar, negocia plazos de pago con proveedores y evalúa una línea de crédito de contingencia.',
+        'Cobertura de Puestos': 'Hay puestos sin cobertura. Activa protocolos de emergencia, refuerza el proceso de reclutamiento y revisa por qué hay ausencias.',
+        'Tiempo de Respuesta': 'El tiempo de respuesta supera la meta. Evalúa la distribución geográfica de los equipos, los protocolos de alerta y la disponibilidad de vehículos.',
+        'Rotación de Personal': 'Alta rotación: costo oculto significativo. Investiga las causas (salario, clima laboral, horarios) y diseña un plan de retención.',
+        'Satisfacción del Cliente': 'La satisfacción está por debajo de la meta. Realiza visitas de seguimiento, encuestas directas y escucha activa con los clientes.',
+        'Tasa de Renovación': 'Clientes no están renovando. Identifica qué contratos vencen próximos y actúa con propuestas de valor antes de su vencimiento.',
+      };
+      const sug = sugerencias[k.n] || 'Analiza la causa raíz y define acciones correctivas con responsable y fecha.';
+      html += `<div class="alerta-item rojo" style="margin-bottom:10px"><strong>❌ ${k.n} (${k.area})</strong> — Valor actual: ${k.real}<br><em>${sug}</em></div>`;
+    });
+    amars.forEach(k => {
+      html += `<div class="alerta-item amarillo"><strong>⚠️ ${k.n} (${k.area})</strong> — Valor actual: ${k.real} — En zona de alerta. Monitorea semanalmente y actúa si sigue deteriorándose.</div>`;
+    });
+  }
+  document.getElementById('plan-auto').innerHTML = html;
+}
+
+function limpiarDatos() {
+  document.querySelectorAll('.kpi-input-card input[type=number]').forEach(i => i.value = '');
+  document.getElementById('dashboard-output').style.display = 'none';
+  document.getElementById('plan-auto').innerHTML = '';
+}
+</script>
+</body>
+</html>
