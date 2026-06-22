@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Constructor de BSC | Cuadro de Mando Integral Interactivo</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════
+   VARIABLES
+═══════════════════════════════════════════════════ */
+:root {
+  --azul:    #003366;
+  --azul-m:  #1a5ca8;
+  --celeste: #87CEEB;
+  --oro:     #FFD700;
+  --blanco:  #ffffff;
+  --gris:    #f2f5fb;
+  --gris-b:  #e4e9f2;
+  --borde:   #d0dae8;
+  --txt:     #1a2a3a;
+  --txt-s:   #4a5f72;
+  /* perspectivas */
+  --fin-bg:  #dbeafe; --fin-brd: #3b82f6; --fin-dk: #1e40af; --fin-txt: #1e3a8a;
+  --cli-bg:  #dcfce7; --cli-brd: #22c55e; --cli-dk: #166534; --cli-txt: #14532d;
+  --pro-bg:  #fef9c3; --pro-brd: #eab308; --pro-dk: #92400e; --pro-txt: #78350f;
+  --apr-bg:  #fce7f3; --apr-brd: #ec4899; --apr-dk: #831843; --apr-txt: #701a75;
+  --sombra:  0 3px 16px rgba(0,51,102,0.11);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Source Sans 3',sans-serif;background:var(--gris);color:var(--txt);min-height:100vh;}
+
+/* ═══════════════════════════════════════════════════
+   ENCABEZADO
+═══════════════════════════════════════════════════ */
+.site-header{
+  background:linear-gradient(135deg,#002855 0%,#003d80 60%,#1a5ca8 100%);
+  padding:28px 28px 20px;color:#fff;
+}
+.site-header h1{font-family:'Lora',serif;font-size:1.7rem;font-weight:700;line-height:1.2;}
+.site-header h1 span{color:var(--oro);}
+.site-header p{color:#a8c8e8;font-size:0.93rem;margin-top:6px;max-width:720px;line-height:1.55;}
+.stepper{
+  display:flex;gap:0;margin-top:22px;flex-wrap:wrap;gap:4px;
+}
+.step-dot{
+  display:flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);
+  border-radius:24px;padding:6px 14px 6px 8px;cursor:pointer;
+  transition:all 0.22s;font-size:0.83rem;color:#a8c8e8;
+}
+.step-dot .num{
+  width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,0.15);
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.82rem;
+  flex-shrink:0;transition:background 0.2s;
+}
+.step-dot.activo{background:rgba(255,255,255,0.18);border-color:var(--celeste);color:#fff;}
+.step-dot.activo .num{background:var(--celeste);color:var(--azul);}
+.step-dot.completo .num{background:var(--oro);color:var(--azul);}
+.step-dot.completo{color:#fff;}
+
+/* ═══════════════════════════════════════════════════
+   MAIN
+═══════════════════════════════════════════════════ */
+.main{max-width:980px;margin:0 auto;padding:24px 20px 60px;}
+
+/* ═══════════════════════════════════════════════════
+   PANTALLAS (steps)
+═══════════════════════════════════════════════════ */
+.screen{display:none;}
+.screen.activo{display:block;}
+
+/* ═══════════════════════════════════════════════════
+   TARJETA DE SECCIÓN
+═══════════════════════════════════════════════════ */
+.card{
+  background:#fff;border-radius:16px;box-shadow:var(--sombra);
+  padding:26px 26px 28px;margin-bottom:20px;
+  border:1px solid var(--borde);
+}
+.card-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px;}
+.card-ico{
+  width:46px;height:46px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;flex-shrink:0;
+}
+.card-header-txt h2{font-family:'Lora',serif;font-size:1.12rem;color:var(--azul);}
+.card-header-txt p{font-size:0.88rem;color:var(--txt-s);margin-top:3px;line-height:1.5;}
+
+/* ═══════════════════════════════════════════════════
+   FORMULARIOS
+═══════════════════════════════════════════════════ */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.form-grid.tres{grid-template-columns:1fr 1fr 1fr;}
+@media(max-width:640px){.form-grid,.form-grid.tres{grid-template-columns:1fr;}}
+.form-group{display:flex;flex-direction:column;gap:5px;}
+.form-group.full{grid-column:1/-1;}
+.form-group label{
+  font-size:0.82rem;font-weight:700;color:var(--azul);
+  display:flex;align-items:center;gap:6px;
+}
+.form-group label .tip{
+  font-weight:400;color:var(--txt-s);font-size:0.78rem;font-style:italic;
+}
+.form-group input,.form-group select,.form-group textarea{
+  border:1.5px solid var(--borde);border-radius:8px;
+  padding:9px 12px;font-size:0.9rem;
+  font-family:'Source Sans 3',sans-serif;color:var(--txt);
+  transition:border 0.18s,box-shadow 0.18s;background:#fff;
+}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{
+  border-color:var(--azul);outline:none;
+  box-shadow:0 0 0 3px rgba(0,51,102,0.09);
+}
+.form-group textarea{resize:vertical;min-height:70px;}
+
+/* ═══════════════════════════════════════════════════
+   PERSPECTIVAS - ACORDEÓN
+═══════════════════════════════════════════════════ */
+.persp-block{
+  border-radius:12px;margin-bottom:16px;overflow:hidden;
+  border:2px solid;
+}
+.persp-head{
+  display:flex;align-items:center;gap:12px;padding:14px 18px;cursor:pointer;
+  transition:opacity 0.15s;user-select:none;
+}
+.persp-head:hover{opacity:0.88;}
+.persp-head h3{font-family:'Lora',serif;font-size:1rem;flex:1;}
+.persp-head .tag{
+  font-size:0.75rem;font-weight:700;border-radius:12px;
+  padding:3px 11px;opacity:0.85;
+}
+.persp-head .arrow{
+  font-size:1.1rem;transition:transform 0.22s;
+}
+.persp-head.open .arrow{transform:rotate(180deg);}
+.persp-body{display:none;background:#fff;}
+.persp-body.open{display:block;}
+
+/* colores perspectivas */
+.persp-fin{border-color:var(--fin-brd);}
+.persp-fin .persp-head{background:var(--fin-bg);color:var(--fin-txt);}
+.persp-fin .tag{background:var(--fin-dk);color:#fff;}
+.persp-cli{border-color:var(--cli-brd);}
+.persp-cli .persp-head{background:var(--cli-bg);color:var(--cli-txt);}
+.persp-cli .tag{background:var(--cli-dk);color:#fff;}
+.persp-pro{border-color:var(--pro-brd);}
+.persp-pro .persp-head{background:var(--pro-bg);color:var(--pro-txt);}
+.persp-pro .tag{background:var(--pro-dk);color:#fff;}
+.persp-apr{border-color:var(--apr-brd);}
+.persp-apr .persp-head{background:var(--apr-bg);color:var(--apr-txt);}
+.persp-apr .tag{background:var(--apr-dk);color:#fff;}
+
+/* ═══════════════════════════════════════════════════
+   TABLA DE OBJETIVOS
+═══════════════════════════════════════════════════ */
+.obj-table-wrap{overflow-x:auto;padding:0 18px 18px;}
+.obj-table{width:100%;border-collapse:collapse;min-width:660px;font-size:0.84rem;}
+.obj-table th{
+  padding:9px 10px;text-align:left;font-size:0.78rem;
+  font-weight:700;border-bottom:2px solid var(--borde);color:var(--txt-s);
+  white-space:nowrap;
+}
+.obj-table td{padding:8px 8px;border-bottom:1px solid #f0f4fa;vertical-align:middle;}
+.obj-table td input,.obj-table td select{
+  width:100%;border:1px solid var(--borde);border-radius:6px;
+  padding:6px 8px;font-size:0.83rem;font-family:'Source Sans 3',sans-serif;
+  background:#fff;
+}
+.obj-table td input:focus,.obj-table td select:focus{
+  border-color:var(--azul);outline:none;
+}
+.btn-add-obj{
+  margin:12px 18px 18px;
+  background:none;border:1.5px dashed var(--borde);
+  border-radius:8px;padding:8px 16px;cursor:pointer;
+  font-size:0.84rem;color:var(--txt-s);font-family:'Source Sans 3',sans-serif;
+  transition:all 0.18s;display:flex;align-items:center;gap:6px;
+}
+.btn-add-obj:hover{border-color:var(--azul);color:var(--azul);background:var(--gris);}
+.btn-del-row{
+  background:none;border:none;cursor:pointer;
+  color:#e05;font-size:1rem;padding:2px 6px;
+  border-radius:4px;transition:background 0.15s;
+}
+.btn-del-row:hover{background:#fee2e2;}
+.semaforo-sel{
+  -webkit-appearance:none;appearance:none;
+  border-radius:20px;font-weight:700;
+  text-align:center;cursor:pointer;
+  border:1.5px solid var(--borde);padding:4px 8px;
+  min-width:90px;
+}
+.s-verde{background:#dcfce7;color:#166534;border-color:#22c55e;}
+.s-ambar{background:#fef9c3;color:#92400e;border-color:#eab308;}
+.s-rojo{background:#fee2e2;color:#b91c1c;border-color:#f87171;}
+
+/* ═══════════════════════════════════════════════════
+   CADENAS CAUSA-EFECTO
+═══════════════════════════════════════════════════ */
+.cadena-form{
+  background:var(--gris);border:1.5px solid var(--borde);
+  border-radius:10px;padding:16px;margin-bottom:14px;
+}
+.cadena-nodos{
+  display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:10px;
+}
+.cadena-nodo{
+  display:flex;align-items:center;gap:6px;
+  background:#fff;border:1.5px solid var(--borde);border-radius:8px;padding:4px 6px;
+  min-width:130px;
+}
+.cadena-nodo select{
+  border:none;outline:none;background:transparent;
+  font-size:0.82rem;color:var(--txt);font-family:'Source Sans 3',sans-serif;
+  width:100%;cursor:pointer;
+}
+.cadena-arrow{
+  color:var(--azul-m);font-size:1.3rem;font-weight:700;flex-shrink:0;
+}
+.btn-add-cadena,.btn-del-cadena{
+  background:none;border:1.5px dashed var(--borde);
+  border-radius:8px;padding:8px 16px;cursor:pointer;
+  font-size:0.84rem;color:var(--txt-s);font-family:'Source Sans 3',sans-serif;
+  transition:all 0.18s;
+}
+.btn-add-cadena:hover{border-color:var(--azul);color:var(--azul);}
+.btn-del-cadena{border-style:solid;color:#e05;border-color:#fca5a5;margin-left:8px;}
+.btn-del-cadena:hover{background:#fee2e2;}
+
+/* ═══════════════════════════════════════════════════
+   BOTONES PRINCIPALES
+═══════════════════════════════════════════════════ */
+.btn-primary{
+  background:var(--azul);color:#fff;border:none;
+  padding:12px 32px;border-radius:28px;font-size:0.97rem;font-weight:700;
+  cursor:pointer;font-family:'Source Sans 3',sans-serif;
+  transition:background 0.18s,transform 0.12s;display:inline-flex;align-items:center;gap:8px;
+}
+.btn-primary:hover{background:var(--azul-m);transform:translateY(-1px);}
+.btn-secondary{
+  background:var(--gris-b);color:var(--azul);border:1.5px solid var(--borde);
+  padding:11px 24px;border-radius:28px;font-size:0.93rem;font-weight:600;
+  cursor:pointer;font-family:'Source Sans 3',sans-serif;
+  transition:all 0.18s;display:inline-flex;align-items:center;gap:6px;margin-right:10px;
+}
+.btn-secondary:hover{background:var(--borde);border-color:var(--azul);}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px;align-items:center;}
+
+/* ═══════════════════════════════════════════════════
+   ALERTA / AYUDA
+═══════════════════════════════════════════════════ */
+.ayuda{
+  background:#e8f4ff;border-left:4px solid var(--celeste);
+  border-radius:0 10px 10px 0;padding:13px 16px;
+  font-size:0.88rem;line-height:1.6;color:#1a3a5a;margin-bottom:18px;
+}
+.ayuda strong{color:var(--azul);}
+.alerta{
+  display:none;background:#fff3cd;border:1.5px solid #ffc107;
+  border-radius:8px;padding:10px 14px;font-size:0.88rem;
+  color:#856404;margin-top:10px;
+}
+
+/* ═══════════════════════════════════════════════════
+   ──────── PANTALLA 3: VISUALIZACIÓN ────────────
+═══════════════════════════════════════════════════ */
+
+/* MAPA ESTRATÉGICO */
+.mapa-vis{
+  background:#fff;border-radius:16px;box-shadow:var(--sombra);
+  border:1px solid var(--borde);overflow:hidden;margin-bottom:24px;
+}
+.mapa-vis-header{
+  background:var(--azul);color:#fff;
+  padding:14px 20px;
+}
+.mapa-vis-header h3{font-family:'Lora',serif;font-size:1.05rem;}
+.mapa-vis-header p{font-size:0.82rem;color:var(--celeste);margin-top:2px;}
+
+.mapa-row-vis{
+  display:grid;grid-template-columns:120px 1fr;
+  border-bottom:1px solid var(--borde);
+}
+.mapa-row-vis:last-child{border-bottom:none;}
+.mapa-etq{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:14px 8px;color:#fff;font-size:0.8rem;font-weight:700;
+  font-family:'Lora',serif;gap:4px;
+}
+.mapa-etq .ico{font-size:1.5rem;}
+.mapa-pills{
+  display:flex;flex-wrap:wrap;gap:8px;padding:14px 16px;align-items:center;
+}
+.pill{
+  border-radius:20px;padding:5px 14px;font-size:0.8rem;font-weight:700;
+  color:#fff;transition:transform 0.15s;
+}
+.pill:hover{transform:translateY(-2px);}
+.pill-fin{background:var(--fin-dk);}
+.pill-cli{background:var(--cli-dk);}
+.pill-pro{background:var(--pro-dk);}
+.pill-apr{background:var(--apr-dk);}
+.etq-fin{background:var(--fin-dk);}
+.etq-cli{background:var(--cli-dk);}
+.etq-pro{background:var(--pro-dk);}
+.etq-apr{background:var(--apr-dk);}
+.empty-pill{
+  font-size:0.8rem;color:var(--txt-s);font-style:italic;padding:4px 0;
+}
+
+/* CADENAS VISUALES */
+.cadenas-vis{margin-bottom:24px;}
+.cadena-vis{
+  background:#fff;border-radius:12px;padding:14px 18px;
+  border:1px solid var(--borde);box-shadow:0 2px 8px rgba(0,51,102,0.07);
+  margin-bottom:12px;
+}
+.cadena-vis h4{
+  font-family:'Lora',serif;font-size:0.88rem;color:var(--azul);
+  margin-bottom:10px;
+}
+.cadena-vis-chain{
+  display:flex;align-items:center;flex-wrap:wrap;gap:6px;
+}
+.c-node{
+  border-radius:8px;padding:6px 14px;font-size:0.82rem;font-weight:700;color:#fff;
+}
+.c-arr{color:var(--azul-m);font-size:1.2rem;font-weight:700;}
+
+/* BSC TABLA COMPLETA */
+.bsc-vis{margin-bottom:24px;}
+.bsc-bloque{
+  background:#fff;border-radius:12px;overflow:hidden;
+  box-shadow:var(--sombra);margin-bottom:16px;
+  border:1px solid var(--borde);
+}
+.bsc-bloque-header{
+  padding:12px 18px;color:#fff;
+  display:flex;align-items:center;gap:10px;
+}
+.bsc-bloque-header h3{font-family:'Lora',serif;font-size:0.97rem;}
+.bsc-tbl{width:100%;border-collapse:collapse;font-size:0.82rem;}
+.bsc-tbl th{
+  padding:9px 12px;text-align:left;
+  background:rgba(0,0,0,0.12);color:#fff;font-size:0.78rem;
+  font-weight:700;white-space:nowrap;
+}
+.bsc-tbl td{padding:9px 12px;border-bottom:1px solid #f0f4fa;vertical-align:top;}
+.bsc-tbl tr:last-child td{border-bottom:none;}
+.bsc-tbl tr:nth-child(even) td{background:#f8fafc;}
+.s-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  border-radius:14px;padding:3px 11px;font-size:0.78rem;font-weight:700;
+}
+.s-badge .dot{width:9px;height:9px;border-radius:50%;}
+.sb-verde{background:#dcfce7;color:#166534;}
+.sb-verde .dot{background:#16a34a;}
+.sb-ambar{background:#fef9c3;color:#92400e;}
+.sb-ambar .dot{background:#ca8a04;}
+.sb-rojo{background:#fee2e2;color:#b91c1c;}
+.sb-rojo .dot{background:#dc2626;}
+
+/* CUADRO DE MANDO */
+.cmd-wrap{
+  background:#fff;border-radius:16px;box-shadow:var(--sombra);
+  border:1px solid var(--borde);padding:20px;margin-bottom:24px;
+}
+.cmd-header{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  flex-wrap:wrap;gap:12px;margin-bottom:20px;
+  padding-bottom:14px;border-bottom:2px solid var(--borde);
+}
+.cmd-header h3{font-family:'Lora',serif;color:var(--azul);font-size:1.05rem;}
+.cmd-header p{font-size:0.83rem;color:var(--txt-s);}
+.cmd-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;}
+.cmd-card{
+  border-radius:12px;padding:14px;border:2px solid;
+  transition:transform 0.18s,box-shadow 0.18s;
+}
+.cmd-card:hover{transform:translateY(-3px);box-shadow:0 6px 18px rgba(0,51,102,0.13);}
+.cmd-card .persp-label{
+  font-size:0.72rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:0.06em;margin-bottom:6px;opacity:0.75;
+}
+.cmd-card .obj-name{
+  font-family:'Lora',serif;font-size:0.88rem;font-weight:700;
+  margin-bottom:4px;line-height:1.3;
+}
+.cmd-card .kpi-val{font-size:0.82rem;opacity:0.8;margin-bottom:8px;}
+.cmd-card .semaforo-bar{
+  height:6px;border-radius:3px;margin-top:8px;
+  background:rgba(0,0,0,0.1);overflow:hidden;
+}
+.cmd-card .semaforo-fill{height:100%;border-radius:3px;transition:width 0.6s ease;}
+.cmd-card .meta-txt{font-size:0.76rem;opacity:0.7;margin-top:4px;}
+/* colores por perspectiva */
+.cc-fin{background:var(--fin-bg);border-color:var(--fin-brd);color:var(--fin-txt);}
+.cc-cli{background:var(--cli-bg);border-color:var(--cli-brd);color:var(--cli-txt);}
+.cc-pro{background:var(--pro-bg);border-color:var(--pro-brd);color:var(--pro-txt);}
+.cc-apr{background:var(--apr-bg);border-color:var(--apr-brd);color:var(--apr-txt);}
+
+/* ═══════════════════════════════════════════════════
+   LEYENDA SEMÁFORO
+═══════════════════════════════════════════════════ */
+.leyenda{
+  display:flex;gap:14px;flex-wrap:wrap;font-size:0.82rem;
+  padding:10px 14px;background:var(--gris);border-radius:8px;margin-bottom:18px;
+}
+.leyenda span{display:flex;align-items:center;gap:5px;}
+.dot-v{width:11px;height:11px;border-radius:50%;background:#16a34a;flex-shrink:0;}
+.dot-a{width:11px;height:11px;border-radius:50%;background:#ca8a04;flex-shrink:0;}
+.dot-r{width:11px;height:11px;border-radius:50%;background:#dc2626;flex-shrink:0;}
+
+/* ═══════════════════════════════════════════════════
+   RESUMEN ESTADÍSTICO
+═══════════════════════════════════════════════════ */
+.stats-row{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
+  gap:12px;margin-bottom:20px;
+}
+.stat-card{
+  background:#fff;border-radius:10px;padding:14px;text-align:center;
+  border:1.5px solid var(--borde);box-shadow:0 1px 6px rgba(0,51,102,0.07);
+}
+.stat-card .val{
+  font-family:'Lora',serif;font-size:1.6rem;font-weight:700;color:var(--azul);
+}
+.stat-card .lbl{font-size:0.78rem;color:var(--txt-s);margin-top:2px;}
+
+/* ═══════════════════════════════════════════════════
+   BOTÓN IMPRIMIR / REINICIAR
+═══════════════════════════════════════════════════ */
+.btn-print{
+  background:#fff;color:var(--azul);border:2px solid var(--azul);
+  padding:11px 24px;border-radius:28px;font-size:0.93rem;font-weight:700;
+  cursor:pointer;font-family:'Source Sans 3',sans-serif;
+  display:inline-flex;align-items:center;gap:8px;
+  transition:all 0.18s;
+}
+.btn-print:hover{background:var(--azul);color:#fff;}
+.btn-restart{
+  background:none;border:1.5px solid var(--borde);color:var(--txt-s);
+  padding:11px 22px;border-radius:28px;font-size:0.88rem;
+  cursor:pointer;font-family:'Source Sans 3',sans-serif;
+  display:inline-flex;align-items:center;gap:8px;transition:all 0.18s;
+}
+.btn-restart:hover{border-color:var(--azul);color:var(--azul);}
+
+/* ═══════════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════════ */
+footer{
+  background:var(--azul);color:var(--celeste);
+  text-align:center;padding:18px;font-size:0.8rem;margin-top:20px;
+}
+
+/* ═══════════════════════════════════════════════════
+   PRINT
+═══════════════════════════════════════════════════ */
+@media print{
+  .site-header .stepper,.btn-row,.btn-print,.btn-restart,
+  .screen:not(.activo),.card:has(.btn-primary),
+  footer{display:none!important;}
+  body{background:#fff;}
+  .main{padding:0;}
+  .card,.mapa-vis,.cmd-wrap,.bsc-bloque,.cadena-vis{box-shadow:none!important;break-inside:avoid;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════ ENCABEZADO ══════════════════ -->
+<header class="site-header">
+  <h1>⚖️ Constructor de <span>BSC</span> — Cuadro de Mando Integral</h1>
+  <p>Herramienta interactiva guiada: ingresa la información de tu empresa paso a paso y genera automáticamente el Mapa Estratégico, el BSC completo y el Cuadro de Mando con semáforos. Sin ayuda del docente.</p>
+  <div class="stepper" id="stepper">
+    <div class="step-dot activo" data-step="0"><div class="num">1</div><span>Tu empresa</span></div>
+    <div class="step-dot" data-step="1"><div class="num">2</div><span>Objetivos e indicadores</span></div>
+    <div class="step-dot" data-step="2"><div class="num">3</div><span>Cadenas causa-efecto</span></div>
+    <div class="step-dot" data-step="3"><div class="num">4</div><span>Visualizar BSC</span></div>
+  </div>
+</header>
+
+<div class="main">
+
+<!-- ══════════════════════════════════════════════════════
+     PASO 1 — DATOS DE LA EMPRESA
+══════════════════════════════════════════════════════ -->
+<div class="screen activo" id="screen-0">
+
+  <div class="ayuda">
+    <strong>👋 Bienvenido/a al Constructor de BSC.</strong> Esta herramienta te guía paso a paso para que construyas tu propio Cuadro de Mando Integral. Puedes usar la empresa del curso (<em>SEGURECUADOR S.A.</em>) o cualquier empresa de seguridad privada de tu elección. Completa los 4 pasos y al final verás tu BSC completo con visualizaciones automáticas.
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-ico" style="background:#e8f0fb">🏢</div>
+      <div class="card-header-txt">
+        <h2>Paso 1 — Perfil de tu empresa</h2>
+        <p>Ingresa los datos básicos. Esta información aparecerá en el encabezado de tu BSC.</p>
+      </div>
+    </div>
+
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Nombre de la empresa <span class="tip">Ej: SEGURECUADOR S.A.</span></label>
+        <input type="text" id="emp-nombre" placeholder="Escribe el nombre aquí" maxlength="60">
+      </div>
+      <div class="form-group">
+        <label>Tipo de empresa <span class="tip">Escoge la más cercana</span></label>
+        <select id="emp-tipo">
+          <option value="">— Selecciona —</option>
+          <option>Empresa de seguridad privada (guardias)</option>
+          <option>Empresa de monitoreo y vigilancia electrónica</option>
+          <option>Empresa de seguridad privada integral</option>
+          <option>Empresa de transporte de valores</option>
+          <option>Otra empresa de servicios</option>
+        </select>
+      </div>
+      <div class="form-group full">
+        <label>Misión <span class="tip">¿Para qué existe la empresa? (máx. 200 caracteres)</span></label>
+        <textarea id="emp-mision" maxlength="200" placeholder="Ej: Proteger la vida, el patrimonio y la tranquilidad de nuestros clientes en Ecuador…"></textarea>
+      </div>
+      <div class="form-group full">
+        <label>Visión <span class="tip">¿Dónde quiere estar en 3-5 años?</span></label>
+        <textarea id="emp-vision" maxlength="200" placeholder="Ej: Ser la empresa de seguridad líder en la región Costa del Ecuador hacia el 2027…"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Ciudad principal de operación</label>
+        <input type="text" id="emp-ciudad" placeholder="Ej: Guayaquil" maxlength="40">
+      </div>
+      <div class="form-group">
+        <label>Período del BSC <span class="tip">Ej: 2026-2027</span></label>
+        <input type="text" id="emp-periodo" placeholder="Ej: 2026–2027" maxlength="20">
+      </div>
+      <div class="form-group">
+        <label>Número aproximado de empleados</label>
+        <input type="number" id="emp-empleados" placeholder="Ej: 120" min="1">
+      </div>
+      <div class="form-group">
+        <label>Reto estratégico principal <span class="tip">El problema más importante a resolver</span></label>
+        <input type="text" id="emp-reto" placeholder="Ej: Reducir la rotación de personal sin aumentar costos" maxlength="120">
+      </div>
+    </div>
+
+    <div class="alerta" id="al-1">⚠️ Por favor completa al menos el nombre de la empresa, la misión y la visión antes de continuar.</div>
+    <div class="btn-row">
+      <button class="btn-primary" onclick="irPaso(1)">Continuar al Paso 2 →</button>
+    </div>
+  </div>
+</div><!-- /screen-0 -->
+
+<!-- ══════════════════════════════════════════════════════
+     PASO 2 — OBJETIVOS E INDICADORES
+══════════════════════════════════════════════════════ -->
+<div class="screen" id="screen-1">
+
+  <div class="ayuda">
+    <strong>📋 Paso 2 — Define los objetivos estratégicos e indicadores.</strong> Para cada una de las cuatro perspectivas del BSC ingresa entre 2 y 5 objetivos. Por cada objetivo define: el <em>indicador</em> con que lo medirás, la <em>meta</em> que quieres alcanzar, el resultado <em>actual</em>, la <em>iniciativa</em> (acción concreta) y el <em>responsable</em>. <br>
+    Luego el sistema calculará el semáforo automáticamente. <strong>Ejemplo ya cargado</strong> para guiarte — puedes modificarlo o reemplazarlo.
+  </div>
+
+  <!-- FINANCIERA -->
+  <div class="persp-block persp-fin" id="pb-fin">
+    <div class="persp-head open" onclick="togglePersp(this)">
+      <span style="font-size:1.4rem">💰</span>
+      <h3>Perspectiva Financiera</h3>
+      <span class="tag">¿Cómo nos ven los accionistas?</span>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="persp-body open" id="body-fin">
+      <div class="obj-table-wrap">
+        <table class="obj-table">
+          <thead>
+            <tr>
+              <th style="min-width:170px">Objetivo estratégico</th>
+              <th style="min-width:150px">Indicador (KPI)</th>
+              <th style="min-width:90px">Meta</th>
+              <th style="min-width:90px">Actual</th>
+              <th style="min-width:150px">Iniciativa estratégica</th>
+              <th style="min-width:110px">Responsable</th>
+              <th style="min-width:100px">Semáforo</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="tbody-fin"></tbody>
+        </table>
+      </div>
+      <button class="btn-add-obj" onclick="addRow('fin')">＋ Agregar objetivo financiero</button>
+    </div>
+  </div>
+
+  <!-- CLIENTES -->
+  <div class="persp-block persp-cli" id="pb-cli">
+    <div class="persp-head open" onclick="togglePersp(this)">
+      <span style="font-size:1.4rem">🤝</span>
+      <h3>Perspectiva del Cliente</h3>
+      <span class="tag">¿Cómo nos ven los clientes?</span>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="persp-body open" id="body-cli">
+      <div class="obj-table-wrap">
+        <table class="obj-table">
+          <thead>
+            <tr>
+              <th style="min-width:170px">Objetivo estratégico</th>
+              <th style="min-width:150px">Indicador (KPI)</th>
+              <th style="min-width:90px">Meta</th>
+              <th style="min-width:90px">Actual</th>
+              <th style="min-width:150px">Iniciativa estratégica</th>
+              <th style="min-width:110px">Responsable</th>
+              <th style="min-width:100px">Semáforo</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="tbody-cli"></tbody>
+        </table>
+      </div>
+      <button class="btn-add-obj" onclick="addRow('cli')">＋ Agregar objetivo de cliente</button>
+    </div>
+  </div>
+
+  <!-- PROCESOS -->
+  <div class="persp-block persp-pro" id="pb-pro">
+    <div class="persp-head open" onclick="togglePersp(this)">
+      <span style="font-size:1.4rem">⚙️</span>
+      <h3>Perspectiva de Procesos Internos</h3>
+      <span class="tag">¿En qué debemos ser excelentes?</span>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="persp-body open" id="body-pro">
+      <div class="obj-table-wrap">
+        <table class="obj-table">
+          <thead>
+            <tr>
+              <th style="min-width:170px">Objetivo estratégico</th>
+              <th style="min-width:150px">Indicador (KPI)</th>
+              <th style="min-width:90px">Meta</th>
+              <th style="min-width:90px">Actual</th>
+              <th style="min-width:150px">Iniciativa estratégica</th>
+              <th style="min-width:110px">Responsable</th>
+              <th style="min-width:100px">Semáforo</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="tbody-pro"></tbody>
+        </table>
+      </div>
+      <button class="btn-add-obj" onclick="addRow('pro')">＋ Agregar objetivo de proceso</button>
+    </div>
+  </div>
+
+  <!-- APRENDIZAJE -->
+  <div class="persp-block persp-apr" id="pb-apr">
+    <div class="persp-head open" onclick="togglePersp(this)">
+      <span style="font-size:1.4rem">🌱</span>
+      <h3>Perspectiva de Aprendizaje y Crecimiento</h3>
+      <span class="tag">¿Podemos seguir mejorando?</span>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="persp-body open" id="body-apr">
+      <div class="obj-table-wrap">
+        <table class="obj-table">
+          <thead>
+            <tr>
+              <th style="min-width:170px">Objetivo estratégico</th>
+              <th style="min-width:150px">Indicador (KPI)</th>
+              <th style="min-width:90px">Meta</th>
+              <th style="min-width:90px">Actual</th>
+              <th style="min-width:150px">Iniciativa estratégica</th>
+              <th style="min-width:110px">Responsable</th>
+              <th style="min-width:100px">Semáforo</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="tbody-apr"></tbody>
+        </table>
+      </div>
+      <button class="btn-add-obj" onclick="addRow('apr')">＋ Agregar objetivo de aprendizaje</button>
+    </div>
+  </div>
+
+  <div class="alerta" id="al-2">⚠️ Cada perspectiva debe tener al menos un objetivo con nombre, indicador y meta.</div>
+  <div class="btn-row">
+    <button class="btn-secondary" onclick="irPaso(0)">← Volver</button>
+    <button class="btn-primary" onclick="irPaso(2)">Continuar al Paso 3 →</button>
+  </div>
+</div><!-- /screen-1 -->
+
+<!-- ══════════════════════════════════════════════════════
+     PASO 3 — CADENAS CAUSA-EFECTO
+══════════════════════════════════════════════════════ -->
+<div class="screen" id="screen-2">
+
+  <div class="ayuda">
+    <strong>🔗 Paso 3 — Cadenas causa-efecto.</strong> El corazón del mapa estratégico. Aquí construyes las <em>historias estratégicas</em>: ¿qué objetivo de Aprendizaje habilita qué proceso?, ¿ese proceso genera qué resultado para el cliente?, ¿y ese resultado genera qué resultado financiero? <br>
+    Selecciona de 2 a 5 nodos por cadena usando los objetivos que definiste en el Paso 2. Agrega las cadenas más importantes de tu empresa.
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-ico" style="background:#e8f0fb">🔗</div>
+      <div class="card-header-txt">
+        <h2>Cadenas de causa-efecto</h2>
+        <p>Cada flecha <strong>→</strong> significa "causa" o "habilita". Lee la cadena de izquierda a derecha: el primer elemento es la causa raíz, el último es el resultado final.</p>
+      </div>
+    </div>
+    <div id="cadenas-container"></div>
+    <button class="btn-add-cadena" onclick="addCadena()">＋ Agregar cadena causa-efecto</button>
+    <div class="alerta" id="al-3">⚠️ Agrega al menos una cadena con dos nodos seleccionados para continuar.</div>
+    <div class="btn-row">
+      <button class="btn-secondary" onclick="irPaso(1)">← Volver</button>
+      <button class="btn-primary" onclick="irPaso(3)">Generar mi BSC →</button>
+    </div>
+  </div>
+</div><!-- /screen-2 -->
+
+<!-- ══════════════════════════════════════════════════════
+     PASO 4 — VISUALIZACIÓN COMPLETA
+══════════════════════════════════════════════════════ -->
+<div class="screen" id="screen-3">
+
+  <!-- Encabezado de la empresa -->
+  <div class="card" style="margin-bottom:20px">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px">
+      <div>
+        <div style="font-size:0.75rem;font-weight:700;color:var(--azul-m);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px">Cuadro de Mando Integral</div>
+        <h2 id="vis-empresa" style="font-family:'Lora',serif;font-size:1.4rem;color:var(--azul)"></h2>
+        <p id="vis-tipo" style="font-size:0.85rem;color:var(--txt-s);margin-top:2px"></p>
+        <div style="margin-top:10px;display:flex;gap:14px;flex-wrap:wrap;font-size:0.83rem">
+          <span id="vis-ciudad" style="color:var(--txt-s)"></span>
+          <span id="vis-periodo" style="color:var(--txt-s)"></span>
+          <span id="vis-empleados" style="color:var(--txt-s)"></span>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn-print" onclick="window.print()">🖨️ Imprimir / Guardar PDF</button>
+        <button class="btn-restart" onclick="reiniciar()">↺ Nuevo BSC</button>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px;padding-top:14px;border-top:1px solid var(--borde)">
+      <div>
+        <div style="font-size:0.75rem;font-weight:700;color:var(--txt-s);margin-bottom:4px">MISIÓN</div>
+        <p id="vis-mision" style="font-size:0.88rem;line-height:1.55;color:var(--txt)"></p>
+      </div>
+      <div>
+        <div style="font-size:0.75rem;font-weight:700;color:var(--txt-s);margin-bottom:4px">VISIÓN</div>
+        <p id="vis-vision" style="font-size:0.88rem;line-height:1.55;color:var(--txt)"></p>
+      </div>
+    </div>
+    <div id="vis-reto-wrap" style="margin-top:12px;padding-top:12px;border-top:1px solid var(--borde);display:none">
+      <div style="font-size:0.75rem;font-weight:700;color:var(--txt-s);margin-bottom:4px">RETO ESTRATÉGICO</div>
+      <p id="vis-reto" style="font-size:0.88rem;color:#b45309;font-weight:600"></p>
+    </div>
+  </div>
+
+  <!-- ESTADÍSTICAS RESUMEN -->
+  <div class="stats-row" id="vis-stats"></div>
+
+  <!-- LEYENDA SEMÁFORO -->
+  <div class="leyenda">
+    <strong style="font-size:0.82rem;color:var(--azul)">Semáforo:</strong>
+    <span><div class="dot-v"></div> Verde — En meta o superado</span>
+    <span><div class="dot-a"></div> Ámbar — En riesgo (80–99% de la meta)</span>
+    <span><div class="dot-r"></div> Rojo — Bajo meta (menos del 80%)</span>
+    <span style="font-size:0.78rem;color:var(--txt-s);margin-left:6px">* El semáforo se calcula con el valor que ingresaste en "Actual" vs "Meta".</span>
+  </div>
+
+  <!-- SECCIÓN A: MAPA ESTRATÉGICO -->
+  <div style="font-size:0.75rem;font-weight:700;color:var(--azul);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px">A — Mapa Estratégico</div>
+  <div class="mapa-vis" id="vis-mapa"></div>
+
+  <!-- SECCIÓN B: CADENAS CAUSA-EFECTO -->
+  <div style="font-size:0.75rem;font-weight:700;color:var(--azul);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px">B — Cadenas de Causa-Efecto</div>
+  <div class="cadenas-vis" id="vis-cadenas"></div>
+
+  <!-- SECCIÓN C: BSC COMPLETO POR PERSPECTIVA -->
+  <div style="font-size:0.75rem;font-weight:700;color:var(--azul);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px">C — BSC Completo: Indicadores, Metas e Iniciativas</div>
+  <div class="bsc-vis" id="vis-bsc"></div>
+
+  <!-- SECCIÓN D: CUADRO DE MANDO (DASHBOARD) -->
+  <div style="font-size:0.75rem;font-weight:700;color:var(--azul);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px">D — Cuadro de Mando Integral (Panel de Control)</div>
+  <div class="cmd-wrap">
+    <div class="cmd-header">
+      <div>
+        <h3 id="cmd-titulo">Panel de Control Estratégico</h3>
+        <p id="cmd-sub"></p>
+      </div>
+    </div>
+    <div class="cmd-grid" id="vis-cmd"></div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn-secondary" onclick="irPaso(2)">← Editar cadenas</button>
+    <button class="btn-primary" onclick="irPaso(1)">✏️ Editar objetivos</button>
+    <button class="btn-print" onclick="window.print()">🖨️ Imprimir / PDF</button>
+  </div>
+
+</div><!-- /screen-3 -->
+
+</div><!-- /main -->
+
+<footer>
+  Constructor de BSC — Contabilidad Gerencial · Universidad de Guayaquil · Facultad de Ciencias Administrativas · 2026
+</footer>
+
+<!-- ══════════════════ JAVASCRIPT ══════════════════ -->
+<script>
+/* ─────────────────────────────────────────────────
+   DATOS Y ESTADO
+───────────────────────────────────────────────── */
+var perspectivas = ['fin','cli','pro','apr'];
+var perspMeta = {
+  fin:{label:'Financiera',      ico:'💰', pregunta:'¿Cómo nos ven los accionistas?', cls:'fin'},
+  cli:{label:'Cliente',         ico:'🤝', pregunta:'¿Cómo nos ven los clientes?',    cls:'cli'},
+  pro:{label:'Procesos Internos',ico:'⚙️',pregunta:'¿En qué debemos ser excelentes?', cls:'pro'},
+  apr:{label:'Aprendizaje',     ico:'🌱', pregunta:'¿Podemos seguir mejorando?',      cls:'apr'}
+};
+
+// Objetivos por perspectiva: [{id,obj,kpi,meta,actual,iniciativa,resp,semaforo}]
+var datos = { fin:[], cli:[], pro:[], apr:[] };
+
+// Cadenas causa-efecto: [{id, nombre, nodos:[idObj,...]}]
+var cadenas = [];
+
+var rowCounter = 0;
+var cadenaCounter = 0;
+
+/* ─────────────────────────────────────────────────
+   DATOS DE EJEMPLO (SEGURECUADOR S.A.)
+───────────────────────────────────────────────── */
+var ejemplos = {
+  fin:[
+    {obj:'Incrementar ingresos en 20%', kpi:'Variación % ingresos vs año anterior', meta:'20', actual:'12', iniciativa:'Plan comercial: nuevos contratos sector industrial Guayaquil', resp:'Gerente Comercial', semaforo:'ambar'},
+    {obj:'Reducir costo por puesto 8%',  kpi:'Costo mensual promedio por guardia (USD)', meta:'8',  actual:'5',  iniciativa:'Optimización rutas y turnos de patrullaje',  resp:'Gerente de Operaciones', semaforo:'ambar'}
+  ],
+  cli:[
+    {obj:'Retención de clientes ≥ 90%', kpi:'% contratos renovados / vencidos', meta:'90', actual:'91', iniciativa:'Visitas de seguimiento 60 días antes del vencimiento', resp:'Gerente Comercial', semaforo:'verde'},
+    {obj:'NPS (satisfacción) mayor a 70', kpi:'Net Promoter Score — encuesta semestral', meta:'70', actual:'58', iniciativa:'Encuesta digital tras cada incidente atendido', resp:'Ejecutivo Comercial', semaforo:'rojo'}
+  ],
+  pro:[
+    {obj:'Tiempo de respuesta < 8 min', kpi:'Minutos promedio de respuesta a incidentes', meta:'8', actual:'11', iniciativa:'GPS en unidades de respuesta + centro de mando actualizado', resp:'Jefe de Operaciones', semaforo:'rojo'},
+    {obj:'Cumplir protocolos al 100%',  kpi:'% puestos que superan auditoría mensual',   meta:'100', actual:'87', iniciativa:'Checklist digital + auditorías sorpresa', resp:'Supervisor Zonal', semaforo:'rojo'}
+  ],
+  apr:[
+    {obj:'40 h de capacitación/año',    kpi:'Horas de capacitación por empleado operativo', meta:'40', actual:'18', iniciativa:'Plan anual: uso de fuerza, primeros auxilios, CCTV', resp:'Jefe de RRHH', semaforo:'ambar'},
+    {obj:'Clima laboral ≥ 75 / 100',    kpi:'Índice de clima laboral (encuesta semestral)', meta:'75', actual:'68', iniciativa:'Programa de bienestar: comedor, seguro médico, reconocimiento', resp:'Jefe de RRHH', semaforo:'ambar'}
+  ]
+};
+
+/* ─────────────────────────────────────────────────
+   INICIALIZACIÓN
+───────────────────────────────────────────────── */
+window.addEventListener('DOMContentLoaded', function(){
+  // Cargar ejemplos
+  perspectivas.forEach(function(p){
+    ejemplos[p].forEach(function(ej){
+      addRowConDatos(p, ej);
+    });
+  });
+  // Una cadena de ejemplo
+  addCadena();
+  // Rellena datos ejemplo empresa
+  document.getElementById('emp-nombre').value = 'SEGURECUADOR S.A.';
+  document.getElementById('emp-tipo').value = 'Empresa de seguridad privada integral';
+  document.getElementById('emp-mision').value = 'Proteger la vida, el patrimonio y la tranquilidad de nuestros clientes en Ecuador mediante guardias capacitados, tecnología de monitoreo y respuesta oportuna.';
+  document.getElementById('emp-vision').value = 'Ser la empresa de seguridad privada líder en la región Costa del Ecuador, reconocida por la calidad de su personal y la confiabilidad de sus sistemas al 2027.';
+  document.getElementById('emp-ciudad').value = 'Guayaquil';
+  document.getElementById('emp-periodo').value = '2026–2027';
+  document.getElementById('emp-empleados').value = '120';
+  document.getElementById('emp-reto').value = 'Crecer 20% en ingresos sin aumentar la rotación de personal ni comprometer la calidad del servicio.';
+});
+
+/* ─────────────────────────────────────────────────
+   NAVEGACIÓN ENTRE PASOS
+───────────────────────────────────────────────── */
+function irPaso(paso) {
+  if (paso === 1 && !validarPaso0()) return;
+  if (paso === 2 && !validarPaso1()) return;
+  if (paso === 3 && !validarPaso2()) return;
+
+  document.querySelectorAll('.screen').forEach(function(s,i){ s.classList.toggle('activo', i===paso); });
+  document.querySelectorAll('.step-dot').forEach(function(d,i){
+    d.classList.toggle('activo', i===paso);
+    d.classList.toggle('completo', i<paso);
+  });
+  if (paso === 3) generarVisualizacion();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// Click en stepper (solo pasos anteriores o actuales)
+document.getElementById('stepper').addEventListener('click', function(e){
+  var dot = e.target.closest('.step-dot');
+  if (!dot) return;
+  var p = parseInt(dot.dataset.step);
+  if (!isNaN(p)) irPaso(p);
+});
+
+/* ─────────────────────────────────────────────────
+   VALIDACIONES
+───────────────────────────────────────────────── */
+function validarPaso0() {
+  var ok = document.getElementById('emp-nombre').value.trim() !== '' &&
+           document.getElementById('emp-mision').value.trim() !== '' &&
+           document.getElementById('emp-vision').value.trim() !== '';
+  document.getElementById('al-1').style.display = ok ? 'none' : 'block';
+  return ok;
+}
+
+function validarPaso1() {
+  var ok = true;
+  perspectivas.forEach(function(p){
+    var filas = datos[p];
+    var tieneMinimo = filas.some(function(r){
+      return r.obj.trim() && r.kpi.trim() && r.meta.trim();
+    });
+    if (!tieneMinimo) ok = false;
+  });
+  document.getElementById('al-2').style.display = ok ? 'none' : 'block';
+  return ok;
+}
+
+function validarPaso2() {
+  var ok = cadenas.some(function(c){
+    return c.nodos.filter(function(n){ return n !== ''; }).length >= 2;
+  });
+  document.getElementById('al-3').style.display = ok ? 'none' : 'block';
+  return ok;
+}
+
+/* ─────────────────────────────────────────────────
+   ACORDEÓN PERSPECTIVAS
+───────────────────────────────────────────────── */
+function togglePersp(head) {
+  head.classList.toggle('open');
+  var body = head.nextElementSibling;
+  body.classList.toggle('open');
+}
+
+/* ─────────────────────────────────────────────────
+   FILAS DE OBJETIVOS
+───────────────────────────────────────────────── */
+function addRow(persp) {
+  addRowConDatos(persp, {obj:'',kpi:'',meta:'',actual:'',iniciativa:'',resp:'',semaforo:'verde'});
+}
+
+function addRowConDatos(persp, d) {
+  var id = 'r' + (++rowCounter);
+  var row = {id:id, obj:d.obj, kpi:d.kpi, meta:d.meta, actual:d.actual,
+             iniciativa:d.iniciativa, resp:d.resp, semaforo:d.semaforo, persp:persp};
+  datos[persp].push(row);
+  renderRow(persp, row);
+  refreshCadenasSelectores();
+}
+
+function renderRow(persp, row) {
+  var tbody = document.getElementById('tbody-' + persp);
+  var tr = document.createElement('tr');
+  tr.id = 'tr-' + row.id;
+  tr.innerHTML =
+    '<td><input type="text" value="' + esc(row.obj) + '" placeholder="Objetivo estratégico..." onchange="updateField(\'' + row.id + '\',\'obj\',this.value)" oninput="updateField(\'' + row.id + '\',\'obj\',this.value)"></td>' +
+    '<td><input type="text" value="' + esc(row.kpi) + '" placeholder="KPI / Indicador..." onchange="updateField(\'' + row.id + '\',\'kpi\',this.value)" oninput="updateField(\'' + row.id + '\',\'kpi\',this.value)"></td>' +
+    '<td><input type="text" value="' + esc(row.meta) + '" placeholder="Meta..." onchange="updateField(\'' + row.id + '\',\'meta\',this.value)" oninput="updateField(\'' + row.id + '\',\'meta\',this.value)"></td>' +
+    '<td><input type="text" value="' + esc(row.actual) + '" placeholder="Resultado actual..." onchange="actualizarSemaforo(\'' + row.id + '\',this.value)" oninput="actualizarSemaforo(\'' + row.id + '\',this.value)"></td>' +
+    '<td><input type="text" value="' + esc(row.iniciativa) + '" placeholder="Acción o proyecto..." onchange="updateField(\'' + row.id + '\',\'iniciativa\',this.value)" oninput="updateField(\'' + row.id + '\',\'iniciativa\',this.value)"></td>' +
+    '<td><input type="text" value="' + esc(row.resp) + '" placeholder="Responsable..." onchange="updateField(\'' + row.id + '\',\'resp\',this.value)" oninput="updateField(\'' + row.id + '\',\'resp\',this.value)"></td>' +
+    '<td><select class="semaforo-sel s-' + row.semaforo + '" id="sel-' + row.id + '" onchange="cambiarSemaforo(\'' + row.id + '\',this)">' +
+      '<option value="verde" ' + (row.semaforo==='verde'?'selected':'') + '>🟢 Verde</option>' +
+      '<option value="ambar" ' + (row.semaforo==='ambar'?'selected':'') + '>🟡 Ámbar</option>' +
+      '<option value="rojo"  ' + (row.semaforo==='rojo'?'selected':'') + '>🔴 Rojo</option>' +
+    '</select></td>' +
+    '<td><button class="btn-del-row" onclick="deleteRow(\'' + row.id + '\',\'' + persp + '\')" title="Eliminar">✕</button></td>';
+  tbody.appendChild(tr);
+}
+
+function esc(s){ return (s||'').replace(/"/g,'&quot;'); }
+
+function updateField(id, campo, val) {
+  var row = findRow(id);
+  if (row) row[campo] = val;
+  refreshCadenasSelectores();
+}
+
+function actualizarSemaforo(id, actualVal) {
+  var row = findRow(id);
+  if (!row) return;
+  row.actual = actualVal;
+  // cálculo automático si meta y actual son números
+  var metaN = parseFloat(row.meta);
+  var actN  = parseFloat(actualVal);
+  if (!isNaN(metaN) && !isNaN(actN) && metaN !== 0) {
+    var ratio = actN / metaN;
+    var s = ratio >= 1 ? 'verde' : ratio >= 0.8 ? 'ambar' : 'rojo';
+    row.semaforo = s;
+    var sel = document.getElementById('sel-' + id);
+    if (sel) {
+      sel.value = s;
+      sel.className = 'semaforo-sel s-' + s;
+    }
+  }
+}
+
+function cambiarSemaforo(id, sel) {
+  var row = findRow(id);
+  if (row) row.semaforo = sel.value;
+  sel.className = 'semaforo-sel s-' + sel.value;
+}
+
+function deleteRow(id, persp) {
+  datos[persp] = datos[persp].filter(function(r){ return r.id !== id; });
+  var tr = document.getElementById('tr-' + id);
+  if (tr) tr.remove();
+  refreshCadenasSelectores();
+}
+
+function findRow(id) {
+  var found = null;
+  perspectivas.forEach(function(p){
+    datos[p].forEach(function(r){ if(r.id===id) found=r; });
+  });
+  return found;
+}
+
+function getAllRows() {
+  var all = [];
+  perspectivas.forEach(function(p){ datos[p].forEach(function(r){ all.push(r); }); });
+  return all;
+}
+
+/* ─────────────────────────────────────────────────
+   CADENAS CAUSA-EFECTO
+───────────────────────────────────────────────── */
+function addCadena() {
+  var id = 'c' + (++cadenaCounter);
+  var cadena = {id:id, nombre:'Cadena ' + cadenaCounter, nodos:['','','','']};
+  cadenas.push(cadena);
+  renderCadena(cadena);
+}
+
+function renderCadena(cadena) {
+  var cont = document.getElementById('cadenas-container');
+  var div = document.createElement('div');
+  div.className = 'cadena-form';
+  div.id = 'cadena-' + cadena.id;
+
+  var html = '<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">' +
+    '<label style="font-size:0.83rem;font-weight:700;color:var(--azul);flex-shrink:0">Nombre de la cadena:</label>' +
+    '<input type="text" value="' + esc(cadena.nombre) + '" style="border:1px solid var(--borde);border-radius:6px;padding:5px 10px;font-size:0.85rem;flex:1;font-family:inherit" onchange="updateCadenaNombre(\'' + cadena.id + '\',this.value)">' +
+    '<button class="btn-del-cadena" onclick="deleteCadena(\'' + cadena.id + '\')">✕ Eliminar</button>' +
+  '</div>' +
+  '<p style="font-size:0.8rem;color:var(--txt-s);margin-bottom:8px">Selecciona los objetivos en orden de causa a efecto (el primero causa al segundo, y así sucesivamente):</p>' +
+  '<div class="cadena-nodos" id="nodos-' + cadena.id + '">';
+
+  cadena.nodos.forEach(function(n, i){
+    html += '<div class="cadena-nodo">' +
+      '<select onchange="updateCadenaNodo(\'' + cadena.id + '\',' + i + ',this.value)">' +
+      buildObjOptions(n) +
+      '</select></div>';
+    if (i < cadena.nodos.length - 1) html += '<span class="cadena-arrow">→</span>';
+  });
+  html += '</div>';
+  div.innerHTML = html;
+  cont.appendChild(div);
+}
+
+function buildObjOptions(selected) {
+  var html = '<option value="">— (vacío) —</option>';
+  perspectivas.forEach(function(p){
+    datos[p].forEach(function(r){
+      var lbl = (r.obj || 'Sin nombre').substring(0,35);
+      html += '<option value="' + r.id + '" ' + (r.id===selected?'selected':'') + '>[' + perspMeta[p].label.substring(0,3).toUpperCase() + '] ' + lbl + '</option>';
+    });
+  });
+  return html;
+}
+
+function refreshCadenasSelectores() {
+  cadenas.forEach(function(cadena){
+    var cont = document.getElementById('nodos-' + cadena.id);
+    if (!cont) return;
+    var sels = cont.querySelectorAll('select');
+    sels.forEach(function(sel, i){
+      var curr = sel.value;
+      sel.innerHTML = buildObjOptions(curr);
+      sel.value = curr;
+      cadena.nodos[i] = curr;
+    });
+  });
+}
+
+function updateCadenaNombre(cid, val) {
+  var c = cadenas.find(function(x){ return x.id===cid; });
+  if (c) c.nombre = val;
+}
+
+function updateCadenaNodo(cid, idx, val) {
+  var c = cadenas.find(function(x){ return x.id===cid; });
+  if (c) c.nodos[idx] = val;
+}
+
+function deleteCadena(cid) {
+  cadenas = cadenas.filter(function(c){ return c.id!==cid; });
+  var el = document.getElementById('cadena-' + cid);
+  if (el) el.remove();
+}
+
+/* ─────────────────────────────────────────────────
+   GENERACIÓN DE LA VISUALIZACIÓN
+───────────────────────────────────────────────── */
+function generarVisualizacion() {
+  var nombre   = document.getElementById('emp-nombre').value.trim() || 'Mi empresa';
+  var tipo     = document.getElementById('emp-tipo').value;
+  var mision   = document.getElementById('emp-mision').value.trim();
+  var vision   = document.getElementById('emp-vision').value.trim();
+  var ciudad   = document.getElementById('emp-ciudad').value.trim();
+  var periodo  = document.getElementById('emp-periodo').value.trim();
+  var empleados= document.getElementById('emp-empleados').value.trim();
+  var reto     = document.getElementById('emp-reto').value.trim();
+
+  // Encabezado
+  document.getElementById('vis-empresa').textContent   = nombre;
+  document.getElementById('vis-tipo').textContent      = tipo;
+  document.getElementById('vis-mision').textContent    = mision;
+  document.getElementById('vis-vision').textContent    = vision;
+  document.getElementById('vis-ciudad').textContent    = ciudad ? '📍 ' + ciudad : '';
+  document.getElementById('vis-periodo').textContent   = periodo ? '📅 Período: ' + periodo : '';
+  document.getElementById('vis-empleados').textContent = empleados ? '👥 ' + empleados + ' empleados' : '';
+  document.getElementById('cmd-titulo').textContent    = 'Panel de Control — ' + nombre;
+  document.getElementById('cmd-sub').textContent       = periodo ? 'Período: ' + periodo : '';
+  if (reto) {
+    document.getElementById('vis-reto-wrap').style.display='block';
+    document.getElementById('vis-reto').textContent = reto;
+  }
+
+  // Estadísticas
+  var all = getAllRows();
+  var totObj = all.length;
+  var cVerde = all.filter(function(r){ return r.semaforo==='verde'; }).length;
+  var cAmbar = all.filter(function(r){ return r.semaforo==='ambar'; }).length;
+  var cRojo  = all.filter(function(r){ return r.semaforo==='rojo'; }).length;
+  document.getElementById('vis-stats').innerHTML =
+    statCard(totObj, 'Total objetivos') +
+    statCard(cVerde+'', 'En meta 🟢', '#dcfce7','#166534') +
+    statCard(cAmbar+'', 'En riesgo 🟡', '#fef9c3','#92400e') +
+    statCard(cRojo+'', 'Bajo meta 🔴', '#fee2e2','#b91c1c') +
+    statCard(cadenas.filter(validCadena).length+'', 'Cadenas causales');
+
+  // MAPA ESTRATÉGICO
+  genMapa();
+  // CADENAS VISUALES
+  genCadenasVis();
+  // BSC COMPLETO
+  genBSC();
+  // CUADRO DE MANDO
+  genCMD();
+}
+
+function statCard(val, lbl, bg, color) {
+  return '<div class="stat-card"' + (bg ? ' style="background:'+bg+'"' : '') + '>' +
+    '<div class="val"' + (color ? ' style="color:'+color+'"' : '') + '>' + val + '</div>' +
+    '<div class="lbl">' + lbl + '</div></div>';
+}
+
+/* MAPA ESTRATÉGICO */
+function genMapa() {
+  var orden = ['fin','cli','pro','apr'];
+  var html = '<div class="mapa-vis-header"><h3>🗺️ Mapa Estratégico</h3><p>Perspectivas organizadas de arriba (resultado) hacia abajo (causa raíz). Los objetivos de abajo impulsan los de arriba.</p></div>';
+  orden.forEach(function(p){
+    var pm = perspMeta[p];
+    var filas = datos[p].filter(function(r){ return r.obj.trim(); });
+    html += '<div class="mapa-row-vis">';
+    html += '<div class="mapa-etq etq-' + p + '"><div class="ico">' + pm.ico + '</div>' + pm.label + '</div>';
+    html += '<div class="mapa-pills">';
+    if (filas.length === 0) {
+      html += '<span class="empty-pill">Sin objetivos registrados</span>';
+    } else {
+      filas.forEach(function(r){
+        html += '<div class="pill pill-' + p + '" title="' + esc(r.kpi) + '">' + truncate(r.obj,38) + '</div>';
+      });
+    }
+    html += '</div></div>';
+  });
+  document.getElementById('vis-mapa').innerHTML = html;
+}
+
+/* CADENAS VISUALES */
+function genCadenasVis() {
+  var vCadenas = cadenas.filter(validCadena);
+  if (vCadenas.length === 0) {
+    document.getElementById('vis-cadenas').innerHTML = '<div class="cadena-vis"><p style="font-size:0.88rem;color:var(--txt-s);font-style:italic">No se definieron cadenas de causa-efecto.</p></div>';
+    return;
+  }
+  var html = '';
+  vCadenas.forEach(function(cadena){
+    var nodos = cadena.nodos.filter(function(n){ return n !== ''; });
+    html += '<div class="cadena-vis"><h4>🔗 ' + cadena.nombre + '</h4><div class="cadena-vis-chain">';
+    nodos.forEach(function(nid, i){
+      var row = findRow(nid);
+      if (!row) return;
+      html += '<div class="c-node etq-' + row.persp + '">' + truncate(row.obj,30) + '<br><small style="font-weight:400;opacity:0.8;font-size:0.72rem">' + perspMeta[row.persp].ico + ' ' + perspMeta[row.persp].label + '</small></div>';
+      if (i < nodos.length - 1) html += '<span class="c-arr">→</span>';
+    });
+    html += '</div></div>';
+  });
+  document.getElementById('vis-cadenas').innerHTML = html;
+}
+
+function validCadena(c) {
+  return c.nodos.filter(function(n){ return n!==''; }).length >= 2;
+}
+
+/* BSC COMPLETO */
+function genBSC() {
+  var colores = {fin:'#1e40af', cli:'#166534', pro:'#92400e', apr:'#831843'};
+  var html = '';
+  perspectivas.forEach(function(p){
+    var pm = perspMeta[p];
+    var filas = datos[p].filter(function(r){ return r.obj.trim(); });
+    html += '<div class="bsc-bloque">';
+    html += '<div class="bsc-bloque-header" style="background:' + colores[p] + '">' + pm.ico + ' <h3>' + pm.label + '</h3></div>';
+    html += '<div style="overflow-x:auto"><table class="bsc-tbl">';
+    html += '<thead style="background:' + colores[p] + '">' +
+      '<tr><th>Objetivo estratégico</th><th>Indicador (KPI)</th><th>Meta</th><th>Actual</th><th>Semáforo</th><th>Iniciativa estratégica</th><th>Responsable</th></tr></thead><tbody>';
+    if (filas.length === 0) {
+      html += '<tr><td colspan="7" style="font-style:italic;color:var(--txt-s);text-align:center;padding:14px">Sin objetivos registrados en esta perspectiva</td></tr>';
+    } else {
+      filas.forEach(function(r){
+        var sbCls = 'sb-' + r.semaforo;
+        var dotCl = {verde:'#16a34a', ambar:'#ca8a04', rojo:'#dc2626'}[r.semaforo];
+        var sbLbl = {verde:'En meta', ambar:'En riesgo', rojo:'Bajo meta'}[r.semaforo];
+        html += '<tr>' +
+          '<td><strong>' + (r.obj||'—') + '</strong></td>' +
+          '<td>' + (r.kpi||'—') + '</td>' +
+          '<td>' + (r.meta||'—') + '</td>' +
+          '<td>' + (r.actual||'—') + '</td>' +
+          '<td><span class="s-badge ' + sbCls + '"><span class="dot" style="background:'+dotCl+'"></span>' + sbLbl + '</span></td>' +
+          '<td>' + (r.iniciativa||'—') + '</td>' +
+          '<td>' + (r.resp||'—') + '</td>' +
+          '</tr>';
+      });
+    }
+    html += '</tbody></table></div></div>';
+  });
+  document.getElementById('vis-bsc').innerHTML = html;
+}
+
+/* CUADRO DE MANDO */
+function genCMD() {
+  var all = getAllRows().filter(function(r){ return r.obj.trim(); });
+  if (all.length === 0) {
+    document.getElementById('vis-cmd').innerHTML = '<p style="font-style:italic;color:var(--txt-s)">Sin objetivos registrados.</p>';
+    return;
+  }
+  var html = '';
+  all.forEach(function(r){
+    var p = r.persp;
+    var fillColor = {verde:'#16a34a', ambar:'#ca8a04', rojo:'#dc2626'}[r.semaforo];
+    var pct = 50;
+    var metaN = parseFloat(r.meta);
+    var actN  = parseFloat(r.actual);
+    if (!isNaN(metaN) && !isNaN(actN) && metaN !== 0) {
+      pct = Math.min(100, Math.round(actN / metaN * 100));
+    }
+    html += '<div class="cmd-card cc-' + p + '">' +
+      '<div class="persp-label">' + perspMeta[p].ico + ' ' + perspMeta[p].label + '</div>' +
+      '<div class="obj-name">' + truncate(r.obj, 45) + '</div>' +
+      '<div class="kpi-val">' + (r.kpi ? truncate(r.kpi,40) : '') + '</div>' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;font-size:0.78rem">' +
+        '<span>Actual: <strong>' + (r.actual||'N/D') + '</strong></span>' +
+        '<span>Meta: ' + (r.meta||'N/D') + '</span>' +
+      '</div>' +
+      '<div class="semaforo-bar"><div class="semaforo-fill" style="width:' + pct + '%;background:' + fillColor + '"></div></div>' +
+      '<div class="meta-txt" style="color:' + fillColor + '">' +
+        {verde:'✅ En meta', ambar:'⚠️ En riesgo', rojo:'❌ Bajo meta'}[r.semaforo] +
+        ((!isNaN(pct)) ? ' · ' + pct + '% cumplido' : '') +
+      '</div>' +
+    '</div>';
+  });
+  document.getElementById('vis-cmd').innerHTML = html;
+}
+
+/* ─────────────────────────────────────────────────
+   UTILIDADES
+───────────────────────────────────────────────── */
+function truncate(str, n) {
+  if (!str) return '';
+  return str.length > n ? str.substring(0, n) + '…' : str;
+}
+
+function reiniciar() {
+  if (!confirm('¿Deseas reiniciar y crear un nuevo BSC? Se borrarán todos los datos ingresados.')) return;
+  perspectivas.forEach(function(p){
+    datos[p] = [];
+    document.getElementById('tbody-' + p).innerHTML = '';
+  });
+  cadenas = [];
+  document.getElementById('cadenas-container').innerHTML = '';
+  rowCounter = 0;
+  cadenaCounter = 0;
+  ['emp-nombre','emp-tipo','emp-mision','emp-vision','emp-ciudad','emp-periodo','emp-empleados','emp-reto']
+    .forEach(function(id){ var el=document.getElementById(id); if(el){el.value='';} });
+  irPaso(0);
+}
+</script>
+</body>
+</html>
