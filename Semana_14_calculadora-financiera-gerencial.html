@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora Financiera Gerencial — EVA · WACC · VAN · TIR · ROE · Payback</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Source+Sans+3:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --azul:      #003366;
+  --azul-med:  #1a5ca8;
+  --azul-lgt:  #dbeafe;
+  --celeste:   #87CEEB;
+  --dorado:    #c9a227;
+  --verde:     #166534;
+  --verde-lgt: #dcfce7;
+  --rojo:      #991b1b;
+  --rojo-lgt:  #fee2e2;
+  --naranja:   #92400e;
+  --naranja-lgt:#fef3c7;
+  --gris-bg:   #f1f5f9;
+  --gris-brd:  #cbd5e1;
+  --gris-mid:  #64748b;
+  --blanco:    #ffffff;
+  --texto:     #0f172a;
+  --texto-2:   #334155;
+  --sombra:    0 4px 20px rgba(0,51,102,0.10);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Source Sans 3',sans-serif;background:var(--gris-bg);color:var(--texto);min-height:100vh;font-size:15px}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#001f3f 0%,#003366 55%,#0d4a8a 100%);padding:36px 24px 28px;text-align:center}
+.hero-badge{display:inline-block;background:rgba(201,162,39,0.2);border:1px solid rgba(201,162,39,0.5);color:#f5d76e;padding:4px 14px;border-radius:20px;font-size:0.78rem;font-weight:700;letter-spacing:0.05em;margin-bottom:14px;text-transform:uppercase}
+.hero h1{font-family:'Lora',serif;font-size:clamp(1.4rem,3.5vw,2.1rem);color:#fff;margin-bottom:8px;line-height:1.25}
+.hero h1 span{color:var(--celeste)}
+.hero p{color:#a8cce8;font-size:0.93rem;max-width:600px;margin:0 auto 20px;line-height:1.6}
+.hero-chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.hero-chip{background:rgba(255,255,255,0.10);border:1px solid rgba(255,255,255,0.22);color:#fff;padding:5px 14px;border-radius:18px;font-size:0.81rem;font-weight:600;cursor:pointer;transition:all 0.18s}
+.hero-chip:hover{background:rgba(135,206,235,0.25);border-color:var(--celeste)}
+
+/* LAYOUT */
+.main{max-width:1060px;margin:0 auto;padding:22px 16px 60px}
+
+/* MAPA */
+.mapa{background:var(--blanco);border-radius:16px;box-shadow:var(--sombra);padding:24px;margin-bottom:22px}
+.mapa h2{font-family:'Lora',serif;color:var(--azul);font-size:1.1rem;margin-bottom:6px}
+.mapa > p{color:var(--texto-2);font-size:0.88rem;line-height:1.6;margin-bottom:16px}
+.mapa-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.m-card{border-radius:10px;padding:13px 12px 11px;cursor:pointer;border:2px solid transparent;transition:all 0.18s;text-align:center}
+.m-card:hover{transform:translateY(-3px);box-shadow:var(--sombra)}
+.m-card .m-icon{font-size:1.6rem;margin-bottom:5px}
+.m-card h4{font-family:'Lora',serif;font-size:0.86rem;margin-bottom:3px}
+.m-card p{font-size:0.74rem;line-height:1.35;color:var(--texto-2)}
+.c-wacc{background:#eff6ff;border-color:#bfdbfe}.c-wacc h4{color:#1e40af}
+.c-eva {background:#f0fdf4;border-color:#86efac}.c-eva  h4{color:var(--verde)}
+.c-van {background:#fef9e7;border-color:#fde68a}.c-van  h4{color:#92400e}
+.c-tir {background:#fdf4ff;border-color:#e9d5ff}.c-tir  h4{color:#6b21a8}
+.c-pay {background:#fff7ed;border-color:#fed7aa}.c-pay  h4{color:#9a3412}
+.c-roe {background:#f0f9ff;border-color:#bae6fd}.c-roe  h4{color:#0369a1}
+
+/* ACORDEONES */
+.seccion{background:var(--blanco);border-radius:16px;box-shadow:var(--sombra);margin-bottom:18px;overflow:hidden}
+.sec-header{padding:18px 22px;border-bottom:1px solid transparent;display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none;transition:background 0.15s}
+.sec-header:hover{background:#f8fafc}
+.sec-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0}
+.sec-titles h3{font-family:'Lora',serif;font-size:1rem;margin-bottom:1px}
+.sec-titles p{font-size:0.8rem;color:var(--gris-mid)}
+.sec-arrow{margin-left:auto;font-size:1rem;color:var(--gris-mid);transition:transform 0.25s;background:none;border:none;cursor:pointer;padding:4px 8px}
+.sec-arrow.abierto{transform:rotate(180deg)}
+.sec-body{display:none;padding:22px}
+.sec-body.abierto{display:block}
+
+/* Colores por indicador */
+.h-wacc .sec-icon{background:#eff6ff;color:#1e40af}.h-wacc .sec-titles h3{color:#1e40af}
+.h-eva  .sec-icon{background:#f0fdf4;color:var(--verde)}.h-eva  .sec-titles h3{color:var(--verde)}
+.h-van  .sec-icon{background:#fef9e7;color:#92400e}.h-van  .sec-titles h3{color:#92400e}
+.h-tir  .sec-icon{background:#fdf4ff;color:#6b21a8}.h-tir  .sec-titles h3{color:#6b21a8}
+.h-pay  .sec-icon{background:#fff7ed;color:#9a3412}.h-pay  .sec-titles h3{color:#9a3412}
+.h-roe  .sec-icon{background:#f0f9ff;color:#0369a1}.h-roe  .sec-titles h3{color:#0369a1}
+
+/* CAJA POR QUÉ */
+.pq{background:var(--azul-lgt);border-left:4px solid var(--azul-med);border-radius:0 8px 8px 0;padding:11px 15px;margin-bottom:18px;font-size:0.86rem;line-height:1.65;color:#1e3a5f}
+.pq strong{color:var(--azul)}
+
+/* FORMULARIO */
+.fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-bottom:16px}
+.fitem{display:flex;flex-direction:column;gap:4px}
+.fitem label{font-size:0.81rem;font-weight:700;color:var(--texto-2)}
+.fitem .sub{font-size:0.73rem;color:var(--gris-mid);font-weight:400}
+.iw{position:relative}
+.ipfx,.isfx{position:absolute;top:50%;transform:translateY(-50%);font-size:0.85rem;color:var(--gris-mid);font-weight:600;pointer-events:none}
+.ipfx{left:10px}
+.isfx{right:10px}
+.fitem input,.fitem select{
+  width:100%;padding:9px 12px;
+  border:1.5px solid var(--gris-brd);border-radius:8px;
+  font-size:0.92rem;font-family:'Source Sans 3',sans-serif;
+  color:var(--texto);background:var(--blanco);
+  transition:border 0.15s,box-shadow 0.15s;
+}
+.fitem input.pfx{padding-left:26px}
+.fitem input.sfx{padding-right:36px}
+.fitem input:focus,.fitem select:focus{border-color:var(--azul-med);outline:none;box-shadow:0 0 0 3px rgba(26,92,168,0.10)}
+
+/* FLUJOS DINÁMICOS */
+.flujos-header{font-size:0.83rem;font-weight:700;color:var(--texto-2);margin-bottom:7px}
+.flujo-fila{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.flujo-num{font-size:0.8rem;color:var(--gris-mid);width:50px;flex-shrink:0}
+.flujo-fila input{flex:1;padding:8px 10px;border:1.5px solid var(--gris-brd);border-radius:7px;font-size:0.9rem;font-family:'Source Sans 3',sans-serif;color:var(--texto)}
+.flujo-fila input:focus{border-color:var(--azul-med);outline:none}
+.btn-del{background:none;border:1.5px solid var(--gris-brd);border-radius:7px;padding:6px 10px;cursor:pointer;font-size:0.82rem;color:var(--gris-mid);transition:all 0.15s;flex-shrink:0}
+.btn-del:hover{border-color:var(--rojo);color:var(--rojo)}
+.btn-add{display:inline-flex;align-items:center;gap:6px;background:var(--azul-lgt);border:1.5px solid #93c5fd;color:var(--azul-med);border-radius:8px;padding:7px 14px;cursor:pointer;font-size:0.81rem;font-weight:600;font-family:'Source Sans 3',sans-serif;transition:all 0.15s;margin-bottom:14px}
+.btn-add:hover{background:#bfdbfe}
+
+/* BOTONES ACCIÓN */
+.brow{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;align-items:center}
+.btn-calc{background:var(--azul);color:#fff;border:none;padding:11px 26px;border-radius:24px;font-size:0.93rem;font-weight:700;cursor:pointer;font-family:'Source Sans 3',sans-serif;transition:all 0.18s}
+.btn-calc:hover{background:var(--azul-med);transform:scale(1.02)}
+.btn-reset{background:var(--gris-bg);color:var(--texto-2);border:1.5px solid var(--gris-brd);padding:11px 18px;border-radius:24px;font-size:0.86rem;cursor:pointer;font-family:'Source Sans 3',sans-serif;transition:all 0.15s}
+.btn-reset:hover{background:#e2e8f0}
+.btn-demo{background:#fef9e7;color:#92400e;border:1.5px solid #fde68a;padding:7px 14px;border-radius:18px;font-size:0.79rem;cursor:pointer;font-family:'Source Sans 3',sans-serif;transition:all 0.15s}
+.btn-demo:hover{background:#fde68a}
+
+/* ALERTA */
+.alerta{background:var(--naranja-lgt);border:1px solid #fcd34d;color:var(--naranja);padding:9px 13px;border-radius:8px;font-size:0.84rem;margin-top:10px;display:none}
+
+/* PANEL RESULTADO */
+.res-panel{display:none;margin-top:22px;border-top:2px solid var(--gris-brd);padding-top:20px}
+
+/* KPIs */
+.kpi-fila{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.kpi{flex:1;min-width:110px;background:var(--gris-bg);border-radius:10px;padding:13px 14px;border:1.5px solid var(--gris-brd);text-align:center}
+.kv{font-family:'JetBrains Mono',monospace;font-size:1.3rem;font-weight:600;line-height:1}
+.kl{font-size:0.74rem;color:var(--gris-mid);margin-top:5px;line-height:1.35}
+.k-pos .kv{color:var(--verde)}.k-neg .kv{color:var(--rojo)}.k-neu .kv{color:var(--azul)}.k-warn .kv{color:var(--naranja)}
+
+/* DECISIÓN */
+.dec{border-radius:12px;padding:14px 18px;margin-bottom:14px;display:flex;align-items:flex-start;gap:12px}
+.dec-ico{font-size:1.8rem;flex-shrink:0;line-height:1;margin-top:2px}
+.dec-txt h4{font-family:'Lora',serif;font-size:0.93rem;margin-bottom:5px}
+.dec-txt p{font-size:0.85rem;line-height:1.6}
+.d-verde{background:var(--verde-lgt);border:1.5px solid #86efac}.d-verde h4{color:var(--verde)}
+.d-rojo {background:var(--rojo-lgt); border:1.5px solid #fca5a5}.d-rojo  h4{color:var(--rojo)}
+.d-naranja{background:var(--naranja-lgt);border:1.5px solid #fcd34d}.d-naranja h4{color:var(--naranja)}
+.d-azul{background:var(--azul-lgt);border:1.5px solid #93c5fd}.d-azul h4{color:var(--azul-med)}
+
+/* DESGLOSE */
+.desglose{background:var(--gris-bg);border-radius:10px;padding:15px 16px;margin-bottom:14px;font-size:0.85rem}
+.desglose h5{font-family:'Lora',serif;color:var(--azul);margin-bottom:10px;font-size:0.88rem}
+.df{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;border-bottom:1px dashed var(--gris-brd);gap:8px}
+.df:last-child{border:none;font-weight:700;padding-top:8px}
+.df span:first-child{color:var(--texto-2);flex:1}
+.df span:last-child{font-family:'JetBrains Mono',monospace;font-size:0.85rem;flex-shrink:0}
+
+/* TABLA */
+.twrap{overflow-x:auto;border-radius:8px;border:1px solid var(--gris-brd);margin-bottom:14px}
+.tfin{width:100%;border-collapse:collapse;font-size:0.82rem}
+.tfin th{background:var(--azul);color:#fff;padding:8px 11px;text-align:right;white-space:nowrap}
+.tfin th:first-child{text-align:left}
+.tfin td{padding:7px 11px;text-align:right;border-bottom:1px solid #e2e8f0;font-family:'JetBrains Mono',monospace;font-size:0.8rem}
+.tfin td:first-child{text-align:left;font-family:'Source Sans 3',sans-serif;font-weight:600;color:var(--texto-2)}
+.tfin tr:nth-child(even) td{background:#f8fafc}
+.tfin .tfoot td{font-weight:700;background:var(--azul-lgt);color:var(--azul);font-family:'JetBrains Mono',monospace}
+.tp{color:var(--verde);font-weight:600}.tn{color:var(--rojo);font-weight:600}
+
+/* CONEXIONES */
+.cbox{background:#f8faff;border:1px solid #bfdbfe;border-radius:10px;padding:13px 15px;margin-top:14px}
+.cbox h5{font-family:'Lora',serif;color:var(--azul-med);font-size:0.86rem;margin-bottom:8px}
+.cchips{display:flex;flex-wrap:wrap;gap:7px}
+.cc{font-size:0.76rem;padding:4px 11px;border-radius:14px;font-weight:600;cursor:pointer;transition:all 0.15s;border:1px solid transparent}
+.cc:hover{transform:scale(1.05)}
+.cc-wacc{background:#dbeafe;color:#1e40af;border-color:#93c5fd}
+.cc-eva {background:#dcfce7;color:var(--verde);border-color:#86efac}
+.cc-van {background:#fef3c7;color:#92400e;border-color:#fcd34d}
+.cc-tir {background:#f5f3ff;color:#6b21a8;border-color:#c4b5fd}
+.cc-pay {background:#ffedd5;color:#9a3412;border-color:#fdba74}
+.cc-roe {background:#e0f2fe;color:#0369a1;border-color:#7dd3fc}
+.cc-no {background:#f1f5f9;color:var(--gris-mid);border-color:var(--gris-brd)}
+
+/* TABLA RELACIONES */
+.relsec{background:var(--blanco);border-radius:16px;box-shadow:var(--sombra);padding:24px;margin-bottom:20px}
+.relsec h2{font-family:'Lora',serif;color:var(--azul);font-size:1.1rem;margin-bottom:14px}
+.rtab{width:100%;border-collapse:collapse;font-size:0.82rem}
+.rtab th{background:var(--azul);color:#fff;padding:9px 11px;text-align:left}
+.rtab td{padding:9px 11px;border-bottom:1px solid var(--gris-brd);vertical-align:top;line-height:1.6}
+.rtab td:first-child{font-weight:700;font-family:'Lora',serif;color:var(--azul);white-space:nowrap}
+.rtab tr:nth-child(even) td{background:#f8fafc}
+.br{display:inline-block;font-size:0.71rem;padding:2px 8px;border-radius:10px;margin:2px;font-weight:600}
+
+/* PIE */
+footer{text-align:center;padding:20px;background:var(--azul);color:var(--celeste);font-size:0.79rem;margin-top:8px}
+footer em{color:#f5d76e;font-style:normal}
+
+@media(max-width:600px){
+  .fg{grid-template-columns:1fr}
+  .kpi{min-width:90px}.kv{font-size:1.05rem}
+  .main{padding:14px 10px 50px}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">🧮 Herramienta Financiera Gerencial</div>
+  <h1>Calculadora Integral<br><span>EVA · WACC · VAN · TIR · ROE · Payback</span></h1>
+  <p>Ingresa tus datos reales, obtén resultados explicados y comprende cómo cada indicador conecta con los demás. Válida para pequeñas, medianas y grandes empresas.</p>
+  <div class="hero-chips">
+    <span class="hero-chip" onclick="irA('s-wacc')">⚙️ WACC</span>
+    <span class="hero-chip" onclick="irA('s-eva')">💹 EVA</span>
+    <span class="hero-chip" onclick="irA('s-van')">📐 VAN</span>
+    <span class="hero-chip" onclick="irA('s-tir')">📈 TIR</span>
+    <span class="hero-chip" onclick="irA('s-pay')">⏱️ Payback</span>
+    <span class="hero-chip" onclick="irA('s-roe')">🏦 ROE</span>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- MAPA -->
+<div class="mapa">
+  <h2>🗺️ ¿Qué indicador necesito y para qué?</h2>
+  <p>Cada indicador responde una pregunta de gestión diferente. Haz clic para ir directamente a su calculadora.</p>
+  <div class="mapa-grid">
+    <div class="m-card c-wacc" onclick="irA('s-wacc')"><div class="m-icon">⚙️</div><h4>WACC</h4><p>¿Cuánto cuesta usar el capital? Es la tasa mínima que deben rendir todas tus inversiones.</p></div>
+    <div class="m-card c-eva"  onclick="irA('s-eva')"><div class="m-icon">💹</div><h4>EVA</h4><p>¿El negocio crea o destruye riqueza real, más allá de la utilidad contable?</p></div>
+    <div class="m-card c-van"  onclick="irA('s-van')"><div class="m-icon">📐</div><h4>VAN</h4><p>¿Vale la pena este proyecto? Mide cuánto valor en dólares de hoy genera.</p></div>
+    <div class="m-card c-tir"  onclick="irA('s-tir')"><div class="m-icon">📈</div><h4>TIR</h4><p>¿Qué rendimiento % genera el proyecto? Se compara con el WACC para decidir.</p></div>
+    <div class="m-card c-pay"  onclick="irA('s-pay')"><div class="m-icon">⏱️</div><h4>Payback</h4><p>¿En cuánto tiempo recupero mi inversión? Mide el riesgo de liquidez del proyecto.</p></div>
+    <div class="m-card c-roe"  onclick="irA('s-roe')"><div class="m-icon">🏦</div><h4>ROE</h4><p>¿Cuánto ganan los socios por su dinero? Retorno sobre el capital propio invertido.</p></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     WACC
+══════════════════════════════════════════════ -->
+<div class="seccion" id="s-wacc">
+  <div class="sec-header h-wacc" onclick="toggle('wacc')">
+    <div class="sec-icon">⚙️</div>
+    <div class="sec-titles"><h3>WACC — Costo Promedio Ponderado de Capital</h3><p>La tasa de corte que toda inversión debe superar</p></div>
+    <button class="sec-arrow abierto" id="arr-wacc">▼</button>
+  </div>
+  <div class="sec-body abierto" id="b-wacc">
+    <div class="pq"><strong>¿Para qué sirve el WACC?</strong> Es la tasa mínima que deben rendir los activos de la empresa para satisfacer a todos los que la financian (bancos y socios). Si un proyecto rinde menos que el WACC, destruye valor. <strong>¿Por qué es el punto de partida?</strong> Porque el EVA, el VAN y la TIR no tienen significado sin este umbral de comparación.</div>
+    <div class="brow" style="margin-bottom:16px"><button class="btn-demo" onclick="demoWACC()">📋 Cargar ejemplo</button></div>
+    <div class="fg">
+      <div class="fitem">
+        <label>Capital Propio — E (USD) <span class="sub">→ Balance: Total patrimonio neto</span></label>
+        <div class="iw"><span class="ipfx">$</span><input type="number" id="w-E" class="pfx" placeholder="420000" min="0" step="1"></div>
+      </div>
+      <div class="fitem">
+        <label>Deuda Financiera — D (USD) <span class="sub">→ Balance: Préstamos + obligaciones</span></label>
+        <div class="iw"><span class="ipfx">$</span><input type="number" id="w-D" class="pfx" placeholder="180000" min="0" step="1"></div>
+      </div>
+      <div class="fitem">
+        <label>Costo de la Deuda — Kd (% anual) <span class="sub">→ Tasa de interés del contrato bancario</span></label>
+        <div class="iw"><input type="number" id="w-Kd" class="sfx" placeholder="11" min="0" max="100" step="0.01"><span class="isfx">%</span></div>
+      </div>
+      <div class="fitem">
+        <label>Costo Capital Propio — Ke (% anual) <span class="sub">→ Retorno mínimo exigido por los socios</span></label>
+        <div class="iw"><input type="number" id="w-Ke" class="sfx" placeholder="18" min="0" max="100" step="0.01"><span class="isfx">%</span></div>
+      </div>
+      <div class="fitem">
+        <label>Tasa Impuesto a la Renta — T (%) <span class="sub">→ Ecuador: 25% sociedades (LORTI Art. 37)</span></label>
+        <div class="iw"><input type="number" id="w-T" class="sfx" placeholder="25" min="0" max="100" step="0.1"><span class="isfx">%</span></div>
+      </div>
+    </div>
+    <div id="al-wacc" class="alerta"></div>
+    <div class="brow">
+      <button class="btn-calc" onclick="calcWACC()">Calcular WACC</button>
+      <button class="btn-reset" onclick="resetear('wacc')">Limpiar</button>
+    </div>
+    <div class="res-panel" id="r-wacc">
+      <div class="kpi-fila" id="kf-wacc"></div>
+      <div id="d-wacc"></div>
+      <div class="desglose" id="ds-wacc"></div>
+      <div class="cbox">
+        <h5>🔗 Conexiones del WACC con otros indicadores</h5>
+        <div class="cchips">
+          <span class="cc cc-eva"  onclick="irA('s-eva')">💹 EVA: lo usa como cargo por capital</span>
+          <span class="cc cc-van"  onclick="irA('s-van')">📐 VAN: es la tasa de descuento de los flujos</span>
+          <span class="cc cc-tir"  onclick="irA('s-tir')">📈 TIR: debe superarlo para aceptar el proyecto</span>
+          <span class="cc cc-roe"  onclick="irA('s-roe')">🏦 ROE: debe superar el Ke, componente del WACC</span>
+          <span class="cc cc-no">⏱️ Payback simple: no lo usa directamente</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     EVA
+══════════════════════════════════════════════ -->
+<div class="seccion" id="s-eva">
+  <div class="sec-header h-eva" onclick="toggle('eva')">
+    <div class="sec-icon">💹</div>
+    <div class="sec-titles"><h3>EVA — Valor Económico Agregado</h3><p>¿La empresa crea o destruye riqueza real para sus dueños?</p></div>
+    <button class="sec-arrow" id="arr-eva">▼</button>
+  </div>
+  <div class="sec-body" id="b-eva">
+    <div class="pq"><strong>¿Para qué sirve el EVA?</strong> Revela si la empresa genera valor real más allá de los costos contables. Una empresa puede tener <em>utilidad positiva y EVA negativo</em>: significa que el capital estaría mejor en otra inversión. <strong>¿Por qué lo necesita la gerencia?</strong> Porque alinea las decisiones operativas con la creación de valor para los accionistas.</div>
+    <div class="brow" style="margin-bottom:16px"><button class="btn-demo" onclick="demoEVA()">📋 Cargar ejemplo</button></div>
+    <div class="fg">
+      <div class="fitem">
+        <label>Utilidad Operativa — EBIT (USD) <span class="sub">→ Estado de Resultados: antes de intereses e impuestos</span></label>
+        <div class="iw"><span class="ipfx">$</span><input type="number" id="e-ebit" class="pfx" placeholder="142000" step="1"></div>
+      </div>
+      <div class="fitem">
+        <label>Tasa Impuesto a la Renta (%) <span class="sub">→ Ecuador: 25% para sociedades (LORTI)</span></label>
+        <div class="iw"><input type="number" id="e-T" class="sfx" placeholder="25" min="0" max="100" step="0.1"><span class="isfx">%</span></div>
+      </div>
+      <div class="fitem">
+        <label>Capital Invertido Total (USD) <span class="sub">→ Balance: Patrimonio + Deuda financiera</span></label>
+        <div class="iw"><span class="ipfx">$</span><input type="number" id="e-cap" class="pfx" placeholder="600000" min="1" step="1"></div>
+      </div>
+      <div class="fitem">
+        <label>WACC (%) <span class="sub">→ Calcula arriba o ingresa manualmente</span></label>
+        <div class="iw"><input type="number" id="e-wacc" class="sfx" placeholder="15.08" min="0" step="0.01"><span class="isfx">%</span></div>
+      </div>
+    </div>
+    <div id="al-eva" class="alerta"></div>
+    <div class="brow">
+      <button class="btn-calc" onclick="calcEVA()">Calcular EVA</button>
+      <button class="btn-reset" onclick="resetear('eva')">Limpiar</button>
+    </div>
+    <div class="res-panel" id="r-eva">
+      <div class="kpi-fila" id="kf-eva"></div>
+      <div id="d-eva"></div>
+      <div class="desglose" id="ds-eva"></div>
+      <div class="cbox">
+        <h5>🔗 Conexiones del EVA con otros indicadores</h5>
+        <div class="cchips">
+          <span class="cc cc-wacc" onclick="irA('s-wacc')">⚙️ WACC: insumo esencial — sin WACC no hay EVA</span>
+          <span class="cc cc-roe"  onclick="irA('s-roe')">🏦 ROE: EVA positivo implica que ROE supera el Ke</span>
+          <span class="cc cc-no">📐 VAN / TIR: distintos horizontes — EVA mide el presente, VAN evalúa proyectos futuros</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     VAN
+══════════════════════════════════════════════ -->
+<div class="seccion" id="s-van">
+  <div class="sec-header h-van" onclick="toggle('van')">
+    <div class="sec-icon">📐</div>
+    <div class="sec-titles"><h3>VAN — Valor Actual Neto</h3><p>¿Cuánto valor en dólares de hoy crea este proyecto?</p></div>
+    <button class="sec-arrow" id="arr-van">▼</button>
+  </div>
+  <div class="sec-body" id="b-van">
+    <div class="pq"><strong>¿Para qué sirve el VAN?</strong> Convierte todos los flujos futuros al valor de hoy usando el WACC como tasa de descuento, y los compara con la inversión inicial. <strong>¿Por qué es la herramienta más sólida?</strong> Mide en dólares absolutos el enriquecimiento neto que genera el proyecto. VAN positivo = aceptar; VAN negativo = rechazar.</div>
+    <div class="brow" style="margin-bottom:16px"><button class="btn-demo" onclick="demoVAN()">📋 Cargar ejemplo</button></div>
+    <div class="fg">
+      <div class="fitem">
+        <label>Inversión Inicial — I₀ (USD) <span class="sub">→ Desembolso total en el Año 0 (hoy)</span></label>
+        <div class="iw"><span class="ipfx">$</span><input type="number" id="v-I0" class="pfx" placeholder="80000" min="0" step="1"></div>
+      </div>
+      <div class="fitem">
+        <label>Tasa de Descuento — WACC (%) <span class="sub">→ Calcula arriba o ingresa manualmente</span></label>
+        <div class="iw"><input type="number" id="v-r" class="sfx" placeholder="15" min="0" step="0.01"><span class="isfx">%</span></div>
+      </div>
+    </div>
+    <p class="flujos-header">Flujos de Caja por Año (USD) — ingresa el flujo neto de efectivo de cada período</p>
+    <div id="fl-van"></div>
+    <button class="btn-add" onclick="addFlujo('van')">＋ Agregar año</button>
+    <div id="al-van" class="alerta"></div>
+    <div class="brow">
+      <button class="btn-calc" onclick="calcVAN()">Calcular VAN</button>
+      <button class="btn-reset" onclick="resetear('van')">Limpiar</button>
+    </div>
+    <div class="res-panel" id="r-van">
+      <div class="kpi-fila" id="kf-van"></div>
+      <div id="d-van"></div>
+      <div class="twrap" id="tw-van"></div>
+      <div class="cbox">
+        <h5>🔗 Conexiones del VAN con otros indicadores</h5>
+        <div class="cchips">
+          <span class="cc cc-wacc" onclick="irA('s-wacc')">⚙️ WACC: es la tasa de descuento — cambia el WACC y cambia el VAN</span>
+          <span class="cc cc-tir"  onclick="irA('s-tir')">📈 TIR: cuando VAN = 0, esa tasa es la TIR</span>
+          <span class="cc cc-pay"  onclick="irA('s-pay')">⏱️ Payback: usan los mismos flujos — analizar juntos</span>
+          <span class="cc cc-no">💹 EVA: mide períodos pasados; VAN evalúa proyectos futuros</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     TIR
+══════════════════════════════════════════════ -->
+<div class="seccion" id="s-tir">
+  <div class="sec-header h-tir" onclick="toggle('tir')">
+    <div class="sec-icon">📈</div>
+    <div class="sec-titles"><h3>TIR — Tasa Interna de Retorno</h3><p>¿Qué rendimiento porcentual real genera el proyecto?</p></div>
+    <button class="sec-arrow" id="arr-tir">▼</button>
+  </div>
+  <div class="sec-body" id="b-tir">
+    <div class="pq"><strong>¿Para qué sirve la TIR?</strong> Expresa el retorno del proyecto como porcentaje anual. Es intuitiva para comunicar resultados ("este proyecto rinde el 18%"). <strong>¿Por qué no usarla sola?</strong> Ignora el tamaño del proyecto. Siempre compararla con el WACC y complementarla con el VAN.</div>
+    <div class="brow" style="margin-bottom:16px"><button class="btn-demo" onclick="demoTIR()">📋 Cargar ejemplo</button></div>
+    <div class="fg">
+      <div class="fitem">
+        <label>Inversión Inicial — I₀ (USD) <span class="sub">→ Desembolso total en el Año 0</span></label>
+        <div class="iw"><span class="ipfx">$</span><input type="number" id="t-I0" class="pfx" placeholder="80000" min="0" step="1"></div>
+      </div>
+      <div class="fitem">
+        <label>WACC para comparación (%) <span class="sub">→ Para saber si la TIR es suficiente</span></label>
+        <div class="iw"><input type="number" id="t-wacc" class="sfx" placeholder="15" min="0" step="0.01"><span class="isfx">%</span></div>
+      </div>
+    </div>
+    <p class="flujos-header">Flujos de Caja por Año (USD)</p>
+    <div id="fl-tir"></div>
+    <button class="btn-add" onclick="addFlujo('tir')">＋ Agregar año</button>
+    <div id="al-tir" class="alerta"></div>
+    <div class="brow">
+      <button class="btn-calc" onclick="calcTIR()">Calcular TIR</button>
+      <button class="btn-reset" onclick="resetear('tir')">Limpiar</button>
+    </div>
+    <div class="res-panel" id="r-tir">
+      <div class="kpi-fila" id="kf-tir"></div>
+      <div id="d-tir"></div>
+      <div class="cbox">
+        <h5>🔗 Conexiones de la TIR con otros indicadores</h5>
+        <div class="cchips">
+          <span class="cc cc-wacc" onclick="irA('s-wacc')">⚙️ WACC: la TIR DEBE compararse con el WACC para decidir</span>
+          <span class="cc cc-van"  onclick="irA('s-van')">📐 VAN: cuando VAN = 0, esa tasa es la TIR — son complementarios</span>
+          <span class="cc cc-no">💹 EVA / 🏦 ROE: sin relación directa con la TIR</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PAYBACK
+══════════════════════════════════════════════ -->
+<div class="seccion" id="s-pay">
+  <div class="sec-header h-pay" onclick="toggle('pay')">
+    <div class="sec-icon">⏱️</div>
+    <div class="sec-titles"><h3>Payback — Período de Recuperación</h3><p>¿En cuánto tiempo se recupera la inversión?</p></div>
+    <button class="sec-arrow" id="arr-pay">▼</button>
+  </div>
+  <div class="sec-body" id="b-pay">
+    <div class="pq"><strong>¿Para qué sirve el Payback?</strong> Mide el riesgo de liquidez: a menor período de recuperación, menor riesgo. Es la herramienta favorita de pequeñas empresas. <strong>¿Cuándo NO usarlo solo?</strong> Ignora los flujos posteriores a la recuperación y no mide rentabilidad. Úsalo junto con el VAN.</div>
+    <div class="brow" style="margin-bottom:16px"><button class="btn-demo" onclick="demoPayback()">📋 Cargar ejemplo</button></div>
+    <div class="fg">
+      <div class="fitem">
+        <label>Inversión Inicial — I₀ (USD) <span class="sub">→ Desembolso total en el Año 0</span></label>
+        <div class="iw"><span class="ipfx">$</span><input type="number" id="p-I0" class="pfx" placeholder="80000" min="0" step="1"></div>
+      </div>
+      <div class="fitem">
+        <label>Tasa para Payback Descontado (%) <span class="sub">→ Usa el WACC (opcional; deja en blanco para solo simple)</span></label>
+        <div class="iw"><input type="number" id="p-r" class="sfx" placeholder="15" min="0" step="0.01"><span class="isfx">%</span></div>
+      </div>
+    </div>
+    <p class="flujos-header">Flujos de Caja por Año (USD)</p>
+    <div id="fl-pay"></div>
+    <button class="btn-add" onclick="addFlujo('pay')">＋ Agregar año</button>
+    <div id="al-pay" class="alerta"></div>
+    <div class="brow">
+      <button class="btn-calc" onclick="calcPayback()">Calcular Payback</button>
+      <button class="btn-reset" onclick="resetear('pay')">Limpiar</button>
+    </div>
+    <div class="res-panel" id="r-pay">
+      <div class="kpi-fila" id="kf-pay"></div>
+      <div id="d-pay"></div>
+      <div class="twrap" id="tw-pay"></div>
+      <div class="cbox">
+        <h5>🔗 Conexiones del Payback con otros indicadores</h5>
+        <div class="cchips">
+          <span class="cc cc-van"  onclick="irA('s-van')">📐 VAN: usan los mismos flujos — analizar siempre juntos</span>
+          <span class="cc cc-tir"  onclick="irA('s-tir')">📈 TIR: también usan los mismos flujos — complementarios</span>
+          <span class="cc cc-wacc" onclick="irA('s-wacc')">⚙️ WACC: el Payback descontado lo usa como tasa</span>
+          <span class="cc cc-no">💹 EVA / 🏦 ROE: sin relación directa</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     ROE
+══════════════════════════════════════════════ -->
+<div class="seccion" id="s-roe">
+  <div class="sec-header h-roe" onclick="toggle('roe')">
+    <div class="sec-icon">🏦</div>
+    <div class="sec-titles"><h3>ROE — Retorno sobre el Capital Propio</h3><p>¿Cuánto ganan los socios por cada dólar invertido?</p></div>
+    <button class="sec-arrow" id="arr-roe">▼</button>
+  </div>
+  <div class="sec-body" id="b-roe">
+    <div class="pq"><strong>¿Para qué sirve el ROE?</strong> Mide la rentabilidad desde la perspectiva del accionista: cuánto ganó la empresa por cada dólar de capital propio aportado. <strong>¿Por qué compararlo con el Ke?</strong> Si el ROE es menor que el retorno mínimo exigido (Ke), los socios están perdiendo en términos de costo de oportunidad.</div>
+    <div class="brow" style="margin-bottom:16px"><button class="btn-demo" onclick="demoROE()">📋 Cargar ejemplo</button></div>
+    <div class="fg">
+      <div class="fitem">
+        <label>Utilidad Neta (USD) <span class="sub">→ Estado de Resultados: última línea después de IR</span></label>
+        <div class="iw"><span class="ipfx">$</span><input type="number" id="roe-un" class="pfx" placeholder="95000" step="1"></div>
+      </div>
+      <div class="fitem">
+        <label>Capital Propio / Patrimonio Neto (USD) <span class="sub">→ Balance General: total del patrimonio</span></label>
+        <div class="iw"><span class="ipfx">$</span><input type="number" id="roe-pat" class="pfx" placeholder="420000" min="1" step="1"></div>
+      </div>
+      <div class="fitem">
+        <label>Ke — Costo del Capital Propio (%) <span class="sub">→ Retorno mínimo que exigen los socios</span></label>
+        <div class="iw"><input type="number" id="roe-ke" class="sfx" placeholder="18" min="0" step="0.01"><span class="isfx">%</span></div>
+      </div>
+      <div class="fitem">
+        <label>Ventas / Ingresos Totales (USD) <span class="sub">→ Para análisis DuPont (opcional)</span></label>
+        <div class="iw"><span class="ipfx">$</span><input type="number" id="roe-ven" class="pfx" placeholder="850000" min="0" step="1"></div>
+      </div>
+      <div class="fitem">
+        <label>Activos Totales (USD) <span class="sub">→ Para análisis DuPont (opcional)</span></label>
+        <div class="iw"><span class="ipfx">$</span><input type="number" id="roe-act" class="pfx" placeholder="700000" min="0" step="1"></div>
+      </div>
+    </div>
+    <div id="al-roe" class="alerta"></div>
+    <div class="brow">
+      <button class="btn-calc" onclick="calcROE()">Calcular ROE</button>
+      <button class="btn-reset" onclick="resetear('roe')">Limpiar</button>
+    </div>
+    <div class="res-panel" id="r-roe">
+      <div class="kpi-fila" id="kf-roe"></div>
+      <div id="d-roe"></div>
+      <div class="desglose" id="ds-roe"></div>
+      <div class="cbox">
+        <h5>🔗 Conexiones del ROE con otros indicadores</h5>
+        <div class="cchips">
+          <span class="cc cc-wacc" onclick="irA('s-wacc')">⚙️ WACC: el Ke es componente del WACC; ROE debe superar Ke</span>
+          <span class="cc cc-eva"  onclick="irA('s-eva')">💹 EVA: EVA positivo generalmente implica ROE mayor que Ke</span>
+          <span class="cc cc-no">📐 VAN / 📈 TIR / ⏱️ Payback: sin relación directa con el ROE</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TABLA DE RELACIONES -->
+<div class="relsec">
+  <h2>🔗 Mapa completo de relaciones entre los seis indicadores</h2>
+  <div style="overflow-x:auto">
+    <table class="rtab">
+      <thead><tr><th>Indicador</th><th>Se relaciona con</th><th>No se relaciona directamente con</th><th>¿Para qué empresa?</th></tr></thead>
+      <tbody>
+        <tr><td>⚙️ WACC</td><td><span class="br cc-eva">EVA</span><span class="br cc-van">VAN</span><span class="br cc-tir">TIR</span><span class="br cc-roe">ROE (vía Ke)</span></td><td>Payback simple</td><td>Todas — es la base de toda evaluación financiera</td></tr>
+        <tr><td>💹 EVA</td><td><span class="br cc-wacc">WACC</span><span class="br cc-roe">ROE</span></td><td>VAN, TIR, Payback (distintos horizontes)</td><td>Medianas y grandes — requiere Balance y WACC calculado</td></tr>
+        <tr><td>📐 VAN</td><td><span class="br cc-wacc">WACC</span><span class="br cc-tir">TIR</span><span class="br cc-pay">Payback</span></td><td>EVA, ROE</td><td>Todas — para evaluar cualquier inversión nueva</td></tr>
+        <tr><td>📈 TIR</td><td><span class="br cc-wacc">WACC</span><span class="br cc-van">VAN</span></td><td>EVA, ROE, Payback</td><td>Todas — complementa siempre al VAN</td></tr>
+        <tr><td>⏱️ Payback</td><td><span class="br cc-van">VAN</span><span class="br cc-tir">TIR</span><span class="br cc-wacc">WACC (descontado)</span></td><td>EVA, ROE</td><td>Pequeñas y medianas — muy útil para gestión de liquidez</td></tr>
+        <tr><td>🏦 ROE</td><td><span class="br cc-wacc">WACC (vía Ke)</span><span class="br cc-eva">EVA</span></td><td>VAN, TIR, Payback</td><td>Todas — especialmente para socios e inversionistas</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+</div><!-- fin main -->
+
+<footer>
+  <p>Herramienta de <em>Contabilidad Gerencial</em> — Uso profesional y educativo</p>
+  <p style="margin-top:4px;color:#7ba8cc">Los cálculos son orientativos. Consulta con un contador o asesor financiero certificado para decisiones definitivas.</p>
+</footer>
+
+<script>
+/* =========================================================
+   UTILIDADES
+========================================================= */
+function $id(id){ return document.getElementById(id); }
+function fmtUSD(v){ return '$' + Math.abs(v).toLocaleString('es-EC',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function fmtS(v){   return (v < 0 ? '−' : '') + fmtUSD(v); }
+function fmtPct(v){ return v.toFixed(2) + '%'; }
+function fmtYrs(v){ return v.toFixed(2) + ' años'; }
+
+function kpi(label, valor, cls, sub){
+  return '<div class="kpi ' + cls + '"><div class="kv">' + valor + '</div><div class="kl">' + label + (sub ? '<br><em style="color:#94a3b8;font-size:.7rem">' + sub + '</em>' : '') + '</div></div>';
+}
+
+function decBox(tipo, icono, titulo, texto){
+  return '<div class="dec d-' + tipo + '"><div class="dec-ico">' + icono + '</div><div class="dec-txt"><h4>' + titulo + '</h4><p>' + texto + '</p></div></div>';
+}
+
+function dfRow(label, valor, negrita){
+  var st = negrita ? ' style="font-weight:700"' : '';
+  return '<div class="df"' + st + '><span>' + label + '</span><span>' + valor + '</span></div>';
+}
+
+function showAlerta(id, msg){
+  var el = $id('al-' + id);
+  el.textContent = '⚠️ ' + msg;
+  el.style.display = 'block';
+}
+function hideAlerta(id){ $id('al-' + id).style.display = 'none'; }
+function showRes(id){ $id('r-' + id).style.display = 'block'; }
+function hideRes(id){ $id('r-' + id).style.display = 'none'; }
+
+/* =========================================================
+   TOGGLE ACORDEONES
+========================================================= */
+function toggle(id){
+  var body = $id('b-' + id);
+  var arr  = $id('arr-' + id);
+  var abierto = body.classList.toggle('abierto');
+  body.style.display = abierto ? 'block' : 'none';
+  arr.classList.toggle('abierto', abierto);
+}
+
+function irA(id){
+  var sec = $id(id);
+  if (!sec) return;
+  var clave = id.replace('s-','');
+  var body = $id('b-' + clave);
+  var arr  = $id('arr-' + clave);
+  body.classList.add('abierto');
+  body.style.display = 'block';
+  arr.classList.add('abierto');
+  setTimeout(function(){ sec.scrollIntoView({behavior:'smooth', block:'start'}); }, 80);
+}
+
+/* Estado inicial: WACC abierto, resto cerrado */
+(function(){
+  ['eva','van','tir','pay','roe'].forEach(function(id){
+    $id('b-' + id).style.display = 'none';
+  });
+  $id('b-wacc').style.display = 'block';
+})();
+
+/* =========================================================
+   GESTIÓN DE FLUJOS DINÁMICOS
+========================================================= */
+var contFlujos = { van: 0, tir: 0, pay: 0 };
+
+function addFlujo(tipo, valor){
+  contFlujos[tipo]++;
+  var n = contFlujos[tipo];
+  var wrap = $id('fl-' + tipo);
+  var fila = document.createElement('div');
+  fila.className = 'flujo-fila';
+  fila.id = 'ff-' + tipo + '-' + n;
+  fila.innerHTML = '<span class="flujo-num">Año ' + n + '</span>'
+    + '<input type="number" placeholder="0" step="1" value="' + (valor !== undefined ? valor : '') + '">'
+    + '<button class="btn-del" onclick="delFlujo(\'' + tipo + '\',' + n + ')">✕</button>';
+  wrap.appendChild(fila);
+}
+
+function delFlujo(tipo, n){
+  var fila = $id('ff-' + tipo + '-' + n);
+  if (fila) fila.remove();
+  renumerarFlujos(tipo);
+}
+
+function renumerarFlujos(tipo){
+  var filas = $id('fl-' + tipo).querySelectorAll('.flujo-fila');
+  contFlujos[tipo] = filas.length;
+  filas.forEach(function(f, i){
+    f.id = 'ff-' + tipo + '-' + (i + 1);
+    f.querySelector('.flujo-num').textContent = 'Año ' + (i + 1);
+    f.querySelector('.btn-del').setAttribute('onclick', 'delFlujo(\'' + tipo + '\',' + (i + 1) + ')');
+  });
+}
+
+function getFlujos(tipo){
+  var inputs = $id('fl-' + tipo).querySelectorAll('input');
+  var vals = [];
+  inputs.forEach(function(inp){ vals.push(parseFloat(inp.value)); });
+  return vals;
+}
+
+function limpiarFlujos(tipo){
+  $id('fl-' + tipo).innerHTML = '';
+  contFlujos[tipo] = 0;
+  for (var i = 0; i < 5; i++) addFlujo(tipo);
+}
+
+/* Inicializar flujos al cargar */
+document.addEventListener('DOMContentLoaded', function(){
+  limpiarFlujos('van');
+  limpiarFlujos('tir');
+  limpiarFlujos('pay');
+});
+
+/* =========================================================
+   RESETEAR
+========================================================= */
+function resetear(id){
+  var inputs = $id('b-' + id).querySelectorAll('input, select');
+  inputs.forEach(function(inp){ inp.value = ''; });
+  hideRes(id);
+  hideAlerta(id);
+  if (id === 'van' || id === 'tir' || id === 'pay') limpiarFlujos(id);
+}
+
+/* =========================================================
+   DEMOS
+========================================================= */
+function demoWACC(){
+  $id('w-E').value  = 420000;
+  $id('w-D').value  = 180000;
+  $id('w-Kd').value = 11;
+  $id('w-Ke').value = 18;
+  $id('w-T').value  = 25;
+}
+function demoEVA(){
+  $id('e-ebit').value = 142000;
+  $id('e-T').value    = 25;
+  $id('e-cap').value  = 600000;
+  $id('e-wacc').value = 15.08;
+}
+function demoVAN(){
+  $id('v-I0').value = 80000;
+  $id('v-r').value  = 15;
+  $id('fl-van').innerHTML = ''; contFlujos['van'] = 0;
+  [22000,25000,28000,28000,30000].forEach(function(v){ addFlujo('van', v); });
+}
+function demoTIR(){
+  $id('t-I0').value   = 80000;
+  $id('t-wacc').value = 15;
+  $id('fl-tir').innerHTML = ''; contFlujos['tir'] = 0;
+  [22000,25000,28000,28000,30000].forEach(function(v){ addFlujo('tir', v); });
+}
+function demoPayback(){
+  $id('p-I0').value = 80000;
+  $id('p-r').value  = 15;
+  $id('fl-pay').innerHTML = ''; contFlujos['pay'] = 0;
+  [22000,25000,28000,28000,30000].forEach(function(v){ addFlujo('pay', v); });
+}
+function demoROE(){
+  $id('roe-un').value  = 95000;
+  $id('roe-pat').value = 420000;
+  $id('roe-ke').value  = 18;
+  $id('roe-ven').value = 850000;
+  $id('roe-act').value = 700000;
+}
+
+/* =========================================================
+   CALC WACC
+========================================================= */
+function calcWACC(){
+  hideAlerta('wacc');
+  var E  = parseFloat($id('w-E').value);
+  var D  = parseFloat($id('w-D').value);
+  var Kd = parseFloat($id('w-Kd').value) / 100;
+  var Ke = parseFloat($id('w-Ke').value) / 100;
+  var T  = parseFloat($id('w-T').value)  / 100;
+
+  if (isNaN(E) || isNaN(D) || isNaN(Kd) || isNaN(Ke) || isNaN(T) || (E + D) <= 0){
+    showAlerta('wacc', 'Completa todos los campos. La suma de Capital Propio y Deuda debe ser mayor que cero.'); return;
+  }
+
+  var V       = E + D;
+  var wE      = E / V;
+  var wD      = D / V;
+  var KdEfec  = Kd * (1 - T);
+  var wacc    = KdEfec * wD + Ke * wE;
+  var escudo  = D * Kd * T;
+
+  $id('kf-wacc').innerHTML =
+    kpi('WACC', fmtPct(wacc * 100), wacc > 0.20 ? 'k-warn' : 'k-neu') +
+    kpi('Peso Deuda', fmtPct(wD * 100), 'k-neu', 'del capital total') +
+    kpi('Peso Capital Propio', fmtPct(wE * 100), 'k-neu', 'del capital total') +
+    kpi('Escudo Fiscal Anual', fmtUSD(escudo), 'k-pos', 'ahorro en impuestos');
+
+  var dTipo, dIcon, dTit, dTxt;
+  if (wacc * 100 < 10){
+    dTipo = 'verde'; dIcon = '✅';
+    dTit = 'WACC bajo — costo de capital eficiente';
+    dTxt = 'Tu costo de capital es del ' + fmtPct(wacc*100) + ', relativamente bajo. El umbral de rentabilidad que deben superar tus proyectos e inversiones es accesible. Cualquier proyecto con TIR mayor a ' + fmtPct(wacc*100) + ' crea valor.';
+  } else if (wacc * 100 < 16){
+    dTipo = 'azul'; dIcon = '📊';
+    dTit = 'WACC moderado — analiza tu mix de financiamiento';
+    dTxt = 'Tu costo de capital es del ' + fmtPct(wacc*100) + '. Es un nivel típico para empresas de servicios en Latinoamérica. Considera si aumentar la proporción de deuda (hasta niveles prudentes) reduciría el WACC vía escudo fiscal.';
+  } else {
+    dTipo = 'naranja'; dIcon = '⚠️';
+    dTit = 'WACC elevado — exige rendimientos altos a cada inversión';
+    dTxt = 'Un WACC del ' + fmtPct(wacc*100) + ' significa que cada proyecto debe rendir al menos eso para crear valor. Revisa si el costo del capital propio (Ke) puede reducirse o si puedes refinanciar la deuda a tasas menores.';
+  }
+  $id('d-wacc').innerHTML = decBox(dTipo, dIcon, dTit, dTxt);
+
+  $id('ds-wacc').innerHTML = '<h5>📐 Desglose paso a paso</h5>'
+    + dfRow('Capital total V = E + D', fmtUSD(V))
+    + dfRow('Peso deuda D/V = ' + fmtUSD(D) + ' / ' + fmtUSD(V), fmtPct(wD * 100))
+    + dfRow('Peso capital propio E/V', fmtPct(wE * 100))
+    + dfRow('Kd efectivo = ' + fmtPct(Kd*100) + ' × (1 − ' + fmtPct(T*100) + ')', fmtPct(KdEfec * 100))
+    + dfRow('Componente deuda: ' + fmtPct(KdEfec*100) + ' × ' + fmtPct(wD*100), fmtPct(KdEfec * wD * 100))
+    + dfRow('Componente capital propio: ' + fmtPct(Ke*100) + ' × ' + fmtPct(wE*100), fmtPct(Ke * wE * 100))
+    + dfRow('WACC total', fmtPct(wacc * 100), true);
+
+  showRes('wacc');
+}
+
+/* =========================================================
+   CALC EVA
+========================================================= */
+function calcEVA(){
+  hideAlerta('eva');
+  var ebit  = parseFloat($id('e-ebit').value);
+  var T     = parseFloat($id('e-T').value)    / 100;
+  var cap   = parseFloat($id('e-cap').value);
+  var wacc  = parseFloat($id('e-wacc').value) / 100;
+
+  if (isNaN(ebit) || isNaN(T) || isNaN(cap) || isNaN(wacc) || cap <= 0){
+    showAlerta('eva', 'Completa todos los campos. El Capital Invertido debe ser mayor que cero.'); return;
+  }
+
+  var nopat  = ebit * (1 - T);
+  var cargo  = cap  * wacc;
+  var eva    = nopat - cargo;
+  var margen = (eva / cap) * 100;
+  var esPos  = eva >= 0;
+
+  $id('kf-eva').innerHTML =
+    kpi('NOPAT', fmtS(nopat), 'k-pos', 'EBIT × (1−T)') +
+    kpi('Cargo por Capital', fmtS(cargo), 'k-warn', 'Capital × WACC') +
+    kpi('EVA', fmtS(eva), esPos ? 'k-pos' : 'k-neg') +
+    kpi('Spread EVA / Capital', fmtPct(margen), esPos ? 'k-pos' : 'k-neg');
+
+  var d;
+  if (eva > 0){
+    d = decBox('verde','✅','La empresa CREA valor económico — EVA positivo de ' + fmtS(eva),
+      'Las operaciones generan un retorno que supera el costo del capital (' + fmtPct(wacc*100) + '). Los accionistas y acreedores están siendo compensados adecuadamente. Mantén o incrementa la eficiencia operativa para sostener esta creación de valor.');
+  } else if (eva === 0){
+    d = decBox('azul','⚖️','Punto de equilibrio económico — EVA igual a cero',
+      'La empresa cubre exactamente el costo del capital pero no genera riqueza adicional. Busca aumentar el NOPAT o reducir el capital invertido ocioso.');
+  } else {
+    d = decBox('rojo','❌','La empresa DESTRUYE valor económico — EVA negativo de ' + fmtS(eva),
+      'A pesar de posibles utilidades contables, el retorno no compensa el costo del capital. Los ' + fmtS(Math.abs(eva)) + ' negativos indican que el capital estaría mejor en otra alternativa. Acciones urgentes: aumentar NOPAT o reducir capital improductivo.');
+  }
+  $id('d-eva').innerHTML = d;
+
+  $id('ds-eva').innerHTML = '<h5>📐 Desglose paso a paso</h5>'
+    + dfRow('EBIT (Utilidad Operativa)', fmtS(ebit))
+    + dfRow('Tasa IR aplicada', fmtPct(T * 100))
+    + dfRow('NOPAT = ' + fmtS(ebit) + ' × (1 − ' + fmtPct(T*100) + ')', fmtS(nopat))
+    + dfRow('Capital Invertido', fmtUSD(cap))
+    + dfRow('WACC aplicado', fmtPct(wacc * 100))
+    + dfRow('Cargo por Capital = ' + fmtUSD(cap) + ' × ' + fmtPct(wacc*100), fmtS(cargo))
+    + dfRow('EVA = NOPAT − Cargo por Capital', fmtS(eva), true);
+
+  showRes('eva');
+}
+
+/* =========================================================
+   CALC VAN
+========================================================= */
+function calcVAN(){
+  hideAlerta('van');
+  var I0    = parseFloat($id('v-I0').value);
+  var r     = parseFloat($id('v-r').value) / 100;
+  var flujos = getFlujos('van');
+
+  if (isNaN(I0) || I0 <= 0 || isNaN(r)){
+    showAlerta('van', 'Ingresa la inversión inicial y la tasa de descuento.'); return;
+  }
+  if (flujos.length === 0 || flujos.some(function(f){ return isNaN(f); })){
+    showAlerta('van', 'Ingresa los flujos de caja para todos los años (sin dejar en blanco).'); return;
+  }
+
+  var van = -I0;
+  var acum = -I0;
+  var totalFC = flujos.reduce(function(a,b){ return a + b; }, 0);
+
+  var thead = '<thead><tr><th>Período</th><th>Flujo de Caja</th><th>Factor (1+r)⁻ⁿ</th><th>Valor Presente</th><th>VP Acumulado</th></tr></thead>';
+  var rows  = '<tr><td>Año 0</td><td class="tn">(' + fmtUSD(I0) + ')</td><td>1.0000</td><td class="tn">(' + fmtUSD(I0) + ')</td><td class="tn">(' + fmtUSD(I0) + ')</td></tr>';
+
+  flujos.forEach(function(fc, i){
+    var n      = i + 1;
+    var factor = Math.pow(1 + r, -n);
+    var vp     = fc * factor;
+    van  += vp;
+    acum += vp;
+    var fcCls  = fc  >= 0 ? 'tp' : 'tn';
+    var vpCls  = vp  >= 0 ? 'tp' : 'tn';
+    var acCls  = acum >= 0 ? 'tp' : 'tn';
+    rows += '<tr><td>Año ' + n + '</td>'
+      + '<td class="' + fcCls + '">' + fmtS(fc)  + '</td>'
+      + '<td>' + factor.toFixed(4) + '</td>'
+      + '<td class="' + vpCls + '">' + fmtS(vp)  + '</td>'
+      + '<td class="' + acCls + '">' + fmtS(acum) + '</td></tr>';
+  });
+
+  var totCls = van >= 0 ? 'tp' : 'tn';
+  rows += '<tr class="tfoot"><td colspan="3">VAN TOTAL</td><td class="' + totCls + '" colspan="2">' + fmtS(van) + '</td></tr>';
+
+  $id('tw-van').innerHTML = '<table class="tfin">' + thead + '<tbody>' + rows + '</tbody></table>';
+
+  $id('kf-van').innerHTML =
+    kpi('VAN', fmtS(van), van >= 0 ? 'k-pos' : 'k-neg') +
+    kpi('Inversión Inicial', fmtUSD(I0), 'k-neu') +
+    kpi('FC Total Nominal', fmtS(totalFC), 'k-neu') +
+    kpi('Tasa de Descuento', fmtPct(r * 100), 'k-neu');
+
+  var d;
+  if (van > 0){
+    d = decBox('verde','✅','El proyecto CREA valor — VAN positivo de ' + fmtS(van),
+      'La suma descontada de los flujos futuros supera la inversión inicial en ' + fmtS(van) + '. El proyecto genera riqueza en términos de dinero de hoy. Decisión: ACEPTAR el proyecto.');
+  } else if (van === 0){
+    d = decBox('azul','⚖️','Equilibrio económico — VAN igual a cero',
+      'El proyecto cubre exactamente el costo del capital. No crea ni destruye valor. Se puede aceptar si existen beneficios estratégicos no cuantificados.');
+  } else {
+    d = decBox('rojo','❌','El proyecto DESTRUYE valor — VAN negativo de ' + fmtS(van),
+      'Los flujos futuros descontados no cubren la inversión inicial. Decisión: RECHAZAR o reestructurar el proyecto (reducir inversión, aumentar flujos, extender horizonte).');
+  }
+  $id('d-van').innerHTML = d;
+  showRes('van');
+}
+
+/* =========================================================
+   CALC TIR — Newton-Raphson
+========================================================= */
+function calcTIR(){
+  hideAlerta('tir');
+  var I0    = parseFloat($id('t-I0').value);
+  var wacc  = parseFloat($id('t-wacc').value) / 100;
+  var flujos = getFlujos('tir');
+
+  if (isNaN(I0) || I0 <= 0){
+    showAlerta('tir', 'Ingresa la inversión inicial.'); return;
+  }
+  if (flujos.length === 0 || flujos.some(function(f){ return isNaN(f); })){
+    showAlerta('tir', 'Ingresa los flujos de caja para todos los años.'); return;
+  }
+
+  function vanFn(r){
+    var v = -I0;
+    flujos.forEach(function(fc, i){ v += fc / Math.pow(1 + r, i + 1); });
+    return v;
+  }
+
+  /* Newton-Raphson */
+  var tir = 0.1;
+  var encontrado = false;
+  for (var iter = 0; iter < 2000; iter++){
+    var fx  = vanFn(tir);
+    var h   = 0.00001;
+    var dfx = (vanFn(tir + h) - vanFn(tir - h)) / (2 * h);
+    if (Math.abs(dfx) < 1e-14) break;
+    var next = tir - fx / dfx;
+    if (next < -0.9999) next = 0.0001;
+    if (next > 100)     next = 0.5;
+    if (Math.abs(next - tir) < 1e-9){ tir = next; encontrado = true; break; }
+    tir = next;
+  }
+
+  if (!encontrado && Math.abs(vanFn(tir)) > 1){
+    showAlerta('tir', 'No se pudo encontrar una TIR convergente para estos flujos. Verifica que los flujos incluyan valores positivos después de la inversión.'); return;
+  }
+
+  var tirPct  = tir * 100;
+  var esPos   = isNaN(wacc) ? null : tir > wacc;
+  var exceso  = isNaN(wacc) ? null : (tir - wacc) * 100;
+  var vanWACC = isNaN(wacc) ? null : vanFn(wacc);
+
+  var kpis = kpi('TIR', fmtPct(tirPct), esPos === null ? 'k-neu' : esPos ? 'k-pos' : 'k-neg');
+  if (!isNaN(wacc)){
+    kpis += kpi('WACC (umbral)', fmtPct(wacc * 100), 'k-neu', 'tasa de corte');
+    kpis += kpi('TIR − WACC', (exceso >= 0 ? '+' : '') + fmtPct(exceso), exceso >= 0 ? 'k-pos' : 'k-neg');
+    kpis += kpi('VAN a tasa WACC', fmtS(vanWACC), vanWACC >= 0 ? 'k-pos' : 'k-neg');
+  }
+  $id('kf-tir').innerHTML = kpis;
+
+  var d;
+  if (esPos === null){
+    d = decBox('azul','📊','TIR calculada: ' + fmtPct(tirPct),
+      'Ingresa el WACC para determinar si esta TIR es suficiente para crear valor. Regla: si TIR > WACC → aceptar; si TIR < WACC → rechazar.');
+  } else if (esPos){
+    d = decBox('verde','✅','TIR del ' + fmtPct(tirPct) + ' supera el WACC (' + fmtPct(wacc*100) + ') en ' + fmtPct(exceso),
+      'El proyecto rinde más de lo que cuesta financiarlo. Decisión: ACEPTAR. Recuerda complementar con el VAN para comparar proyectos de distinto tamaño.');
+  } else {
+    d = decBox('rojo','❌','TIR del ' + fmtPct(tirPct) + ' — por debajo del WACC (' + fmtPct(wacc*100) + ')',
+      'El rendimiento del proyecto no compensa el costo del capital. Decisión: RECHAZAR. Busca aumentar los flujos o reducir la inversión inicial.');
+  }
+  $id('d-tir').innerHTML = d;
+  showRes('tir');
+}
+
+/* =========================================================
+   CALC PAYBACK
+========================================================= */
+function calcPayback(){
+  hideAlerta('pay');
+  var I0    = parseFloat($id('p-I0').value);
+  var r     = parseFloat($id('p-r').value)  / 100;
+  var flujos = getFlujos('pay');
+
+  if (isNaN(I0) || I0 <= 0){
+    showAlerta('pay', 'Ingresa la inversión inicial.'); return;
+  }
+  if (flujos.length === 0 || flujos.some(function(f){ return isNaN(f); })){
+    showAlerta('pay', 'Ingresa los flujos de caja para todos los años.'); return;
+  }
+
+  var usaDesc = !isNaN(r) && r > 0;
+
+  /* --- Calcular acumulados --- */
+  var simAcum  = -I0;
+  var descAcum = -I0;
+  var pbSimple = null;
+  var pbDesc   = null;
+
+  var thead = '<thead><tr>'
+    + '<th>Año</th><th>FC Anual</th><th>FC Acumulado</th>'
+    + (usaDesc ? '<th>VA (' + fmtPct(r*100) + ')</th><th>VA Acumulado</th>' : '')
+    + '</tr></thead>';
+
+  var rows = '<tr><td>0 (Inversión)</td>'
+    + '<td class="tn">(' + fmtUSD(I0) + ')</td>'
+    + '<td class="tn">(' + fmtUSD(I0) + ')</td>'
+    + (usaDesc ? '<td class="tn">(' + fmtUSD(I0) + ')</td><td class="tn">(' + fmtUSD(I0) + ')</td>' : '')
+    + '</tr>';
+
+  flujos.forEach(function(fc, i){
+    var n = i + 1;
+
+    /* Simple */
+    var prevSim = simAcum;
+    simAcum += fc;
+    if (pbSimple === null && simAcum >= 0){
+      pbSimple = i + Math.abs(prevSim) / Math.abs(fc);
+    }
+
+    /* Descontado */
+    var vp = usaDesc ? fc * Math.pow(1 + r, -n) : 0;
+    var prevDesc = descAcum;
+    if (usaDesc){
+      descAcum += vp;
+      if (pbDesc === null && descAcum >= 0){
+        pbDesc = i + Math.abs(prevDesc) / Math.abs(vp);
+      }
+    }
+
+    var fcCls  = fc      >= 0 ? 'tp' : 'tn';
+    var simCls = simAcum >= 0 ? 'tp' : 'tn';
+    var vpCls  = vp      >= 0 ? 'tp' : 'tn';
+    var dsCls  = descAcum>= 0 ? 'tp' : 'tn';
+
+    rows += '<tr>'
+      + '<td>Año ' + n + '</td>'
+      + '<td class="' + fcCls  + '">' + fmtS(fc)       + '</td>'
+      + '<td class="' + simCls + '">' + fmtS(simAcum)  + '</td>'
+      + (usaDesc ? '<td class="' + vpCls + '">' + fmtS(vp) + '</td><td class="' + dsCls + '">' + fmtS(descAcum) + '</td>' : '')
+      + '</tr>';
+  });
+  rows += '<tr class="tfoot"><td colspan="' + (usaDesc?'5':'3') + '">'
+    + 'Payback Simple: ' + (pbSimple !== null ? fmtYrs(pbSimple) : 'No se recupera')
+    + (usaDesc ? ' &nbsp;|&nbsp; Payback Descontado: ' + (pbDesc !== null ? fmtYrs(pbDesc) : 'No se recupera') : '')
+    + '</td></tr>';
+
+  $id('tw-pay').innerHTML = '<table class="tfin">' + thead + '<tbody>' + rows + '</tbody></table>';
+
+  var pbSLabel = pbSimple !== null ? fmtYrs(pbSimple) : 'No se recupera';
+  var pbDLabel = usaDesc ? (pbDesc !== null ? fmtYrs(pbDesc) : 'No se recupera') : 'N/A';
+
+  $id('kf-pay').innerHTML =
+    kpi('Payback Simple', pbSLabel, pbSimple !== null && pbSimple < 5 ? 'k-pos' : 'k-warn') +
+    (usaDesc ? kpi('Payback Descontado', pbDLabel, pbDesc !== null && pbDesc < 6 ? 'k-pos' : 'k-warn', 'al ' + fmtPct(r*100)) : '') +
+    kpi('Inversión Inicial', fmtUSD(I0), 'k-neu');
+
+  var d;
+  if (pbSimple === null){
+    d = decBox('rojo','❌','La inversión NO se recupera en el horizonte analizado',
+      'Los flujos acumulados nunca alcanzan la inversión inicial. El proyecto presenta riesgo de liquidez alto. Considera extender el horizonte de análisis o aumentar los flujos proyectados.');
+  } else {
+    var nivel = pbSimple < 2 ? 'verde' : pbSimple < 4 ? 'azul' : 'naranja';
+    var icon  = pbSimple < 2 ? '✅'    : pbSimple < 4 ? '📊'   : '⚠️';
+    var txt   = 'La inversión se recupera en aproximadamente ' + fmtYrs(pbSimple) + ' (Payback simple).';
+    if (usaDesc && pbDesc !== null) txt += ' El Payback descontado, que reconoce el valor del dinero en el tiempo, es de ' + fmtYrs(pbDesc) + '.';
+    txt += ' A menor período de recuperación, menor el riesgo de liquidez. Complementa siempre con el VAN para una decisión completa.';
+    d = decBox(nivel, icon, 'Recuperación en ' + fmtYrs(pbSimple) + (usaDesc && pbDesc !== null ? ' (simple) | ' + fmtYrs(pbDesc) + ' (descontado)' : ''), txt);
+  }
+  $id('d-pay').innerHTML = d;
+  showRes('pay');
+}
+
+/* =========================================================
+   CALC ROE + DUPONT
+========================================================= */
+function calcROE(){
+  hideAlerta('roe');
+  var UN  = parseFloat($id('roe-un').value);
+  var PAT = parseFloat($id('roe-pat').value);
+  var Ke  = parseFloat($id('roe-ke').value)  / 100;
+  var VEN = parseFloat($id('roe-ven').value);
+  var ACT = parseFloat($id('roe-act').value);
+
+  if (isNaN(UN) || isNaN(PAT) || PAT <= 0){
+    showAlerta('roe', 'La Utilidad Neta y el Patrimonio Neto son obligatorios. El Patrimonio debe ser mayor que cero.'); return;
+  }
+
+  var roe    = UN / PAT;
+  var tieneKe = !isNaN(Ke);
+  var esPos  = tieneKe ? roe > Ke : UN >= 0;
+  var exceso = tieneKe ? (roe - Ke) * 100 : null;
+
+  /* DuPont */
+  var tieneVen = !isNaN(VEN) && VEN > 0;
+  var tieneAct = !isNaN(ACT) && ACT > 0;
+  var margenN  = tieneVen ? UN / VEN : null;
+  var rotacion = (tieneVen && tieneAct) ? VEN / ACT : null;
+  var apalanca = tieneAct ? ACT / PAT : null;
+
+  var kpis = kpi('ROE', fmtPct(roe * 100), esPos ? 'k-pos' : 'k-neg')
+    + kpi('Utilidad Neta', fmtS(UN), UN >= 0 ? 'k-pos' : 'k-neg')
+    + kpi('Capital Propio', fmtUSD(PAT), 'k-neu');
+  if (tieneKe){
+    kpis += kpi('Ke (mínimo exigido)', fmtPct(Ke * 100), 'k-neu', 'retorno mínimo socios');
+    kpis += kpi('ROE − Ke', (exceso >= 0 ? '+' : '') + fmtPct(exceso), exceso >= 0 ? 'k-pos' : 'k-neg', 'diferencial');
+  }
+  $id('kf-roe').innerHTML = kpis;
+
+  var dTxt, dTipo, dIcon, dTit;
+  if (!tieneKe){
+    dTipo = 'azul'; dIcon = '📊';
+    dTit  = 'ROE: ' + fmtPct(roe * 100);
+    dTxt  = 'El ROE indica cuánto ganó la empresa por cada dólar de capital propio. Para saber si es suficiente, ingresa el Ke (costo mínimo exigido por los socios) y compara.';
+  } else if (roe > Ke){
+    dTipo = 'verde'; dIcon = '✅';
+    dTit  = 'ROE del ' + fmtPct(roe*100) + ' supera el Ke (' + fmtPct(Ke*100) + ')';
+    dTxt  = 'Los socios obtienen más de lo mínimo exigido. Esto también contribuye a un EVA positivo. La empresa crea valor para sus propietarios.';
+  } else {
+    dTipo = 'rojo'; dIcon = '❌';
+    dTit  = 'ROE del ' + fmtPct(roe*100) + ' — inferior al Ke (' + fmtPct(Ke*100) + ')';
+    dTxt  = 'Los socios estarían mejor en otra inversión. El capital propio está siendo sub-remunerado. Acciones: mejorar margen neto, aumentar eficiencia de activos o ajustar el mix de financiamiento.';
+  }
+  $id('d-roe').innerHTML = decBox(dTipo, dIcon, dTit, dTxt);
+
+  /* Desglose DuPont */
+  var ds = '<h5>📐 Cálculo del ROE y Análisis DuPont</h5>'
+    + dfRow('ROE = Utilidad Neta / Patrimonio', fmtS(UN) + ' / ' + fmtUSD(PAT))
+    + dfRow('ROE', fmtPct(roe * 100), true);
+
+  if (margenN !== null || rotacion !== null || apalanca !== null){
+    ds += '<div style="margin-top:10px;font-size:.78rem;color:#64748b;font-weight:700;margin-bottom:6px">DESCOMPOSICIÓN DUPONT</div>';
+    if (margenN  !== null) ds += dfRow('Margen Neto = ' + fmtS(UN) + ' / ' + fmtS(VEN), fmtPct(margenN * 100));
+    if (rotacion !== null) ds += dfRow('Rotación de Activos = ' + fmtS(VEN) + ' / ' + fmtS(ACT), rotacion.toFixed(3) + 'x');
+    if (apalanca !== null) ds += dfRow('Apalancamiento = ' + fmtS(ACT) + ' / ' + fmtS(PAT), apalanca.toFixed(3) + 'x');
+    if (margenN !== null && rotacion !== null && apalanca !== null){
+      var compDupont = margenN * rotacion * apalanca;
+      ds += dfRow('ROE DuPont (comprobación)', fmtPct(compDupont * 100), true);
+    }
+  }
+  $id('ds-roe').innerHTML = ds;
+  showRes('roe');
+}
+</script>
+</body>
+</html>
